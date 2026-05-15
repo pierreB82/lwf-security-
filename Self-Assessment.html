@@ -1522,12 +1522,12 @@ function applyLang() {
 function setLang(lang) {
   if (!TRANSLATIONS[lang]) return;
   currentLang = lang;
-  // Persist language choice — stored both in ssa_lang AND inside ssa_state
-  // so it survives even if the artifact viewer isolates localStorage keys
+  // Persist in localStorage AND in URL hash (survives iframe/page reloads)
   try { localStorage.setItem('ssa_lang', lang); } catch(e){}
-  state.lang = lang;
-  try { localStorage.setItem('ssa_state', JSON.stringify(state)); } catch(e){}
+  try { history.replaceState(null, '', '#lang=' + lang); } catch(e){}
   applyLang();
+  // Show help popup in new language
+  openNotice();
 }
 
 // ══════════════════════════════════════
@@ -1834,13 +1834,13 @@ const QUESTIONS_LANG = {
 
 // Returns QUESTIONS for the current language (falls back to FR)
 function getQuestions() {
-  return QUESTIONS_LANG[currentLang] || QUESTIONS_LANG['fr'];
+  return QUESTIONS_LANG[currentLang] || QUESTIONS_LANG['en'];
 }
 let QUESTIONS = getQuestions();
 
 
 // Default status from original file
-const DEFAULT_STATUS = {q10:'Yes',q11:'No',q12:'No',q13:'Yes',q14:'Partially',q15:'N/A',q104:'Yes'};
+const DEFAULT_STATUS = {q11:'No',q14:'Partially',q15:'N/A'};
 
 // ══════════════════════════════════════
 // ÉTAT
@@ -2138,6 +2138,8 @@ function updateDashboard() {
   }
 }
 
+const PRIO_ORDER = {'immediate':1,'essential':2,'desirable':3,'ongoing':4,'':5};
+
 function updateActionPlan(filter='all') {
   const container = document.getElementById('apContainer');
   if (!container) return;
@@ -2177,8 +2179,6 @@ function updateActionPlan(filter='all') {
       `<span style="font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid ${p.bd};background:${p.bg};color:${p.c}">${cnt[p.k]} ${p.l}</span>`
     ).join('')+(cnt['_']>0?`<span style="font-size:12px;color:var(--text3);padding:5px 12px;border:1px solid var(--border);border-radius:20px">${cnt['_']} ${t('noPriority')}</span>`:'');;
   }
-
-  const PRIO_ORDER = {'immediate':1,'essential':2,'desirable':3,'ongoing':4,'':5};
 
   const items = QUESTIONS.filter(q=>{
     const s = state.answers[q.id]||'';
@@ -2490,8 +2490,6 @@ function exportExcel() {
   if (!checkExportReady()) return;
   const catMap = CATEGORIES.reduce((m,c)=>{m[c.id]=c.name;return m},{});
 
-  const PRIO_ORDER = {'immediate':1,'essential':2,'desirable':3,'ongoing':4,'':5};
-
   const items = QUESTIONS.filter(q => {
     const s = state.answers[q.id]||'';
     return s==='no' || s==='partial';
@@ -2560,7 +2558,7 @@ function exportExcel() {
 <meta charset="UTF-8">
 <!--[if gte mso 9]>
 <xml><x:ExcelWorkbook><x:ExcelWorksheets>
-<x:ExcelWorksheet><x:Name>Action Plan</x:Name>
+<x:ExcelWorksheet><x:Name>${t('tabActions')}</x:Name>
 <x:WorksheetOptions><x:FreezePanes/><x:FrozenNoSplit/>
 <x:SplitHorizontal>1</x:SplitHorizontal>
 <x:TopRowBottomPane>1</x:TopRowBottomPane>
@@ -2668,12 +2666,13 @@ if (!navigator.onLine) document.getElementById('offlineBanner').classList.add('s
 // INIT
 // ══════════════════════════════════════
 document.addEventListener('DOMContentLoaded', ()=>{
-  // Load state first so we can read the embedded language preference
-  loadState();
-
-  // Language priority: state.lang (inside ssa_state) > ssa_lang key > default EN
-  const savedLang = state.lang || localStorage.getItem('ssa_lang');
+  // Load persisted language — URL hash takes priority (survives iframe refresh),
+  // then localStorage, then default English
+  const hashLang = (location.hash.match(/[#&]lang=([a-z]{2})/) || [])[1];
+  const savedLang = hashLang || localStorage.getItem('ssa_lang');
   if (savedLang && TRANSLATIONS[savedLang]) currentLang = savedLang;
+
+  loadState();
   if (state.prog)    document.getElementById('f-prog').value  = state.prog;
   if (state.lieu)    document.getElementById('f-lieu').value = state.lieu;
   if (state.date)    document.getElementById('f-date').value = state.date;
