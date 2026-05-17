@@ -22,16 +22,16 @@
    ================================================================ */
 :root {
   --bg:          #ffffff;
-  --bg2:         #f7f8f9;
-  --bg3:         #eef0f2;
-  --border:      #dde1e6;
-  --border2:     #c8cdd4;
+  --bg2:         #f4f6f0;
+  --bg3:         #eaede4;
+  --border:      #d4dcc4;
+  --border2:     #bfcbaa;
   --text:        #1a1f26;
   --text2:       #4a5568;
   --text3:       #8a95a3;
   --accent:      #8FAF2E;
   --accent2:     #6a8420;
-  --accent-lt:   #eff6d8;
+  --accent-lt:   #edf3e0;
   --danger:      #c0392b;
   --danger-bg:   #fdf0ee;
   --danger-bd:   #e8a99f;
@@ -46,8 +46,8 @@
   --moderate-bd: #d4b84a;
   --r:           6px;
   --r2:          4px;
-  --shadow:      0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow2:     0 2px 8px rgba(0,0,0,0.10);
+  --shadow:      0 1px 3px rgba(80,110,30,0.08), 0 1px 2px rgba(80,110,30,0.05);
+  --shadow2:     0 2px 8px rgba(80,110,30,0.12);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -271,7 +271,7 @@ body {
   background: var(--accent); color: #fff;
   border: none; font-family: 'Source Sans 3', sans-serif;
   font-size: 13px; font-weight: 600;
-  padding: 8px 20px; border-radius: var(--r2);
+  padding: 9px 22px; border-radius: 8px;
   cursor: pointer; transition: background 0.15s;
 }
 .btn-primary:hover { background: var(--accent2); }
@@ -300,6 +300,29 @@ body {
   background: var(--bg2);
   border-right: 1px solid var(--border);
   overflow-y: auto; flex-shrink: 0;
+  transition: width 0.2s ease, min-width 0.2s ease;
+  overflow-x: hidden;
+  position: relative;
+}
+.sidebar.collapsed {
+  width: 22px; min-width: 22px;
+  cursor: pointer;
+}
+.sidebar.collapsed .sidebar-inner { display: none; }
+.sidebar-tab {
+  display: none;
+  position: absolute; top: 0; left: 0;
+  width: 22px; height: 100%;
+  background: var(--bg3);
+  border-right: 1px solid var(--border2);
+  align-items: center; justify-content: center;
+  cursor: pointer; z-index: 10;
+}
+.sidebar.collapsed .sidebar-tab { display: flex; }
+.sidebar-tab span {
+  color: var(--text3); font-size: 10px;
+  writing-mode: vertical-rl;
+  user-select: none; letter-spacing: 0.5px;
 }
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-thumb { background: var(--border2); }
@@ -361,8 +384,8 @@ body {
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .step-desc { font-size: 11px; color: var(--text3); margin-top: 1px; }
-.step-prog { height: 2px; background: var(--border); margin: 0 14px; }
-.step-prog-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+.step-prog { height: 3px; background: var(--border); margin: 0 14px; }
+.step-prog-fill { height: 100%; background: var(--accent); transition: width 0.3s; border-radius: 2px; }
 
 /* ================================================================
    CONTENU PRINCIPAL
@@ -377,7 +400,7 @@ body {
 .step-panel { display: none; flex-direction: column; overflow: hidden; min-height: 0; }
 .step-panel.active { display: flex; flex: 1; }
 
-.panel-body { flex: 1; padding: 16px 24px 24px; overflow-y: auto; min-height: 0; }
+.panel-body { flex: 1; padding: 16px 24px 24px; overflow-y: auto; min-height: 0; background: #f4f6f0; }
 
 .panel-footer {
   padding: 12px 24px;
@@ -388,7 +411,7 @@ body {
 
 /* En-tête de section */
 .panel-header {
-  padding: 16px 24px 14px;
+  padding: 18px 24px 14px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   flex-shrink: 0;
@@ -399,11 +422,11 @@ body {
 }
 .panel-step-label {
   font-size: 10px; font-weight: 600; color: var(--accent2);
-  text-transform: uppercase; letter-spacing: 0.8px;
+  text-transform: uppercase; letter-spacing: 1px;
   margin-bottom: 4px;
 }
 .panel-title {
-  font-size: 18px; font-weight: 700; color: var(--text);
+  font-size: 22px; font-weight: 700; color: var(--text);
   line-height: 1.2;
 }
 .panel-subtitle {
@@ -414,16 +437,16 @@ body {
 /* Boîte d'aide animateur */
 .aide-box {
   background: var(--accent-lt);
-  border: 1px solid var(--accent);
-  border-left: 4px solid var(--accent);
+  border: 1px solid var(--accent-bd, var(--border));
   border-radius: var(--r2);
-  padding: 10px 14px;
-  margin: 14px 24px 0;
-  display: flex; gap: 10px; align-items: flex-start;
+  padding: 8px 14px;
+  display: inline-flex; gap: 8px; align-items: flex-start;
+  max-width: 480px; margin: 0 0 0 auto;
+  align-self: flex-start; flex-shrink: 0;
 }
-.aide-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.aide-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
-.aide-text strong { color: var(--text); }
+.aide-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.aide-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.aide-text strong { color: var(--text); font-weight: 600; }
 
 /* Corps du panneau */
 
@@ -439,11 +462,11 @@ body {
   text-transform: uppercase; letter-spacing: 0.7px;
 }
 .form-input, .form-textarea, .form-select {
-  background: var(--bg);
+  background: #f7faf3;
   border: 1px solid var(--border2); color: var(--text);
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 13px; padding: 7px 10px;
-  border-radius: var(--r2); outline: none;
+  font-size: 13px; padding: 8px 11px;
+  border-radius: 8px; outline: none;
   transition: border-color 0.15s; width: 100%;
 }
 .form-input:focus, .form-textarea:focus, .form-select:focus {
@@ -463,34 +486,45 @@ body {
    ================================================================ */
 .section-card {
   background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
+  border: 1.5px solid var(--border2);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .section-card-header {
-  padding: 11px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 600; color: var(--text2);
-  text-transform: uppercase; letter-spacing: 0.6px;
+  padding: 12px 16px;
+  border-bottom: 1.5px solid var(--border2);
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 600; color: var(--text);
+  letter-spacing: 0;
   cursor: pointer; user-select: none;
+  background: var(--bg2);
 }
-.section-card-header:hover { background: var(--bg2); }
-.section-card-header .sc-icon { font-size: 14px; }
+.section-card-header:hover { background: var(--bg3); }
+.section-card-header .sc-icon {
+  font-size: 14px;
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--accent); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
 .section-card-header .sc-toggle {
   margin-left: auto; color: var(--text3);
   font-size: 10px; transition: transform 0.2s;
 }
 .section-card-header.collapsed .sc-toggle { transform: rotate(-90deg); }
-.section-card-body { padding: 14px 16px; }
+.section-card-body { padding: 16px 18px; }
 .section-card-body.hidden { display: none; }
 
 /* ================================================================
    BIBLIOTHÈQUE DE MENACES
    ================================================================ */
 .threat-filters {
-  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 10px;
 }
 .filter-btn {
   font-size: 11px; font-weight: 500;
@@ -506,6 +540,57 @@ body {
 }
 .threat-lib-grid {
   display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;
+}
+
+/* ================================================================
+   STICKY FOOTER — SELECTED THREATS (STEP 1)
+   ================================================================ */
+.sticky-selected {
+  background: var(--bg);
+  border-top: 1px solid var(--border2);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.sticky-selected-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--text3);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.sticky-pill {
+  font-size: 11px;
+  padding: 3px 8px 3px 6px;
+  border-radius: 20px;
+  background: var(--accent-lt);
+  border: 1px solid var(--accent);
+  color: var(--accent2);
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.sticky-pill-num {
+  font-size: 10px; font-weight: 700;
+  background: var(--accent2);
+  color: #fff;
+  border-radius: 20px;
+  padding: 0px 5px;
+  line-height: 1.6;
+}
+.sticky-pill-remove {
+  font-size: 12px; font-weight: 600;
+  color: var(--accent2);
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.sticky-pill-remove:hover { opacity: 1; }
+.sticky-empty {
+  font-size: 12px; color: var(--text3); font-style: italic;
 }
 .lib-chip {
   font-size: 12px; padding: 4px 10px;
@@ -575,14 +660,15 @@ body {
 .risk-extr { background: #1a1f26; color: #ffffff; border: 1px solid #000; }
 
 .btn-remove {
-  background: none; border: 1px solid var(--border2);
-  color: var(--text3); font-size: 12px;
-  padding: 3px 8px; border-radius: var(--r2);
+  background: var(--bg2); border: 1px solid var(--border2);
+  color: var(--text2); font-size: 12px;
+  padding: 3px 10px; border-radius: var(--r2);
   cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+  font-weight: 500;
 }
 .btn-remove:hover { border-color: var(--danger-bd); color: var(--danger); background: var(--danger-bg); }
 
-.threat-card-body { padding: 12px 14px; }
+.threat-card-body { padding: 14px 14px; }
 .threat-fields { display: grid; gap: 10px; }
 .threat-fields.cols-2 { grid-template-columns: 1fr 1fr; }
 .threat-fields.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -731,6 +817,14 @@ body {
   line-height: 1.1;
 }
 .stat-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 3px; }
+.stat-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.stat-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-top: 4px; display: inline-block; }
+.stat-badge.red   { background: var(--danger-bg);  color: var(--danger);  border: 1px solid var(--danger-bd); }
+.stat-badge.amber { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-bd); }
+.stat-badge.ok    { background: var(--ok-bg);      color: var(--ok);      border: 1px solid var(--ok-bd); }
+.stat-card.stat-alert { border-color: var(--danger-bd);  background: var(--danger-bg); }
+.stat-card.stat-warn  { border-color: var(--warning-bd); background: var(--warning-bg); }
+.stat-card.stat-ok    { border-color: var(--ok-bd);      background: var(--ok-bg); }
 .stat-crit { color: var(--danger); }
 .stat-high { color: var(--warning); }
 .stat-mod  { color: var(--moderate); }
@@ -835,6 +929,8 @@ body {
   cursor: pointer; transition: background 0.15s;
 }
 .btn-export:hover { background: rgba(255,255,255,0.25); }
+
+/* PrepChecklist — styles handled inline in renderPrepChecklist */
 </style>
 </head>
 <body>
@@ -903,7 +999,7 @@ body {
               <span data-i18n="notice_phase1_label">Launch workshop</span>
               <span class="notice-phase-dur">1h</span>
             </div>
-            <div class="notice-phase-desc" data-i18n="notice_phase1_desc">Run the opening workshop using <span class="notice-filename">TRAIN_Risk assessment workshop</span> from the online toolkit.</div>
+            <div class="notice-phase-desc" data-i18n="notice_phase1_desc">Run the opening workshop using <span class="notice-filename">TRAIN_Risk assessment workshop</span> from the online toolkit. <a href="https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Forms/AllItems.aspx?id=%2Fsites%2FSAFETYSECURITY%2FPublicDocuments%2FCountry%20Program%20Documents&viewid=0ef095ae%2D5258%2D4fb2%2D8ea7%2D22ec46c3c11b" target="_blank" class="notice-phase-badge" style="display:inline-flex;align-items:center;gap:5px;margin-top:6px;text-decoration:none">🔗 <span>Online toolkit →</span></a></div>
           </div>
         </div>
 
@@ -935,7 +1031,7 @@ body {
             <div class="notice-phase-label">
               <span data-i18n="notice_phase4_label">Save &amp; validation</span>
             </div>
-            <div class="notice-phase-desc" data-i18n="notice_phase4_desc">Export the JSON file → save in the Local Security Pack folder → share with the Security Advisor for validation.</div>
+            <div class="notice-phase-desc" data-i18n="notice_phase4_desc">Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.</div>
           </div>
         </div>
 
@@ -1050,12 +1146,23 @@ body {
 <div class="main-wrap">
 
   <!-- SIDEBAR -->
-  <div class="sidebar">
-    <input type="hidden" id="fieldOffice">
-    <input type="hidden" id="fieldSFP">
-    <input type="hidden" id="fieldDate">
-    <div class="sidebar-title" data-i18n="sidebar_steps">Étapes</div>
-    <div id="sidebarSteps"></div>
+  <div class="sidebar" id="mainSidebar">
+    <div class="sidebar-tab" onclick="toggleSidebar()" title="Afficher le menu">
+      <span>▶ ÉTAPES</span>
+    </div>
+    <div class="sidebar-inner">
+      <input type="hidden" id="fieldOffice">
+      <input type="hidden" id="fieldSFP">
+      <input type="hidden" id="fieldDate">
+      <div class="sidebar-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span data-i18n="sidebar_steps">Étapes</span>
+        <button onclick="toggleSidebar()" title="Masquer le menu"
+          style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:2px 6px;border-radius:3px;line-height:1"
+          onmouseover="this.style.color='var(--text)'"
+          onmouseout="this.style.color='var(--text3)'">✕</button>
+      </div>
+      <div id="sidebarSteps"></div>
+    </div>
   </div>
 
   <!-- CONTENU -->
@@ -1066,13 +1173,16 @@ body {
          ====================================================== -->
     <div class="step-panel active" id="panel-0">
       <div class="panel-header">
-        <div class="panel-step-label" data-i18n="step0_label">Étape 0</div>
-        <div class="panel-title" data-i18n="step0_title">Informations sur le bureau</div>
-        <div class="panel-subtitle" data-i18n="step0_sub">Renseignez les informations de base avant de commencer. Ces données apparaîtront dans tous vos exports.</div>
-      </div>
-      <div class="aide-box">
-        <div class="aide-icon">💡</div>
-        <div class="aide-text" data-i18n="step0_aide">Rappel : une analyse de risque est toujours liée à une zone géographique précise. Si votre organisation opère dans plusieurs zones, réalisez une analyse distincte pour chacune.</div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <div class="panel-step-label" data-i18n="step0_label">Étape 0</div>
+            <div class="panel-title" data-i18n="step0_title">Informations sur le bureau</div>
+          </div>
+          <div class="aide-box">
+            <div class="aide-icon">💡</div>
+            <div class="aide-text" data-i18n="step0_aide">Rappel : une analyse de risque est toujours liée à une zone géographique précise. Si votre organisation opère dans plusieurs zones, réalisez une analyse distincte pour chacune.</div>
+          </div>
+        </div>
       </div>
       <div class="panel-body">
         <div class="section-card">
@@ -1110,12 +1220,14 @@ body {
               <div class="form-label"><span data-i18n="field_participants">Participants à l'atelier</span> <span style="font-weight:400;font-style:italic;font-size:11px;color:var(--text3)" data-i18n="field_participants_hint">(idéalement 4-5 personnes de spécialités différentes)</span></div>
               <input class="form-input" id="f_participants" id="ph_participants_input" placeholder="Ex. : Marie (Logistique), John (Programme), Amina (Finance), Tariq (Chauffeur)">
               <div style="margin-top:6px">
-                <button type="button" onclick="toggleFemaleSessionNote()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--accent2);font-family:'Source Sans 3',sans-serif;padding:0;display:inline-flex;align-items:center;gap:4px;font-weight:500;text-decoration:underline;text-underline-offset:2px">
-                  ♀ Female-only session
+                <button type="button" id="femaleSessionBtn" onclick="toggleFemaleSessionNote()" style="background:#f5f0fa;border:1px solid #c9b8e8;border-radius:20px;cursor:pointer;font-size:12px;color:#5a3a8a;font-family:'Source Sans 3',sans-serif;padding:5px 12px 5px 10px;display:inline-flex;align-items:center;gap:7px;font-weight:500;margin:4px 0">
+                  <span style="font-size:13px">♀</span>
+                  <span data-i18n="female_btn">Consider a female-only session</span>
+                  <span id="femaleArrow" style="font-size:10px;color:#9b7cc4;transition:transform 0.2s;display:inline-block">▼</span>
                 </button>
-                <div id="femaleSessionNote" style="display:none;margin-top:6px;background:#f5f0fa;border:1px solid #c9b8e8;border-radius:var(--r2);padding:10px 14px;font-size:12px;color:#4a3a6a;line-height:1.6">
-                  <strong style="color:#5a3a8a">💡 Consider a dedicated female-only session</strong><br>
-                  Consider organizing a dedicated risk analysis exercise with female staff only, to help capture specific perspectives, concerns and movement patterns that may otherwise be underreported.
+                <div id="femaleSessionNote" style="display:none;background:#f5f0fa;border:1px solid #c9b8e8;border-radius:0 0 8px 8px;padding:10px 14px;font-size:12px;color:#4a3a6a;line-height:1.6">
+                  <strong style="color:#5a3a8a" data-i18n="female_title">💡 Consider a dedicated female-only session</strong><br>
+                  <span data-i18n="female_body">Consider organizing a dedicated risk analysis exercise with female staff only, to help capture specific perspectives, concerns and movement patterns that may otherwise be underreported.</span>
                 </div>
               </div>
             </div>
@@ -1127,12 +1239,13 @@ body {
         </div>
 
         <div class="section-card">
-          <div class="section-card-header" onclick="toggleCard(this)">
+          <div class="section-card-header collapsed" onclick="toggleCard(this)">
             <span class="sc-icon">📋</span>
             <span data-i18n="step0_card2">Préparation de l'atelier</span>
+            <span id="prepBadge" style="margin-left:8px;background:var(--ok-bg);border:1px solid var(--ok-bd);color:var(--ok);border-radius:20px;font-size:11px;font-weight:700;padding:2px 10px;letter-spacing:0">0 / 4</span>
             <span class="sc-toggle">▼</span>
           </div>
-          <div class="section-card-body">
+          <div class="section-card-body hidden">
             <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px" data-i18n="step0_prep">Avant de commencer l'analyse, assurez-vous d'avoir :</div>
             <div style="display:flex;flex-direction:column;gap:6px" id="prepChecklist"></div>
           </div>
@@ -1151,13 +1264,16 @@ body {
          ====================================================== -->
     <div class="step-panel" id="panel-1">
       <div class="panel-header">
-        <div class="panel-step-label" data-i18n="step1_label">Étape 1</div>
-        <div class="panel-title" data-i18n="step1_title">Identifier les menaces</div>
-        <div class="panel-subtitle" data-i18n="step1_sub">Listez toutes les menaces auxquelles votre bureau est exposé. Commencez par sélectionner dans la bibliothèque, puis ajoutez les menaces spécifiques à votre contexte.</div>
-      </div>
-      <div class="aide-box">
-        <div class="aide-icon">💬</div>
-        <div class="aide-text"><strong data-i18n="step1_aide_q">Question pour le groupe :</strong> <span data-i18n="step1_aide_text">« Quelles sont les menaces auxquelles nos équipes sont réellement confrontées dans ce contexte ? » — Soyez précis dans la dénomination (pas "insécurité" mais "attaque à main armée sur la route de Bunia"). Visez 5 menaces prioritaires. Appuyez-vous sur les incidents passés.</span></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <div class="panel-step-label" data-i18n="step1_label">Étape 1</div>
+            <div class="panel-title" data-i18n="step1_title">Identifier les menaces</div>
+          </div>
+          <div class="aide-box">
+            <div class="aide-icon">💬</div>
+            <div class="aide-text"><strong data-i18n="step1_aide_q">Question pour le groupe :</strong> <span data-i18n="step1_aide_text">« Quelles sont les menaces auxquelles nos équipes sont réellement confrontées dans ce contexte ? » — Soyez précis dans la dénomination (pas "insécurité" mais "attaque à main armée sur la route de Bunia"). Visez 5 menaces prioritaires. Appuyez-vous sur les incidents passés.</span></div>
+          </div>
+        </div>
       </div>
       <div class="panel-body">
         <div class="section-card">
@@ -1171,21 +1287,18 @@ body {
             <div class="threat-lib-grid" id="threatLibGrid"></div>
           </div>
         </div>
-        <div class="section-card">
-          <div class="section-card-header" onclick="toggleCard(this)">
-            <span class="sc-icon">⚠️</span>
-            <span data-i18n="step1_selected">Menaces sélectionnées</span>
-            <span class="sc-toggle">▼</span>
-          </div>
+        <div class="section-card" style="margin-top:12px">
           <div class="section-card-body">
-            <div class="threat-list" id="threatList">
-              <div style="color:var(--text3);font-size:13px;font-style:italic;padding:8px 0" data-i18n="step1_empty">Aucune menace ajoutée. Utilisez la bibliothèque ci-dessus ou ajoutez une menace personnalisée.</div>
-            </div>
+            <div class="threat-list" id="threatList"></div>
             <div style="margin-top:10px">
               <button class="btn-add" onclick="addCustomThreat()" data-i18n="btn_add_threat">+ Ajouter une menace spécifique à votre contexte</button>
             </div>
           </div>
         </div>
+      </div>
+      <div class="sticky-selected" id="stickySelected">
+        <span class="sticky-selected-label" data-i18n="step1_selected">Selected</span>
+        <span class="sticky-empty" id="stickyEmpty">—</span>
       </div>
       <div class="panel-footer">
         <button class="btn-secondary" onclick="goToStep(0)" data-i18n="btn_prev">← Précédent</button>
@@ -1198,13 +1311,16 @@ body {
          ====================================================== -->
     <div class="step-panel" id="panel-2">
       <div class="panel-header">
-        <div class="panel-step-label" data-i18n="step2_label">Étape 2</div>
-        <div class="panel-title" data-i18n="step2_title">Vulnérabilités et niveau de risque</div>
-        <div class="panel-subtitle" data-i18n="step2_sub">Pour chaque menace, analysez vos vulnérabilités internes, puis évaluez la probabilité et l'impact en tenant compte de ces vulnérabilités.</div>
-      </div>
-      <div class="aide-box">
-        <div class="aide-icon">💬</div>
-        <div class="aide-text"><strong data-i18n="step2_aide_q">Pour le groupe :</strong> <span data-i18n="step2_aide_text">Commencez par identifier pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. <strong>La même menace peut avoir un niveau de risque très différent selon vos vulnérabilités.</strong> Ce n'est pas une science exacte — cherchez un consensus collectif.</span></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <div class="panel-step-label" data-i18n="step2_label">Étape 2</div>
+            <div class="panel-title" data-i18n="step2_title">Vulnérabilités et niveau de risque</div>
+          </div>
+          <div class="aide-box">
+            <div class="aide-icon">💬</div>
+            <div class="aide-text"><strong data-i18n="step2_aide_q">Pour le groupe :</strong> <span data-i18n="step2_aide_text">Commencez par identifier pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. <strong>La même menace peut avoir un niveau de risque très différent selon vos vulnérabilités.</strong> Ce n'est pas une science exacte — cherchez un consensus collectif.</span></div>
+          </div>
+        </div>
       </div>
 
       <!-- LÉGENDE SCORES P et I — collapsible -->
@@ -1246,13 +1362,16 @@ body {
          ====================================================== -->
     <div class="step-panel" id="panel-3">
       <div class="panel-header">
-        <div class="panel-step-label" data-i18n="step3_label">Étape 3</div>
-        <div class="panel-title" data-i18n="step3_title">Mesures de réduction du risque</div>
-        <div class="panel-subtitle" data-i18n="step3_sub">Pour les menaces prioritaires (niveau de risque élevé), définissez des mesures concrètes pour réduire la probabilité et l'impact. Pensez SOP, formation, équipement, changement d'organisation.</div>
-      </div>
-      <div class="aide-box">
-        <div class="aide-icon">💬</div>
-        <div class="aide-text"><strong data-i18n="step3_aide_q">Pour le groupe :</strong> <span data-i18n="step3_aide_text">Pour chaque menace prioritaire : « Quelles actions concrètes réduisent la <strong>probabilité</strong> que cela arrive ? Quelles actions réduisent l'<strong>impact</strong> si cela arrive quand même ? » Visez 2-3 actions par colonne. Proposez des actions simples et réalistes — ce qu'on peut faire dès demain.</span></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+          <div>
+            <div class="panel-step-label" data-i18n="step3_label">Étape 3</div>
+            <div class="panel-title" data-i18n="step3_title">Mesures de réduction du risque</div>
+          </div>
+          <div class="aide-box">
+            <div class="aide-icon">💬</div>
+            <div class="aide-text"><strong data-i18n="step3_aide_q">Pour le groupe :</strong> <span data-i18n="step3_aide_text">Pour chaque menace prioritaire : « Quelles actions concrètes réduisent la <strong>probabilité</strong> que cela arrive ? Quelles actions réduisent l'<strong>impact</strong> si cela arrive quand même ? » Visez 2-3 actions par colonne. Proposez des actions simples et réalistes — ce qu'on peut faire dès demain.</span></div>
+          </div>
+        </div>
       </div>
       <div class="panel-body" id="mitigationBody">
         <div style="color:var(--text3);font-size:13px;font-style:italic" data-i18n="step3_empty">Évaluez d'abord les menaces à l'étape 2.</div>
@@ -1380,6 +1499,7 @@ body {
                   <th data-i18n="col_impact">Impact</th>
                   <th data-i18n="col_risk">Niveau de risque</th>
                   <th data-i18n="col_actions">Actions</th>
+                  <th data-i18n="col_decision">Décision</th>
                 </tr>
               </thead>
               <tbody id="recapTableBody"></tbody>
@@ -1456,10 +1576,10 @@ const I18N = {
     notice_atelier_text:'Idéalement 4 à 5 personnes de spécialités différentes.',
     notice_solo_warning:'⚠ Si vous remplissez cet outil seul, pensez à valider les résultats avec votre équipe avant de finaliser l\'analyse — une analyse de risque individuelle reste incomplète.',
     notice_time_title:'Processus d\'analyse de risque — 5 phases',
-    notice_time_1:'<strong>Phase 1 — Atelier de lancement (1h)</strong> — Organiser un atelier de lancement à l\'aide du PowerPoint <em>"FORM_Atelier d\'analyse de risque"</em> disponible dans la boîte à outils en ligne.',
+    notice_time_1:'<strong>Phase 1 — Atelier de lancement (1h)</strong> — Organiser un atelier de lancement à l\'aide du PowerPoint <em>"FORM_Atelier d\'analyse de risque"</em> disponible dans la <a href="https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Forms/AllItems.aspx?id=%2Fsites%2FSAFETYSECURITY%2FPublicDocuments%2FCountry%20Program%20Documents&viewid=0ef095ae%2D5258%2D4fb2%2D8ea7%2D22ec46c3c11b" target="_blank" style="color:inherit;text-decoration:underline">boîte à outils en ligne</a>.',
     notice_time_2:'<strong>Phase 2 — Développement de la première version</strong> — Transmettre au Security Advisor les photos des résultats de l\'atelier (post-its, paperboards, exercices muraux) afin de permettre le développement d\'une première version du tableau d\'analyse de risques.',
     notice_time_3:'<strong>Phase 3 — Atelier de travail sur l\'outil (1h)</strong> — Organiser un deuxième atelier de groupe en utilisant (et projetant) le présent outil. Identifier 2 à 3 nouvelles menaces éventuelles et finaliser la partie relative aux mesures de réduction du risque.',
-    notice_time_4:'<strong>Phase 4 — Sauvegarde et validation</strong> — Sauvegarder le fichier JSON dans le dossier dédié du Pack Sécurité Local et le partager avec le Security Advisor pour validation.',
+    notice_time_4:'<strong>Phase 4 — Sauvegarde et validation</strong> — Exportez le fichier JSON → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
     notice_time_5:'<strong>Phase 5 — Validation du plan d\'action (1h)</strong> — Organiser un dernier atelier avec les personnes concernées afin de valider le plan d\'action, identifier les délais, les responsables et, si nécessaire, les coûts associés.',
     notice_time_note:'Note : Les futures mises à jour pourront ensuite être réalisées directement à partir de la Phase 3.',
     notice_context_title:'Rappels importants',
@@ -1471,14 +1591,14 @@ const I18N = {
     notice_review_label:'Révision annuelle',
     notice_autosave:'Données sauvegardées automatiquement',
     notice_phase1_label:'Atelier de lancement',
-    notice_phase1_desc:'Animez l\'atelier d\'ouverture en utilisant <span class="notice-filename">FORM_Atelier d\'analyse de risque</span> disponible dans la boîte à outils en ligne.',
+    notice_phase1_desc:'Animez l\'atelier d\'ouverture en utilisant <span class="notice-filename">FORM_Atelier d\'analyse de risque</span> disponible dans la boîte à outils en ligne. <a href="https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Forms/AllItems.aspx?id=%2Fsites%2FSAFETYSECURITY%2FPublicDocuments%2FCountry%20Program%20Documents&viewid=0ef095ae%2D5258%2D4fb2%2D8ea7%2D22ec46c3c11b" target="_blank" class="notice-phase-badge" style="display:inline-flex;align-items:center;gap:5px;margin-top:6px;text-decoration:none">🔗 <span>Boîte à outils en ligne →</span></a>',
     notice_phase2_label:'Développement de la première version',
     notice_phase2_desc:'Transmettez au Security Advisor les photos des résultats de l\'atelier (post-its, paperboards, exercices muraux) pour développer une première version du tableau de risques.',
     notice_phase2_badge:'Photos des résultats physiques — post-its, paperboards',
     notice_phase3_label:'Session de travail sur cet outil',
     notice_phase3_desc:'Deuxième session de groupe en utilisant cet outil (projeté). Identifiez 2 à 3 menaces supplémentaires et finalisez les mesures d\'atténuation.',
     notice_phase4_label:'Sauvegarde &amp; validation',
-    notice_phase4_desc:'Exportez le fichier JSON → enregistrez dans le dossier Local Security Pack → partagez avec le Security Advisor pour validation.',
+    notice_phase4_desc:'Exportez le fichier JSON → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
     notice_phase5_label:'Validation du plan d\'action',
     notice_phase5_desc:'Session finale avec le personnel concerné — assignez les délais, responsables et coûts.',
     notice_save_title:'Sauvegarde automatique &amp; Phase 4',
@@ -1498,7 +1618,7 @@ const I18N = {
     field_sfp2:'Point focal sécurité (PFS)', field_date2:'Date de l\'évaluation',
     field_next_review:'Prochaine révision prévue', field_participants:'Participants à l\'atelier',
     field_participants_hint:'(idéalement 4-5 personnes de spécialités différentes)',
-    field_context:'Brève description du contexte opérationnel',
+    field_context:'Brève description succincte du contexte opérationnel',
     step1_label:'Étape 1', step1_title:'Identifier les menaces',
     step1_sub:'Listez toutes les menaces auxquelles votre bureau est exposé.',
     step1_aide_q:'Question pour le groupe :',
@@ -1545,10 +1665,20 @@ const I18N = {
     after_4:'📡 Diffuser les nouveaux protocoles',
     after_5:'🔄 Réviser cette analyse au minimum une fois par an, et immédiatement lors de tout changement ou évolution majeure du contexte sécuritaire.',
     col_threat:'Menace', col_prob:'Probabilité', col_impact:'Impact',
-    col_risk:'Niveau de risque', col_actions:'Actions',
+    col_risk:'Niveau de risque', col_actions:'Actions', col_decision:'Décision',
     lbl_who:'Qui provoque la menace ?', lbl_where:'Où ?', lbl_when:'Quand ?',
     lbl_what:'Qui est à risque ?', lbl_why:'Pourquoi sommes-nous vulnérables ?',
     lbl_prog:'Activité concernée', lbl_consequences:'Conséquences potentielles',
+    dec_title_pending:'⚠ Score ≥ 15 — Une décision collective est requise',
+    dec_title_assumed:'✔ Risque assumé — décision enregistrée',
+    dec_title_refused:'✘ Risque refusé — décision enregistrée',
+    dec_body:'Toutes les menaces avec un niveau de risque ≥ 15 ne peuvent pas nécessairement être éliminées. La direction peut décider d\'assumer ce risque ou de le refuser. Cette décision doit être <strong>collective, documentée et validée par le/la Représentant(e) Pays.</strong>',
+    dec_btn_assumed:'✔ Risque assumé',
+    dec_btn_refused:'✘ Risque refusé',
+    dec_btn_cancel:'↩ Annuler',
+    dec_refused_warn:'⛔ Informez immédiatement le/la Représentant(e) Pays',
+    dec_note_label:'Justification / notes (facultatif)',
+    dec_note_ph:'Décrivez brièvement les raisons de cette décision...',
     lbl_reduce_prob:'Réduction de la probabilité', lbl_reduce_imp:'Réduction de l\'impact',
     ph_who:'Ex. : Groupes armés non étatiques, criminels, forces de sécurité...',
     ph_where:'Ex. : Sur la route de Bunia, dans les marchés, aux checkpoints...',
@@ -1566,12 +1696,20 @@ const I18N = {
     status_planned:'Prévu', status_ongoing:'En cours', status_done:'Terminé', status_suspended:'Suspendu',
     stat_threats:'Menaces identifiées', stat_critical:'Risques critiques', recap_click_hint:'Cliquer pour revenir à cette menace (étape 2)',
     stat_high:'Risques élevés', stat_actions:'Actions planifiées',
-    prep_1:'Consulté les rapports d\'incidents récents',
+    stat_decision_req:'Menaces score ≥ 15', stat_decision_sub:'Décision obligatoire',
+    stat_decision_ok:'✓ Toutes documentées', stat_decision_warn:'⚠ non documentée(s)',
+    stat_no_owner:'Actions sans responsable', stat_no_date:'Actions sans date prévue',
+    stat_planned:'Actions planifiées', stat_out_of:'Sur',
+    stat_badge_todo:'À compléter', stat_badge_ok:'✓ Plan complet', stat_badge_plan_ok:'✓ Plan renseigné',
+    prep_1:'Consulté les rapports d\'incidents récents FLM et les rapports INSO si disponibles',
     prep_2:'Réuni 4-5 personnes de spécialités différentes',
     prep_3:'Préparé des post-its et un paperboard (pour l\'atelier en présentiel)',
     prep_4:'Complété l\'auto-évaluation (Check-list Self-Assessment)',
     prep_5:'Identifié les acteurs clés du contexte (autorités, groupes armés, partenaires)',
     prep_6:'Avoir consulté et compris le document FORM_Atelier d\'analyse de risque. N\'hésitez pas à contacter le Security Advisor si vous souhaitez des précisions et/ou un appui pour réaliser un premier atelier en ligne.',
+    female_btn:'Envisager une session réservée aux femmes',
+    female_title:'💡 Envisager une session dédiée aux femmes',
+    female_body:'Envisagez d\'organiser un exercice d\'analyse des risques dédié aux femmes uniquement, afin de recueillir des perspectives, préoccupations et schémas de déplacement spécifiques qui pourraient autrement être sous-rapportés.',
     add_to_ap:'+ Ajouter au plan d\'action',
     prob_label:'Probabilité (1–5)', imp_label:'Impact (1–5)',
     risk_label:'Niveau de risque :',
@@ -1589,7 +1727,7 @@ const I18N = {
     after_update_desc:'Intégrez les nouvelles mesures et mettez à jour l\'ensemble des SOPs et procédures concernés.',
     after_share_title:'Diffuser les nouveaux protocoles',
     after_share_desc:'Partagez les mises à jour auprès de l\'ensemble des staffs concernés, au travers de réunions d\'équipe, de briefings et de formations.',
-        lbl_pre_filled:'Pré-remplies à titre indicatif — adaptez à votre contexte.',
+        lbl_pre_filled:'Cliquez sur Modifier pour ajouter ou adapter les mesures.',
     lbl_pre_filled2:'Pré-remplies — supprimez ce qui est déjà en place, adaptez au reste.',
     lbl_why_title:'Pourquoi sommes-nous vulnérables ? — Nos failles internes',
     lbl_vuln_warning:'⚠ Listez uniquement les failles internes : procédures manquantes, formations absentes, équipements défaillants, comportements à risque, faible acceptation communautaire.',
@@ -1654,8 +1792,7 @@ const I18N = {
     notice_time_1:'<strong>Phase 1 — Launch workshop (1h)</strong> — Conduct a launch workshop using the PowerPoint <em>"TRAIN_Risk assessment workshop"</em> available in the online toolkit.',
     notice_time_2:'<strong>Phase 2 — First version development</strong> — Send the Security Advisor photos of the workshop outputs (post-its, flipcharts, wall exercises) to allow development of a first version of the risk assessment table.',
     notice_time_3:'<strong>Phase 3 — Working session on this tool (1h)</strong> — Conduct a second group session using (and projecting) this tool. Identify 2–3 additional threats if applicable and finalise the mitigation measures section.',
-    notice_time_4:'<strong>Phase 4 — Save &amp; validation</strong> — Save the JSON file in the dedicated Local Security Pack folder and share it with the Security Advisor for validation.',
-    notice_time_5:'<strong>Phase 5 — Action plan validation (1h)</strong> — Hold a final session with relevant staff to validate the action plan, assign deadlines, responsible persons and, where applicable, associated costs.',
+        notice_time_4:'<strong>Phase 4 — Save &amp; validation</strong> — Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',    notice_time_5:'<strong>Phase 5 — Action plan validation (1h)</strong> — Hold a final session with relevant staff to validate the action plan, assign deadlines, responsible persons and, where applicable, associated costs.',
     notice_time_note:'Note: Future updates can be carried out directly from Phase 3 onwards.',
     notice_context_title:'Key reminders',
     notice_ctx_1:'Risk assessment is linked to a specific geographical context — each office must do its own',
@@ -1666,14 +1803,14 @@ const I18N = {
     notice_review_label:'Review annually',
     notice_autosave:'Data auto-saved in browser',
     notice_phase1_label:'Launch workshop',
-    notice_phase1_desc:'Run the opening workshop using <span class="notice-filename">TRAIN_Risk assessment workshop</span> from the online toolkit.',
+    notice_phase1_desc:'Run the opening workshop using <span class="notice-filename">TRAIN_Risk assessment workshop</span> from the <a href="https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Forms/AllItems.aspx?id=%2Fsites%2FSAFETYSECURITY%2FPublicDocuments%2FCountry%20Program%20Documents&viewid=0ef095ae%2D5258%2D4fb2%2D8ea7%2D22ec46c3c11b" target="_blank" style="color:inherit;text-decoration:underline">online toolkit</a>.',
     notice_phase2_label:'First version development',
     notice_phase2_desc:'Send the Security Advisor photos of the workshop outputs (post-its, flipcharts, wall exercises) to develop a first draft of the risk table.',
     notice_phase2_badge:'Photos of physical workshop outputs — post-its, flipcharts',
     notice_phase3_label:'Working session on this tool',
     notice_phase3_desc:'Second group session using this tool (projected). Identify 2–3 additional threats and finalise mitigation measures.',
     notice_phase4_label:'Save &amp; validation',
-    notice_phase4_desc:'Export the JSON file → save in the Local Security Pack folder → share with the Security Advisor for validation.',
+    notice_phase4_desc:'Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',
     notice_phase5_label:'Action plan validation',
     notice_phase5_desc:'Final session with relevant staff — assign deadlines, responsible persons and costs.',
     notice_save_title:'Automatic saving &amp; Phase 4',
@@ -1693,7 +1830,7 @@ const I18N = {
     field_sfp2:'Security Focal Point (SFP)', field_date2:'Assessment date',
     field_next_review:'Next review date', field_participants:'Workshop participants',
     field_participants_hint:'(ideally 4-5 people from different specialties)',
-    field_context:'Brief description of the operational context',
+    field_context:'Brief succinct description of the operational context',
     step1_label:'Step 1', step1_title:'Identify threats',
     step1_sub:'List all threats your office is exposed to.',
     step1_aide_q:'Question for the group:',
@@ -1740,10 +1877,20 @@ const I18N = {
     after_4:'📡 Share new protocols with all staff',
     after_5:'🔄 Review this analysis at least once a year, and immediately whenever a significant change or major security development occurs.',
     col_threat:'Threat', col_prob:'Probability', col_impact:'Impact',
-    col_risk:'Risk level', col_actions:'Actions',
+    col_risk:'Risk level', col_actions:'Actions', col_decision:'Decision',
     lbl_who:'Who causes the threat?', lbl_where:'Where?', lbl_when:'When?',
     lbl_what:'Who/what is at risk?', lbl_why:'Why are we vulnerable?',
     lbl_prog:'Programme area / activity', lbl_consequences:'Potential consequences',
+    dec_title_pending:'⚠ Score ≥ 15 — A collective decision is required',
+    dec_title_assumed:'✔ Risk accepted — decision recorded',
+    dec_title_refused:'✘ Risk refused — decision recorded',
+    dec_body:'Not all threats with a risk level ≥ 15 can necessarily be eliminated. Management may decide to accept this risk or refuse it. This decision must be <strong>collective, documented and validated by the Country Representative.</strong>',
+    dec_btn_assumed:'✔ Risk accepted',
+    dec_btn_refused:'✘ Risk refused',
+    dec_btn_cancel:'↩ Cancel',
+    dec_refused_warn:'⛔ Inform the Country Representative immediately',
+    dec_note_label:'Justification / notes (optional)',
+    dec_note_ph:'Briefly describe the reasons for this decision...',
     lbl_reduce_prob:'Reduce probability', lbl_reduce_imp:'Reduce impact',
     ph_who:'E.g.: Non-state armed groups, criminals, security forces...',
     ph_where:'E.g.: On the road to Bunia, in markets, at checkpoints...',
@@ -1761,12 +1908,20 @@ const I18N = {
     status_planned:'Planned', status_ongoing:'Ongoing', status_done:'Done', status_suspended:'Suspended',
     stat_threats:'Threats identified', stat_critical:'Critical risks', recap_click_hint:'Click to go back to this threat (step 2)',
     stat_high:'High risks', stat_actions:'Planned actions',
-    prep_1:'Reviewed recent incident reports',
+    stat_decision_req:'Threats score ≥ 15', stat_decision_sub:'Decision required',
+    stat_decision_ok:'✓ All documented', stat_decision_warn:'⚠ undocumented',
+    stat_no_owner:'Actions without owner', stat_no_date:'Actions without date',
+    stat_planned:'Planned actions', stat_out_of:'Out of',
+    stat_badge_todo:'To complete', stat_badge_ok:'✓ Plan complete', stat_badge_plan_ok:'✓ Plan filled',
+    prep_1:'Reviewed recent LWF incident reports and INSO reports where available',
     prep_2:'Gathered 4-5 people from different specialties',
     prep_3:'Prepared post-its and a flipchart (for in-person workshop)',
     prep_4:'Completed the Self-Assessment Checklist',
     prep_5:'Identified key context actors (authorities, armed groups, partners)',
     prep_6:'Reviewed and understood the FORM_Risk Analysis Workshop document. Do not hesitate to contact the Security Advisor if you need clarification and/or support to facilitate a first online workshop.',
+    female_btn:'Consider a female-only session',
+    female_title:'💡 Consider a dedicated female-only session',
+    female_body:'Consider organizing a dedicated risk analysis exercise with female staff only, to help capture specific perspectives, concerns and movement patterns that may otherwise be underreported.',
     add_to_ap:'+ Add to action plan',
     prob_label:'Probability (1–5)', imp_label:'Impact (1–5)',
     risk_label:'Risk level:',
@@ -1784,10 +1939,10 @@ const I18N = {
     after_update_desc:'Integrate the new measures and update all relevant SOPs and procedures.',
     after_share_title:'Share new protocols',
     after_share_desc:'Share updates with all relevant staff through team meetings, briefings and training sessions.',
-        lbl_pre_filled:'Pre-filled for guidance — adapt to your context.',
+        lbl_pre_filled:'Click Modify to add or adapt measures.',
     lbl_pre_filled2:'Pre-filled — remove what is already in place, adapt the rest.',
     lbl_why_title:'Why are we vulnerable? — Our internal weaknesses',
-    lbl_vuln_warning:'⚠ List only <strong>internal weaknesses</strong>: missing procedures, absent training, failing equipment, risky behaviours, low community acceptance.',
+    lbl_vuln_warning:'⚠ List only internal weaknesses: missing procedures, absent training, failing equipment, risky behaviours, low community acceptance.',
     lbl_vuln_empty:'No vulnerability entered — click Edit',
     lbl_risk_eval:'📊 Risk assessment — taking into account the vulnerabilities above',
     lbl_measure_empty:'No measure entered — click Edit',
@@ -1846,11 +2001,10 @@ const I18N = {
     notice_atelier_text:'Idealmente 4 a 5 personas de diferentes especialidades.',
     notice_solo_warning:'⚠ Si completa esta herramienta solo, valide los resultados con su equipo antes de finalizar — un análisis individual sigue siendo incompleto.',
     notice_time_title:'Proceso de análisis de riesgos — 5 fases',
-    notice_time_1:'<strong>Fase 1 — Taller de lanzamiento (1h)</strong> — Organizar un taller de lanzamiento utilizando el PowerPoint <em>"CAPA_Taller de evaluación de riesgos"</em> disponible en la caja de herramientas en línea.',
+    notice_time_1:'<strong>Fase 1 — Taller de lanzamiento (1h)</strong> — Organizar un taller de lanzamiento utilizando el PowerPoint <em>"CAPA_Taller de evaluación de riesgos"</em> disponible en la <a href="https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Forms/AllItems.aspx?id=%2Fsites%2FSAFETYSECURITY%2FPublicDocuments%2FCountry%20Program%20Documents&viewid=0ef095ae%2D5258%2D4fb2%2D8ea7%2D22ec46c3c11b" target="_blank" style="color:inherit;text-decoration:underline">caja de herramientas en línea</a>.',
     notice_time_2:'<strong>Fase 2 — Desarrollo de la primera versión</strong> — Enviar al Security Advisor fotos de los resultados del taller (post-its, papelógrafos, ejercicios en pared) para permitir el desarrollo de una primera versión de la tabla de análisis de riesgos.',
     notice_time_3:'<strong>Fase 3 — Sesión de trabajo con esta herramienta (1h)</strong> — Organizar una segunda sesión de grupo utilizando (y proyectando) esta herramienta. Identificar 2 a 3 nuevas amenazas si corresponde y finalizar la sección de medidas de reducción del riesgo.',
-    notice_time_4:'<strong>Fase 4 — Guardado y validación</strong> — Guardar el archivo JSON en la carpeta dedicada del Pack de Seguridad Local y compartirlo con el Security Advisor para validación.',
-    notice_time_5:'<strong>Fase 5 — Validación del plan de acción (1h)</strong> — Realizar una sesión final con las personas involucradas para validar el plan de acción, identificar plazos, responsables y, si es necesario, los costos asociados.',
+    notice_time_4:'<strong>Fase 4 — Guardar y validar</strong> — Exporte el archivo JSON → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_time_5:'<strong>Fase 5 — Validación del plan de acción (1h)</strong> — Realizar una sesión final con las personas involucradas para validar el plan de acción, identificar plazos, responsables y, si es necesario, los costos asociados.',
     notice_time_note:'Nota: Las futuras actualizaciones podrán realizarse directamente a partir de la Fase 3.',
     notice_context_title:'Recordatorios importantes',
     notice_ctx_1:'El análisis de riesgos está vinculado a un contexto geográfico preciso — cada oficina debe realizar el suyo',
@@ -1861,15 +2015,14 @@ const I18N = {
     notice_review_label:'Revisión anual',
     notice_autosave:'Datos guardados automáticamente',
     notice_phase1_label:'Taller de lanzamiento',
-    notice_phase1_desc:'Facilite el taller de apertura utilizando <span class="notice-filename">CAPA_Taller de evaluación de riesgos</span> disponible en la caja de herramientas.',
+    notice_phase1_desc:'Facilite el taller de apertura utilizando <span class="notice-filename">CAPA_Taller de evaluación de riesgos</span> disponible en la <a href="https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Forms/AllItems.aspx?id=%2Fsites%2FSAFETYSECURITY%2FPublicDocuments%2FCountry%20Program%20Documents&viewid=0ef095ae%2D5258%2D4fb2%2D8ea7%2D22ec46c3c11b" target="_blank" style="color:inherit;text-decoration:underline">caja de herramientas</a>.',
     notice_phase2_label:'Desarrollo de la primera versión',
     notice_phase2_desc:'Envíe al asesor de seguridad fotos de los resultados del taller (post-its, papelógrafos, ejercicios en pared) para desarrollar una primera versión de la tabla de riesgos.',
     notice_phase2_badge:'Fotos de los resultados físicos — post-its, papelógrafos',
     notice_phase3_label:'Sesión de trabajo en esta herramienta',
     notice_phase3_desc:'Segunda sesión grupal usando esta herramienta (proyectada). Identifique 2–3 amenazas adicionales y finalice las medidas de mitigación.',
     notice_phase4_label:'Guardado &amp; validación',
-    notice_phase4_desc:'Exporte el archivo JSON → guarde en la carpeta del Local Security Pack → comparta con el asesor de seguridad para validación.',
-    notice_phase5_label:'Validación del plan de acción',
+    notice_phase4_desc:'Exporte el archivo JSON → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_phase5_label:'Validación del plan de acción',
     notice_phase5_desc:'Sesión final con el personal pertinente — asigne plazos, responsables y costos.',
     notice_save_title:'Guardado automático &amp; Fase 4',
     notice_save_text:'Sus datos se guardan automáticamente en este navegador. <strong>Al final de cada sesión (Fase 4)</strong>, exporte un archivo JSON y consérvelo en la carpeta dedicada de su Pack de Seguridad Local — no solo localmente en su computadora — antes de compartirlo con su Security Advisor para validación.',
@@ -1888,7 +2041,7 @@ const I18N = {
     field_sfp2:'Punto focal de seguridad (PFS)', field_date2:'Fecha de evaluación',
     field_next_review:'Próxima revisión prevista', field_participants:'Participantes del taller',
     field_participants_hint:'(idealmente 4-5 personas de diferentes especialidades)',
-    field_context:'Breve descripción del contexto operacional',
+    field_context:'Breve descripción sucinta del contexto operacional',
     step1_label:'Paso 1', step1_title:'Identificar las amenazas',
     step1_sub:'Liste todas las amenazas a las que está expuesta su oficina.',
     step1_aide_q:'Pregunta para el grupo:',
@@ -1935,10 +2088,20 @@ const I18N = {
     after_4:'📡 Difundir los nuevos protocolos a todo el personal',
     after_5:'🔄 Revisar este análisis al menos una vez al año, e inmediatamente cuando se produzca un cambio significativo en el contexto de seguridad.',
     col_threat:'Amenaza', col_prob:'Probabilidad', col_impact:'Impacto',
-    col_risk:'Nivel de riesgo', col_actions:'Acciones',
+    col_risk:'Nivel de riesgo', col_actions:'Acciones', col_decision:'Decisión',
     lbl_who:'¿Quién causa la amenaza?', lbl_where:'¿Dónde?', lbl_when:'¿Cuándo?',
     lbl_what:'¿Quién/qué está en riesgo?', lbl_why:'¿Por qué somos vulnerables?',
     lbl_prog:'Área del programa / actividad', lbl_consequences:'Consecuencias potenciales',
+    dec_title_pending:'⚠ Puntuación ≥ 15 — Se requiere una decisión colectiva',
+    dec_title_assumed:'✔ Riesgo asumido — decisión registrada',
+    dec_title_refused:'✘ Riesgo rechazado — decisión registrada',
+    dec_body:'No todas las amenazas con un nivel de riesgo ≥ 15 pueden eliminarse necesariamente. La dirección puede decidir asumir este riesgo o rechazarlo. Esta decisión debe ser <strong>colectiva, documentada y validada por el/la Representante País.</strong>',
+    dec_btn_assumed:'✔ Riesgo asumido',
+    dec_btn_refused:'✘ Riesgo rechazado',
+    dec_btn_cancel:'↩ Cancelar',
+    dec_refused_warn:'⛔ Informe inmediatamente al/la Representante País',
+    dec_note_label:'Justificación / notas (opcional)',
+    dec_note_ph:'Describa brevemente los motivos de esta decisión...',
     lbl_reduce_prob:'Reducir la probabilidad', lbl_reduce_imp:'Reducir el impacto',
     ph_who:'Ej.: Grupos armados no estatales, delincuentes, fuerzas de seguridad...',
     ph_where:'Ej.: En la carretera a Bunia, en los mercados, en los checkpoints...',
@@ -1956,12 +2119,20 @@ const I18N = {
     status_planned:'Previsto', status_ongoing:'En curso', status_done:'Realizado', status_suspended:'Suspendido',
     stat_threats:'Amenazas identificadas', stat_critical:'Riesgos críticos', recap_click_hint:'Haga clic para volver a esta amenaza (paso 2)',
     stat_high:'Riesgos altos', stat_actions:'Acciones planificadas',
-    prep_1:'Revisado los informes de incidentes recientes',
+    stat_decision_req:'Amenazas puntuación ≥ 15', stat_decision_sub:'Decisión obligatoria',
+    stat_decision_ok:'✓ Todas documentadas', stat_decision_warn:'⚠ sin documentar',
+    stat_no_owner:'Acciones sin responsable', stat_no_date:'Acciones sin fecha',
+    stat_planned:'Acciones planificadas', stat_out_of:'De',
+    stat_badge_todo:'Por completar', stat_badge_ok:'✓ Plan completo', stat_badge_plan_ok:'✓ Plan completado',
+    prep_1:'Revisado los informes de incidentes recientes de LWF y los informes de INSO cuando estén disponibles',
     prep_2:'Reunido 4-5 personas de diferentes especialidades',
     prep_3:'Preparado post-its y un papelógrafo (para el taller presencial)',
     prep_4:'Completado la lista de verificación de autoevaluación',
     prep_5:'Identificado los actores clave del contexto (autoridades, grupos armados, socios)',
     prep_6:'Haber consultado y comprendido el documento FORM_Taller de análisis de riesgos. No dude en contactar al Security Advisor si necesita aclaraciones y/o apoyo para facilitar un primer taller en línea.',
+    female_btn:'Considerar una sesión solo para mujeres',
+    female_title:'💡 Considerar una sesión dedicada solo a mujeres',
+    female_body:'Considere organizar un ejercicio de análisis de riesgos dedicado únicamente al personal femenino, para capturar perspectivas, preocupaciones y patrones de movimiento específicos que de otro modo podrían no reportarse.',
     add_to_ap:'+ Agregar al plan de acción',
     prob_label:'Probabilidad (1–5)', imp_label:'Impacto (1–5)',
     risk_label:'Nivel de riesgo:',
@@ -1979,10 +2150,10 @@ const I18N = {
     after_update_desc:'Integre las nuevas medidas y actualice todos los POE y procedimientos relevantes.',
     after_share_title:'Difundir los nuevos protocolos',
     after_share_desc:'Comparta las actualizaciones con todo el personal relevante a través de reuniones de equipo, briefings y formaciones.',
-        lbl_pre_filled:'Pre-rellenado a título indicativo — adáptelo a su contexto.',
+        lbl_pre_filled:'Haga clic en Modificar para añadir o adaptar las medidas.',
     lbl_pre_filled2:'Pre-rellenado — elimine lo que ya está implementado, adapte el resto.',
     lbl_why_title:'¿Por qué somos vulnerables? — Nuestras debilidades internas',
-    lbl_vuln_warning:'⚠ Liste únicamente las <strong>debilidades internas</strong>: procedimientos faltantes, formación ausente, equipos defectuosos, comportamientos de riesgo, baja aceptación comunitaria.',
+    lbl_vuln_warning:'⚠ Liste únicamente las debilidades internas: procedimientos faltantes, formación ausente, equipos defectuosos, comportamientos de riesgo, baja aceptación comunitaria.',
     lbl_vuln_empty:'Ninguna vulnerabilidad registrada — haga clic en Editar',
     lbl_risk_eval:'📊 Evaluación del riesgo — teniendo en cuenta las vulnerabilidades anteriores',
     lbl_measure_empty:'Ninguna medida registrada — haga clic en Editar',
@@ -2545,12 +2716,46 @@ function renderCurrentStep() {
    ================================================================ */
 function renderPrepChecklist() {
   const items = ['prep_1','prep_2','prep_4','prep_6'];
+  const total = items.length;
   document.getElementById('prepChecklist').innerHTML = items.map((k,i) => `
-    <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:13px;color:var(--text2)">
-      <input type="checkbox" id="prep_${i}" style="margin-top:2px;accent-color:var(--accent)">
+    <label id="prepLabel_${i}" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--text2);background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;padding:10px 13px;transition:border-color 0.15s,background 0.15s;" onmouseenter="if(!document.getElementById('prep_${i}').checked)this.style.borderColor='var(--accent)'" onmouseleave="if(!document.getElementById('prep_${i}').checked)this.style.borderColor='var(--border2)'" onclick="setTimeout(()=>updateCheckStyle(${i}),0)">
+      <input type="checkbox" id="prep_${i}" style="margin-top:2px;accent-color:var(--accent);flex-shrink:0" onchange="updateCheckStyle(${i});updatePrepBadge()">
       <span>${t(k)}</span>
     </label>
   `).join('');
+  updatePrepBadge();
+}
+
+function updateCheckStyle(i) {
+  const cb = document.getElementById('prep_'+i);
+  const lbl = document.getElementById('prepLabel_'+i);
+  if (!cb || !lbl) return;
+  if (cb.checked) {
+    lbl.style.borderColor = 'var(--accent)';
+    lbl.style.background = '#f2f7e8';
+    lbl.style.color = 'var(--text)';
+  } else {
+    lbl.style.borderColor = 'var(--border2)';
+    lbl.style.background = 'var(--bg)';
+    lbl.style.color = 'var(--text2)';
+  }
+}
+
+function updatePrepBadge() {
+  const total = 4;
+  const checked = document.querySelectorAll('#prepChecklist input[type="checkbox"]:checked').length;
+  const badge = document.getElementById('prepBadge');
+  if (!badge) return;
+  badge.textContent = checked + ' / ' + total;
+  if (checked === total) {
+    badge.style.background = 'var(--ok-bg)';
+    badge.style.borderColor = 'var(--ok-bd)';
+    badge.style.color = 'var(--ok)';
+  } else {
+    badge.style.background = 'var(--bg3)';
+    badge.style.borderColor = 'var(--border2)';
+    badge.style.color = 'var(--text3)';
+  }
 }
 
 function onOfficeChange() {
@@ -2654,20 +2859,44 @@ function removeThreat(id) {
 
 function renderThreatList() {
   const list = document.getElementById('threatList');
-  if (threats.length===0) {
+  if (!list) return;
+
+  /* ── zone de cartes (edit + remove) ── */
+  if (threats.length === 0) {
     list.innerHTML = `<div style="color:var(--text3);font-size:13px;font-style:italic;padding:8px 0">${t('step1_empty')}</div>`;
-    return;
-  }
-  list.innerHTML = threats.map((th, i) => `
-    <div class="threat-card">
-      <div class="threat-card-header">
-        <span class="threat-num">#${i+1}</span>
-        <input class="threat-name-input" value="${escHtml(th.name)}" placeholder="${t('ph_threat_name')||'Nommez la menace précisément...'}"
-          onchange="updateThreat('${th.id}','name',this.value)">
-        <button class="btn-remove" onclick="removeThreat('${th.id}')">✕</button>
+  } else {
+    list.innerHTML = threats.map((th, i) => `
+      <div class="threat-card">
+        <div class="threat-card-header">
+          <span class="threat-num">#${i+1}</span>
+          <input class="threat-name-input" value="${escHtml(th.name)}" placeholder="${t('ph_threat_name')||'Nommez la menace précisément...'}"
+            onchange="updateThreat('${th.id}','name',this.value)">
+          <button class="btn-remove" onclick="removeThreat('${th.id}')">✕</button>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `).join('');
+  }
+
+  /* ── sticky footer pills ── */
+  const sticky = document.getElementById('stickySelected');
+  const emptyEl = document.getElementById('stickyEmpty');
+  if (!sticky) return;
+
+  /* retirer les anciennes pills (garder label + empty span) */
+  sticky.querySelectorAll('.sticky-pill').forEach(p => p.remove());
+
+  if (threats.length === 0) {
+    if (emptyEl) emptyEl.style.display = 'inline';
+  } else {
+    if (emptyEl) emptyEl.style.display = 'none';
+    threats.forEach((th, i) => {
+      const label = th.name.trim() || `#${i+1}`;
+      const pill = document.createElement('span');
+      pill.className = 'sticky-pill';
+      pill.innerHTML = `<span class="sticky-pill-num">#${i+1}</span>${escHtml(label)}<span class="sticky-pill-remove" onclick="removeThreat('${th.id}')" title="Supprimer">✕</span>`;
+      sticky.appendChild(pill);
+    });
+  }
 }
 
 /* ================================================================
@@ -2721,14 +2950,15 @@ function renderVulnStep() {
       </div>
       <div class="threat-card-body">
 
+        <div class="form-group" style="margin-bottom:12px">
+          <div class="form-label">${t('lbl_prog')}</div>
+          <input class="form-input" value="${escHtml(th.prog)}" placeholder="${t('ph_prog')}"
+            onchange="updateThreat('${th.id}','prog',this.value)">
+        </div>
+
         <div class="threat-fields cols-2" style="margin-bottom:12px;align-items:start">
-          <div class="form-group">
-            <div style="display:flex;align-items:center;height:28px;margin-bottom:4px">
-              <div class="form-label">${t('lbl_prog')}</div>
-            </div>
-            <input class="form-input" value="${escHtml(th.prog)}" placeholder="${t('ph_prog')}"
-              onchange="updateThreat('${th.id}','prog',this.value)">
-          </div>
+
+          <!-- COL GAUCHE : Potential consequences -->
           <div class="form-group">
             <div style="display:flex;align-items:center;justify-content:space-between;height:28px;margin-bottom:4px">
               <div style="display:flex;align-items:baseline;gap:8px;flex:1;min-width:0">
@@ -2745,19 +2975,21 @@ function renderVulnStep() {
               data-thid="${th.id}" data-field="consequences"
               onchange="updateThreat('${th.id}','consequences',this.value)">${escHtml(th.consequences)}</textarea>
           </div>
-        </div>
 
-        <div class="threat-fields cols-2" style="margin-bottom:10px">
-          <div class="form-group">
-            <div class="form-label">${t('lbl_who')}</div>
-            <input class="form-input" value="${escHtml(th.who)}" placeholder="${t('ph_who')}"
-              onchange="updateThreat('${th.id}','who',this.value)">
+          <!-- COL DROITE : WHO + WHERE empilés — alignés avec les bullets -->
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:28px">
+            <div class="form-group">
+              <div class="form-label">${t('lbl_who')}</div>
+              <input class="form-input" value="${escHtml(th.who)}" placeholder="${t('ph_who')}"
+                onchange="updateThreat('${th.id}','who',this.value)">
+            </div>
+            <div class="form-group">
+              <div class="form-label">${t('lbl_where')}</div>
+              <input class="form-input" value="${escHtml(th.where)}" placeholder="${t('ph_where')}"
+                onchange="updateThreat('${th.id}','where',this.value)">
+            </div>
           </div>
-          <div class="form-group">
-            <div class="form-label">${t('lbl_where')}</div>
-            <input class="form-input" value="${escHtml(th.where)}" placeholder="${t('ph_where')}"
-              onchange="updateThreat('${th.id}','where',this.value)">
-          </div>
+
         </div>
 
         <div class="threat-fields cols-2" style="margin-bottom:12px">
@@ -2774,12 +3006,10 @@ function renderVulnStep() {
         </div>
 
         <div class="form-group">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-            <div style="display:flex;align-items:baseline;gap:8px;flex:1;min-width:0">
-              <div class="form-label" style="white-space:nowrap">${t('lbl_why_title')}</div>
-              <span style="font-size:11px;color:var(--text3);font-style:italic;flex-shrink:1;min-width:0">${t('lbl_pre_filled')}</span>
-            </div>
-            <button id="btn_vuln_${i}" class="btn-remove" style="font-size:11px;padding:2px 8px;flex-shrink:0;margin-left:8px"
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <div class="form-label" style="white-space:nowrap">${t('lbl_why_title')}</div>
+            <span style="font-size:11px;color:var(--text3);font-style:italic">${t('lbl_pre_filled')}</span>
+            <button id="btn_vuln_${i}" class="btn-remove" style="font-size:11px;padding:2px 8px;flex-shrink:0"
               onclick="toggleEdit('vuln_${i}','vuln_ta_${i}')">${t('btn_edit')||'✎ Modifier'}</button>
           </div>
           <div style="background:var(--warning-bg);border:1px solid var(--warning-bd);border-radius:var(--r2);padding:7px 10px;margin-bottom:4px;font-size:11px;color:var(--warning)">
@@ -2825,7 +3055,37 @@ function renderVulnStep() {
             <span style="font-size:12px;color:var(--text3)">P(${th.prob}) × I(${th.impact}) =</span>
             <span class="risk-badge ${riskClass(th.prob*th.impact)}">${t('risk_label')} ${th.prob*th.impact}</span>
             <span style="font-size:11px;color:var(--text3)">${riskLevelText(th.prob*th.impact)}</span>
-          </div>` : `<div style="font-size:11px;color:var(--text3);font-style:italic">${t('risk_click_hint')}</div>`}
+          </div>
+          ${th.prob*th.impact >= 15 ? `
+          <div id="dec-band-${th.id}" style="margin-top:12px;border-radius:var(--r);overflow:hidden;border:2px solid ${th.decision==='assumed'?'var(--ok)':th.decision==='refused'?'var(--text)':'var(--warning)'};box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+            <div style="padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:0.3px;background:${th.decision==='assumed'?'var(--ok)':th.decision==='refused'?'var(--text)':'var(--warning)'};color:#fff;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="toggleDecBody('dec-body-${th.id}','dec-arrow-${th.id}')">
+              <span>${th.decision==='assumed'?t('dec_title_assumed'):th.decision==='refused'?t('dec_title_refused'):t('dec_title_pending')}</span>
+              <span id="dec-arrow-${th.id}" style="font-size:10px;opacity:0.8">${th.decision ? '▶' : '▼'}</span>
+            </div>
+            <div id="dec-body-${th.id}" style="display:${th.decision ? 'none' : 'block'}">
+              <div style="padding:10px 14px;font-size:12px;color:var(--text2);line-height:1.6;background:var(--bg2);border-bottom:1px solid var(--border)">
+                ${t('dec_body')}
+              </div>
+              <div style="padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bg);border-bottom:1px solid var(--border)">
+                <button onclick="setDecision('${th.id}','assumed')" style="font-size:12px;padding:6px 16px;border-radius:var(--r);border:2px solid var(--ok);background:${th.decision==='assumed'?'var(--ok)':'transparent'};color:${th.decision==='assumed'?'#fff':'var(--ok)'};font-weight:700;cursor:pointer">
+                  ${t('dec_btn_assumed')}
+                </button>
+                <button onclick="setDecision('${th.id}','refused')" style="font-size:12px;padding:6px 16px;border-radius:var(--r);border:2px solid var(--text);background:${th.decision==='refused'?'var(--text)':'transparent'};color:${th.decision==='refused'?'#fff':'var(--text)'};font-weight:700;cursor:pointer">
+                  ${t('dec_btn_refused')}
+                </button>
+                ${th.decision ? `<button onclick="setDecision('${th.id}',null)" style="font-size:11px;padding:4px 12px;border-radius:var(--r);border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer">${t('dec_btn_cancel')}</button>` : ''}
+              </div>
+              ${th.decision==='refused' ? `
+              <div style="padding:8px 14px;background:var(--danger-bg);border-bottom:1px solid var(--danger-bd);font-size:12px;color:var(--danger);font-weight:700">
+                ${t('dec_refused_warn')}
+              </div>` : ''}
+              <div style="padding:10px 14px;background:var(--bg)">
+                <div style="font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${t('dec_note_label')}</div>
+                <textarea style="width:100%;font-size:12px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--r2);background:var(--bg2);color:var(--text);font-family:inherit;resize:vertical;min-height:56px" placeholder="${t('dec_note_ph')}" onchange="updateThreat('${th.id}','decisionNote',this.value)">${escHtml(th.decisionNote||'')}</textarea>
+              </div>
+            </div>
+          </div>` : ''}
+          ` : `<div style="font-size:12px;color:var(--text2);font-weight:600;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:5px 10px;display:inline-block">${t('risk_click_hint')}</div>`}
         </div>
 
       </div>
@@ -2888,6 +3148,20 @@ function renderRatingStep() {
 function setProp(id, field, val) {
   const th = threats.find(x => String(x.id) === String(id));
   if (th) { th[field]=val; renderVulnStep(); }
+}
+
+function setDecision(id, val) {
+  const th = threats.find(x => String(x.id) === String(id));
+  if (th) { th.decision = val; renderVulnStep(); }
+}
+
+function toggleDecBody(bodyId, arrowId) {
+  const body = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (arrow) arrow.textContent = open ? '▶' : '▼';
 }
 
 function riskClass(r) {
@@ -3194,11 +3468,42 @@ function renderSummary() {
   const sorted = [...threats].sort((a,b) => (b.prob*b.impact)-(a.prob*a.impact));
   const crit = threats.filter(th => th.prob*th.impact>=20).length;
   const high = threats.filter(th => { const r=th.prob*th.impact; return r>=13&&r<20; }).length;
+  const highRisk  = threats.filter(th => th.prob*th.impact >= 15);
+  const undecided = highRisk.filter(th => !th.decision || th.decision === '').length;
+  const noOwner   = actions.filter(a => !(a.responsible||'').trim()).length;
+  const noDate    = actions.filter(a => !a.date).length;
+  const total     = actions.length;
+
+  const c1alert = undecided > 0;
+  const c2alert = noOwner > 0;
+  const c3alert = noDate > 0;
+  const c4ok    = total > 0;
+
   document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card"><span class="stat-val">${threats.length}</span><div class="stat-lbl">${t('stat_threats')}</div></div>
-    <div class="stat-card"><span class="stat-val stat-crit">${crit}</span><div class="stat-lbl">${t('stat_critical')}</div></div>
-    <div class="stat-card"><span class="stat-val stat-high">${high}</span><div class="stat-lbl">${t('stat_high')}</div></div>
-    <div class="stat-card"><span class="stat-val stat-low">${actions.length}</span><div class="stat-lbl">${t('stat_actions')}</div></div>
+    <div class="stat-card ${c1alert?'stat-alert':'stat-ok'}">
+      <span class="stat-val ${c1alert?'stat-crit':'stat-low'}">${highRisk.length}</span>
+      <div class="stat-lbl">${t('stat_decision_req')}</div>
+      <div class="stat-sub">${t('stat_decision_sub')}</div>
+      <span class="stat-badge ${c1alert?'red':'ok'}">${c1alert ? undecided+' '+t('stat_decision_warn') : t('stat_decision_ok')}</span>
+    </div>
+    <div class="stat-card ${c2alert?'stat-warn':'stat-ok'}">
+      <span class="stat-val ${c2alert?'stat-high':'stat-low'}">${noOwner}</span>
+      <div class="stat-lbl">${t('stat_no_owner')}</div>
+      <div class="stat-sub">${t('stat_out_of')} ${total} ${t('stat_actions')}</div>
+      <span class="stat-badge ${c2alert?'amber':'ok'}">${c2alert ? t('stat_badge_todo') : '✓ OK'}</span>
+    </div>
+    <div class="stat-card ${c3alert?'stat-warn':'stat-ok'}">
+      <span class="stat-val ${c3alert?'stat-high':'stat-low'}">${noDate}</span>
+      <div class="stat-lbl">${t('stat_no_date')}</div>
+      <div class="stat-sub">${t('stat_out_of')} ${total} ${t('stat_actions')}</div>
+      <span class="stat-badge ${c3alert?'amber':'ok'}">${c3alert ? t('stat_badge_todo') : '✓ OK'}</span>
+    </div>
+    <div class="stat-card ${c4ok?'stat-ok':'stat-warn'}">
+      <span class="stat-val ${c4ok?'stat-low':'stat-high'}">${total}</span>
+      <div class="stat-lbl">${t('stat_planned')}</div>
+      <div class="stat-sub">${t('stat_threats')} : ${threats.length}</div>
+      <span class="stat-badge ${c4ok?'ok':'amber'}">${c4ok ? t('stat_badge_plan_ok') : t('stat_badge_todo')}</span>
+    </div>
   `;
   document.getElementById('recapTableBody').innerHTML = sorted.map((th,i) => {
     const rl = th.prob*th.impact;
@@ -3210,6 +3515,11 @@ function renderSummary() {
       <td style="text-align:center">${th.impact||'—'}</td>
       <td style="text-align:center"><span class="risk-badge ${riskClass(rl)}">${rl||'—'}</span></td>
       <td style="text-align:center">${ac}</td>
+      <td style="text-align:center">${rl >= 15 ? (
+        th.decision === 'assumed' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--ok);color:#fff">✔ Assumé</span>'
+        : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--text);color:#fff">✘ Refusé</span>'
+        : '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--warning-bg);border:1px solid var(--warning-bd);color:var(--warning)">⚠ Requise</span>'
+      ) : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
     </tr>`;
   }).join('');
   renderRiskMatrix();
@@ -3324,7 +3634,25 @@ function copyMatrix() {
    ================================================================ */
 function updateThreat(id, field, val) {
   const th = threats.find(x => String(x.id) === String(id));
-  if (th) { th[field]=val; }
+  if (th) {
+    th[field] = val;
+    if (field === 'name') {
+      const sticky = document.getElementById('stickySelected');
+      if (sticky) {
+        const pills = sticky.querySelectorAll('.sticky-pill');
+        const idx = threats.indexOf(th);
+        if (pills[idx]) {
+          const numSpan = pills[idx].querySelector('.sticky-pill-num');
+          const removeSpan = pills[idx].querySelector('.sticky-pill-remove');
+          const label = val.trim() || ('#' + (idx+1));
+          pills[idx].innerHTML = '';
+          pills[idx].appendChild(numSpan);
+          pills[idx].appendChild(document.createTextNode(label));
+          pills[idx].appendChild(removeSpan);
+        }
+      }
+    }
+  }
 }
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -3352,6 +3680,7 @@ function doReset() {
   document.getElementById('f_date').value = new Date().toISOString().slice(0,10);
   // Vider le localStorage
   try { localStorage.removeItem(LS_KEY); } catch(e) {}
+  currentJsonVersion = 1;
   document.getElementById('resetOverlay').classList.add('hidden');
   document.getElementById('topOfficeLabel').textContent = '';
   goToStep(0);
@@ -3375,7 +3704,16 @@ function autoExpand(el) {
 
 function toggleFemaleSessionNote() {
   const note = document.getElementById('femaleSessionNote');
-  if (note) note.style.display = note.style.display === 'none' ? 'block' : 'none';
+  const arrow = document.getElementById('femaleArrow');
+  const btn = document.getElementById('femaleSessionBtn');
+  if (!note) return;
+  const isOpen = note.style.display !== 'none';
+  note.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  if (btn) {
+    btn.style.borderRadius = isOpen ? '20px' : '20px 20px 0 0';
+    btn.style.borderBottom = isOpen ? '1px solid #c9b8e8' : 'none';
+  }
 }
 
 // Sync horizontal scroll between AP header and body
@@ -3407,6 +3745,7 @@ function getExportFilename(ext) {
   const parts = [country, office, sfp, date].filter(s => s && s.length > 0);
   const core  = parts.length ? parts.join('_') : 'export';
   const prefix = {'fr':'Analyse_de_risque','en':'Risk_Assessment','es':'Analisis_de_riesgo'}[lang]||'Risk_Assessment';
+  if (ext === 'json') return `${prefix}_${core}_v${currentJsonVersion}.${ext}`;
   return `${prefix}_${core}.${ext}`;
 }
 
@@ -3449,20 +3788,26 @@ function exportExcel() {
     return ai - bi;
   });
 
-  const headers   = ['#',t('ap_action'),t('ap_threat'),t('ap_comment'),t('ap_priority'),t('ap_date'),t('ap_cost'),t('ap_status'),t('ap_responsible')];
-  const colWidths = ['30','280','140','160','80','80','70','90','160'];
+  const headers   = ['#',t('ap_action'),t('ap_threat'),t('ap_priority'),t('ap_date'),t('ap_cost'),t('ap_status'),t('ap_responsible')];
+  const colWidths = ['30','300','140','120','90','70','90','180'];
 
   let tableRows = '';
   sortedActions.forEach((a, i) => {
     const rowBg = i%2===0 ? '#ffffff' : '#f7f8f9';
-    const prio  = a.priority || '';
+    const prioKey   = a.priority || '';
+    const _prioMap = {
+      'Immédiate':t('prio_immediat'),'Essentielle':t('prio_essentiel'),'Désirable':t('prio_desirable'),'Continue':t('prio_continu'),
+      'Immediate':t('prio_immediat'),'Essential':t('prio_essentiel'),'Desirable':t('prio_desirable'),'Ongoing':t('prio_continu'),
+      'immediate':t('prio_immediat'),'essential':t('prio_essentiel'),'desirable':t('prio_desirable'),'ongoing':t('prio_continu'),
+      'Inmediata':t('prio_immediat'),'Esencial':t('prio_essentiel'),'Deseable':t('prio_desirable'),'Continua':t('prio_continu'),
+    };
+    const prioLabel = _prioMap[prioKey] || prioKey;
     const etat  = a.status   || '';
     const cells = [
       `<td style="${tdBase};background:${rowBg};text-align:center">${i+1}</td>`,
       `<td style="${tdBase};background:${rowBg}">${(a.action||'').replace(/</g,'&lt;')}</td>`,
       `<td style="${tdBase};background:${rowBg}">${(a.threat||'').replace(/</g,'&lt;')}</td>`,
-      `<td style="${tdBase};background:${rowBg}">${(a.comment||'').replace(/</g,'&lt;')}</td>`,
-      `<td style="${tdStyle(prioStyle,prio,rowBg)}">${prio}</td>`,
+      `<td style="${tdStyle(prioStyle,prioLabel,rowBg)}">${prioLabel}</td>`,
       `<td style="${tdBase};background:${rowBg};text-align:center">${a.date||''}</td>`,
       `<td style="${tdBase};background:${rowBg};text-align:right">${a.cost||''}</td>`,
       `<td style="${tdStyle(etatStyle,etat,rowBg)}">${etat}</td>`,
@@ -3524,13 +3869,14 @@ function exportCSV() {
     csv += [i+1,th.name,t('cat_'+th.cat),th.who,th.where,th.when,th.what,th.why,th.prog,th.consequences,th.prob||'',th.impact||'',th.prob*th.impact||'',th.reduceProb,th.reduceImp].map(e).join(',')+'\n';
   });
   csv += '\n"PLAN D\'ACTION"\n';
-  csv += `"#","Action","Menace","Commentaire","Priorité","Date prévue","Coût (USD)","État","Responsable"\n`;
+  csv += `"#","${t('ap_action')||'Action'}","${t('ap_threat')||'Menace'}","${t('ap_priority')||'Priorité'}","${t('ap_date')||'Date prévue'}","${t('ap_cost')||'Coût (USD)'}","${t('ap_status')||'État'}","${t('ap_responsible')||'Responsable'}"\n`;
   actions.sort((a,b) => {
     const ai = PRIO_ORDER.indexOf(a.priority)===-1?99:PRIO_ORDER.indexOf(a.priority);
     const bi = PRIO_ORDER.indexOf(b.priority)===-1?99:PRIO_ORDER.indexOf(b.priority);
     return ai-bi;
   }).forEach((a,i) => {
-    csv += [i+1,a.action,a.threat,a.comment||'',a.priority,a.date,a.cost||'',a.status,a.responsible].map(e).join(',')+'\n';
+    const cprio = {'Immédiate':t('prio_immediat'),'Essentielle':t('prio_essentiel'),'Désirable':t('prio_desirable'),'Continue':t('prio_continu')}[a.priority]||a.priority||'';
+    csv += [i+1,a.action,a.threat,cprio,a.date,a.cost||'',a.status,a.responsible].map(e).join(',')+'\n';
   });
   dlFile(getExportFilename('csv'), csv, 'text/csv');
   closeExport();
@@ -3542,6 +3888,13 @@ function exportJSON() {
   const sfp     = document.getElementById('f_sfp').value||'';
   const date    = document.getElementById('f_date').value||new Date().toISOString().slice(0,10);
   const data = {
+    metadata: {
+      toolName: 'LWF Risk Analysis Tool',
+      toolVersion: '1.0',
+      exportedAt: new Date().toISOString(),
+      country, office, createdBy: sfp,
+      jsonVersion: currentJsonVersion
+    },
     version:'1.0', lang,
     office, sfp, date, country,
     context:document.getElementById('f_context').value,
@@ -3566,6 +3919,8 @@ function handleImport(e) {
       if (d.country) document.getElementById('f_country').value = d.country;
       if (d.context) document.getElementById('f_context').value = d.context;
       if (d.participants) document.getElementById('f_participants').value = d.participants;
+      // Récupérer jsonVersion — compatibilité avec anciens JSON sans metadata
+      currentJsonVersion = (d.metadata && d.metadata.jsonVersion) ? d.metadata.jsonVersion + 1 : 2;
       onOfficeChange();
       renderCurrentStep();
       alert(t('alert_saved')||'Sauvegarde chargée avec succès !');
@@ -3573,6 +3928,11 @@ function handleImport(e) {
   };
   reader.readAsText(file);
   e.target.value='';
+}
+
+function toggleSidebar() {
+  const s = document.getElementById('mainSidebar');
+  if (s) s.classList.toggle('collapsed');
 }
 
 function dlFile(name, content, type) {
@@ -3608,6 +3968,7 @@ function dlFile(name, content, type) {
    LOCALSTORAGE — SAUVEGARDE AUTOMATIQUE
    ================================================================ */
 const LS_KEY = 'lwf_risk_assessment_v1';
+let currentJsonVersion = 1; // Incrémenté à chaque export si importé
 
 function saveState() {
   try {
