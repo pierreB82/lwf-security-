@@ -70,26 +70,28 @@ body {
 }
 .topbar-sep { flex: 1; }
 .topbar-score-wrap {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 6px;
 }
 .topbar-score-label {
-  font-size: 11px; color: rgba(255,255,255,0.7);
+  font-size: 10px; color: rgba(255,255,255,0.6);
   text-transform: uppercase; letter-spacing: 0.8px;
+  display: none; /* masqué pour compacité */
 }
 .topbar-score-val {
   font-family: 'Source Sans 3', sans-serif;
-  font-weight: 700; font-size: 20px;
+  font-weight: 700; font-size: 17px;
   color: #ffffff;
-  min-width: 48px; text-align: right;
+  min-width: 38px; text-align: right;
   background: rgba(255,255,255,0.15);
   border-radius: 4px; padding: 1px 6px;
 }
 .score-pill {
-  font-size: 11px; font-weight: 600;
-  padding: 3px 9px; border-radius: 3px;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 3px;
   background: rgba(255,255,255,0.15);
   color: #fff;
-  text-transform: uppercase; letter-spacing: 0.5px;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .btn-export {
   background: rgba(255,255,255,0.15);
@@ -116,6 +118,32 @@ body {
   background: var(--bg2);
   border-right: 1px solid var(--border);
   overflow-y: auto;
+  flex-shrink: 0;
+  transition: width 0.2s ease, min-width 0.2s ease;
+  overflow-x: hidden;
+  position: relative;
+}
+.sidebar.collapsed {
+  width: 22px; min-width: 22px;
+  cursor: pointer;
+  overflow-y: hidden;
+}
+.sidebar.collapsed .sidebar-inner { display: none; }
+.sidebar-tab {
+  display: none;
+  position: absolute; top: 0; left: 0;
+  width: 22px; height: 100%;
+  background: var(--bg3);
+  border-right: 1px solid var(--border2);
+  align-items: center; justify-content: center;
+  cursor: pointer; z-index: 10;
+}
+.sidebar.collapsed .sidebar-tab { display: flex; }
+.sidebar-tab span {
+  color: var(--text3); font-size: 10px;
+  writing-mode: vertical-rl;
+  user-select: none; letter-spacing: 0.5px;
+  font-weight: 600; text-transform: uppercase;
 }
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-thumb { background: var(--border2); }
@@ -163,10 +191,11 @@ body {
 
 /* sidebar progress */
 .cat-prog {
-  height: 2px; background: var(--border);
-  margin: 0 14px;
+  height: 3px; background: var(--border);
+  margin: 0 12px 2px;
+  border-radius: 2px; overflow: hidden;
 }
-.cat-prog-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+.cat-prog-fill { height: 100%; border-radius: 2px; transition: width 0.3s; background: var(--accent); }
 
 /* sidebar info (lieu/date) */
 .sidebar-info {
@@ -284,6 +313,55 @@ body {
   transition: all 0.12s;
 }
 .notice-close:hover { background: var(--bg2); color: var(--text); }
+
+/* notice redesign — header coloré + bouton Start */
+.notice-header {
+  background: var(--accent);
+  border-radius: var(--r) var(--r) 0 0;
+  padding: 16px 20px 14px;
+  margin: -24px -28px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.notice-header-title {
+  font-size: 16px; font-weight: 700; color: #fff;
+  letter-spacing: 0.2px;
+}
+.notice-header-sub {
+  font-size: 11px; color: rgba(255,255,255,0.7);
+  margin-top: 2px; font-weight: 400;
+}
+.notice-start-btn {
+  background: #fff; color: var(--accent);
+  border: none; border-radius: var(--r2);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px; font-weight: 700;
+  padding: 8px 18px; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+  flex-shrink: 0;
+}
+.notice-start-btn:hover { background: var(--accent-lt); color: var(--accent2); }
+
+/* encadré alerte dans notice */
+.notice-alert {
+  background: #fff8e8;
+  border-left: 3px solid #b7600a;
+  border-radius: 0 var(--r2) var(--r2) 0;
+  padding: 10px 14px; margin: 10px 0;
+  font-size: 13px; color: #7a4000; line-height: 1.5;
+}
+
+/* sélecteur langue dans notice */
+.notice-lang-switcher { display: flex; gap: 4px; }
+.nlang-btn {
+  font-size: 12px; font-weight: 500;
+  padding: 4px 10px; border-radius: var(--r2);
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85);
+  cursor: pointer; transition: all 0.12s;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.nlang-btn:hover { background: rgba(255,255,255,0.28); color: #fff; }
+.nlang-btn.active { background: rgba(255,255,255,0.32); border-color: rgba(255,255,255,0.7); color: #fff; font-weight: 700; }
 .btn-reset {
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.25);
@@ -335,16 +413,51 @@ body {
 /* ── CONTENT ── */
 .content { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 24px; background: var(--bg); }
 
-/* action table wrapper - force scroll */
-#apContainer { width: 100%; overflow-x: auto; }
-.action-table { min-width: 1150px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); }
+/* action table wrapper - scroll horizontal ET vertical ici */
+#apContainer { width: 100%; }
+/* Wrapper avec scroll et header sticky */
+.action-table {
+  min-width: 1280px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r); box-shadow: var(--shadow);
+  max-height: calc(100vh - 220px); overflow-y: auto; overflow-x: auto;
+}
 .action-table-inner { width: 100%; }
-.at-head { display: grid; grid-template-columns: 32px 110px 1fr 130px 130px 100px 95px 110px 75px 150px; padding: 9px 12px; background: var(--accent); border-radius: var(--r) var(--r) 0 0; }
+/* Columns: # | Cat | Sous-cat | Constat | Remarques | Outils | Priorité | Date | État | Coût | Responsable | Suppr */
+.at-head {
+  display: grid;
+  grid-template-columns: 32px 100px 100px 200px 1fr 130px 100px 90px 110px 70px 145px 36px;
+  padding: 9px 12px; background: var(--accent);
+  border-radius: var(--r) var(--r) 0 0;
+  position: sticky; top: 0; z-index: 20;
+}
 .ath { font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.7px; white-space: normal; word-break: break-word; line-height: 1.3; }
-.at-row { display: grid; grid-template-columns: 32px 110px 1fr 130px 130px 100px 95px 110px 75px 150px; padding: 10px 12px; border-bottom: 1px solid var(--border); align-items: start; }
+.at-row { display: grid; grid-template-columns: 32px 100px 100px 200px 1fr 130px 100px 90px 110px 70px 145px 36px; padding: 10px 12px; border-bottom: 1px solid var(--border); align-items: start; }
 .at-row:last-child { border-bottom: none; }
 .at-row:nth-child(even) { background: var(--bg2); }
 .at-row:hover { background: var(--accent-lt); }
+/* Tronquer Constat et Outils */
+.ar-constat { font-size: 13px; color: var(--text); line-height: 1.4; }
+.ar-tool-cell {
+  font-size: 11px; color: var(--text2); line-height: 1.4; padding-top: 2px;
+  max-height: 48px; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+}
+/* Badge N° discret */
+.ar-num-badge {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  color: var(--text3); background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 3px; padding: 1px 5px;
+  margin-right: 5px; vertical-align: middle;
+}
+/* Bouton supprimer ligne action */
+.ar-del {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--text3); border-radius: var(--r2);
+  font-size: 14px; line-height: 1; padding: 3px 6px;
+  cursor: pointer; transition: all 0.12s; margin-top: 2px;
+}
+.ar-del:hover { background: var(--no-bg); border-color: var(--no-bd); color: var(--no); }
 .content::-webkit-scrollbar { width: 5px; }
 .content::-webkit-scrollbar-thumb { background: var(--border2); }
 
@@ -505,19 +618,19 @@ body {
 .s-btn.na.active   { background: var(--na-bg);      border-color: var(--na-bd);      color: var(--na); }
 
 .q-toggle {
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  color: var(--text2);
+  background: var(--accent-lt);
+  border: 1px solid var(--accent);
+  color: var(--accent2);
   cursor: pointer;
   border-radius: var(--r2);
-  padding: 3px 8px;
+  padding: 3px 9px;
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 11px; font-weight: 500;
+  font-size: 11px; font-weight: 600;
   transition: all 0.12s;
   flex-shrink: 0;
   white-space: nowrap;
 }
-.q-toggle:hover { background: var(--accent-lt); color: var(--accent); border-color: var(--accent); }
+.q-toggle:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 /* detail panel */
 .q-detail {
@@ -834,12 +947,11 @@ body {
     <span class="score-pill" id="globalScorePill">—</span>
   </div>
   <!-- Barre de progression globale -->
-  <div style="display:flex;align-items:center;gap:8px;margin-left:8px">
-    <span data-i18n="progress" style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.8px;white-space:nowrap"></span>
-    <div style="width:120px;height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:6px;margin-left:4px">
+    <div style="width:90px;height:5px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden">
       <div id="globalProgressBar" style="height:100%;background:#fff;border-radius:3px;transition:width 0.4s;width:0%"></div>
     </div>
-    <span id="globalProgressLabel" style="font-size:11px;color:rgba(255,255,255,0.8);white-space:nowrap;min-width:40px">0/78</span>
+    <span id="globalProgressLabel" style="font-size:11px;color:rgba(255,255,255,0.75);white-space:nowrap;min-width:32px">0/—</span>
   </div>
   <button class="btn-reset" onclick="confirmReset()" id="btn-reset">🔄 <span data-i18n="newAssessment"></span></button>
   <button class="btn-export" onclick="openModal()">⬇ <span data-i18n="exportImport"></span></button>
@@ -879,22 +991,32 @@ body {
 <div class="layout">
 
   <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <div class="sidebar-title" data-i18n="sidebarInfo"></div>
-    <div class="sidebar-info">
-      <div class="si-label" data-i18n="fieldProg"></div>
-      <input type="text" class="si-field" id="f-prog" data-i18n-placeholder="phProg" oninput="saveState()">
-      <div class="si-label" data-i18n="fieldLieu"></div>
-      <input type="text" class="si-field" id="f-lieu" data-i18n-placeholder="phLieu" oninput="saveState()">
-      <div class="si-label" data-i18n="fieldPfs"></div>
-      <input type="text" class="si-field" id="f-pfs" data-i18n-placeholder="phPfs" oninput="saveState()">
-      <div class="si-label" data-i18n="fieldDate"></div>
-      <input type="date" class="si-field" id="f-date" oninput="saveState()" style="margin-bottom:4px">
-      <div class="si-label" data-i18n="fieldLastmod" style="margin-top:4px"></div>
-      <div id="f-lastmod" style="font-size:11px;color:var(--text3);padding:2px 0 6px">—</div>
+  <nav class="sidebar" id="mainSidebar">
+    <div class="sidebar-tab" onclick="toggleSidebar()" title="">
+      <span data-i18n="sidebarCats">CATS</span>
     </div>
-    <div class="sidebar-title" data-i18n="sidebarCats" style="margin-top:0"></div>
-    <div id="sidebarNav"></div>
+    <div class="sidebar-inner">
+      <div class="sidebar-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span data-i18n="sidebarInfo"></span>
+        <button onclick="toggleSidebar()"
+          style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:2px 4px;border-radius:3px;line-height:1;transition:color 0.12s"
+          onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'">✕</button>
+      </div>
+      <div class="sidebar-info">
+        <div class="si-label" data-i18n="fieldProg"></div>
+        <input type="text" class="si-field" id="f-prog" data-i18n-placeholder="phProg" oninput="saveState()">
+        <div class="si-label" data-i18n="fieldLieu"></div>
+        <input type="text" class="si-field" id="f-lieu" data-i18n-placeholder="phLieu" oninput="saveState()">
+        <div class="si-label" data-i18n="fieldPfs"></div>
+        <input type="text" class="si-field" id="f-pfs" data-i18n-placeholder="phPfs" oninput="saveState()">
+        <div class="si-label" data-i18n="fieldDate"></div>
+        <input type="date" class="si-field" id="f-date" oninput="saveState()" style="margin-bottom:4px">
+        <div class="si-label" data-i18n="fieldLastmod" style="margin-top:4px"></div>
+        <div id="f-lastmod" style="font-size:11px;color:var(--text3);padding:2px 0 6px">—</div>
+      </div>
+      <div class="sidebar-title" data-i18n="sidebarCats" style="margin-top:0"></div>
+      <div id="sidebarNav"></div>
+    </div>
   </nav>
 
   <!-- CONTENT -->
@@ -949,13 +1071,21 @@ body {
     <!-- PLAN D'ACTION -->
     <div class="view" id="view-actions">
 
-      <div style="display:flex;align-items:center;gap:12px;background:#eef2f8;border:1px solid #7493C7;border-radius:8px;padding:12px 16px;margin-bottom:16px">
-        <span style="font-size:20px">📤</span>
-        <div id="ap-banner-text" style="font-size:13px;color:#1a1f26;line-height:1.5"></div>
+      <!-- Banner + résumé priorités sur une seule ligne -->
+      <div style="display:flex;align-items:center;gap:10px;background:#eef2f8;border:1px solid #7493C7;border-radius:8px;padding:10px 14px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-size:16px;flex-shrink:0">📤</span>
+        <div id="ap-banner-text" style="font-size:12px;color:#1a1f26;line-height:1.4;flex:1;min-width:200px"></div>
+        <div id="apSummary" style="display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0"></div>
       </div>
 
-      <!-- Résumé priorités -->
-      <div id="apSummary" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px"></div>
+      <!-- Légende priorités compacte sur une ligne -->
+      <div id="apLegend" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:8px 14px;margin-bottom:10px;font-size:11px;color:var(--text2)">
+        <span style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;flex-shrink:0" data-i18n="prioLegendTitle"></span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#c0392b;margin-right:4px;vertical-align:middle"></span><strong style="color:#c0392b" data-i18n="prioImmediate"></strong> — <span data-i18n="prioLegendImm"></span></span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#b7600a;margin-right:4px;vertical-align:middle"></span><strong style="color:#b7600a" data-i18n="prioEssential"></strong> — <span data-i18n="prioLegendEss"></span></span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#92660a;margin-right:4px;vertical-align:middle"></span><strong style="color:#92660a" data-i18n="prioDesirable"></strong> — <span data-i18n="prioLegendDes"></span></span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#1a6b3a;margin-right:4px;vertical-align:middle"></span><strong style="color:#1a6b3a" data-i18n="prioOngoing"></strong> — <span data-i18n="prioLegendOng"></span></span>
+      </div>
 
       <div id="apContainer"></div>
     </div>
@@ -1014,8 +1144,21 @@ body {
 <!-- MODAL NOTICE -->
 <div class="notice-overlay" id="noticeModal">
   <div class="notice-box">
+    <div class="notice-header">
+      <div>
+        <div class="notice-header-title" id="notice-header-title"></div>
+        <div class="notice-header-sub">LWF World Service</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="notice-lang-switcher">
+          <button onclick="setLangInNotice('en')" id="nlang-en" class="nlang-btn">🇬🇧 EN</button>
+          <button onclick="setLangInNotice('fr')" id="nlang-fr" class="nlang-btn">🇫🇷 FR</button>
+          <button onclick="setLangInNotice('es')" id="nlang-es" class="nlang-btn">🇪🇸 ES</button>
+        </div>
+        <button class="notice-start-btn" onclick="closeNotice()" id="notice-start-btn"></button>
+      </div>
+    </div>
     <div id="notice-content"></div>
-    <button class="notice-close" onclick="closeNotice()" data-i18n="close"></button>
   </div>
 </div>
 <!-- notice functions moved to main script block -->
@@ -1040,9 +1183,30 @@ body {
 function openNotice()  {
   renderNotice();
   document.getElementById('noticeModal').classList.add('open');
+  // Sync boutons langue dans notice
+  ['en','fr','es'].forEach(l => {
+    const btn = document.getElementById('nlang-'+l);
+    if (btn) btn.classList.toggle('active', l === currentLang);
+  });
 }
 function closeNotice() {
   document.getElementById('noticeModal').classList.remove('open');
+}
+// Change la langue depuis l'intérieur de la notice (sans fermer)
+function setLangInNotice(lang) {
+  if (!TRANSLATIONS[lang]) return;
+  currentLang = lang;
+  try { localStorage.setItem('ssa_lang', lang); } catch(e){}
+  try { history.replaceState(null, '', '#lang=' + lang); } catch(e){}
+  applyLang();
+  // Sync boutons langue topbar + notice
+  ['en','fr','es'].forEach(l => {
+    const btn = document.getElementById('nlang-'+l);
+    if (btn) btn.classList.toggle('active', l === currentLang);
+  });
+  // Garder la popup ouverte avec contenu mis à jour
+  renderNotice();
+  document.getElementById('noticeModal').classList.add('open');
 }
 document.addEventListener('click', e => {
   if (e.target.id === 'noticeModal') closeNotice();
@@ -1099,14 +1263,22 @@ const TRANSLATIONS = {
     btnNa:          'N/A',
     // Action plan
     colCat:         'Category',
+    colSubcat:      'Sub-category',
     colFinding:     'Finding',
     colNotes:       'Notes',
+    colOutils:      'Tools',
     colComment:     'Comment',
     colPriority:    'Priority',
     colDate:        'Target Date',
     colStatus:      'Status',
     colCost:        'Cost (USD)',
     colOwner:       'Action Owner',
+    colDelete:      'Del.',
+    prioLegendTitle:'Priority meanings',
+    prioLegendImm:  'Act now',
+    prioLegendEss:  '1–3 months',
+    prioLegendDes:  '~6 months',
+    prioLegendOng:  'Permanent',
     phComment:      'Free comment…',
     phOwner:        'Owner…',
     nLabel:         'N°',
@@ -1153,21 +1325,23 @@ const TRANSLATIONS = {
     printTitle:     'Security Self-Assessment',
     printSubtitle:  'Self-assessment tool — Security Focal Points',
     // Notice/Help
-    noticeTitle:    'User Guide — Security Self-Assessment',
+    noticeTitle:    'Security Self-Assessment',
+    noticeStart:    'Start →',
     noticeH1:       'Why conduct this self-assessment?',
     noticeP1:       'As part of our <em>Duty of Care</em>, we must regularly review our security system to ensure it is properly implemented and adapted to the context. This tool helps verify what is in place, identify gaps, and take corrective action.',
     noticeWarn:     '⚠ This tool is neither an audit nor an evaluation of individuals. It is an internal control tool to strengthen collective security.',
-    noticeH2:       'When and who?',
+    noticeH2:       '🗓 When and who?',
     noticeLi1:      'At minimum before each Security Pack update',
     noticeLi2:      'In a small group: Security Focal Point, admin/logistics, programme manager',
     noticeLi3:      'Separately for each office',
-    noticeH3:       'How to use this tool?',
+    noticeH3:       '📋 How to use this tool?',
     noticeOl1:      'Work through the questions category by category.',
     noticeOl2:      'Answer honestly: <strong>Yes</strong>, <strong>No</strong>, <strong>Partially</strong> or <strong>N/A</strong>.',
     noticeOl3:      'Items marked <strong>No</strong> and <strong>Partially</strong> automatically appear in the Action Plan.',
     noticeOl4:      'Complete the Action Plan: corrective measures, priorities, responsible persons, deadlines.',
     noticeBannerH:  '💡 This plan belongs to you',
     noticeBannerP:  'The results of this assessment <strong>belong to you</strong> — they remain on your device and are not transmitted automatically.<br>If you would like support or follow-up, you can share your Action Plan with your Security Advisor using the <span style="color:#5a7aaa;font-style:italic">⬇ Export → Action Plan Excel</span> button.',
+    noticeJsonVer:  'JSON file version',
     // Export filename
     catComplete:    'Category complete',
     fileToolName:   'security-self-assessment',
@@ -1224,14 +1398,22 @@ const TRANSLATIONS = {
     btnPartial:     'Partiellement',
     btnNa:          'N/A',
     colCat:         'Catégorie',
+    colSubcat:      'Sous-catégorie',
     colFinding:     'Constat',
     colNotes:       'Remarques',
+    colOutils:      'Outils',
     colComment:     'Commentaire',
     colPriority:    'Priorité',
     colDate:        'Date prévue',
     colStatus:      'État',
     colCost:        'Coût (USD)',
     colOwner:       'Responsable de la mise en œuvre',
+    colDelete:      'Suppr.',
+    prioLegendTitle:'Signification des priorités',
+    prioLegendImm:  'À traiter maintenant',
+    prioLegendEss:  '1 à 3 mois',
+    prioLegendDes:  'Environ 6 mois',
+    prioLegendOng:  'Activité permanente',
     phComment:      'Commentaire libre…',
     phOwner:        'Responsable…',
     nLabel:         'N°',
@@ -1270,21 +1452,23 @@ const TRANSLATIONS = {
     apBanner:       '<strong>Ce plan d\'action vous appartient.</strong> Il est fait pour vous aider à améliorer la sécurité de votre bureau. Si vous souhaitez un accompagnement, vous pouvez l\'exporter via <span style="color:#5a7aaa;font-weight:600">⬇ Exporter → Plan d\'action Excel</span> et le partager avec votre Security Advisor.',
     printTitle:     'Auto-évaluation Sécurité & Sûreté',
     printSubtitle:  'Outil d\'auto-évaluation — Points Focaux Sécurité',
-    noticeTitle:    'Notice d\'utilisation — Auto-évaluation Sécurité',
+    noticeTitle:    'Auto-évaluation Sécurité',
+    noticeStart:    'Commencer →',
     noticeH1:       'Pourquoi réaliser cette auto-évaluation ?',
     noticeP1:       'Dans le cadre de notre <em>Duty of Care</em>, nous devons régulièrement contrôler notre système de sécurité pour nous assurer qu\'il est bien mis en œuvre et adapté au contexte. Cet outil permet de vérifier ce qui est en place, d\'identifier les lacunes, et de prendre des mesures correctives.',
     noticeWarn:     '⚠ Cet outil n\'est ni un audit ni une évaluation des individus. C\'est un outil de contrôle interne pour renforcer la sécurité collective.',
-    noticeH2:       'Quand et qui ?',
+    noticeH2:       '🗓 Quand et qui ?',
     noticeLi1:      'Au minimum avant chaque mise à jour du Pack Sécurité',
     noticeLi2:      'En petit groupe : Point Focal Sécurité, administration/logistique, responsable de programme',
     noticeLi3:      'Séparément pour chaque bureau',
-    noticeH3:       'Comment utiliser cet outil ?',
+    noticeH3:       '📋 Comment utiliser cet outil ?',
     noticeOl1:      'Parcourez les questions catégorie par catégorie.',
     noticeOl2:      'Sélectionnez honnêtement : <strong>Oui</strong>, <strong>Non</strong>, <strong>Partiellement</strong> ou <strong>N/A</strong>.',
     noticeOl3:      'Les items <strong>Non</strong> et <strong>Partiellement</strong> apparaissent automatiquement dans le Plan d\'action.',
     noticeOl4:      'Complétez le Plan d\'action : mesures correctives, priorités, responsables, délais.',
     noticeBannerH:  '💡 Ce plan vous appartient',
     noticeBannerP:  'Les résultats de cette évaluation <strong>vous appartiennent</strong> — ils restent sur votre poste et ne sont pas transmis automatiquement.<br>Si vous souhaitez un accompagnement ou un suivi, vous pouvez partager votre Plan d\'action avec votre Security Advisor via le bouton <span style="color:#5a7aaa;font-style:italic">⬇ Exporter → Plan d\'action Excel.</span>',
+    noticeJsonVer:  'Version fichier JSON',
     catComplete:    'Catégorie complète',
     fileToolName:   'auto-evaluation-securite',
     expValidTitle:  '⚠ Informations manquantes',
@@ -1339,14 +1523,22 @@ const TRANSLATIONS = {
     btnPartial:     'Parcialmente',
     btnNa:          'N/A',
     colCat:         'Categoría',
+    colSubcat:      'Sub-categoría',
     colFinding:     'Hallazgo',
     colNotes:       'Observaciones',
+    colOutils:      'Herramientas',
     colComment:     'Comentario',
     colPriority:    'Prioridad',
     colDate:        'Fecha prevista',
     colStatus:      'Estado',
     colCost:        'Costo (USD)',
     colOwner:       'Responsable de implementación',
+    colDelete:      'Elim.',
+    prioLegendTitle:'Significado de las prioridades',
+    prioLegendImm:  'Actuar ahora',
+    prioLegendEss:  '1 a 3 meses',
+    prioLegendDes:  '~6 meses',
+    prioLegendOng:  'Permanente',
     phComment:      'Comentario libre…',
     phOwner:        'Responsable…',
     nLabel:         'N°',
@@ -1385,21 +1577,23 @@ const TRANSLATIONS = {
     apBanner:       '<strong>Este plan de acción le pertenece.</strong> Está diseñado para ayudarle a mejorar la seguridad de su oficina. Si desea apoyo, puede exportarlo mediante <span style="color:#5a7aaa;font-weight:600">⬇ Exportar → Plan de acción Excel</span> y compartirlo con su Security Advisor.',
     printTitle:     'Autoevaluación de Seguridad',
     printSubtitle:  'Herramienta de autoevaluación — Puntos Focales de Seguridad',
-    noticeTitle:    'Guía de uso — Autoevaluación de Seguridad',
+    noticeTitle:    'Autoevaluación de Seguridad',
+    noticeStart:    'Comenzar →',
     noticeH1:       '¿Por qué realizar esta autoevaluación?',
     noticeP1:       'En el marco de nuestro <em>Duty of Care</em>, debemos revisar periódicamente nuestro sistema de seguridad para garantizar que esté correctamente implementado y adaptado al contexto. Esta herramienta permite verificar lo que está en vigor, identificar deficiencias y tomar medidas correctivas.',
     noticeWarn:     '⚠ Esta herramienta no es una auditoría ni una evaluación de personas. Es una herramienta de control interno para reforzar la seguridad colectiva.',
-    noticeH2:       '¿Cuándo y quién?',
+    noticeH2:       '🗓 ¿Cuándo y quién?',
     noticeLi1:      'Como mínimo antes de cada actualización del Pack de Seguridad',
     noticeLi2:      'En pequeño grupo: Punto Focal de Seguridad, administración/logística, responsable de programa',
     noticeLi3:      'Por separado para cada oficina',
-    noticeH3:       '¿Cómo utilizar esta herramienta?',
+    noticeH3:       '📋 ¿Cómo utilizar esta herramienta?',
     noticeOl1:      'Revise las preguntas categoría por categoría.',
     noticeOl2:      'Responda con honestidad: <strong>Sí</strong>, <strong>No</strong>, <strong>Parcialmente</strong> o <strong>N/A</strong>.',
     noticeOl3:      'Los elementos marcados como <strong>No</strong> y <strong>Parcialmente</strong> aparecen automáticamente en el Plan de acción.',
     noticeOl4:      'Complete el Plan de acción: medidas correctivas, prioridades, responsables, plazos.',
     noticeBannerH:  '💡 Este plan le pertenece',
     noticeBannerP:  'Los resultados de esta evaluación <strong>le pertenecen</strong> — permanecen en su dispositivo y no se transmiten automáticamente.<br>Si desea apoyo o seguimiento, puede compartir su Plan de acción con su Security Advisor mediante el botón <span style="color:#5a7aaa;font-style:italic">⬇ Exportar → Plan de acción Excel.</span>',
+    noticeJsonVer:  'Versión archivo JSON',
     catComplete:    'Categoría completada',
     fileToolName:   'autoevaluacion-seguridad',
     expValidTitle:  '⚠ Información incompleta',
@@ -1415,6 +1609,7 @@ const TRANSLATIONS = {
 };
 
 let currentLang = 'en';
+let currentJsonVersion = 1; // incrémenté à chaque import JSON
 
 function t(key) {
   return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key] !== undefined)
@@ -1425,11 +1620,15 @@ function t(key) {
 function renderNotice() {
   const el = document.getElementById('notice-content');
   if (!el) return;
+  // Mise à jour header titre + bouton start
+  const hTitle = document.getElementById('notice-header-title');
+  if (hTitle) hTitle.textContent = t('noticeTitle');
+  const startBtn = document.getElementById('notice-start-btn');
+  if (startBtn) startBtn.textContent = t('noticeStart');
   el.innerHTML = `
-    <div class="notice-title">${t('noticeTitle')}</div>
     <div class="notice-h2">${t('noticeH1')}</div>
     <div class="notice-p">${t('noticeP1')}</div>
-    <div class="notice-p" style="color:var(--accent2);font-weight:500">${t('noticeWarn')}</div>
+    <div class="notice-alert">${t('noticeWarn')}</div>
     <div class="notice-h2">${t('noticeH2')}</div>
     <ul class="notice-ul">
       <li>${t('noticeLi1')}</li>
@@ -1443,9 +1642,19 @@ function renderNotice() {
       <li>${t('noticeOl3')}</li>
       <li>${t('noticeOl4')}</li>
     </ol>
-    <div style="background:#eef2f8;border:2px solid #7493C7;border-radius:8px;padding:14px 16px;margin-top:16px">
-      <div style="font-size:13px;font-weight:700;color:#5a7aaa;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">${t('noticeBannerH')}</div>
+    <div style="background:#eef2f8;border:2px solid var(--accent);border-radius:8px;padding:14px 16px;margin-top:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">${t('noticeBannerH')}</div>
       <div style="font-size:13px;color:#1a1f26;line-height:1.6">${t('noticeBannerP')}</div>
+    </div>
+    <div style="margin-top:14px;font-size:11px;color:var(--text3);text-align:right">
+      ${t('noticeJsonVer')} : <strong>${currentJsonVersion}</strong>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <button class="notice-start-btn" onclick="closeNotice()"
+        style="background:var(--accent);color:#fff;font-size:14px;padding:10px 32px;border-radius:var(--r2);border:none;font-family:'Source Sans 3',sans-serif;font-weight:700;cursor:pointer;transition:background 0.15s"
+        onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--accent)'">
+        ${t('noticeStart')}
+      </button>
     </div>`;
 }
 
@@ -1608,9 +1817,9 @@ const QUESTIONS_LANG = {
   {id:'q33',cat:'IV',num:17,theme:'Processus de communication',q:'Un "arbre de communication sécurité" est en place et l\'équipe sait l\'utiliser. (Quand a-t-il été testé pour la dernière fois ?)',doc:'Obligatoire pour zone en niveau 3',tool:'OUTIL_Arbre de communication'},
   {id:'q33b',cat:'IV',num:18,theme:'',q:'Les groupes WhatsApp sécurité sont inventoriés, limités au strict nécessaire, disposent d\'au moins deux administrateurs identifiés, et font l\'objet d\'une charte d\'utilisation connue de tous les membres.',doc:'02.Plan de sécurité',tool:'GUIDE_COM_Applications de messagerie'},
   {id:'q34',cat:'IV',num:19,theme:'',q:'Un système de suivi du personnel est en place, permettant d\'identifier à tout moment la localisation de chaque membre du personnel.',doc:'Obligatoire pour zone en niveau 3',tool:''},
-  {id:'q35',cat:'IV',num:20,theme:'',q:'Un téléphone portable est fourni à tout le personnel international, aux visiteurs et aux PFS. Il est chargé avec suffisamment de crédit et contient tous les numéros d\'urgence.',doc:'',tool:''},
-  {id:'q36',cat:'IV',num:21,theme:'',q:'Les contacts d\'urgence et informations essentielles (numéros de téléphone, fréquences radio, etc.) sont affichés dans les bureaux.',doc:'',tool:''},
-  {id:'q39',cat:'IV',num:22,theme:'',q:'Tout le personnel a reçu une formation en cybersécurité au cours des 3 dernières années.',doc:'',tool:''},
+  {id:'q35',cat:'IV',num:20,theme:'',q:'Un téléphone portable est fourni à tout le personnel international, aux visiteurs et aux PFS. Il est chargé avec suffisamment de crédit et contient tous les numéros d\'urgence.',doc:'',tool:'02. Security Plan'},
+  {id:'q36',cat:'IV',num:21,theme:'',q:'Les contacts d\'urgence et informations essentielles (numéros de téléphone, fréquences radio, etc.) sont affichés dans les bureaux.',doc:'',tool:'02. OUTIL_COM_Contact (MANAGEMENT)'},
+  {id:'q39',cat:'IV',num:22,theme:'',q:'Tous les staff ont effectué le Cyber Security Training disponible sur SharePoint.',doc:'Cyber Security Training disponible sur SharePoint',tool:''},
   {id:'q40',cat:'IV',num:23,theme:'',q:'Aucun membre du personnel n\'utilise son propre ordinateur.',doc:'',tool:''},
   {id:'q41',cat:'IV',num:24,theme:'',q:'Tous les ordinateurs sont régulièrement mis à jour (antivirus et autres logiciels).',doc:'GUIDE_IT_Cyber sécurité ACT V1',tool:'02.Plan de sécurité/tableau de contrôle et test'},
   {id:'q41b',cat:'IV',num:25,theme:'',q:'L\'ensemble des ordinateurs sont-ils protégés par mot de passe et disposent-ils de sessions distinctes Administrateur et Utilisateur ?',doc:'GUIDE_IT_Cyber sécurité ACT V1',tool:'02.Plan de sécurité/tableau de contrôle et test'},
@@ -1620,6 +1829,7 @@ const QUESTIONS_LANG = {
   {id:'q46',cat:'V',num:29,theme:'',q:'L\'autocollant de sécurité véhicule est apposé sur le tableau de bord de chaque véhicule.',doc:'',tool:'OUTIL_MOV_Autocollant de sécurité véhicule'},
   {id:'q49',cat:'V',num:30,theme:'',q:'Les véhicules disposent des équipements nécessaires adaptés à l\'environnement (trousse de premiers secours, roue de secours, kit de signalisation et extincteurs).',doc:'',tool:'SOP – Gestion des déplacements / OUTIL_BAT_Kit premiers secours'},
   {id:'q50',cat:'V',num:31,theme:'',q:'La maintenance des véhicules appartenant à l\'organisation est réalisée régulièrement selon un plan prédéfini.',doc:'',tool:'Carnet de bord véhicule'},
+  {id:'q50b',cat:'V',num:'31b',theme:'',q:'Les véhicules disposent d\'une assurance internationale de qualité.',doc:'',tool:''},
   {id:'q51',cat:'V',num:32,theme:'Identification et documentation',q:'Tout le personnel dispose d\'une carte d\'identification professionnelle et d\'un ordre de mission lors des déplacements sur le terrain.',doc:'',tool:'01. Règles de sécurité de base'},
   {id:'q52',cat:'V',num:33,theme:'',q:'Des éléments de visibilité sont affichés (et en bon état) sur les véhicules (selon l\'analyse des risques).',doc:'',tool:'OUTIL_Tableau d\'analyse des risques – SOP – Gestion des déplacements'},
   {id:'q56',cat:'VI',num:34,theme:'Santé individuelle',q:'Des établissements de santé de référence ont été identifiés dans toutes les zones où le personnel est susceptible de se rendre.',doc:'',tool:'02.Plan de sécurité'},
@@ -1644,8 +1854,7 @@ const QUESTIONS_LANG = {
   {id:'q78',cat:'VIII',num:53,theme:'',q:'Des procédures de contrôle d\'accès adaptées sont en place (ex. enregistrement des pièces d\'identité) et appliquées.',doc:'',tool:''},
   {id:'q79',cat:'VIII',num:54,theme:'',q:'Les gardiens disposent d\'un abri de sécurité adapté, propre et organisé.',doc:'',tool:'Vérification visuelle'},
   {id:'q80',cat:'VIII',num:55,theme:'',q:'Les gardiens peuvent voir à l\'extérieur sans ouvrir la porte.',doc:'',tool:'Y a-t-il un judas ou un miroir ?'},
-  {id:'q81',cat:'VIII',num:56,theme:'',q:'Les gardiens ont des instructions claires sur leurs rôles et responsabilités. Ils savent quoi faire en cas d\'incident et comment effectuer des rondes.',doc:'',tool:'Fiche de poste – Formation'},
-  {id:'q82',cat:'VIII',num:57,theme:'',q:'Les gardiens ont reçu un briefing et gèrent le contrôle d\'accès conformément au SOP.',doc:'',tool:'POS_Gestion des accès'},
+  {id:'q81',cat:'VIII',num:56,theme:'',q:'Les gardiens ont des instructions claires sur leurs rôles et responsabilités. Ils savent quoi faire en cas d\'incident et comment effectuer des rondes.',doc:'',tool:'RH_DESCRIPTIF DE POSTE_Gardien'},
   {id:'q83',cat:'VIII',num:58,theme:'',q:'Les visiteurs attendent dans une zone dédiée, toujours visible par une personne responsable.',doc:'',tool:'Vérification visuelle'},
   {id:'q84',cat:'VIII',num:59,theme:'Périmétrie',q:'Toutes les portes d\'accès au bâtiment (y compris celles en balcon et en toiture) sont équipées à minima de serrures multipoints et idéalement d\'angles anti-coincement.',doc:'',tool:'Vérification visuelle – OUTIL_BUIL_Check-list sélection de site'},
   {id:'q85',cat:'VIII',num:60,theme:'',q:'Le terrain est suffisamment éclairé pour faciliter le gardiennage (aucune zone d\'ombre).',doc:'',tool:'Vérification visuelle de nuit'},
@@ -1932,7 +2141,7 @@ function getScore(qids) {
   const denom = yes+no+partial;
   return {yes,no,partial,na,
     score: denom>0 ? (yes+partial*0.5)/denom : null,
-    answered: denom, total: qids.length};
+    answered: denom+na, total: qids.length};
 }
 
 function perfInfo(score) {
@@ -2026,7 +2235,7 @@ function buildSidebar() {
         </div>
         <span class="cat-badge" id="nbadge-${cat.id}" style="color:${col};border-color:${col}20;background:${col}12">${pct(score)}</span>
       </div>
-      <div class="cat-prog"><div class="cat-prog-fill" id="nprog-${cat.id}" style="width:${answered/total*100}%"></div></div>`;
+      <div class="cat-prog"><div class="cat-prog-fill" id="nprog-${cat.id}" style="width:${answered/total*100}%;background:${col}"></div></div>`;
   }
   document.getElementById('sidebarNav').innerHTML = html;
 }
@@ -2058,7 +2267,7 @@ function updateSidebar() {
       badge.style.borderColor = isComplete ? 'var(--yes-bd)' : col+'20';
       badge.style.background  = isComplete ? 'var(--yes-bg)' : col+'12';
     }
-    if (prog) prog.style.width=(answered/total*100)+'%';
+    if (prog) { prog.style.width=(answered/total*100)+'%'; prog.style.background=col; }
     if (ans)  ans.textContent=`${answered}/${total} ${t('answers')}`;
     // checkmark in cat heading
     const ccomplete = document.getElementById(`ccomplete-${cat.id}`);
@@ -2150,14 +2359,16 @@ function updateActionPlan(filter='all') {
         <div class="at-head">
           <div class="ath">#</div>
           <div class="ath">${t('colCat')}</div>
+          <div class="ath">${t('colSubcat')}</div>
           <div class="ath">${t('colFinding')}</div>
           <div class="ath">${t('colNotes')}</div>
-          <div class="ath">${t('colComment')}</div>
+          <div class="ath">${t('colOutils')}</div>
           <div class="ath">${t('colPriority')}</div>
           <div class="ath">${t('colDate')}</div>
           <div class="ath">${t('colStatus')}</div>
           <div class="ath">${t('colCost')}</div>
           <div class="ath">${t('colOwner')}</div>
+          <div class="ath"></div>
         </div>
         <div id="apBody"></div>
       </div>
@@ -2166,7 +2377,10 @@ function updateActionPlan(filter='all') {
   // Résumé priorités
   const summary = document.getElementById('apSummary');
   if (summary) {
-    const allItems = QUESTIONS.filter(q => { const s=state.answers[q.id]||''; return s==='no'||s==='partial'; });
+    const allItems = QUESTIONS.filter(q => {
+      if (state.apHidden && state.apHidden[q.id]) return false;
+      const s=state.answers[q.id]||''; return s==='no'||s==='partial';
+    });
     const cnt = {'immediate':0,'essential':0,'desirable':0,'ongoing':0,'_':0};
     allItems.forEach(q => { const p=state.apPriority[q.id]||''; cnt[p]!==undefined?cnt[p]++:cnt['_']++; });
     const pills = [
@@ -2177,11 +2391,12 @@ function updateActionPlan(filter='all') {
     ];
     summary.innerHTML = pills.filter(p=>cnt[p.k]>0).map(p=>
       `<span style="font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid ${p.bd};background:${p.bg};color:${p.c}">${cnt[p.k]} ${p.l}</span>`
-    ).join('')+(cnt['_']>0?`<span style="font-size:12px;color:var(--text3);padding:5px 12px;border:1px solid var(--border);border-radius:20px">${cnt['_']} ${t('noPriority')}</span>`:'');;
+    ).join('')+(cnt['_']>0?`<span style="font-size:12px;color:var(--text3);padding:5px 12px;border:1px solid var(--border);border-radius:20px">${cnt['_']} ${t('noPriority')}</span>`:'');
   }
 
   const items = QUESTIONS.filter(q=>{
     const s = state.answers[q.id]||'';
+    if (state.apHidden && state.apHidden[q.id]) return false;
     if (filter==='all') return s==='no'||s==='partial';
     return s===filter;
   }).sort((a,b)=>{
@@ -2211,23 +2426,34 @@ function updateActionPlan(filter='all') {
     const etat = state.apEtat[q.id]||'';
     const cout = (state.apCout[q.id]||'').replace(/"/g,'&quot;');
     const dateVal = state.apDate[q.id]||'';
-    const comment = (state.apComment[q.id]||'').replace(/</g,'&lt;');
     const action  = (state.apAction[q.id]||'').replace(/"/g,'&quot;');
+    // Colonne Sous-catégorie — propagation du thème effectif
+    // Les questions sans thème héritent du dernier thème défini dans leur catégorie
+    const catName = catMap[q.cat]?.name||'';
+    const catQs = QUESTIONS.filter(qq => qq.cat === q.cat);
+    let effectiveTheme = '';
+    for (const qq of catQs) {
+      if (qq.theme) effectiveTheme = qq.theme;
+      if (qq.id === q.id) break;
+    }
+    const subcat = effectiveTheme || '—';
+    // Colonne Outils : depuis les données checklist
+    const outilVal = q.tool ? q.tool.replace(/</g,'&lt;').replace(/>/g,'&gt;') : '—';
+    const remarqueVal = (state.notes[q.id]||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');
     return `<div class="at-row">
       <span class="ar-n">${i+1}</span>
-      <span class="ar-cat">${catMap[q.cat]?.icon} ${catMap[q.cat]?.name}</span>
-      <div>
-        <div class="ar-q">
-          ${q.num ? '<span style="display:inline-block;font-size:10px;font-weight:700;color:#fff;background:var(--accent);border-radius:3px;padding:1px 6px;margin-right:6px;vertical-align:middle">'+t('nLabel')+q.num+'</span>' : ''}${q.q}
-        </div>
-        <span class="ar-badge ${bc}">${sLabel}</span>
+      <span class="ar-cat">${catMap[q.cat]?.icon} ${catName}</span>
+      <span style="font-size:11px;color:var(--text2);line-height:1.4;padding-top:2px">${subcat}</span>
+      <div class="ar-constat">
+        ${q.num ? `<span class="ar-num-badge">${t('nLabel')}${q.num}</span>` : ''}${q.q}
+        <span class="ar-badge ${bc}" style="display:inline-block;margin-top:4px">${sLabel}</span>
       </div>
-      <div style="font-size:12px;color:var(--text2);padding-top:2px;line-height:1.4">${remarque||'<span style="color:var(--text3);font-style:italic">—</span>'}</div>
       <div>
-        <textarea class="ar-inp" placeholder="Commentaire libre…" rows="2"
-          style="resize:vertical;min-height:36px"
-          onblur="setAPComment('${q.id}',this.value)">${comment}</textarea>
+        <textarea class="ar-inp ar-remarque" rows="2" style="resize:none;min-height:38px;font-size:12px;overflow:hidden"
+          oninput="autoResize(this);setNote('${q.id}',this.value)"
+          onblur="setNote('${q.id}',this.value)">${remarqueVal}</textarea>
       </div>
+      <div class="ar-tool-cell">${outilVal}</div>
       <div>
         <select class="ar-sel" data-qid="${q.id}" onchange="setPriority('${q.id}',this.value)">
           <option value="" disabled ${!prio?'selected':''}>—</option>
@@ -2258,12 +2484,17 @@ function updateActionPlan(filter='all') {
         <input type="text" class="ar-inp" placeholder="${t('phOwner')}"
           value="${action}" onblur="setAPAction('${q.id}',this.value)">
       </div>
+      <div>
+        <button class="ar-del" title="Supprimer" onclick="deleteActionRow('${q.id}')">✕</button>
+      </div>
     </div>`;
   }).join('');
 
   // Appliquer les couleurs
   document.querySelectorAll('.ar-sel[data-qid]:not(.ar-etat)').forEach(sel => applyPrioColor(sel, sel.value));
   document.querySelectorAll('.ar-etat[data-qid]').forEach(sel => applyEtatColor(sel, sel.value));
+  // Auto-resize des textareas remarques
+  document.querySelectorAll('.ar-remarque').forEach(ta => autoResize(ta));
 }
 
 function updateAll() {
@@ -2330,6 +2561,23 @@ function applyEtatColor(sel, val) {
   if (val === 'completed')   sel.classList.add('etat-termine');
 }
 
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function toggleSidebar() {
+  const s = document.getElementById('mainSidebar');
+  if (s) s.classList.toggle('collapsed');
+}
+
+// Masque une ligne du plan d'action sans modifier la réponse
+function deleteActionRow(qid) {
+  if (!state.apHidden) state.apHidden = {};
+  state.apHidden[qid] = true;
+  saveState();
+}
+
 function toggleDetail(qid) {
   const d = document.getElementById(`det-${qid}`);
   const t = document.getElementById(`tog-${qid}`);
@@ -2353,6 +2601,7 @@ function doReset() {
   state.apDate = {};
   state.apEtat = {};
   state.apCout = {};
+  state.apHidden = {};
   state.prog = '';
   state.lieu = '';
   state.date = '';
@@ -2453,7 +2702,19 @@ function checkExportReady() {
 
 function exportJSON() {
   if (!checkExportReady()) return;
-  const blob = new Blob([JSON.stringify({version:'2.0',exported:new Date().toISOString(),state},null,2)],{type:'application/json'});
+  const payload = {
+    metadata: {
+      toolName: 'LWF Security Self-Assessment',
+      toolVersion: '2.0',
+      exportedAt: new Date().toISOString(),
+      jsonVersion: currentJsonVersion,
+      lang: currentLang
+    },
+    version: '2.0',
+    exported: new Date().toISOString(),
+    state
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = buildFilename('json');
@@ -2463,12 +2724,17 @@ function exportJSON() {
 function exportCSV() {
   if (!checkExportReady()) return;
   const catMap = CATEGORIES.reduce((m,c)=>{m[c.id]=c.name;return m},{});
-  let csv = `#,${t('colCat')},${t('tabChecklist')},${t('colNotes')},${t('colComment')},${t('colPriority')},${t('colDate')},${t('colStatus')},${t('colCost')},${t('colOwner')}\n`;
+  let csv = `#,${t('colCat')},${t('colSubcat')},${t('tabChecklist')},${t('colNotes')},${t('colOutils')},${t('colPriority')},${t('colDate')},${t('colStatus')},${t('colCost')},${t('colOwner')}\n`;
   for (const q of QUESTIONS) {
     const s = state.answers[q.id]||'';
     if (s !== 'no' && s !== 'partial') continue;
     const note    = (state.notes[q.id]||'').replace(/"/g,'""');
-    const comment = (state.apComment[q.id]||'').replace(/"/g,'""');
+    const outil   = (q.tool||'').replace(/"/g,'""');
+    const catName = catMap[q.cat]||'';
+    const catQsC = QUESTIONS.filter(qq => qq.cat === q.cat);
+    let effThemeC = '';
+    for (const qq of catQsC) { if (qq.theme) effThemeC = qq.theme; if (qq.id === q.id) break; }
+    const subcat = effThemeC || '';
     const prio    = state.apPriority[q.id]||'';
     const date    = state.apDate[q.id]||'';
     const etat    = state.apEtat[q.id]||'';
@@ -2477,7 +2743,7 @@ function exportCSV() {
     const qt      = q.q.replace(/"/g,'""');
     const prioLabel = {'immediate':t('prioImmediate'),'essential':t('prioEssential'),'desirable':t('prioDesirable'),'ongoing':t('prioOngoing')}[prio]||prio;
     const etatLabel = {'not-started':t('etatNotStarted'),'in-progress':t('etatInProgress'),'on-hold':t('etatOnHold'),'cancelled':t('etatCancelled'),'completed':t('etatCompleted')}[etat]||etat;
-    csv += `${q.num||''},"${catMap[q.cat]}","${qt}","${note}","${comment}","${prioLabel}","${date}","${etatLabel}","${cout}","${act}"\n`;
+    csv += `${q.num||''},"${catName}","${subcat}","${qt}","${note}","${outil}","${prioLabel}","${date}","${etatLabel}","${cout}","${act}"\n`;
   }
   const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const a = document.createElement('a');
@@ -2519,8 +2785,8 @@ function exportExcel() {
   const thStyle = 'background:#7493C7;color:#ffffff;font-weight:bold;font-size:11px;padding:8px 6px;text-align:center;border:1px solid #ffffff;white-space:nowrap';
   const tdBase = 'font-size:11px;padding:6px;border:1px solid #dde1e6;vertical-align:top';
 
-  const headers = ['#',t('colCat'),t('colFinding'),t('colNotes'),t('colComment'),t('colPriority'),t('colDate'),t('colStatus'),t('colCost'),t('colOwner')];
-  const colWidths = ['30','120','320','160','160','80','80','90','70','160'];
+  const headers = ['#',t('colCat'),t('colSubcat'),t('colFinding'),t('colNotes'),t('colOutils'),t('colPriority'),t('colDate'),t('colStatus'),t('colCost'),t('colOwner')];
+  const colWidths = ['30','110','100','260','160','130','80','80','90','70','150'];
 
   let tableRows = '';
   items.forEach((q, i) => {
@@ -2530,12 +2796,18 @@ function exportExcel() {
     const etatLabel = ETAT_LABELS[etat] || etat;
     const rowBg = i%2===0 ? '#ffffff' : '#f7f8f9';
 
+    const catName = catMap[q.cat]||'';
+    const catQsX = QUESTIONS.filter(qq => qq.cat === q.cat);
+    let effThemeX = '';
+    for (const qq of catQsX) { if (qq.theme) effThemeX = qq.theme; if (qq.id === q.id) break; }
+    const subcat = effThemeX || '';
     const cells = [
       `<td style="${tdBase};background:${rowBg};text-align:center">${i+1}</td>`,
-      `<td style="${tdBase};background:${rowBg}">${catMap[q.cat]||''}</td>`,
+      `<td style="${tdBase};background:${rowBg}">${catName}</td>`,
+      `<td style="${tdBase};background:${rowBg}">${subcat}</td>`,
       `<td style="${tdBase};background:${rowBg}">${q.num ? `[N°${q.num}] ` : ''}${q.q}</td>`,
       `<td style="${tdBase};background:${rowBg}">${(state.notes[q.id]||'').replace(/</g,'&lt;')}</td>`,
-      `<td style="${tdBase};background:${rowBg}">${(state.apComment[q.id]||'').replace(/</g,'&lt;')}</td>`,
+      `<td style="${tdBase};background:${rowBg}">${(q.tool||'').replace(/</g,'&lt;')}</td>`,
       `<td style="${tdStyle(prioStyle,prio,rowBg)}">${prioLabel}</td>`,
       `<td style="${tdBase};background:${rowBg};text-align:center">${state.apDate[q.id]||''}</td>`,
       `<td style="${tdStyle(etatStyle,etat,rowBg)}">${etatLabel}</td>`,
@@ -2640,6 +2912,10 @@ function handleImport(e) {
       if (data.state) {
         migrateState(data.state);
         Object.assign(state, data.state);
+        // JSON versioning — incrémente à chaque import (compatibilité anciens fichiers sans metadata)
+        currentJsonVersion = (data.metadata && data.metadata.jsonVersion)
+          ? data.metadata.jsonVersion + 1
+          : 2;
         document.getElementById('f-prog').value = state.prog||'';
         document.getElementById('f-lieu').value = state.lieu||'';
         document.getElementById('f-date').value = state.date||'';
