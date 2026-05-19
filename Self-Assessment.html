@@ -3022,11 +3022,16 @@ if (!navigator.onLine) document.getElementById('offlineBanner').classList.add('s
 // INIT
 // ══════════════════════════════════════
 document.addEventListener('DOMContentLoaded', ()=>{
-  // Load persisted language — URL hash takes priority (survives iframe refresh),
-  // then localStorage, then default English
+  // Priorité : URL hash → localStorage → langue navigateur → EN
   const hashLang = (location.hash.match(/[#&]lang=([a-z]{2})/) || [])[1];
   const savedLang = hashLang || localStorage.getItem('ssa_lang');
-  if (savedLang && TRANSLATIONS[savedLang]) currentLang = savedLang;
+  if (savedLang && TRANSLATIONS[savedLang]) {
+    currentLang = savedLang;
+  } else {
+    // Premier lancement — détecter la langue du navigateur
+    const browserLang = (navigator.language || navigator.userLanguage || 'en').slice(0, 2).toLowerCase();
+    currentLang = TRANSLATIONS[browserLang] ? browserLang : 'en';
+  }
 
   loadState();
   if (state.prog)    document.getElementById('f-prog').value  = state.prog;
