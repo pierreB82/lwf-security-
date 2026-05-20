@@ -1364,6 +1364,8 @@ body {
             <div style="font-size:16px;flex-shrink:0;margin-top:1px">💡</div>
             <div style="font-size:12px;color:var(--text2);line-height:1.6">
               <span id="step4_own_text"></span>
+              <span id="step4_own_more" onclick="toggleStep4Tip()" style="cursor:pointer;color:var(--accent2);font-weight:600;font-size:11px;text-decoration:underline;white-space:nowrap"> En savoir plus…</span>
+              <div id="step4_own_detail" style="display:none;margin-top:8px;font-size:12px;color:var(--text2);line-height:1.7"></div>
             </div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
@@ -1405,7 +1407,8 @@ body {
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_priority">Priorité</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_date">Date prévue</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_cost">Coût (USD)</th>
-                  <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_status">État</th>
+                  <th style="background:var(--bg3);color:var(--text2);position:relative" id="th_ap_status"><span id="th_status_label">État</span> <span id="statusHelpBtn" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#fff;color:var(--accent2);border:1.5px solid var(--accent2);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1" title="Aide — statuts">?</span>
+                  </th>
                   <th style="background:var(--bg3);color:var(--text2);min-width:140px" data-i18n="ap_responsible">Responsable de la mise en œuvre</th>
                   <th style="background:var(--bg3);color:var(--text2);width:32px;text-align:center"></th>
                 </tr>
@@ -1667,7 +1670,9 @@ const I18N = {
     ap_days_late:'j de retard', ap_days_left:'j restants', ap_today:'Aujourd\'hui',
     ap_days_col:'Jours restants',
     prio_immediat:'Immédiate', prio_essentiel:'Essentielle', prio_desirable:'Désirable', prio_continu:'Continue',
-    status_planned:'Prévu', status_ongoing:'En cours', status_done:'Terminé', status_suspended:'Suspendu',
+    status_ongoing:'En cours', status_done:'Terminé', status_suspended:'Suspendu',
+    sh_empty:'Pas encore traité', sh_ongoing:'Action démarrée', sh_partial:'Avancée mais pas finalisée', sh_done:'Clôturée — ligne barrée automatiquement', sh_suspended:'En pause ou bloquée',
+    sh_ongoing_lbl:'En cours', sh_partial_lbl:'Partiellement', sh_done_lbl:'Terminé', sh_suspended_lbl:'Suspendu',
     stat_threats:'Menaces identifiées', stat_critical:'Risques critiques', recap_click_hint:'Cliquer pour revenir à cette menace (étape 2)',
     stat_high:'Risques élevés', stat_actions:'Actions planifiées',
     stat_decision_req:'Menaces score ≥ 15', stat_decision_sub:'Décision obligatoire',
@@ -1708,7 +1713,9 @@ const I18N = {
     lbl_vuln_empty:'Aucune vulnérabilité renseignée — cliquez sur Modifier',
     lbl_risk_eval:'📊 Évaluation du risque — en tenant compte des vulnérabilités ci-dessus',
     lbl_measure_empty:'Aucune mesure renseignée — cliquez sur Modifier',
-    step4_own:'Ce plan d\'action vous appartient. Il est fait pour vous aider à améliorer la sécurité de votre bureau. Si vous souhaitez un accompagnement, vous pouvez l\'exporter via <span style="color:var(--accent2);font-weight:600">↓ Exporter → Plan d\'action Excel</span> et le partager avec votre Security Advisor.',
+    step4_own:'Outil de pilotage : définissez des dates pour trier vos actions, mettez à jour les statuts, exportez pour partager et sauvegarder.',
+    ap_more:'En savoir plus…', ap_less:'Réduire ↑',
+    step4_own_detail:'<ul style="margin:4px 0 0 16px;padding:0"><li><strong>Tri automatique par date</strong> — les actions les plus proches remontent en haut, quelle que soit leur priorité. Les actions sans date se classent en bas par priorité.</li><li style="margin-top:4px"><strong>Colonne État</strong> : suivez chaque action via le menu déroulant (En cours / Partiellement / Terminé / Suspendu) — les actions terminées sont automatiquement barrées.</li><li style="margin-top:4px"><strong>Exporter en Excel</strong> pour partager l\'avancement avec votre SMT.</li><li style="margin-top:4px"><strong>Sauvegarder en JSON</strong> après chaque mise à jour et conserver ce fichier dans votre Pack Sécurité local.</li></ul>',
     step5_implement:'Mettre en œuvre le plan d\'action',
     step5_implement_desc:'Assignez chaque action à un responsable, fixez des délais réalistes et assurez un suivi régulier.',
     btn_export_ap:'↓ Exporter le plan d\'action',
@@ -1889,7 +1896,9 @@ const I18N = {
     ap_days_late:'d overdue', ap_days_left:'d left', ap_today:'Today',
     ap_days_col:'Days remaining',
     prio_immediat:'Immediate', prio_essentiel:'Essential', prio_desirable:'Desirable', prio_continu:'Ongoing',
-    status_planned:'Planned', status_ongoing:'Ongoing', status_done:'Done', status_suspended:'Suspended',
+    status_ongoing:'Ongoing', status_done:'Done', status_suspended:'Suspended',
+    sh_empty:'Not yet addressed', sh_ongoing:'Action started', sh_partial:'In progress but not finalised', sh_done:'Closed — row automatically struck through', sh_suspended:'On hold or blocked',
+    sh_ongoing_lbl:'Ongoing', sh_partial_lbl:'Partially', sh_done_lbl:'Done', sh_suspended_lbl:'Suspended',
     stat_threats:'Threats identified', stat_critical:'Critical risks', recap_click_hint:'Click to go back to this threat (step 2)',
     stat_high:'High risks', stat_actions:'Planned actions',
     stat_decision_req:'Threats score ≥ 15', stat_decision_sub:'Decision required',
@@ -1930,7 +1939,9 @@ const I18N = {
     lbl_vuln_empty:'No vulnerability entered — click Edit',
     lbl_risk_eval:'📊 Risk assessment — taking into account the vulnerabilities above',
     lbl_measure_empty:'No measure entered — click Edit',
-    step4_own:'This action plan belongs to your team. It is designed to help you improve the security of your office. If you need support, you can export it via <span style="color:var(--accent2);font-weight:600">↓ Export → Action Plan Excel</span> and share it with your Security Advisor.',
+    step4_own:'Monitoring tool : set dates to sort your actions, update statuses, export to share and save.',
+    ap_more:'Learn more…', ap_less:'Show less ↑',
+    step4_own_detail:'<ul style="margin:4px 0 0 16px;padding:0"><li><strong>Automatic sort by date</strong> — the most urgent actions move to the top, regardless of priority. Undated actions are sorted by priority at the bottom.</li><li style="margin-top:4px"><strong>Status column</strong> : track each action via the dropdown (In progress / Partially / Done / Suspended) — done actions are automatically struck through.</li><li style="margin-top:4px"><strong>Export to Excel</strong> to share progress with your SMT.</li><li style="margin-top:4px"><strong>Save as JSON</strong> after each update and keep this file in your local Security Pack.</li></ul>',
     step5_implement:'Implement the action plan',
     step5_implement_desc:'Assign each action to an owner, set realistic deadlines and ensure regular follow-up.',
     btn_export_ap:'↓ Export the action plan',
@@ -2110,7 +2121,9 @@ const I18N = {
     ap_days_late:'d de retraso', ap_days_left:'d restantes', ap_today:'Hoy',
     ap_days_col:'Días restantes',
     prio_immediat:'Inmediata', prio_essentiel:'Esencial', prio_desirable:'Deseable', prio_continu:'Continua',
-    status_planned:'Previsto', status_ongoing:'En curso', status_done:'Realizado', status_suspended:'Suspendido',
+    status_ongoing:'En curso', status_done:'Realizado', status_suspended:'Suspendido',
+    sh_empty:'Aún no tratado', sh_ongoing:'Acción iniciada', sh_partial:'En curso pero no finalizada', sh_done:'Cerrada — fila tachada automáticamente', sh_suspended:'En pausa o bloqueada',
+    sh_ongoing_lbl:'En curso', sh_partial_lbl:'Parcialmente', sh_done_lbl:'Realizado', sh_suspended_lbl:'Suspendido',
     stat_threats:'Amenazas identificadas', stat_critical:'Riesgos críticos', recap_click_hint:'Haga clic para volver a esta amenaza (paso 2)',
     stat_high:'Riesgos altos', stat_actions:'Acciones planificadas',
     stat_decision_req:'Amenazas puntuación ≥ 15', stat_decision_sub:'Decisión obligatoria',
@@ -2151,7 +2164,9 @@ const I18N = {
     lbl_vuln_empty:'Ninguna vulnerabilidad registrada — haga clic en Editar',
     lbl_risk_eval:'📊 Evaluación del riesgo — teniendo en cuenta las vulnerabilidades anteriores',
     lbl_measure_empty:'Ninguna medida registrada — haga clic en Editar',
-    step4_own:'Este plan de acción le pertenece a su equipo. Está diseñado para ayudarle a mejorar la seguridad de su oficina. Si necesita apoyo, puede exportarlo mediante <span style="color:var(--accent2);font-weight:600">↓ Exportar → Plan de acción Excel</span> y compartirlo con su Asesor de Seguridad.',
+    step4_own:'Herramienta de seguimiento : defina fechas para ordenar sus acciones, actualice los estados, exporte para compartir y guardar.',
+    ap_more:'Más información…', ap_less:'Reducir ↑',
+    step4_own_detail:'<ul style="margin:4px 0 0 16px;padding:0"><li><strong>Orden automático por fecha</strong> — las acciones más urgentes suben al principio, independientemente de la prioridad. Las acciones sin fecha se ordenan por prioridad al final.</li><li style="margin-top:4px"><strong>Columna Estado</strong> : haga seguimiento de cada acción con el menú desplegable (En curso / Parcialmente / Terminado / Suspendido) — las acciones terminadas se tachan automáticamente.</li><li style="margin-top:4px"><strong>Exportar a Excel</strong> para compartir el avance con su SMT.</li><li style="margin-top:4px"><strong>Guardar en JSON</strong> tras cada actualización y conservar este archivo en su Pack de Seguridad local.</li></ul>',
     step5_implement:'Implementar el plan de acción',
     step5_implement_desc:'Asigne cada acción a un responsable, establezca plazos realistas y asegure un seguimiento regular.',
     btn_export_ap:'↓ Exportar el plan de acción',
@@ -2554,6 +2569,12 @@ function setLang(l) {
 }
 
 function applyI18n() {
+  // Update status column header label without overwriting the ? button
+  const thStatus = document.getElementById('th_ap_status');
+  if (thStatus) {
+    const lbl = thStatus.querySelector('#th_status_label');
+    if (lbl) lbl.textContent = t('ap_status') || 'État';
+  }
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const k = el.getAttribute('data-i18n');
     if (I18N[lang] && I18N[lang][k]) el.innerHTML = I18N[lang][k];
@@ -2574,6 +2595,10 @@ function applyI18n() {
   // Encart step 4 own
   const ownEl = document.getElementById('step4_own_text');
   if (ownEl) ownEl.innerHTML = t('step4_own')||'';
+  const ownDetail = document.getElementById('step4_own_detail');
+  if (ownDetail) ownDetail.innerHTML = t('step4_own_detail')||'';
+  const ownMore = document.getElementById('step4_own_more');
+  if (ownMore) ownMore.textContent = ' ' + (t('ap_more')||'En savoir plus…');
   renderScoreLegend();
 }
 
@@ -3317,6 +3342,7 @@ function prioBadge(p) {
 function renderAPStep() {
   renderAPTable();
   setTimeout(initFixedAPHeader, 50);
+  setTimeout(initStatusHelpBtn, 60);
 }
 
 function initFixedAPHeader() {
@@ -3340,7 +3366,11 @@ function initFixedAPHeader() {
   const cloneTable = document.createElement('table');
   cloneTable.className = 'ap-table';
   cloneTable.style.cssText = 'margin:0;table-layout:fixed;border-collapse:collapse';
-  cloneTable.appendChild(thead.cloneNode(true));
+  const clonedThead = thead.cloneNode(true);
+  // Remove ? button from clone to avoid duplicate event handlers and positioning issues
+  const cloneQBtn = clonedThead.querySelector('#th_ap_status span[onclick]');
+  if (cloneQBtn) cloneQBtn.remove();
+  cloneTable.appendChild(clonedThead);
   clone.appendChild(cloneTable);
   document.body.appendChild(clone);
 
@@ -3409,16 +3439,26 @@ function renderAPTable() {
   const counters = document.getElementById('apCounters');
   if (!tbody) return;
 
-  // Sort by priority order
+  // Sort by date first, then by priority for undated actions
   const sorted = [...actions].sort((a, b) => {
+    const aHasDate = !!a.date;
+    const bHasDate = !!b.date;
+    // Actions avec date en haut, sans date en bas
+    if (aHasDate && !bHasDate) return -1;
+    if (!aHasDate && bHasDate) return 1;
+    // Les deux ont une date : tri par date croissante
+    if (aHasDate && bHasDate) {
+      if (a.date < b.date) return -1;
+      if (a.date > b.date) return 1;
+      // À date égale : départager par priorité
+      const ai = PRIO_ORDER.indexOf(a.priority) === -1 ? 99 : PRIO_ORDER.indexOf(a.priority);
+      const bi = PRIO_ORDER.indexOf(b.priority) === -1 ? 99 : PRIO_ORDER.indexOf(b.priority);
+      return ai - bi;
+    }
+    // Les deux sans date : tri par priorité
     const ai = PRIO_ORDER.indexOf(a.priority) === -1 ? 99 : PRIO_ORDER.indexOf(a.priority);
     const bi = PRIO_ORDER.indexOf(b.priority) === -1 ? 99 : PRIO_ORDER.indexOf(b.priority);
-    if (ai !== bi) return ai - bi;
-    // À priorité égale : tri par date croissante (sans date = à la fin)
-    if (!a.date && !b.date) return 0;
-    if (!a.date) return 1;
-    if (!b.date) return -1;
-    return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+    return ai - bi;
   });
 
   // Update counters
@@ -3475,7 +3515,7 @@ function renderAPTable() {
     return;
   }
 
-  const statusOpts = [t('status_done'),t('status_suspended'),{'fr':'Partiellement','en':'Partially','es':'Parcialmente'}[lang]||'Partiellement',t('status_ongoing'),t('status_planned')];
+  const statusOpts = [t('status_done'),t('status_suspended'),{'fr':'Partiellement','en':'Partially','es':'Parcialmente'}[lang]||'Partiellement',t('status_ongoing')];
   const prioOpts = ['Immédiate','Essentielle','Désirable','Continue'];
 
   tbody.innerHTML = filtered.map((a,i) => {
@@ -3894,7 +3934,6 @@ function exportExcel() {
     'Partially':                'background:#fdf5e8;color:#b7600a;font-weight:600',
     'Parcialmente':             'background:#fdf5e8;color:#b7600a;font-weight:600',
     [t('status_ongoing')]:     'background:#eff6d8;color:#6a8420;font-weight:600',
-    [t('status_planned')]:     'background:#f0f3f5;color:#5a6b7a;font-weight:600',
   };
 
   const thStyle = 'background:#6a8420;color:#ffffff;font-weight:bold;font-size:11px;padding:8px 6px;border:1px solid #ffffff;white-space:nowrap';
@@ -3978,6 +4017,18 @@ function exportExcel() {
   <thead>${thead}</thead>
   <tbody>${tableRows}</tbody>
 </table>
+
+<!-- Status help popover — body level to avoid overflow clipping -->
+<div id="statusHelpPopover" style="display:none;position:fixed;z-index:9999;background:#fff;border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:10px 14px;min-width:230px;font-size:11px;color:var(--text2);line-height:1.8">
+  <div style="font-weight:700;font-size:11px;color:var(--text);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px" id="sh_title">Statuts</div>
+  <table style="border-collapse:collapse;width:100%">
+    <tr><td style="padding:2px 8px 2px 0;color:var(--text3);font-style:italic;white-space:nowrap">—</td><td id="sh_empty" style="padding:2px 0"></td></tr>
+    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--accent2);white-space:nowrap" id="sh_ongoing_lbl"></td><td id="sh_ongoing" style="padding:2px 0"></td></tr>
+    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--warning);white-space:nowrap" id="sh_partial_lbl"></td><td id="sh_partial" style="padding:2px 0"></td></tr>
+    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--ok);white-space:nowrap" id="sh_done_lbl"></td><td id="sh_done" style="padding:2px 0"></td></tr>
+    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--text3);white-space:nowrap" id="sh_suspended_lbl"></td><td id="sh_suspended" style="padding:2px 0"></td></tr>
+  </table>
+</div>
 </body></html>`;
 
   const blob = new Blob(['\uFEFF'+html], {type:'application/vnd.ms-excel;charset=utf-8'});
@@ -4207,6 +4258,51 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.lang-abbr').forEach(function(el){el.style.display='inline';});
   }
 })();
+
+function toggleStep4Tip() {
+  const detail = document.getElementById('step4_own_detail');
+  const more   = document.getElementById('step4_own_more');
+  if (!detail || !more) return;
+  const open = detail.style.display !== 'none';
+  detail.style.display = open ? 'none' : 'block';
+  more.textContent = open ? ' ' + (t('ap_more')||'En savoir plus…') : ' ' + (t('ap_less')||'Réduire ↑');
+}
+
+function initStatusHelpBtn() {
+  const btn = document.getElementById('statusHelpBtn');
+  const pop = document.getElementById('statusHelpPopover');
+  if (!btn || !pop) return;
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const open = pop.style.display !== 'none';
+    if (open) { pop.style.display = 'none'; return; }
+    ['empty','ongoing','partial','done','suspended'].forEach(function(k) {
+      const el = document.getElementById('sh_' + k);
+      if (el) el.textContent = t('sh_' + k) || '';
+      const lbl = document.getElementById('sh_' + k + '_lbl');
+      if (lbl) lbl.textContent = t('sh_' + k + '_lbl') || '';
+    });
+    const title = document.getElementById('sh_title');
+    if (title) title.textContent = t('ap_status') || 'Statuts';
+    const rect = btn.getBoundingClientRect();
+    pop.style.visibility = 'hidden';
+    pop.style.display = 'block';
+    const pw = pop.offsetWidth;
+    pop.style.visibility = 'visible';
+    let left = rect.right - pw;
+    if (left < 8) left = 8;
+    if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+    pop.style.top  = (rect.bottom + 6) + 'px';
+    pop.style.left = left + 'px';
+    const close = function(ev) {
+      if (!pop.contains(ev.target) && ev.target !== btn) {
+        pop.style.display = 'none';
+        document.removeEventListener('click', close);
+      }
+    };
+    setTimeout(function() { document.addEventListener('click', close); }, 10);
+  });
+}
 </script>
 </body>
 </html>
