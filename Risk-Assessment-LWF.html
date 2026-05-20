@@ -1407,12 +1407,25 @@ body {
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_priority">Priorité</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_date">Date prévue</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_cost">Coût (USD)</th>
-                  <th style="background:var(--bg3);color:var(--text2);position:relative" id="th_ap_status"><span id="th_status_label">État</span> <span id="statusHelpBtn" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#fff;color:var(--accent2);border:1.5px solid var(--accent2);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1" title="Aide — statuts">?</span>
+                  <th style="background:var(--bg3);color:var(--text2)" id="th_ap_status">
+                    <span id="th_status_label">État</span>
+                    <span onclick="var p=document.getElementById('statusHelpPopover');p.style.display=p.style.display==='none'?'block':'none'" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#fff;color:var(--accent2);border:1.5px solid var(--accent2);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1" title="Aide — statuts">?</span>
                   </th>
                   <th style="background:var(--bg3);color:var(--text2);min-width:140px" data-i18n="ap_responsible">Responsable de la mise en œuvre</th>
                   <th style="background:var(--bg3);color:var(--text2);width:32px;text-align:center"></th>
                 </tr>
               </thead>
+            </table>
+          </div>
+          <!-- STATUS HELP POPOVER -->
+          <div id="statusHelpPopover" style="display:none;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:10px 14px;font-size:11px;color:var(--text2);line-height:1.8;margin:0 0 0 0">
+            <div style="font-weight:700;font-size:11px;color:var(--text);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)">Signification des statuts</div>
+            <table style="border-collapse:collapse;width:100%">
+              <tr><td style="padding:3px 12px 3px 0;color:var(--text3);font-style:italic">—</td><td style="padding:3px 0;color:var(--text2)">Pas encore traité</td></tr>
+              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--ok)">En cours</td><td style="padding:3px 0;color:var(--text2)">Action démarrée</td></tr>
+              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--warning)">Partiellement</td><td style="padding:3px 0;color:var(--text2)">Avancée mais pas finalisée</td></tr>
+              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--ok)">Terminé</td><td style="padding:3px 0;color:var(--text2)">Clôturée — ligne barrée automatiquement</td></tr>
+              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--text3)">Suspendu</td><td style="padding:3px 0;color:var(--text2)">En pause ou bloquée</td></tr>
             </table>
           </div>
           <!-- BODY — scrollable verticalement -->
@@ -3342,7 +3355,6 @@ function prioBadge(p) {
 function renderAPStep() {
   renderAPTable();
   setTimeout(initFixedAPHeader, 50);
-  setTimeout(initStatusHelpBtn, 60);
 }
 
 function initFixedAPHeader() {
@@ -4018,17 +4030,6 @@ function exportExcel() {
   <tbody>${tableRows}</tbody>
 </table>
 
-<!-- Status help popover — body level to avoid overflow clipping -->
-<div id="statusHelpPopover" style="display:none;position:fixed;z-index:9999;background:#fff;border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:10px 14px;min-width:230px;font-size:11px;color:var(--text2);line-height:1.8">
-  <div style="font-weight:700;font-size:11px;color:var(--text);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px" id="sh_title">Statuts</div>
-  <table style="border-collapse:collapse;width:100%">
-    <tr><td style="padding:2px 8px 2px 0;color:var(--text3);font-style:italic;white-space:nowrap">—</td><td id="sh_empty" style="padding:2px 0"></td></tr>
-    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--accent2);white-space:nowrap" id="sh_ongoing_lbl"></td><td id="sh_ongoing" style="padding:2px 0"></td></tr>
-    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--warning);white-space:nowrap" id="sh_partial_lbl"></td><td id="sh_partial" style="padding:2px 0"></td></tr>
-    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--ok);white-space:nowrap" id="sh_done_lbl"></td><td id="sh_done" style="padding:2px 0"></td></tr>
-    <tr><td style="padding:2px 8px 2px 0;font-weight:700;color:var(--text3);white-space:nowrap" id="sh_suspended_lbl"></td><td id="sh_suspended" style="padding:2px 0"></td></tr>
-  </table>
-</div>
 </body></html>`;
 
   const blob = new Blob(['\uFEFF'+html], {type:'application/vnd.ms-excel;charset=utf-8'});
@@ -4268,41 +4269,7 @@ function toggleStep4Tip() {
   more.textContent = open ? ' ' + (t('ap_more')||'En savoir plus…') : ' ' + (t('ap_less')||'Réduire ↑');
 }
 
-function initStatusHelpBtn() {
-  const btn = document.getElementById('statusHelpBtn');
-  const pop = document.getElementById('statusHelpPopover');
-  if (!btn || !pop) return;
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const open = pop.style.display !== 'none';
-    if (open) { pop.style.display = 'none'; return; }
-    ['empty','ongoing','partial','done','suspended'].forEach(function(k) {
-      const el = document.getElementById('sh_' + k);
-      if (el) el.textContent = t('sh_' + k) || '';
-      const lbl = document.getElementById('sh_' + k + '_lbl');
-      if (lbl) lbl.textContent = t('sh_' + k + '_lbl') || '';
-    });
-    const title = document.getElementById('sh_title');
-    if (title) title.textContent = t('ap_status') || 'Statuts';
-    const rect = btn.getBoundingClientRect();
-    pop.style.visibility = 'hidden';
-    pop.style.display = 'block';
-    const pw = pop.offsetWidth;
-    pop.style.visibility = 'visible';
-    let left = rect.right - pw;
-    if (left < 8) left = 8;
-    if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
-    pop.style.top  = (rect.bottom + 6) + 'px';
-    pop.style.left = left + 'px';
-    const close = function(ev) {
-      if (!pop.contains(ev.target) && ev.target !== btn) {
-        pop.style.display = 'none';
-        document.removeEventListener('click', close);
-      }
-    };
-    setTimeout(function() { document.addEventListener('click', close); }, 10);
-  });
-}
+
 </script>
 </body>
 </html>
