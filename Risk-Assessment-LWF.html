@@ -3,7 +3,7 @@
   ================================================================
   Outil d'analyse des risques Sécurité & Sûreté
   Conçu par Pierre Beaurenaut pour la Fédération Luthérienne Mondiale (FLM / LWF)
-  Version 1.2 — Mai 2026
+  Version 1.1 — Mai 2026
   Basé sur le TOOL_EVAL_Table of SS Risk Assessment MANAGEMENT V3.2
   ================================================================
 -->
@@ -1409,7 +1409,7 @@ body {
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_cost">Coût (USD)</th>
                   <th style="background:var(--bg3);color:var(--text2)" id="th_ap_status">
                     <span id="th_status_label">État</span>
-                    <span onclick="var p=document.getElementById('statusHelpPopover');p.style.display=p.style.display==='none'?'block':'none'" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#fff;color:var(--accent2);border:1.5px solid var(--accent2);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1" title="Aide — statuts">?</span>
+                    <span onclick="toggleStatusPopover(event)" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,0.25);color:#fff;border:1px solid rgba(255,255,255,0.6);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.25)'">?</span>
                   </th>
                   <th style="background:var(--bg3);color:var(--text2);min-width:140px" data-i18n="ap_responsible">Responsable de la mise en œuvre</th>
                   <th style="background:var(--bg3);color:var(--text2);width:32px;text-align:center"></th>
@@ -1418,16 +1418,6 @@ body {
             </table>
           </div>
           <!-- STATUS HELP POPOVER -->
-          <div id="statusHelpPopover" style="display:none;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:10px 14px;font-size:11px;color:var(--text2);line-height:1.8;margin:0 0 0 0">
-            <div style="font-weight:700;font-size:11px;color:var(--text);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)">Signification des statuts</div>
-            <table style="border-collapse:collapse;width:100%">
-              <tr><td style="padding:3px 12px 3px 0;color:var(--text3);font-style:italic">—</td><td style="padding:3px 0;color:var(--text2)">Pas encore traité</td></tr>
-              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--ok)">En cours</td><td style="padding:3px 0;color:var(--text2)">Action démarrée</td></tr>
-              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--warning)">Partiellement</td><td style="padding:3px 0;color:var(--text2)">Avancée mais pas finalisée</td></tr>
-              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--ok)">Terminé</td><td style="padding:3px 0;color:var(--text2)">Clôturée — ligne barrée automatiquement</td></tr>
-              <tr><td style="padding:3px 12px 3px 0;font-weight:700;color:var(--text3)">Suspendu</td><td style="padding:3px 0;color:var(--text2)">En pause ou bloquée</td></tr>
-            </table>
-          </div>
           <!-- BODY — scrollable verticalement -->
           <div style="overflow-x:auto;max-height:calc(100vh - 320px);overflow-y:auto" id="apBodyWrap">
             <table class="ap-table" id="apMainTable" style="min-width:900px;margin:0;table-layout:fixed">
@@ -1467,7 +1457,6 @@ body {
       </div>
       <div class="panel-body">
         <div class="stats-grid" id="statsGrid"></div>
-        <div id="summaryAlerts" style="margin-top:12px"></div>
         <div class="section-card">
           <div class="section-card-header" onclick="toggleCard(this)">
             <span class="sc-icon">📊</span>
@@ -1498,7 +1487,7 @@ body {
             <span class="sc-toggle">▼</span>
           </div>
           <div class="section-card-body">
-            <p style="font-size:12px;color:var(--text3);margin-bottom:10px;font-style:italic" data-i18n="matrix_hint">Cliquez sur "Copier la matrice" pour coller la matrice dans votre Mémo-Sécu.</p>
+            <p style="font-size:12px;color:var(--text3);margin-bottom:10px;font-style:italic" data-i18n="matrix_hint">Cliquez sur "Copier la matrice" pour coller la matrice dans vos documents Mémo-Sécu et Plan de Sécurité.</p>
             <div style="display:flex;gap:10px;margin-bottom:10px;align-items:center">
               <button class="btn-secondary" style="font-size:12px" onclick="copyMatrix()" data-i18n="btn_copy_matrix">📋 Copier la matrice</button>
               <span id="copyMatrixMsg" style="font-size:12px;color:var(--ok);display:none" data-i18n="copy_ok">✓ Copié !</span>
@@ -1665,13 +1654,6 @@ const I18N = {
     dec_btn_refused:'✘ Risque refusé',
     dec_btn_cancel:'↩ Annuler',
     dec_refused_warn:'⛔ Informez immédiatement le/la Représentant(e) Pays',
-    dec_refused_escalate:'Ce risque doit être escaladé immédiatement. Contactez le/la Représentant(e) Pays et le Security Advisor. Envisagez la suspension partielle ou totale des activités concernées.',
-    dec_assumed_condition:'Cette décision est conditionnée à la mise en place effective des mesures de réduction.',
-    dec_assumed_link:'Rendez-vous à l\'étape 3 pour définir des mesures concrètes et réalistes. Sans mesures documentées, cette décision perd sa validité.',
-    stat_refused_title:'Risques refusés — escalade requise',
-    stat_refused_desc:'Ces menaces ont été jugées inacceptables. Une escalade immédiate vers le Représentant Pays et le Security Advisor est requise.',
-    stat_assumed_nomeasures_title:'Risques assumés sans mesures documentées',
-    stat_assumed_nomeasures_desc:'Ces menaces sont marquées "assumées" mais aucune mesure de réduction n\'a été définie à l\'étape 3. La décision est conditionnelle — elle n\'est valide que si des mesures concrètes sont en place.',
     dec_note_label:'Justification / notes (facultatif)',
     dec_note_ph:'Décrivez brièvement les raisons de cette décision...',
     lbl_reduce_prob:'Réduction de la probabilité', lbl_reduce_imp:'Réduction de l\'impact',
@@ -1768,7 +1750,7 @@ const I18N = {
     reset_cancel:'Annuler',
     reset_confirm:'Oui, tout effacer',
     matrix_title:'Matrice des risques — positionnement des menaces',
-    matrix_hint:'Cliquez sur "Copier la matrice" pour coller la matrice dans votre Mémo-Sécu.',
+    matrix_hint:'Cliquez sur "Copier la matrice" pour coller la matrice dans vos documents Mémo-Sécu et Plan de Sécurité.',
     btn_copy_matrix:'📋 Copier la matrice',
     copy_ok:'✓ Copié !',
     risk_click_hint:'Cliquez sur une valeur de probabilité et d\'impact pour calculer le niveau de risque.',
@@ -1898,13 +1880,6 @@ const I18N = {
     dec_btn_refused:'✘ Risk refused',
     dec_btn_cancel:'↩ Cancel',
     dec_refused_warn:'⛔ Inform the Country Representative immediately',
-    dec_refused_escalate:'This risk must be escalated immediately. Contact the Country Representative and the Security Advisor. Consider partial or full suspension of the affected activities.',
-    dec_assumed_condition:'This decision is conditional on effective implementation of risk reduction measures.',
-    dec_assumed_link:'Go to Step 3 to define concrete and realistic measures. Without documented measures, this decision loses its validity.',
-    stat_refused_title:'Refused risks — escalation required',
-    stat_refused_desc:'These threats have been deemed unacceptable. Immediate escalation to the Country Representative and Security Advisor is required.',
-    stat_assumed_nomeasures_title:'Accepted risks with no documented measures',
-    stat_assumed_nomeasures_desc:'These threats are marked as "accepted" but no reduction measures have been defined in Step 3. The decision is conditional — it is only valid if concrete measures are in place.',
     dec_note_label:'Justification / notes (optional)',
     dec_note_ph:'Briefly describe the reasons for this decision...',
     lbl_reduce_prob:'Reduce probability', lbl_reduce_imp:'Reduce impact',
@@ -2001,7 +1976,7 @@ const I18N = {
     reset_cancel:'Cancel',
     reset_confirm:'Yes, erase everything',
     matrix_title:'Risk matrix — threat positioning',
-    matrix_hint:'Click "Copy matrix" to paste it into your Security Memo document.',
+    matrix_hint:'Click "Copy matrix" to paste it into your Security Memo and Security Plan documents.',
     btn_copy_matrix:'📋 Copy matrix',
     copy_ok:'✓ Copied!',
     risk_click_hint:'Click a probability and impact value to calculate the risk level.',
@@ -2130,13 +2105,6 @@ const I18N = {
     dec_btn_refused:'✘ Riesgo rechazado',
     dec_btn_cancel:'↩ Cancelar',
     dec_refused_warn:'⛔ Informe inmediatamente al/la Representante País',
-    dec_refused_escalate:'Este riesgo debe escalarse de inmediato. Contacte al Representante País y al Asesor de Seguridad. Considere la suspensión parcial o total de las actividades afectadas.',
-    dec_assumed_condition:'Esta decisión está condicionada a la implementación efectiva de medidas de reducción.',
-    dec_assumed_link:'Vaya al Paso 3 para definir medidas concretas y realistas. Sin medidas documentadas, esta decisión pierde su validez.',
-    stat_refused_title:'Riesgos rechazados — escalada requerida',
-    stat_refused_desc:'Estas amenazas han sido consideradas inaceptables. Se requiere escalada inmediata al Representante País y al Asesor de Seguridad.',
-    stat_assumed_nomeasures_title:'Riesgos asumidos sin medidas documentadas',
-    stat_assumed_nomeasures_desc:'Estas amenazas están marcadas como "asumidas" pero no se han definido medidas de reducción en el Paso 3. La decisión es condicional — solo es válida si hay medidas concretas en vigor.',
     dec_note_label:'Justificación / notas (opcional)',
     dec_note_ph:'Describa brevemente los motivos de esta decisión...',
     lbl_reduce_prob:'Reducir la probabilidad', lbl_reduce_imp:'Reducir el impacto',
@@ -2233,7 +2201,7 @@ const I18N = {
     reset_cancel:'Cancelar',
     reset_confirm:'Sí, borrar todo',
     matrix_title:'Matriz de riesgos — posicionamiento de amenazas',
-    matrix_hint:'Haga clic en "Copiar matriz" para pegarla en su documento Memo-Seguridad.',
+    matrix_hint:'Haga clic en "Copiar matriz" para pegarla en sus documentos Memo-Seguridad y Plan de Seguridad.',
     btn_copy_matrix:'📋 Copiar matriz',
     copy_ok:'✓ Copiado!',
     risk_click_hint:'Haga clic en un valor de probabilidad e impacto para calcular el nivel de riesgo.',
@@ -2577,7 +2545,7 @@ let currentStep = 0;
 
 // Version centralisée — base incrémentée par le SA à chaque livraison
 // Build date généré automatiquement au chargement
-const TOOL_VERSION_BASE = '2.1';
+const TOOL_VERSION_BASE = '2.0';
 const TOOL_VERSION = 'V' + TOOL_VERSION_BASE + '.' + new Date().toISOString().slice(0,10).replace(/-/g,'');
 let threats = [];   // {id, libId, name, cat, who, where, when, what, why, prog, consequences, prob, impact, reduceProb, reduceImp}
 let actions = [];   // {id, action, threat, priority, responsible, date, status}
@@ -3007,14 +2975,7 @@ function renderVulnStep() {
     return;
   }
 
-  // Tri par niveau de risque décroissant — les menaces non cotées apparaissent en dernier
-  const sortedThreats = [...threats].sort((a,b) => {
-    const ra = (a.prob||0)*(a.impact||0);
-    const rb = (b.prob||0)*(b.impact||0);
-    return rb - ra;
-  });
-
-  body.innerHTML = sortedThreats.map((th,i) => {
+  body.innerHTML = threats.map((th,i) => {
     const cBullets = toBullets(th.consequences);
     const wBullets = toBullets(th.why);
     return `
@@ -3154,23 +3115,8 @@ function renderVulnStep() {
                 ${th.decision ? `<button onclick="setDecision('${th.id}',null)" style="font-size:11px;padding:4px 12px;border-radius:var(--r);border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer">${t('dec_btn_cancel')}</button>` : ''}
               </div>
               ${th.decision==='refused' ? `
-              <div style="padding:10px 14px;background:var(--danger-bg);border-bottom:1px solid var(--danger-bd);font-size:12px;color:var(--danger);font-weight:700;display:flex;align-items:flex-start;gap:10px">
-                <span style="font-size:16px;flex-shrink:0">⛔</span>
-                <div>
-                  <div style="margin-bottom:4px">${t('dec_refused_warn')}</div>
-                  <div style="font-weight:400;color:var(--danger);font-size:11px;line-height:1.5">${t('dec_refused_escalate')}</div>
-                </div>
-              </div>` : ''}
-              ${th.decision==='assumed' ? `
-              <div style="padding:10px 14px;background:var(--ok-bg);border-bottom:1px solid var(--ok-bd);font-size:12px;color:var(--ok);display:flex;align-items:flex-start;gap:10px">
-                <span style="font-size:16px;flex-shrink:0">⚠️</span>
-                <div>
-                  <div style="font-weight:700;margin-bottom:3px">${t('dec_assumed_condition')}</div>
-                  <div style="font-weight:400;font-size:11px;line-height:1.5">${t('dec_assumed_link')}</div>
-                  <button onclick="goToThreat(3,'${th.id}')" style="margin-top:6px;font-size:11px;padding:4px 12px;border-radius:var(--r);border:1.5px solid var(--ok);background:transparent;color:var(--ok);font-weight:700;cursor:pointer">
-                    ${t('btn_goto_measures')} →
-                  </button>
-                </div>
+              <div style="padding:8px 14px;background:var(--danger-bg);border-bottom:1px solid var(--danger-bd);font-size:12px;color:var(--danger);font-weight:700">
+                ${t('dec_refused_warn')}
               </div>` : ''}
               <div style="padding:10px 14px;background:var(--bg)">
                 <div style="font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${t('dec_note_label')}</div>
@@ -3732,40 +3678,6 @@ function renderSummary() {
       <span class="stat-badge ${c4ok?'ok':'amber'}">${c4ok ? t('stat_badge_plan_ok') : t('stat_badge_todo')}</span>
     </div>
   `;
-
-  // Bandeaux d'alerte dynamiques — refus et assomptions sans mesures
-  const refusedThreats = highRisk.filter(th => th.decision === 'refused');
-  const assumedNoMeasures = highRisk.filter(th => {
-    if (th.decision !== 'assumed') return false;
-    const hasMeasures = (th.reduceProb||'').trim() || (th.reduceImp||'').trim();
-    return !hasMeasures;
-  });
-
-  let alertBanners = '';
-  if (refusedThreats.length > 0) {
-    alertBanners += `<div style="margin:0 0 12px;background:var(--danger-bg);border:2px solid var(--danger);border-radius:var(--r);padding:12px 16px;display:flex;align-items:flex-start;gap:12px">
-      <span style="font-size:20px;flex-shrink:0">⛔</span>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:4px">${t('stat_refused_title')} (${refusedThreats.length})</div>
-        <div style="font-size:12px;color:var(--danger);line-height:1.5">${t('stat_refused_desc')}</div>
-        <ul style="margin:6px 0 0;padding-left:16px;font-size:12px;color:var(--danger)">${refusedThreats.map(th=>`<li><strong>${escHtml(th.name)}</strong> — score ${th.prob*th.impact}</li>`).join('')}</ul>
-      </div>
-    </div>`;
-  }
-  if (assumedNoMeasures.length > 0) {
-    alertBanners += `<div style="margin:0 0 12px;background:var(--warning-bg);border:2px solid var(--warning-bd);border-radius:var(--r);padding:12px 16px;display:flex;align-items:flex-start;gap:12px">
-      <span style="font-size:20px;flex-shrink:0">⚠️</span>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--warning);margin-bottom:4px">${t('stat_assumed_nomeasures_title')} (${assumedNoMeasures.length})</div>
-        <div style="font-size:12px;color:var(--warning);line-height:1.5">${t('stat_assumed_nomeasures_desc')}</div>
-        <ul style="margin:6px 0 0;padding-left:16px;font-size:12px;color:var(--warning)">${assumedNoMeasures.map(th=>`<li><strong>${escHtml(th.name)}</strong> — score ${th.prob*th.impact}</li>`).join('')}</ul>
-      </div>
-    </div>`;
-  }
-
-  const alertContainer = document.getElementById('summaryAlerts');
-  if (alertContainer) alertContainer.innerHTML = alertBanners;
-
   document.getElementById('recapTableBody').innerHTML = sorted.map((th,i) => {
     const rl = th.prob*th.impact;
     const ac = actions.filter(a => a.threat===th.name).length;
@@ -3778,7 +3690,7 @@ function renderSummary() {
       <td style="text-align:center">${ac}</td>
       <td style="text-align:center">${rl >= 15 ? (
         th.decision === 'assumed' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--ok);color:#fff">✔ Assumé</span>'
-        : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--danger);color:#fff">⛔ Refusé</span>'
+        : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--text);color:#fff">✘ Refusé</span>'
         : '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--warning-bg);border:1px solid var(--warning-bd);color:var(--warning)">⚠ Requise</span>'
       ) : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
     </tr>`;
@@ -4348,6 +4260,62 @@ function toggleStep4Tip() {
 }
 
 
+</script>
+
+<!-- Popover statut plan d'action -->
+<div id="statusHelpPopover" style="position:fixed;z-index:9999;display:none;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:12px 14px;min-width:240px;max-width:300px;font-size:12px;color:var(--text);line-height:1.6">
+  <div id="statusPopoverTitle" style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px"></div>
+  <ul id="statusPopoverList" style="margin:0;padding:0;list-style:none"></ul>
+</div>
+
+<script>
+function toggleStatusPopover(event) {
+  event.stopPropagation();
+  const pop = document.getElementById('statusHelpPopover');
+  if (pop.style.display === 'block') { pop.style.display = 'none'; return; }
+
+  const lang = typeof currentLang !== 'undefined' ? currentLang : 'fr';
+  const labels = {
+    fr: { title: 'Signification des statuts', items: [
+      ['—',           'Pas encore traité'],
+      ['En cours',    'Action démarrée'],
+      ['Partiellement','Avancée mais pas finalisée'],
+      ['Terminé',     'Clôturée — ligne barrée automatiquement'],
+      ['Suspendu',    'En pause ou bloquée'],
+    ]},
+    en: { title: 'Status guide', items: [
+      ['—',           'Not yet addressed'],
+      ['In progress', 'Action started'],
+      ['Partially',   'Underway but not finalised'],
+      ['Completed',   'Closed — row automatically struck through'],
+      ['On hold',     'Paused or blocked'],
+    ]},
+    es: { title: 'Guía de estados', items: [
+      ['—',             'Aún no tratado'],
+      ['En curso',      'Acción iniciada'],
+      ['Parcialmente',  'En marcha pero no finalizada'],
+      ['Completado',    'Cerrada — fila tachada automáticamente'],
+      ['Suspendido',    'En pausa o bloqueada'],
+    ]},
+  };
+  const data = labels[lang] || labels['fr'];
+  document.getElementById('statusPopoverTitle').textContent = data.title;
+  document.getElementById('statusPopoverList').innerHTML = data.items.map(([k,v]) =>
+    `<li style="padding:3px 0;border-bottom:1px solid var(--border)"><strong>${k}</strong> — <span style="color:var(--text2)">${v}</span></li>`
+  ).join('').replace(/border-bottom[^"]*"([^<]*<\/li>)$/, '"$1');
+
+  const btn = event.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  pop.style.top  = (rect.bottom + 6) + 'px';
+  pop.style.left = Math.max(8, rect.left - 180) + 'px';
+  pop.style.display = 'block';
+}
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('statusHelpPopover');
+  if (pop && pop.style.display === 'block' && !pop.contains(e.target)) {
+    pop.style.display = 'none';
+  }
+});
 </script>
 </body>
 </html>
