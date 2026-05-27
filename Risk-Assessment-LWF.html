@@ -1089,16 +1089,19 @@ body {
      ============================================================ -->
 <div class="export-overlay hidden" id="resetOverlay">
   <div class="export-box" style="max-width:420px">
-    <div class="export-header" data-i18n="reset_header" style="font-size:18px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:14px">🔄 Remettre à zéro ?</div>
-    <div class="export-body" style="padding:0">
-      <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:12px" data-i18n="reset_text1">Vous êtes sur le point d'effacer toutes les données saisies dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d'action. <strong>Toutes les réponses, remarques et actions seront effacées.</strong> Cette action est irréversible.</p>
-      <div style="display:flex;align-items:flex-start;gap:10px;background:#fff8e8;border:1px solid #e8c870;border-radius:6px;padding:12px;margin-bottom:14px">
-        <span style="font-size:18px;flex-shrink:0">⚠️</span>
+    <div class="export-header" data-i18n="reset_header">🔄 Remettre à zéro ?</div>
+    <div class="export-body">
+      <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px" data-i18n="reset_text1">Vous êtes sur le point d'effacer toutes les données saisies dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d'action. <strong>Toutes les réponses, remarques et actions seront effacées.</strong> Cette action est irréversible.</p>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#fff8e8;border:1px solid #e8c870;border-radius:6px;padding:12px;margin-bottom:16px">
+        <span style="font-size:18px;flex-shrink:0;line-height:1.4">⚠️</span>
         <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important :</strong> Les données stockées dans le navigateur peuvent être perdues si vous videz le cache ou changez d'appareil. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong></span>
       </div>
-      <button onclick="exportJSON();document.getElementById('resetOverlay').classList.add('hidden')" style="width:100%;padding:10px;background:var(--bg2);border:1px solid var(--accent);border-radius:var(--r);font-family:var(--font);font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;margin-bottom:14px;transition:background 0.15s" onmouseover="this.style.background='var(--accent-lt)'" onmouseout="this.style.background='var(--bg2)'" data-i18n="reset_export">⬇ Exporter le JSON d'abord</button>
+      <button onclick="exportJSON()" data-i18n="reset_export"
+        style="width:100%;padding:10px;background:var(--accent-lt);border:1px solid var(--accent);border-radius:var(--r);font-family:var(--font);font-size:13px;font-weight:600;color:var(--accent2);cursor:pointer;transition:all 0.15s"
+        onmouseover="this.style.background='var(--accent)';this.style.color='#fff'"
+        onmouseout="this.style.background='var(--accent-lt)';this.style.color='var(--accent2)'">⬇ Exporter le JSON d'abord</button>
     </div>
-    <div class="export-footer" style="display:flex;gap:8px;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border)">
+    <div class="export-footer" style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn-secondary" onclick="document.getElementById('resetOverlay').classList.add('hidden')" data-i18n="reset_cancel">Annuler</button>
       <button class="btn-primary" style="background:var(--danger);border-color:var(--danger)" onclick="doReset()" data-i18n="reset_confirm">Oui, tout effacer</button>
     </div>
@@ -1693,9 +1696,9 @@ const I18N = {
     prep_4:'Complété l\'auto-évaluation (Check-list Self-Assessment)',
     prep_5:'Identifié les acteurs clés du contexte (autorités, groupes armés, partenaires)',
     prep_6:'Avoir consulté et compris le document FORM_Atelier d\'analyse de risque. N\'hésitez pas à contacter le Security Advisor si vous souhaitez des précisions et/ou un appui pour réaliser un premier atelier en ligne.',
-    female_btn:'Envisager une session réservée aux femmes',
-    female_title:'💡 Envisager une session dédiée aux femmes',
-    female_body:'Envisagez d\'organiser un exercice d\'analyse des risques dédié aux femmes uniquement, afin de recueillir des perspectives, préoccupations et schémas de déplacement spécifiques qui pourraient autrement être sous-rapportés.',
+    female_btn:'Envisager une session réservée au personnel féminin',
+    female_title:'💡 Envisager une session dédiée au personnel féminin',
+    female_body:'Envisagez d\'organiser un exercice d\'analyse des risques dédié au personnel féminin uniquement, afin de recueillir des perspectives, préoccupations et schémas de déplacement spécifiques qui pourraient autrement être sous-rapportés.',
     add_to_ap:'+ Ajouter au plan d\'action',
     prob_label:'Probabilité (1–5)', imp_label:'Impact (1–5)',
     risk_label:'Niveau de risque :',
@@ -1920,8 +1923,8 @@ const I18N = {
     prep_4:'Completed the Self-Assessment Checklist',
     prep_5:'Identified key context actors (authorities, armed groups, partners)',
     prep_6:'Reviewed and understood the FORM_Risk Analysis Workshop document. Do not hesitate to contact the Security Advisor if you need clarification and/or support to facilitate a first online workshop.',
-    female_btn:'Consider a female-only session',
-    female_title:'💡 Consider a dedicated female-only session',
+    female_btn:'Consider a session reserved for female staff',
+    female_title:'💡 Consider a dedicated session for female staff',
     female_body:'Consider organizing a dedicated risk analysis exercise with female staff only, to help capture specific perspectives, concerns and movement patterns that may otherwise be underreported.',
     add_to_ap:'+ Add to action plan',
     prob_label:'Probability (1–5)', imp_label:'Impact (1–5)',
@@ -2146,8 +2149,8 @@ const I18N = {
     prep_4:'Completado la lista de verificación de autoevaluación',
     prep_5:'Identificado los actores clave del contexto (autoridades, grupos armados, socios)',
     prep_6:'Haber consultado y comprendido el documento FORM_Taller de análisis de riesgos. No dude en contactar al Security Advisor si necesita aclaraciones y/o apoyo para facilitar un primer taller en línea.',
-    female_btn:'Considerar una sesión solo para mujeres',
-    female_title:'💡 Considerar una sesión dedicada solo a mujeres',
+    female_btn:'Considerar una sesión reservada al personal femenino',
+    female_title:'💡 Considerar una sesión dedicada al personal femenino',
     female_body:'Considere organizar un ejercicio de análisis de riesgos dedicado únicamente al personal femenino, para capturar perspectivas, preocupaciones y patrones de movimiento específicos que de otro modo podrían no reportarse.',
     add_to_ap:'+ Agregar al plan de acción',
     prob_label:'Probabilidad (1–5)', imp_label:'Impacto (1–5)',
