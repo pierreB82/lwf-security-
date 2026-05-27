@@ -1088,15 +1088,19 @@ body {
      MODALE CONFIRMATION RESET
      ============================================================ -->
 <div class="export-overlay hidden" id="resetOverlay">
-  <div class="export-box" style="max-width:400px">
-    <div class="export-header" style="color:var(--danger)" data-i18n="reset_header">⚠ Remise à zéro</div>
-    <div class="export-body">
-      <p style="font-size:13px;color:var(--text2);line-height:1.6" data-i18n="reset_text1">Vous êtes sur le point d'effacer <strong>toutes les données saisies</strong> dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d'action.</p>
-      <p style="font-size:13px;color:var(--text2);margin-top:8px" data-i18n="reset_text2">Cette action est <strong>irréversible</strong>. Si vous souhaitez conserver votre travail, exportez d'abord en JSON.</p>
+  <div class="export-box" style="max-width:420px">
+    <div class="export-header" data-i18n="reset_header" style="font-size:18px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:14px">🔄 Remettre à zéro ?</div>
+    <div class="export-body" style="padding:0">
+      <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:12px" data-i18n="reset_text1">Vous êtes sur le point d'effacer toutes les données saisies dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d'action. <strong>Toutes les réponses, remarques et actions seront effacées.</strong> Cette action est irréversible.</p>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#fff8e8;border:1px solid #e8c870;border-radius:6px;padding:12px;margin-bottom:14px">
+        <span style="font-size:18px;flex-shrink:0">⚠️</span>
+        <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important :</strong> Les données stockées dans le navigateur peuvent être perdues si vous videz le cache ou changez d'appareil. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong></span>
+      </div>
+      <button onclick="exportJSON();document.getElementById('resetOverlay').classList.add('hidden')" style="width:100%;padding:10px;background:var(--bg2);border:1px solid var(--accent);border-radius:var(--r);font-family:var(--font);font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;margin-bottom:14px;transition:background 0.15s" onmouseover="this.style.background='var(--accent-lt)'" onmouseout="this.style.background='var(--bg2)'" data-i18n="reset_export">⬇ Exporter le JSON d'abord</button>
     </div>
-    <div class="export-footer" style="display:flex;gap:8px;justify-content:flex-end">
+    <div class="export-footer" style="display:flex;gap:8px;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border)">
       <button class="btn-secondary" onclick="document.getElementById('resetOverlay').classList.add('hidden')" data-i18n="reset_cancel">Annuler</button>
-      <button class="btn-primary" style="background:var(--danger)" onclick="doReset()" data-i18n="reset_confirm">Oui, tout effacer</button>
+      <button class="btn-primary" style="background:var(--danger);border-color:var(--danger)" onclick="doReset()" data-i18n="reset_confirm">Oui, tout effacer</button>
     </div>
   </div>
 </div>
@@ -1744,9 +1748,10 @@ const I18N = {
     import_json_label:'Charger une sauvegarde JSON',
     import_json_label_desc:'Reprendre un travail sauvegardé',
     btn_close2:'Fermer',
-    reset_header:'⚠ Remise à zéro',
-    reset_text1:'Vous êtes sur le point d\'effacer <strong>toutes les données saisies</strong> dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d\'action.',
-    reset_text2:'Cette action est <strong>irréversible</strong>. Si vous souhaitez conserver votre travail, exportez d\'abord en JSON.',
+    reset_header:'🔄 Remettre à zéro ?',
+    reset_text1:'Vous êtes sur le point d\'effacer toutes les données saisies dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d\'action. <strong>Toutes les réponses, remarques et actions seront effacées.</strong> Cette action est irréversible.',
+    reset_warn:'<strong>Important :</strong> Les données stockées dans le navigateur peuvent être perdues si vous videz le cache ou changez d\'appareil. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong>',
+    reset_export:'⬇ Exporter le JSON d\'abord',
     reset_cancel:'Annuler',
     reset_confirm:'Oui, tout effacer',
     matrix_title:'Matrice des risques — positionnement des menaces',
@@ -1970,9 +1975,10 @@ const I18N = {
     import_json_label:'Load a JSON backup',
     import_json_label_desc:'Resume saved work',
     btn_close2:'Close',
-    reset_header:'⚠ Reset',
-    reset_text1:'You are about to erase <strong>all data entered</strong> in this form, including threats, vulnerabilities, ratings and action plan.',
-    reset_text2:'This action is <strong>irreversible</strong>. If you want to keep your work, export to JSON first.',
+    reset_header:'🔄 Reset everything?',
+    reset_text1:'You are about to erase all data entered in this form, including threats, vulnerabilities, ratings and action plan. <strong>All answers, notes and actions will be deleted.</strong> This action is irreversible.',
+    reset_warn:'<strong>Important:</strong> Data stored in the browser may be lost if you clear your cache or change devices. <strong>Export a JSON backup before resetting.</strong>',
+    reset_export:'⬇ Export JSON first',
     reset_cancel:'Cancel',
     reset_confirm:'Yes, erase everything',
     matrix_title:'Risk matrix — threat positioning',
@@ -2195,9 +2201,10 @@ const I18N = {
     import_json_label:'Cargar una copia de seguridad JSON',
     import_json_label_desc:'Retomar un trabajo guardado',
     btn_close2:'Cerrar',
-    reset_header:'⚠ Reiniciar',
-    reset_text1:'Está a punto de borrar <strong>todos los datos ingresados</strong> en este formulario, incluyendo amenazas, vulnerabilidades, calificaciones y plan de acción.',
-    reset_text2:'Esta acción es <strong>irreversible</strong>. Si desea conservar su trabajo, exporte primero en JSON.',
+    reset_header:'🔄 ¿Restablecer todo?',
+    reset_text1:'Está a punto de borrar todos los datos ingresados en este formulario, incluyendo amenazas, vulnerabilidades, calificaciones y plan de acción. <strong>Todas las respuestas, notas y acciones serán eliminadas.</strong> Esta acción es irreversible.',
+    reset_warn:'<strong>Importante:</strong> Los datos almacenados en el navegador pueden perderse si borra la caché o cambia de dispositivo. <strong>Exporte una copia de seguridad JSON antes de restablecer.</strong>',
+    reset_export:'⬇ Exportar JSON primero',
     reset_cancel:'Cancelar',
     reset_confirm:'Sí, borrar todo',
     matrix_title:'Matriz de riesgos — posicionamiento de amenazas',
@@ -2563,6 +2570,7 @@ function t(key) { return (I18N[lang] && I18N[lang][key]) || (I18N.fr[key]) || ke
 
 function setLang(l) {
   lang = l;
+  try { localStorage.setItem('lwf_ra_lang', l); } catch(e) {}
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+l+"'")));
   document.documentElement.lang = l;
   applyI18n();
@@ -4219,6 +4227,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Affichage version dynamique
     const vEl = document.getElementById('topbarVersion');
     if (vEl) vEl.textContent = TOOL_VERSION;
+    // Détection langue : localStorage → langue navigateur → EN
+    const savedLang = localStorage.getItem('lwf_ra_lang');
+    if (savedLang && I18N[savedLang]) {
+      lang = savedLang;
+    } else {
+      const browserLang = (navigator.language || navigator.userLanguage || 'en').slice(0, 2).toLowerCase();
+      lang = I18N[browserLang] ? browserLang : 'en';
+    }
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+lang+"'")));
+    document.documentElement.lang = lang;
     // Restaurer depuis localStorage si disponible
     const restored = loadState();
     // Date par défaut si pas de restauration
