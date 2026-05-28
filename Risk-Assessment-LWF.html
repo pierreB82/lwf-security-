@@ -936,10 +936,13 @@ body {
         <h2 data-i18n="notice_title">Risk Assessment — Safety &amp; Security</h2>
         <p>LWF World Service</p>
       </div>
-      <div style="display:flex;gap:4px;flex-shrink:0;margin-left:16px">
-        <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">🇬🇧</span><span class="lang-abbr" style="display:none">EN</span></button>
-        <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">🇫🇷</span><span class="lang-abbr" style="display:none">FR</span></button>
-        <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">🇪🇸</span><span class="lang-abbr" style="display:none">ES</span></button>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:16px">
+        <div style="display:flex;gap:4px">
+          <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">🇬🇧</span><span class="lang-abbr" style="display:none">EN</span></button>
+          <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">🇫🇷</span><span class="lang-abbr" style="display:none">FR</span></button>
+          <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">🇪🇸</span><span class="lang-abbr" style="display:none">ES</span></button>
+        </div>
+        <button onclick="closeNotice()" data-i18n="btn_start" style="padding:6px 16px;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.5);border-radius:var(--r2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.35)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">Commencer →</button>
       </div>
     </div>
 
@@ -1020,6 +1023,7 @@ body {
         <div class="notice-reminder-item" data-i18n="notice_ctx_1">Each office must conduct its own assessment — linked to a specific geographical context.</div>
         <div class="notice-reminder-item" data-i18n="notice_ctx_2">Base analysis on past incidents and field knowledge, not theoretical scenarios.</div>
         <div class="notice-reminder-item" data-i18n="notice_ctx_4">All voices matter — diverse profiles enrich the analysis.</div>
+        <div class="notice-reminder-item" data-i18n="notice_ctx_help"><span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;font-size:9px;font-weight:700;vertical-align:middle;margin-right:4px;flex-shrink:0">?</span> Throughout the tool, click the red <strong>?</strong> buttons to get explanations and guidance at any time.</div>
         <div class="notice-review">
           <div class="notice-review-icon">🔄</div>
           <p><strong data-i18n="notice_review_label">Review annually</strong> <span data-i18n="notice_ctx_5">— and immediately after any significant security development or major context change.</span></p>
@@ -1416,7 +1420,7 @@ body {
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_cost">Coût (USD)</th>
                   <th style="background:var(--bg3);color:var(--text2)" id="th_ap_status">
                     <span id="th_status_label">État</span>
-                    <span onclick="toggleStatusPopover(event)" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,0.25);color:#fff;border:1px solid rgba(255,255,255,0.6);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.25)'">?</span>
+                    <span onclick="toggleStatusPopover(event)" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:4px;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.3)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span>
                   </th>
                   <th style="background:var(--bg3);color:var(--text2);min-width:140px" data-i18n="ap_responsible">Responsable de la mise en œuvre</th>
                   <th style="background:var(--bg3);color:var(--text2);width:32px;text-align:center"></th>
@@ -1652,6 +1656,7 @@ const I18N = {
     col_risk:'Niveau de risque', col_actions:'Actions', col_decision:'Décision',
     lbl_who:'Qui provoque la menace ?', lbl_where:'Où ?', lbl_when:'Quand ?',
     lbl_what:'Qui est à risque ?', lbl_why:'Pourquoi sommes-nous vulnérables ?',
+    lbl_context_group:'Analyse contextuelle de la menace',
     lbl_prog:'Activité concernée', lbl_consequences:'Conséquences potentielles',
     dec_title_pending:'⚠ Score ≥ 15 — Une décision collective est requise',
     dec_title_assumed:'✔ Risque assumé — décision enregistrée',
@@ -1664,12 +1669,28 @@ const I18N = {
     dec_note_label:'Justification / notes (facultatif)',
     dec_note_ph:'Décrivez brièvement les raisons de cette décision...',
     lbl_reduce_prob:'Réduction de la probabilité', lbl_reduce_imp:'Réduction de l\'impact',
-    ph_who:'Ex. : Groupes armés non étatiques, criminels, forces de sécurité...',
-    ph_where:'Ex. : Sur la route de Bunia, dans les marchés, aux checkpoints...',
-    ph_when:'Ex. : Lors des distributions, la nuit, en saison sèche...',
-    ph_what:'Ex. : Tous les staffs terrain, chauffeurs, staff féminin...',
+    ph_who:'Ex. : FNLA faction nord, milice locale, GCO Karamoja...',
+    ph_where:'Ex. : Axe Goma-Rutshuru km 12-45, marché central, domiciles staff...',
+    ph_when:'Ex. : En soirée après 18h, période post-électorale, jours de distribution...',
+    ph_what:'Ex. : Staff national masculin avec véhicule personnel, staff féminin, chauffeurs...',
+    tip_who:'Cliquez pour en savoir plus',
+    tip_where:'Cliquez pour en savoir plus',
+    tip_when:'Cliquez pour en savoir plus',
+    tip_what:'Cliquez pour en savoir plus',
+    pop_who_title:'Qui provoque la menace ?',
+    pop_who_text:"L\'objectif n\'est pas seulement de nommer un acteur, mais de <strong>comprendre sa structure pour travailler votre acceptation</strong>. Un acteur organisé avec <strong>une chaîne de commandement identifiable peut faire l\'objet d\'un dialogue, d\'une prise de contact ou d\'une démarche de reconnaissance</strong>. Soyez précis : pas seulement \"groupes armés\", mais <strong>lequel, quelle faction</strong>. C\'est la base d\'une <strong>cartographie des acteurs</strong> et d\'une <strong>stratégie d\'acceptation</strong>.",
+    pop_where_title:'Où ?',
+    pop_where_text:'Localisez <strong>précisément</strong> : axe routier, quartier, camp, zone de distribution, domicile du staff. La précision géographique permet de <strong>déterminer si votre présence dans cette zone augmente ou réduit votre vulnérabilité</strong>. Une zone identifiée comme à risque peut justifier <strong>des protocoles spécifiques, voire une décision de non-déplacement</strong>.',
+    pop_when_title:'Quand ?',
+    pop_when_text:'Précisez le moment ou la condition de survenue : heure, période de la journée, contexte particulier. <strong>Si une menace est concentrée sur des créneaux que vous n\'occupez pas, votre vulnérabilité réelle est réduite.</strong> Si au contraire <strong>vos activités coïncident avec ces moments, c\'est un signal d\'alerte direct</strong> pour vos mesures de mitigation.',
+    pop_what_title:'Qui est à risque ?',
+    pop_what_text:'Identifiez les <strong>profils les plus exposés</strong> : staff national, international, chauffeurs, staff féminin, managers visibles, profils ethniques ciblés, <strong>staff dont le profil personnel peut constituer une vulnérabilité spécifique dans le contexte local</strong>. <strong>Savoir qui est prioritairement à risque permet de cibler les formations, les briefings et les mesures de réduction</strong> là où elles auront le plus d\'effet.',
+    notice_ctx_help:'<span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;font-size:9px;font-weight:700;vertical-align:middle;margin-right:4px;flex-shrink:0">?</span> Tout au long de l\'outil, cliquez sur les boutons <strong>?</strong> rouges pour obtenir des explications et conseils à tout moment.',
     ph_why:'Ex. : Absence de protocole de communication, pas de formation premiers secours, faible acceptation communautaire, pas d\'équipement de communication en zone reculée... (Procédures / Équipements / Comportements / Acceptation / Profils exposés)',
-    ph_prog:'Ex. : Distribution, WASH, Protection, etc.',
+    ph_prog:'Ex. : Distribution cash, déplacement terrain, réunion communautaire',
+    tip_prog:'Cliquez pour en savoir plus',
+    pop_prog_title:'Activité concernée',
+    pop_prog_text:'Si la menace est liée à une activité spécifique, notez-la ici. <strong>Si elle est générale et non liée à une activité particulière, laissez ce champ vide.</strong> Ne listez pas toutes vos activités — <strong>une seule si pertinente</strong>.',
     ph_consequences:'Ex. : Décès ou blessures graves, interruption du programme, perte de confiance des bénéficiaires...',
     ph_reduce_prob:'Ex. : 1. Mettre en place un protocole de communication avant tout déplacement en zone à risque (SOP déplacement). 2. Renforcer l\'acceptation communautaire par des réunions régulières avec les leaders locaux...',
     ph_reduce_imp:'Ex. : 1. Former les staffs aux premiers secours. 2. Cartographier les structures de santé accessibles. 3. Activer le Plan de gestion de crise...',
@@ -1879,6 +1900,7 @@ const I18N = {
     col_risk:'Risk level', col_actions:'Actions', col_decision:'Decision',
     lbl_who:'Who causes the threat?', lbl_where:'Where?', lbl_when:'When?',
     lbl_what:'Who/what is at risk?', lbl_why:'Why are we vulnerable?',
+    lbl_context_group:'Contextual threat analysis',
     lbl_prog:'Programme area / activity', lbl_consequences:'Potential consequences',
     dec_title_pending:'⚠ Score ≥ 15 — A collective decision is required',
     dec_title_assumed:'✔ Risk accepted — decision recorded',
@@ -1891,12 +1913,28 @@ const I18N = {
     dec_note_label:'Justification / notes (optional)',
     dec_note_ph:'Briefly describe the reasons for this decision...',
     lbl_reduce_prob:'Reduce probability', lbl_reduce_imp:'Reduce impact',
-    ph_who:'E.g.: Non-state armed groups, criminals, security forces...',
-    ph_where:'E.g.: On the road to Bunia, in markets, at checkpoints...',
-    ph_when:'E.g.: During cash distributions, at night, dry season...',
-    ph_what:'E.g.: All field staff, drivers, female staff...',
+    ph_who:'E.g.: FNLA northern faction, local militia, organised criminal group...',
+    ph_where:'E.g.: Goma-Rutshuru road km 12-45, central market, staff residences...',
+    ph_when:'E.g.: Evening after 6pm, post-election period, distribution days...',
+    ph_what:'E.g.: National male staff with personal vehicle, female staff, drivers...',
+    tip_who:'Click for more information',
+    tip_where:'Click for more information',
+    tip_when:'Click for more information',
+    tip_what:'Click for more information',
+    pop_who_title:'Who causes the threat?',
+    pop_who_text:'The goal is not just to name an actor, but to <strong>understand their structure to work on your acceptance</strong>. An organised actor with <strong>an identifiable chain of command can be approached for dialogue, outreach or recognition</strong>. Be specific: not just "armed groups", but <strong>which one, which faction</strong>. This is the foundation of an <strong>actor mapping</strong> and an <strong>acceptance strategy</strong>.',
+    pop_where_title:'Where?',
+    pop_where_text:'Be <strong>specific</strong>: road axis, neighbourhood, camp, distribution site, staff residence. Geographic precision allows you to <strong>determine whether your presence in that area increases or reduces your vulnerability</strong>. A zone identified as high-risk may justify <strong>specific protocols or a non-movement decision</strong>.',
+    pop_when_title:'When?',
+    pop_when_text:'Specify the moment or condition of occurrence: time of day, particular period, specific context. <strong>If a threat is concentrated in time slots you do not occupy, your actual vulnerability is reduced.</strong> If on the contrary <strong>your activities coincide with these moments, this is a direct alert signal</strong> for your mitigation measures.',
+    pop_what_title:'Who/what is at risk?',
+    pop_what_text:'Identify the <strong>most exposed profiles</strong>: national staff, international staff, drivers, female staff, visible managers, targeted ethnic profiles, <strong>staff whose personal profile may constitute a specific vulnerability in the local context</strong>. <strong>Knowing who is primarily at risk allows you to target training, briefings and reduction measures</strong> where they will have the most effect.',
+    notice_ctx_help:'<span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;font-size:9px;font-weight:700;vertical-align:middle;margin-right:4px;flex-shrink:0">?</span> Throughout the tool, click the red <strong>?</strong> buttons to get explanations and guidance at any time.',
     ph_why:'E.g.: No communication protocol, no first aid training, low community acceptance... (Procedures / Equipment / Behaviours / Acceptance / Exposed profiles)',
-    ph_prog:'E.g.: Cash distribution, WASH, Protection, etc.',
+    ph_prog:'E.g.: Cash distribution, field movement, community meeting',
+    tip_prog:'Click for more information',
+    pop_prog_title:'Related activity',
+    pop_prog_text:'If the threat is linked to a specific activity, note it here. <strong>If it is general and not linked to a particular activity, leave this field empty.</strong> Do not list all your activities — <strong>one only if relevant</strong>.',
     ph_consequences:'E.g.: Death or serious injury, programme suspension, loss of community trust...',
     ph_reduce_prob:'E.g.: 1. Establish a communication protocol before any movement in risk areas (Travel SOP). 2. Strengthen community acceptance through regular meetings with local leaders...',
     ph_reduce_imp:'E.g.: 1. Train staff in first aid. 2. Map accessible health facilities. 3. Activate the Crisis Management Plan...',
@@ -2104,7 +2142,8 @@ const I18N = {
     col_threat:'Amenaza', col_prob:'Probabilidad', col_impact:'Impacto',
     col_risk:'Nivel de riesgo', col_actions:'Acciones', col_decision:'Decisión',
     lbl_who:'¿Quién causa la amenaza?', lbl_where:'¿Dónde?', lbl_when:'¿Cuándo?',
-    lbl_what:'¿Quién/qué está en riesgo?', lbl_why:'¿Por qué somos vulnerables?',
+    lbl_what:'¿Quién está en riesgo?', lbl_why:'¿Por qué somos vulnerables?',
+    lbl_context_group:'Análisis contextual de la amenaza',
     lbl_prog:'Área del programa / actividad', lbl_consequences:'Consecuencias potenciales',
     dec_title_pending:'⚠ Puntuación ≥ 15 — Se requiere una decisión colectiva',
     dec_title_assumed:'✔ Riesgo asumido — decisión registrada',
@@ -2117,12 +2156,28 @@ const I18N = {
     dec_note_label:'Justificación / notas (opcional)',
     dec_note_ph:'Describa brevemente los motivos de esta decisión...',
     lbl_reduce_prob:'Reducir la probabilidad', lbl_reduce_imp:'Reducir el impacto',
-    ph_who:'Ej.: Grupos armados no estatales, delincuentes, fuerzas de seguridad...',
-    ph_where:'Ej.: En la carretera a Bunia, en los mercados, en los checkpoints...',
-    ph_when:'Ej.: Durante distribuciones de efectivo, de noche, en temporada seca...',
-    ph_what:'Ej.: Todo el personal de campo, conductores, personal femenino...',
+    ph_who:'Ej.: Facción norte FNLA, milicia local, grupo criminal organizado...',
+    ph_where:'Ej.: Eje Goma-Rutshuru km 12-45, mercado central, residencias del personal...',
+    ph_when:'Ej.: Noche después de las 18h, período post-electoral, días de distribución...',
+    ph_what:'Ej.: Personal nacional masculino con vehículo propio, personal femenino, conductores...',
+    tip_who:'Haga clic para más información',
+    tip_where:'Haga clic para más información',
+    tip_when:'Haga clic para más información',
+    tip_what:'Haga clic para más información',
+    pop_who_title:'¿Quién causa la amenaza?',
+    pop_who_text:'El objetivo no es solo nombrar un actor, sino <strong>comprender su estructura para trabajar su aceptación</strong>. Un actor organizado con <strong>una cadena de mando identificable puede ser objeto de diálogo, contacto o reconocimiento</strong>. Sea preciso: no solo "grupos armados", sino <strong>cuál, qué facción</strong>. Esta es la base de un <strong>mapeo de actores</strong> y una <strong>estrategia de aceptación</strong>.',
+    pop_where_title:'¿Dónde?',
+    pop_where_text:'Localice <strong>con precisión</strong>: eje vial, barrio, campo, zona de distribución, residencia del personal. La precisión geográfica permite <strong>determinar si su presencia en esa zona aumenta o reduce su vulnerabilidad</strong>. Una zona identificada como de riesgo puede justificar <strong>protocolos específicos o una decisión de no desplazamiento</strong>.',
+    pop_when_title:'¿Cuándo?',
+    pop_when_text:'Especifique el momento o condición de ocurrencia: hora, período del día, contexto particular. <strong>Si una amenaza se concentra en franjas horarias que usted no ocupa, su vulnerabilidad real se reduce.</strong> Si por el contrario <strong>sus actividades coinciden con esos momentos, es una señal de alerta directa</strong> para sus medidas de mitigación.',
+    pop_what_title:'¿Quién está en riesgo?',
+    pop_what_text:'Identifique los <strong>perfiles más expuestos</strong>: personal nacional, internacional, conductores, personal femenino, gerentes visibles, perfiles étnicos específicos, <strong>personal cuyo perfil personal puede constituir una vulnerabilidad específica en el contexto local</strong>. <strong>Saber quién está prioritariamente en riesgo permite dirigir formaciones, briefings y medidas de reducción</strong> donde tendrán mayor efecto.',
+    notice_ctx_help:'<span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;font-size:9px;font-weight:700;vertical-align:middle;margin-right:4px;flex-shrink:0">?</span> A lo largo de la herramienta, haga clic en los botones rojos <strong>?</strong> para obtener explicaciones y orientación en cualquier momento.',
     ph_why:'Ej.: Sin protocolo de comunicación, sin formación en primeros auxilios... (Procedimientos / Equipos / Comportamientos / Aceptación / Perfiles expuestos)',
-    ph_prog:'Ej.: Distribución, WASH, Protección, etc.',
+    ph_prog:'Ej.: Distribución de efectivo, desplazamiento de campo, reunión comunitaria',
+    tip_prog:'Haga clic para más información',
+    pop_prog_title:'Actividad relacionada',
+    pop_prog_text:'Si la amenaza está vinculada a una actividad específica, anótela aquí. <strong>Si es general y no está vinculada a una actividad particular, deje este campo vacío.</strong> No liste todas sus actividades — <strong>solo una si es pertinente</strong>.',
     ph_consequences:'Ej.: Muerte o lesiones graves, suspensión del programa, pérdida de confianza de los beneficiarios...',
     ph_reduce_prob:'Ej.: 1. Establecer protocolo de comunicación antes de desplazamientos en zonas de riesgo. 2. Fortalecer la aceptación comunitaria con reuniones regulares con líderes locales...',
     ph_reduce_imp:'Ej.: 1. Formar al personal en primeros auxilios. 2. Mapear instalaciones de salud accesibles. 3. Activar el Plan de gestión de crisis...',
@@ -2969,7 +3024,9 @@ function toggleEdit(fieldId, textareaId) {
     const thId = ta.dataset.thid;
     const field = ta.dataset.field;
     updateThreat(thId, field, ta.value);
-    bullets.innerHTML = '<ul style="padding-left:16px;margin:0">'+toBullets(ta.value)+'</ul>' || '<span style="color:var(--text3);font-style:italic">—</span>';
+    const bLines = ta.value.split('\n').filter(l=>l.trim()).length;
+    const bCol = (field === 'consequences' && bLines >= 4) ? 'column-count:3;column-gap:20px' : '';
+    bullets.innerHTML = '<ul style="padding-left:16px;margin:0;'+bCol+'">'+toBullets(ta.value)+'</ul>' || '<span style="color:var(--text3);font-style:italic">—</span>';
     ta.style.display = 'none';
     bullets.style.display = 'block';
     btn.textContent = t('btn_edit')||'✎ Modifier';
@@ -2989,6 +3046,8 @@ function renderVulnStep() {
   body.innerHTML = threats.map((th,i) => {
     const cBullets = toBullets(th.consequences);
     const wBullets = toBullets(th.why);
+    const cCount = th.consequences ? th.consequences.split('\n').filter(l=>l.trim()).length : 0;
+    const cColStyle = cCount >= 4 ? 'column-count:3;column-gap:20px' : '';
     return `
     <div class="threat-card" id="vuln-card-${th.id}" style="margin-bottom:12px">
       <div class="threat-card-header">
@@ -3001,67 +3060,64 @@ function renderVulnStep() {
       <div class="threat-card-body">
 
         <div class="form-group" style="margin-bottom:12px">
-          <div class="form-label">${t('lbl_prog')}</div>
+          <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_prog')}<span onclick="toggleFieldPopover(event,'prog')" title="${t('tip_prog')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
           <input class="form-input" value="${escHtml(th.prog)}" placeholder="${t('ph_prog')}"
             onchange="updateThreat('${th.id}','prog',this.value)">
         </div>
 
-        <div class="threat-fields cols-2" style="margin-bottom:12px;align-items:start">
 
-          <!-- COL GAUCHE : Potential consequences -->
-          <div class="form-group">
-            <div style="display:flex;align-items:center;justify-content:space-between;height:28px;margin-bottom:4px">
-              <div style="display:flex;align-items:baseline;gap:8px;flex:1;min-width:0">
-                <div class="form-label" style="white-space:nowrap">${t('lbl_consequences')}</div>
-                <span style="font-size:11px;color:var(--text3);font-style:italic;flex-shrink:1;min-width:0">${t('lbl_pre_filled')}</span>
-              </div>
-              <button id="btn_cons_${i}" class="btn-remove" style="font-size:11px;padding:2px 8px;flex-shrink:0;margin-left:8px"
-                onclick="toggleEdit('cons_${i}','cons_ta_${i}')">${t('btn_edit')||'✎ Modifier'}</button>
+        <!-- CONSÉQUENCES POTENTIELLES — pleine largeur -->
+        <div class="form-group" style="margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;height:28px;margin-bottom:4px">
+            <div style="display:flex;align-items:baseline;gap:8px;flex:1;min-width:0">
+              <div class="form-label" style="white-space:nowrap">${t('lbl_consequences')}</div>
+              <span style="font-size:11px;color:var(--text3);font-style:italic;flex-shrink:1;min-width:0">${t('lbl_pre_filled')}</span>
             </div>
-            <div id="bullets_cons_${i}" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:8px 10px;min-height:44px;font-size:13px;color:var(--text)">
-              ${cBullets ? '<ul style="padding-left:16px;margin:0">'+cBullets+'</ul>' : '<span style="color:var(--text3);font-style:italic">—</span>'}
-            </div>
-            <textarea id="ta_cons_ta_${i}" class="form-textarea" rows="5" style="display:none;margin-top:4px"
-              data-thid="${th.id}" data-field="consequences"
-              onchange="updateThreat('${th.id}','consequences',this.value)">${escHtml(th.consequences)}</textarea>
+            <button id="btn_cons_${i}" class="btn-remove" style="font-size:11px;padding:2px 8px;flex-shrink:0;margin-left:8px"
+              onclick="toggleEdit('cons_${i}','cons_ta_${i}')">${t('btn_edit')||'✎ Modifier'}</button>
           </div>
+          <div id="bullets_cons_${i}" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:8px 10px;min-height:44px;font-size:13px;color:var(--text)">
+            ${cBullets ? `<ul style="padding-left:16px;margin:0;${cColStyle}">`+cBullets+'</ul>' : '<span style="color:var(--text3);font-style:italic">—</span>'}
+          </div>
+          <textarea id="ta_cons_ta_${i}" class="form-textarea" rows="5" style="display:none;margin-top:4px"
+            data-thid="${th.id}" data-field="consequences"
+            onchange="updateThreat('${th.id}','consequences',this.value)">${escHtml(th.consequences)}</textarea>
+        </div>
 
-          <!-- COL DROITE : WHO + WHERE empilés — alignés avec les bullets -->
-          <div style="display:flex;flex-direction:column;gap:10px;padding-top:28px">
+        <!-- BLOC ANALYSE CONTEXTUELLE — 4 champs en grille 2x2 -->
+        <div style="border-top:1px solid var(--border);margin:4px 0 12px;padding-top:12px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--text2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">${t('lbl_context_group')}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div class="form-group">
-              <div class="form-label">${t('lbl_who')}</div>
+              <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_who')}<span onclick="toggleFieldPopover(event,'who')" title="${t('tip_who')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
               <input class="form-input" value="${escHtml(th.who)}" placeholder="${t('ph_who')}"
                 onchange="updateThreat('${th.id}','who',this.value)">
             </div>
             <div class="form-group">
-              <div class="form-label">${t('lbl_where')}</div>
+              <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_where')}<span onclick="toggleFieldPopover(event,'where')" title="${t('tip_where')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
               <input class="form-input" value="${escHtml(th.where)}" placeholder="${t('ph_where')}"
                 onchange="updateThreat('${th.id}','where',this.value)">
             </div>
-          </div>
-
-        </div>
-
-        <div class="threat-fields cols-2" style="margin-bottom:12px">
-          <div class="form-group">
-            <div class="form-label">${t('lbl_when')}</div>
-            <input class="form-input" value="${escHtml(th.when)}" placeholder="${t('ph_when')}"
-              onchange="updateThreat('${th.id}','when',this.value)">
-          </div>
-          <div class="form-group">
-            <div class="form-label">${t('lbl_what')}</div>
-            <input class="form-input" value="${escHtml(th.what)}" placeholder="${t('ph_what')}"
-              onchange="updateThreat('${th.id}','what',this.value)">
+            <div class="form-group">
+              <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_when')}<span onclick="toggleFieldPopover(event,'when')" title="${t('tip_when')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
+              <input class="form-input" value="${escHtml(th.when)}" placeholder="${t('ph_when')}"
+                onchange="updateThreat('${th.id}','when',this.value)">
+            </div>
+            <div class="form-group">
+              <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_what')}<span onclick="toggleFieldPopover(event,'what')" title="${t('tip_what')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
+              <input class="form-input" value="${escHtml(th.what)}" placeholder="${t('ph_what')}"
+                onchange="updateThreat('${th.id}','what',this.value)">
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
             <div class="form-label" style="white-space:nowrap">${t('lbl_why_title')}</div>
-            <span style="font-size:11px;color:var(--text3);font-style:italic">${t('lbl_pre_filled')}</span>
             <button id="btn_vuln_${i}" class="btn-remove" style="font-size:11px;padding:2px 8px;flex-shrink:0"
               onclick="toggleEdit('vuln_${i}','vuln_ta_${i}')">${t('btn_edit')||'✎ Modifier'}</button>
           </div>
+          <div style="font-size:11px;color:var(--text3);font-style:italic;margin-bottom:6px">${t('lbl_pre_filled')}</div>
           <div style="background:var(--warning-bg);border:1px solid var(--warning-bd);border-radius:var(--r2);padding:7px 10px;margin-bottom:4px;font-size:11px;color:var(--warning)">
             ${t('lbl_vuln_warning')}
           </div>
@@ -4281,6 +4337,45 @@ function toggleStep4Tip() {
 }
 
 
+</script>
+
+<!-- Popover aide champs Qui/Où/Quand/Qui est à risque -->
+<div id="fieldHelpPopover" style="position:fixed;z-index:9999;display:none;background:var(--bg);border:1.5px solid #c0392b;border-radius:var(--r);box-shadow:var(--shadow2);padding:14px 16px;min-width:260px;max-width:340px;font-size:12px;color:var(--text);line-height:1.65">
+  <div id="fieldPopoverTitle" style="font-size:11px;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px"></div>
+  <div id="fieldPopoverText" style="font-size:12px;color:var(--text2);line-height:1.65"></div>
+</div>
+
+<script>
+function toggleFieldPopover(event, field) {
+  event.stopPropagation();
+  const pop = document.getElementById('fieldHelpPopover');
+  const title = document.getElementById('fieldPopoverTitle');
+  const text  = document.getElementById('fieldPopoverText');
+  // If same field already open, close
+  if (pop.style.display === 'block' && pop.dataset.field === field) {
+    pop.style.display = 'none';
+    return;
+  }
+  pop.dataset.field = field;
+  title.textContent = t('pop_' + field + '_title') || field;
+  text.innerHTML    = t('pop_' + field + '_text')  || '';
+  pop.style.display = 'block';
+  // Position
+  const btn  = event.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const pw   = 340;
+  let left   = rect.left;
+  if (left + pw > window.innerWidth - 12) left = window.innerWidth - pw - 12;
+  if (left < 8) left = 8;
+  let top = rect.bottom + 6;
+  if (top + 200 > window.innerHeight) top = rect.top - 210;
+  pop.style.left = left + 'px';
+  pop.style.top  = top  + 'px';
+}
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('fieldHelpPopover');
+  if (pop && !pop.contains(e.target)) pop.style.display = 'none';
+});
 </script>
 
 <!-- Popover statut plan d'action -->
