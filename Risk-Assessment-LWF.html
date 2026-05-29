@@ -4379,51 +4379,55 @@ document.addEventListener('click', function(e) {
 </script>
 
 <!-- Popover statut plan d'action -->
-<div id="statusHelpPopover" style="position:fixed;z-index:9999;display:none;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:12px 14px;min-width:240px;max-width:300px;font-size:12px;color:var(--text);line-height:1.6">
-  <div id="statusPopoverTitle" style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px"></div>
-  <ul id="statusPopoverList" style="margin:0;padding:0;list-style:none"></ul>
+<div id="statusHelpPopover" style="position:fixed;z-index:9999;display:none;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow2);padding:14px 16px;min-width:300px;max-width:360px;font-size:12px;color:var(--text);line-height:1.6">
+  <div id="statusPopoverTitle" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent2);margin-bottom:10px"></div>
+  <div id="statusPopoverContent"></div>
 </div>
 
 <script>
 function toggleStatusPopover(event) {
   event.stopPropagation();
   const pop = document.getElementById('statusHelpPopover');
+  const btn = event.currentTarget;
+
   if (pop.style.display === 'block') { pop.style.display = 'none'; return; }
 
-  const lang = typeof currentLang !== 'undefined' ? currentLang : 'fr';
   const labels = {
     fr: { title: 'Signification des statuts', items: [
-      ['—',           'Pas encore traité'],
-      ['En cours',    'Action démarrée'],
-      ['Partiellement','Avancée mais pas finalisée'],
-      ['Terminé',     'Clôturée — ligne barrée automatiquement'],
-      ['Suspendu',    'En pause ou bloquée'],
+      { label:'—',             desc:'Pas encore traité',                      bg:'#f0f3f5', tc:'#5a6b7a' },
+      { label:'En cours',      desc:'Action démarrée',                        bg:'#e8f0fb', tc:'#7493C7' },
+      { label:'Partiellement', desc:'Avancée mais pas finalisée',             bg:'#fdf5e8', tc:'#b7600a' },
+      { label:'Terminé',       desc:'Clôturée — ligne barrée automatiquement',bg:'#e8f5ed', tc:'#1a6b3a' },
+      { label:'Suspendu',      desc:'En pause ou bloquée',                    bg:'#fdf5e8', tc:'#b7600a' },
     ]},
-    en: { title: 'Status guide', items: [
-      ['—',           'Not yet addressed'],
-      ['In progress', 'Action started'],
-      ['Partially',   'Underway but not finalised'],
-      ['Completed',   'Closed — row automatically struck through'],
-      ['On hold',     'Paused or blocked'],
+    en: { title: 'Status meanings', items: [
+      { label:'—',           desc:'Not yet addressed',                        bg:'#f0f3f5', tc:'#5a6b7a' },
+      { label:'In progress', desc:'Action started',                           bg:'#e8f0fb', tc:'#7493C7' },
+      { label:'Partially',   desc:'Underway but not finalised',               bg:'#fdf5e8', tc:'#b7600a' },
+      { label:'Completed',   desc:'Closed — row automatically struck through',bg:'#e8f5ed', tc:'#1a6b3a' },
+      { label:'On hold',     desc:'Paused or blocked',                        bg:'#fdf5e8', tc:'#b7600a' },
     ]},
-    es: { title: 'Guía de estados', items: [
-      ['—',             'Aún no tratado'],
-      ['En curso',      'Acción iniciada'],
-      ['Parcialmente',  'En marcha pero no finalizada'],
-      ['Completado',    'Cerrada — fila tachada automáticamente'],
-      ['Suspendido',    'En pausa o bloqueada'],
+    es: { title: 'Significado de los estados', items: [
+      { label:'—',            desc:'Aún no tratado',                          bg:'#f0f3f5', tc:'#5a6b7a' },
+      { label:'En curso',     desc:'Acción iniciada',                         bg:'#e8f0fb', tc:'#7493C7' },
+      { label:'Parcialmente', desc:'En marcha pero no finalizada',            bg:'#fdf5e8', tc:'#b7600a' },
+      { label:'Completado',   desc:'Cerrada — fila tachada automáticamente',  bg:'#e8f5ed', tc:'#1a6b3a' },
+      { label:'Suspendido',   desc:'En pausa o bloqueada',                    bg:'#fdf5e8', tc:'#b7600a' },
     ]},
   };
+
   const data = labels[lang] || labels['fr'];
   document.getElementById('statusPopoverTitle').textContent = data.title;
-  document.getElementById('statusPopoverList').innerHTML = data.items.map(([k,v]) =>
-    `<li style="padding:3px 0;border-bottom:1px solid var(--border)"><strong>${k}</strong> — <span style="color:var(--text2)">${v}</span></li>`
-  ).join('').replace(/border-bottom[^"]*"([^<]*<\/li>)$/, '"$1');
+  document.getElementById('statusPopoverContent').innerHTML = data.items.map(it =>
+    `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:7px;font-size:12px;line-height:1.5">
+      <span style="background:${it.bg};color:${it.tc};border-radius:3px;padding:1px 7px;font-weight:700;white-space:nowrap;flex-shrink:0">${it.label}</span>
+      <span style="color:var(--text2)">${it.desc}</span>
+    </div>`
+  ).join('');
 
-  const btn = event.currentTarget;
   const rect = btn.getBoundingClientRect();
   pop.style.top  = (rect.bottom + 6) + 'px';
-  pop.style.left = Math.max(8, rect.left - 180) + 'px';
+  pop.style.left = Math.max(8, rect.left - 260) + 'px';
   pop.style.display = 'block';
 }
 document.addEventListener('click', function(e) {
