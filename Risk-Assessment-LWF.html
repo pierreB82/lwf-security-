@@ -3965,11 +3965,13 @@ function getExportFilename(ext) {
   const office   = slug(document.getElementById('f_office').value);
   const sfp      = slug(document.getElementById('f_sfp').value);
   const date     = (document.getElementById('f_date').value || new Date().toISOString().slice(0,10));
+  const today    = new Date().toISOString().slice(0,10);
 
   const parts = [country, office, sfp, date].filter(s => s && s.length > 0);
   const core  = parts.length ? parts.join('_') : 'export';
   const prefix = {'fr':'Analyse_de_risque','en':'Risk_Assessment','es':'Analisis_de_riesgo'}[lang]||'Risk_Assessment';
-  if (ext === 'json') return `${prefix}_${core}_v${currentJsonVersion}.${ext}`;
+  const coreJson = [country, office, sfp, today].filter(s => s && s.length > 0).join('_') || 'export';
+  if (ext === 'json') return `${prefix}_${coreJson}_v${currentJsonVersion}.${ext}`;
   return `${prefix}_${core}.${ext}`;
 }
 
