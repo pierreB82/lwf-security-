@@ -794,20 +794,11 @@ body {
   position: fixed; z-index: 9999;
   background: var(--bg); border: 1px solid var(--border2);
   border-radius: var(--r); box-shadow: var(--shadow2);
-  padding: 12px 14px; min-width: 240px; max-width: 300px;
+  padding: 14px 16px; min-width: 300px; max-width: 360px;
   font-size: 12px; color: var(--text); line-height: 1.6;
   display: none;
 }
 #etatPopover.visible { display: block; }
-#etatPopover h4 {
-  font-size: 11px; font-weight: 700; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.7px;
-  margin-bottom: 8px;
-}
-#etatPopover ul { margin: 0; padding: 0; list-style: none; }
-#etatPopover li { padding: 3px 0; border-bottom: 1px solid var(--border); }
-#etatPopover li:last-child { border-bottom: none; }
-#etatPopover li strong { color: var(--text); }
 .ap-date-filter button.soon.active  { background: #b7600a; border-color: #b7600a; }
 .ap-date-filter button.ok.active    { background: #1a6b3a; border-color: #1a6b3a; }
 
@@ -1104,20 +1095,21 @@ body {
     <!-- PLAN D'ACTION -->
     <div class="view" id="view-actions">
 
-      <!-- Banner + résumé priorités sur une seule ligne -->
-      <div style="display:flex;align-items:center;gap:10px;background:#eef2f8;border:1px solid #7493C7;border-radius:8px;padding:10px 14px;margin-bottom:10px;flex-wrap:wrap">
-        <span style="font-size:16px;flex-shrink:0">📤</span>
-        <div id="ap-banner-text" style="font-size:12px;color:#1a1f26;line-height:1.4;flex:1;min-width:200px"></div>
-        <div id="apSummary" style="display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0"></div>
-      </div>
-
-      <!-- Légende priorités compacte sur une ligne -->
-      <div id="apLegend" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:8px 14px;margin-bottom:10px;font-size:11px;color:var(--text2)">
-        <span style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;flex-shrink:0" data-i18n="prioLegendTitle"></span>
-        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#c0392b;margin-right:4px;vertical-align:middle"></span><strong style="color:#c0392b" data-i18n="prioImmediate"></strong> — <span data-i18n="prioLegendImm"></span></span>
-        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#b7600a;margin-right:4px;vertical-align:middle"></span><strong style="color:#b7600a" data-i18n="prioEssential"></strong> — <span data-i18n="prioLegendEss"></span></span>
-        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#92660a;margin-right:4px;vertical-align:middle"></span><strong style="color:#92660a" data-i18n="prioDesirable"></strong> — <span data-i18n="prioLegendDes"></span></span>
-        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#1a6b3a;margin-right:4px;vertical-align:middle"></span><strong style="color:#1a6b3a" data-i18n="prioOngoing"></strong> — <span data-i18n="prioLegendOng"></span></span>
+      <!-- Encart conseil style Risk Assessment -->
+      <div style="background:#eef2f8;border:1px solid #7493C7;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px">
+          <span style="font-size:16px;flex-shrink:0;margin-top:1px">💡</span>
+          <div style="font-size:12px;color:#1a1f26;line-height:1.6;flex:1">
+            <span id="ap-banner-text"></span>
+            <span id="saPrioToggle" onclick="toggleSAPrioTip()" style="cursor:pointer;color:#5a7aaa;font-weight:600;font-size:11px;text-decoration:underline;white-space:nowrap;margin-left:4px" data-i18n="btn_prio_more"> En savoir plus…</span>
+          </div>
+          <div id="apSummary" style="display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0"></div>
+        </div>
+        <div id="saPrioDetail" style="display:none;margin-top:8px;padding-top:8px;border-top:1px solid #7493C7">
+          <div id="saPrioTipText" style="font-size:12px;color:#1a1f26;line-height:1.7;margin-bottom:10px"></div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#5a7aaa;margin-bottom:8px" data-i18n="prioLegendTitle">Signification des priorités</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px" id="saPrioBadges"></div>
+        </div>
       </div>
 
       <div id="apDateFilterBar" class="ap-date-filter" style="display:none"></div>
@@ -1324,6 +1316,9 @@ const TRANSLATIONS = {
     colOwner:       'Action Owner',
     colDelete:      'Del.',
     prioLegendTitle:'Priority meanings',
+    btn_prio_more:' Learn more…',
+    btn_prio_less:'Collapse ↑',
+    saTipDetail:'<ul style="padding-left:16px;margin:0"><li style="margin-bottom:4px"><strong>Automatic date sorting</strong> — the closest actions appear first, regardless of priority. Undated actions are ranked by priority at the bottom.</li><li style="margin-bottom:4px"><strong>Status column</strong>: track each action via the dropdown (In progress / Partially / Completed / Suspended) — completed actions are automatically struck through.</li><li style="margin-bottom:4px"><strong>Export to Excel</strong> to share progress with your SMT.</li><li><strong>Save as JSON</strong> after each update and keep this file in your SharePoint folder.</li></ul>',
     prioLegendImm:  'Act now',
     prioLegendEss:  '1–3 months',
     prioLegendDes:  '~6 months',
@@ -1471,6 +1466,9 @@ const TRANSLATIONS = {
     colOwner:       'Responsable de la mise en œuvre',
     colDelete:      'Suppr.',
     prioLegendTitle:'Signification des priorités',
+    btn_prio_more:' En savoir plus…',
+    btn_prio_less:'Réduire ↑',
+    saTipDetail:'<ul style="padding-left:16px;margin:0"><li style="margin-bottom:4px"><strong>Tri automatique par date</strong> — les actions les plus proches remontent en haut, quelle que soit leur priorité. Les actions sans date se classent en bas par priorité.</li><li style="margin-bottom:4px"><strong>Colonne État</strong> : suivez chaque action via le menu déroulant (En cours / Partiellement / Terminé / Suspendu) — les actions terminées sont automatiquement barrées.</li><li style="margin-bottom:4px"><strong>Exporter en Excel</strong> pour partager l\'avancement avec votre SMT.</li><li><strong>Sauvegarder en JSON</strong> après chaque mise à jour et conserver ce fichier dans votre dossier SharePoint local.</li></ul>',
     prioLegendImm:  'À traiter maintenant',
     prioLegendEss:  '1 à 3 mois',
     prioLegendDes:  'Environ 6 mois',
@@ -1608,6 +1606,9 @@ const TRANSLATIONS = {
     colOwner:       'Responsable de implementación',
     colDelete:      'Elim.',
     prioLegendTitle:'Significado de las prioridades',
+    btn_prio_more:' Saber más…',
+    btn_prio_less:'Reducir ↑',
+    saTipDetail:'<ul style="padding-left:16px;margin:0"><li style="margin-bottom:4px"><strong>Ordenación automática por fecha</strong> — las acciones más próximas aparecen primero. Las acciones sin fecha se clasifican por prioridad al final.</li><li style="margin-bottom:4px"><strong>Columna Estado</strong>: realice el seguimiento con el menú desplegable (En curso / Parcialmente / Completado / Suspendido) — las acciones completadas se tachan automáticamente.</li><li style="margin-bottom:4px"><strong>Exportar a Excel</strong> para compartir el avance con su SMT.</li><li><strong>Guardar como JSON</strong> tras cada actualización y conservar este archivo en su carpeta de SharePoint.</li></ul>',
     prioLegendImm:  'Actuar ahora',
     prioLegendEss:  '1 a 3 meses',
     prioLegendDes:  '~6 meses',
@@ -3214,44 +3215,55 @@ document.addEventListener('click',function(e){
 
 <!-- Popover état plan d'action -->
 <div id="etatPopover">
-  <h4 id="etatPopoverTitle"></h4>
-  <ul id="etatPopoverList"></ul>
+  <div id="etatPopoverTitle" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#5a7aaa;margin-bottom:10px"></div>
+  <div id="etatPopoverContent"></div>
 </div>
 
 <script>
 function toggleEtatPopover(event) {
   event.stopPropagation();
   const pop = document.getElementById('etatPopover');
+  const btn = event.currentTarget;
   if (pop.classList.contains('visible')) {
     pop.classList.remove('visible');
     return;
   }
-  // Construire le contenu i18n
-  const title = t('colStatus')||'État';
-  const items = [
-    {k:'etatNotStarted', def:'Pas débuté'},
-    {k:'etatInProgress', def:'En cours'},
-    {k:'etatOnHold',     def:'En pause'},
-    {k:'etatCancelled',  def:'Annulé'},
-    {k:'etatCompleted',  def:'Terminé'},
-  ];
-  const descs = {
-    'etatNotStarted': {'fr':'Action identifiée, non commencée','en':'Identified, not yet started','es':'Identificada, no iniciada'},
-    'etatInProgress': {'fr':'En cours de réalisation','en':'Currently underway','es':'En proceso de realización'},
-    'etatOnHold':     {'fr':'Suspendue, en attente d\'une décision','en':'Paused, pending decision','es':'Suspendida, pendiente de decisión'},
-    'etatCancelled':  {'fr':'Plus pertinente, abandonnée','en':'No longer relevant, abandoned','es':'Ya no pertinente, abandonada'},
-    'etatCompleted':  {'fr':'Réalisée, clôturée','en':'Done and closed','es':'Realizada y cerrada'},
+  const titles = { fr:'Signification des statuts', en:'Status meanings', es:'Significado de los estados' };
+  const itemsMap = {
+    fr: [
+      { label:'—',           desc:'Pas encore traité',                        bg:'#f0f3f5', tc:'#5a6b7a' },
+      { label:'En cours',    desc:'Action démarrée',                          bg:'#e8f0fb', tc:'#7493C7' },
+      { label:'En pause',    desc:"Suspendue, en attente d'une décision",     bg:'#fdf5e8', tc:'#b7600a' },
+      { label:'Annulé',      desc:'Plus pertinente, abandonnée',              bg:'#fdf0ee', tc:'#c0392b' },
+      { label:'Terminé',     desc:'Réalisée — ligne barrée automatiquement',  bg:'#e8f5ed', tc:'#1a6b3a' },
+    ],
+    en: [
+      { label:'—',           desc:'Not yet started',                          bg:'#f0f3f5', tc:'#5a6b7a' },
+      { label:'In progress', desc:'Action started',                           bg:'#e8f0fb', tc:'#7493C7' },
+      { label:'On hold',     desc:'Paused, pending decision',                 bg:'#fdf5e8', tc:'#b7600a' },
+      { label:'Cancelled',   desc:'No longer relevant, abandoned',            bg:'#fdf0ee', tc:'#c0392b' },
+      { label:'Completed',   desc:'Done — row struck through automatically',  bg:'#e8f5ed', tc:'#1a6b3a' },
+    ],
+    es: [
+      { label:'—',           desc:'Aún no iniciado',                          bg:'#f0f3f5', tc:'#5a6b7a' },
+      { label:'En curso',    desc:'Acción iniciada',                          bg:'#e8f0fb', tc:'#7493C7' },
+      { label:'En pausa',    desc:'Suspendida, pendiente de decisión',        bg:'#fdf5e8', tc:'#b7600a' },
+      { label:'Cancelado',   desc:'Ya no pertinente, abandonada',             bg:'#fdf0ee', tc:'#c0392b' },
+      { label:'Completado',  desc:'Realizada — fila tachada automáticamente', bg:'#e8f5ed', tc:'#1a6b3a' },
+    ],
   };
-  const lang = typeof currentLang !== 'undefined' ? currentLang : 'fr';
-  document.getElementById('etatPopoverTitle').textContent = title;
-  document.getElementById('etatPopoverList').innerHTML = items.map(it =>
-    `<li><strong>${t(it.k)||it.def}</strong> — ${descs[it.k][lang]||descs[it.k]['fr']}</li>`
+  const l = typeof currentLang !== 'undefined' ? currentLang : 'fr';
+  const items = itemsMap[l] || itemsMap['fr'];
+  document.getElementById('etatPopoverTitle').textContent = titles[l] || titles['fr'];
+  document.getElementById('etatPopoverContent').innerHTML = items.map(it =>
+    `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:7px;font-size:12px;line-height:1.5">
+      <span style="background:${it.bg};color:${it.tc};border-radius:3px;padding:1px 7px;font-weight:700;white-space:nowrap;flex-shrink:0">${it.label}</span>
+      <span style="color:#4a5568">${it.desc}</span>
+    </div>`
   ).join('');
-  // Positionnement
-  const btn = event.currentTarget;
   const rect = btn.getBoundingClientRect();
   pop.style.top  = (rect.bottom + 6) + 'px';
-  pop.style.left = Math.max(8, rect.left - 180) + 'px';
+  pop.style.left = Math.max(8, rect.left - 260) + 'px';
   pop.classList.add('visible');
 }
 // Fermer en cliquant ailleurs
@@ -3261,6 +3273,39 @@ document.addEventListener('click', function(e) {
     pop.classList.remove('visible');
   }
 });
+
+// Toggle encart priorités
+function toggleSAPrioTip() {
+  const detail = document.getElementById('saPrioDetail');
+  const toggle = document.getElementById('saPrioToggle');
+  if (!detail) return;
+  const isOpen = detail.style.display !== 'none';
+  detail.style.display = isOpen ? 'none' : 'block';
+  if (toggle) toggle.textContent = isOpen ? (t('btn_prio_more')||' En savoir plus…') : (t('btn_prio_less')||'Réduire ↑');
+  if (!isOpen) {
+    const tipText = document.getElementById('saPrioTipText');
+    if (tipText) tipText.innerHTML = t('saTipDetail') || '';
+    renderSAPrioBadges();
+  }
+}
+
+function renderSAPrioBadges() {
+  const el = document.getElementById('saPrioBadges');
+  if (!el) return;
+  const items = [
+    { label: t('prioImmediate')||'Immédiate',  desc: t('prioLegendImm')||'À traiter maintenant',   bg:'#fdf0ee', tc:'#c0392b', bd:'#e8a99f' },
+    { label: t('prioEssential')||'Essentielle',desc: t('prioLegendEss')||'1 à 3 mois',             bg:'#fdf5e8', tc:'#b7600a', bd:'#e8c98a' },
+    { label: t('prioDesirable')||'Désirable',  desc: t('prioLegendDes')||'Environ 6 mois',         bg:'#fefce8', tc:'#92660a', bd:'#d4b84a' },
+    { label: t('prioOngoing')||'Continue',     desc: t('prioLegendOng')||'Activité permanente',    bg:'#e8f5ed', tc:'#1a6b3a', bd:'#a8d5b5' },
+  ];
+  el.innerHTML = items.map(it => `
+    <div style="background:#fff;border:1px solid #c4d3e8;border-radius:4px;padding:8px 12px;min-width:150px;flex:1">
+      <div style="margin-bottom:4px"><span style="background:${it.bg};color:${it.tc};border:1px solid ${it.bd};padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap">${it.label}</span></div>
+      <div style="font-size:11px;color:#4a5568;line-height:1.5">${it.desc}</div>
+    </div>`).join('');
+}
 </script>
+</body>
+</html>
 </body>
 </html>
