@@ -1379,12 +1379,7 @@ body {
               <div id="step4_own_detail" style="display:none;margin-top:8px;font-size:12px;color:var(--text2);line-height:1.7"></div>
             </div>
           </div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-            <span style="background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-bd);padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700" id="prio_badge_imm">Immédiate — maintenant</span>
-            <span style="background:var(--warning-bg);color:var(--warning);border:1px solid var(--warning-bd);padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700" id="prio_badge_ess">Essentielle — 1 à 3 mois</span>
-            <span style="background:var(--moderate-bg);color:var(--moderate);border:1px solid var(--moderate-bd);padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700" id="prio_badge_des">Désirable — 6 mois</span>
-            <span style="background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-bd);padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700" id="prio_badge_con">Continue — permanent</span>
-          </div>
+
         </div>
 
         <!-- COMPTEURS -->
@@ -1415,7 +1410,7 @@ body {
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_action">Action</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_threat">Menace</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_comment">Commentaire</th>
-                  <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_priority">Priorité</th>
+                  <th style="background:var(--bg3);color:var(--text2);position:relative;white-space:nowrap"><span data-i18n="ap_priority">Priorité</span><span onclick="togglePrioPopover(event)" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;margin-left:5px;flex-shrink:0;line-height:1;box-shadow:0 1px 3px rgba(0,0,0,0.25);vertical-align:middle" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_date">Date prévue</th>
                   <th style="background:var(--bg3);color:var(--text2)" data-i18n="ap_cost">Coût (USD)</th>
                   <th style="background:var(--bg3);color:var(--text2)" id="th_ap_status">
@@ -3965,7 +3960,7 @@ function getExportFilename(ext) {
   const office   = slug(document.getElementById('f_office').value);
   const sfp      = slug(document.getElementById('f_sfp').value);
   const date     = (document.getElementById('f_date').value || new Date().toISOString().slice(0,10));
-  const today    = new Date().toISOString().slice(0,10);
+  const exportToday = new Date().toISOString().slice(0,10);
 
   const parts = [country, office, sfp, date].filter(s => s && s.length > 0);
   const core  = parts.length ? parts.join('_') : 'export';
@@ -4437,6 +4432,56 @@ document.addEventListener('click', function(e) {
   if (pop && pop.style.display === 'block' && !pop.contains(e.target)) {
     pop.style.display = 'none';
   }
+});
+</script>
+
+<div id="prioHelpPopover" style="position:fixed;z-index:9999;display:none;background:#ffffff;border:1px solid var(--border2,#bfcbaa);border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);padding:14px 16px;min-width:300px;max-width:380px;font-size:12px;line-height:1.6">
+  <div id="prioPopoverTitle" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent2,#6a8420);margin-bottom:10px"></div>
+  <div id="prioPopoverContent"></div>
+</div>
+<script>
+function togglePrioPopover(event) {
+  event.stopPropagation();
+  const pop = document.getElementById('prioHelpPopover');
+  const btn = event.currentTarget;
+  if (!pop) return;
+  if (pop.style.display === 'block') { pop.style.display = 'none'; return; }
+  const labels = {
+    fr: { title:'Temporalité des priorités', items:[
+      { label:'Immédiate',  desc:'À traiter maintenant — dans les jours qui suivent.',      bg:'#fdf0ee', tc:'#c0392b', bd:'#e8a99f' },
+      { label:'Essentielle',desc:'À planifier sous 1 à 3 mois.',                           bg:'#fdf5e8', tc:'#b7600a', bd:'#e8c98a' },
+      { label:'Désirable',  desc:'À réaliser sous 6 mois si les ressources le permettent.',bg:'#fefce8', tc:'#92660a', bd:'#d4b84a' },
+      { label:'Continue',   desc:'Action permanente ou récurrente — sans date limite fixe.',bg:'#e8f5ed', tc:'#1a6b3a', bd:'#a8d5b5' },
+    ]},
+    en: { title:'Priority timelines', items:[
+      { label:'Immediate',  desc:'To be addressed now — within days.',                     bg:'#fdf0ee', tc:'#c0392b', bd:'#e8a99f' },
+      { label:'Essential',  desc:'To be planned within 1 to 3 months.',                   bg:'#fdf5e8', tc:'#b7600a', bd:'#e8c98a' },
+      { label:'Desirable',  desc:'To be completed within 6 months if resources allow.',   bg:'#fefce8', tc:'#92660a', bd:'#d4b84a' },
+      { label:'Ongoing',    desc:'Permanent or recurring action — no fixed deadline.',     bg:'#e8f5ed', tc:'#1a6b3a', bd:'#a8d5b5' },
+    ]},
+    es: { title:'Temporalidad de las prioridades', items:[
+      { label:'Inmediata',  desc:'A tratar ahora — en los próximos días.',                 bg:'#fdf0ee', tc:'#c0392b', bd:'#e8a99f' },
+      { label:'Esencial',   desc:'A planificar en 1 a 3 meses.',                          bg:'#fdf5e8', tc:'#b7600a', bd:'#e8c98a' },
+      { label:'Deseable',   desc:'A realizar en 6 meses si los recursos lo permiten.',    bg:'#fefce8', tc:'#92660a', bd:'#d4b84a' },
+      { label:'Continua',   desc:'Acción permanente o recurrente — sin fecha límite.',    bg:'#e8f5ed', tc:'#1a6b3a', bd:'#a8d5b5' },
+    ]},
+  };
+  const l = (typeof lang !== 'undefined' ? lang : (typeof currentLang !== 'undefined' ? currentLang : 'fr')) || 'fr';
+  const data = labels[l] || labels['fr'];
+  document.getElementById('prioPopoverTitle').textContent = data.title;
+  document.getElementById('prioPopoverContent').innerHTML = data.items.map(function(it) {
+    return '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:7px;font-size:12px;line-height:1.5">' +
+      '<span style="background:'+it.bg+';color:'+it.tc+';border:1px solid '+it.bd+';border-radius:20px;padding:2px 8px;font-weight:700;white-space:nowrap;flex-shrink:0">'+it.label+'</span>' +
+      '<span style="color:var(--text2,#4a5568)">'+it.desc+'</span></div>';
+  }).join('');
+  var rect = btn.getBoundingClientRect();
+  pop.style.top  = (rect.bottom + 6) + 'px';
+  pop.style.left = Math.max(8, rect.left - 220) + 'px';
+  pop.style.display = 'block';
+}
+document.addEventListener('click', function(e) {
+  var pop = document.getElementById('prioHelpPopover');
+  if (pop && pop.style.display === 'block' && !pop.contains(e.target)) pop.style.display = 'none';
 });
 </script>
 </body>
