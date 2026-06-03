@@ -2913,6 +2913,7 @@ function addFromLib(id) {
   });
   renderLibGrid(currentFilter);
   renderThreatList();
+  saveState();
 }
 
 function addCustomThreat() {
@@ -2937,6 +2938,7 @@ function addCustomThreat() {
     reduceProb:'', reduceImp:''
   });
   renderThreatList();
+  saveState();
   // Focus automatique sur le nouveau champ
   setTimeout(() => {
     const inputs = document.querySelectorAll('.threat-name-input');
@@ -2948,6 +2950,7 @@ function removeThreat(id) {
   threats = threats.filter(t => String(t.id) !== String(id));
   renderLibGrid(currentFilter);
   renderThreatList();
+  saveState();
 }
 
 function goToThreat(stepNum, threatId) {
@@ -3965,7 +3968,7 @@ function getExportFilename(ext) {
   const parts = [country, office, sfp, date].filter(s => s && s.length > 0);
   const core  = parts.length ? parts.join('_') : 'export';
   const prefix = {'fr':'Analyse_de_risque','en':'Risk_Assessment','es':'Analisis_de_riesgo'}[lang]||'Risk_Assessment';
-  const coreJson = [country, office, sfp, today].filter(s => s && s.length > 0).join('_') || 'export';
+  const coreJson = [country, office, sfp, exportToday].filter(s => s && s.length > 0).join('_') || 'export';
   if (ext === 'json') return `${prefix}_${coreJson}_v${currentJsonVersion}.${ext}`;
   return `${prefix}_${core}.${ext}`;
 }
@@ -4162,6 +4165,7 @@ function handleImport(e) {
       currentJsonVersion = (d.metadata && d.metadata.jsonVersion) ? d.metadata.jsonVersion + 1 : 2;
       onOfficeChange();
       renderCurrentStep();
+      saveState();
       alert(t('alert_saved')||'Sauvegarde chargée avec succès !');
     } catch(err) { alert((t('alert_error')||'Erreur : ')+err.message); }
   };
