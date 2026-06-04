@@ -630,6 +630,16 @@ body {
 .btn-goto:hover { background: var(--accent); color: #fff; }
 
 .threat-card-body { padding: 14px 14px; }
+.threat-card-header-collapse {
+  transition: background 0.15s;
+}
+.threat-card-header-collapse:hover {
+  background: var(--accent-lt);
+}
+.vuln-collapsed-hint {
+  font-size:11px; color:var(--text3); font-style:italic;
+  padding: 0 0 2px 0; white-space:nowrap; flex-shrink:0;
+}
 .threat-fields { display: grid; gap: 10px; }
 .threat-fields.cols-2 { grid-template-columns: 1fr 1fr; }
 .threat-fields.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -1293,7 +1303,11 @@ body {
           </div>
           <div class="aide-box">
             <div class="aide-icon">💬</div>
-            <div class="aide-text"><strong data-i18n="step2_aide_q">Pour le groupe :</strong> <span data-i18n="step2_aide_text">Commencez par identifier pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. <strong>La même menace peut avoir un niveau de risque très différent selon vos vulnérabilités.</strong> Ce n'est pas une science exacte — cherchez un consensus collectif.</span></div>
+            <div class="aide-text" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+              <div><strong data-i18n="step2_aide_q">Pour le groupe :</strong> <span data-i18n="step2_aide_text">Commencez par identifier pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. <strong>La même menace peut avoir un niveau de risque très différent selon vos vulnérabilités.</strong> Ce n'est pas une science exacte — cherchez un consensus collectif.</span></div>
+              <button id="btn_collapse_all" onclick="toggleAllCards()" style="flex-shrink:0;font-family:var(--font);font-size:11px;font-weight:600;background:var(--bg);color:var(--text2);border:1px solid var(--border2);padding:4px 10px;border-radius:var(--r2);cursor:pointer;white-space:nowrap;height:28px;transition:all 0.15s" data-i18n="step2_expand_all" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">Tout déplier</button>
+            </div>
+            <div style="font-size:11px;color:var(--text3);font-style:italic;margin-top:6px" data-i18n="step2_accordion_hint">Cliquez sur une menace pour afficher ou masquer le détail</div>
           </div>
         </div>
       </div>
@@ -1614,6 +1628,10 @@ const I18N = {
     step2_aide_q:'Pour le groupe :',
     step2_aide_text:'Identifiez d\'abord pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. La même menace peut avoir un niveau de risque très différent selon le contexte.',
     step2_empty:'Ajoutez d\'abord des menaces à l\'étape 1.',
+    step2_collapse_all:'Tout réduire',
+    step2_expand_all:'Tout déplier',
+    step2_accordion_hint:'Cliquez sur une menace pour afficher ou masquer le détail',
+    not_rated:'non évalué',
     step3_label:'Étape 3', step3_title:'Mesures de réduction du risque',
     step3_sub:'Pour les menaces prioritaires, définissez des mesures concrètes pour réduire la probabilité et l\'impact.',
     step3_aide_q:'Pour le groupe :',
@@ -1658,6 +1676,8 @@ const I18N = {
     dec_title_refused:'✘ Risque refusé — décision enregistrée',
     dec_body:'Toutes les menaces avec un niveau de risque ≥ 15 ne peuvent pas nécessairement être éliminées. La direction peut décider d\'assumer ce risque ou de le refuser. Cette décision doit être <strong>collective, documentée et validée par le/la Représentant(e) Pays.</strong>',
     dec_btn_assumed:'✔ Risque assumé',
+    dec_btn_assumed_short:'Assumé',
+    dec_btn_refused_short:'Refusé',
     dec_btn_refused:'✘ Risque refusé',
     dec_btn_cancel:'↩ Annuler',
     dec_refused_warn:'⛔ Informez immédiatement le/la Représentant(e) Pays',
@@ -1774,7 +1794,7 @@ const I18N = {
     reset_cancel:'Annuler',
     reset_confirm:'Oui, tout effacer',
     matrix_title:'Matrice des risques — positionnement des menaces',
-    matrix_hint:'Cliquez sur "Copier la matrice" pour coller la matrice dans vos documents Mémo-Sécu et Plan de Sécurité.',
+    matrix_hint:'Cliquez sur "Copier la matrice" pour coller la matrice dans vos documents "Mémo Sécu" et "Plan de Sécurité".',
     btn_copy_matrix:'📋 Copier la matrice',
     copy_ok:'✓ Copié !',
     risk_click_hint:'Cliquez sur une valeur de probabilité et d\'impact pour calculer le niveau de risque.',
@@ -1858,6 +1878,10 @@ const I18N = {
     step2_aide_q:'For the group:',
     step2_aide_text:'First identify why you are vulnerable — then rate the risk taking those weaknesses into account. The same threat can have a very different risk level depending on context.',
     step2_empty:'Add threats first in Step 1.',
+    step2_collapse_all:'Collapse all',
+    step2_expand_all:'Expand all',
+    step2_accordion_hint:'Click on a threat to show or hide the detail',
+    not_rated:'not rated',
     step3_label:'Step 3', step3_title:'Risk reduction measures',
     step3_sub:'For priority threats, define concrete measures to reduce probability and impact.',
     step3_aide_q:'For the group:',
@@ -1902,6 +1926,8 @@ const I18N = {
     dec_title_refused:'✘ Risk refused — decision recorded',
     dec_body:'Not all threats with a risk level ≥ 15 can necessarily be eliminated. Management may decide to accept this risk or refuse it. This decision must be <strong>collective, documented and validated by the Country Representative.</strong>',
     dec_btn_assumed:'✔ Risk accepted',
+    dec_btn_assumed_short:'Accepted',
+    dec_btn_refused_short:'Refused',
     dec_btn_refused:'✘ Risk refused',
     dec_btn_cancel:'↩ Cancel',
     dec_refused_warn:'⛔ Inform the Country Representative immediately',
@@ -2018,7 +2044,7 @@ const I18N = {
     reset_cancel:'Cancel',
     reset_confirm:'Yes, erase everything',
     matrix_title:'Risk matrix — threat positioning',
-    matrix_hint:'Click "Copy matrix" to paste it into your Security Memo and Security Plan documents.',
+    matrix_hint:'Click "Copy matrix" to paste it into your "Basic Security rules" and "Security Plan" documents.',
     btn_copy_matrix:'📋 Copy matrix',
     copy_ok:'✓ Copied!',
     risk_click_hint:'Click a probability and impact value to calculate the risk level.',
@@ -2101,6 +2127,10 @@ const I18N = {
     step2_aide_q:'Para el grupo:',
     step2_aide_text:'Primero identifique por qué son vulnerables — luego califique el riesgo teniendo en cuenta esas debilidades. La misma amenaza puede tener un nivel de riesgo muy diferente según el contexto.',
     step2_empty:'Agregue amenazas primero en el Paso 1.',
+    step2_collapse_all:'Contraer todo',
+    step2_expand_all:'Expandir todo',
+    step2_accordion_hint:'Haga clic en una amenaza para mostrar u ocultar el detalle',
+    not_rated:'no evaluado',
     step3_label:'Paso 3', step3_title:'Medidas de reducción del riesgo',
     step3_sub:'Para las amenazas prioritarias, defina medidas concretas para reducir la probabilidad y el impacto.',
     step3_aide_q:'Para el grupo:',
@@ -2145,6 +2175,8 @@ const I18N = {
     dec_title_refused:'✘ Riesgo rechazado — decisión registrada',
     dec_body:'No todas las amenazas con un nivel de riesgo ≥ 15 pueden eliminarse necesariamente. La dirección puede decidir asumir este riesgo o rechazarlo. Esta decisión debe ser <strong>colectiva, documentada y validada por el/la Representante País.</strong>',
     dec_btn_assumed:'✔ Riesgo asumido',
+    dec_btn_assumed_short:'Asumido',
+    dec_btn_refused_short:'Rechazado',
     dec_btn_refused:'✘ Riesgo rechazado',
     dec_btn_cancel:'↩ Cancelar',
     dec_refused_warn:'⛔ Informe inmediatamente al/la Representante País',
@@ -2261,7 +2293,7 @@ const I18N = {
     reset_cancel:'Cancelar',
     reset_confirm:'Sí, borrar todo',
     matrix_title:'Matriz de riesgos — posicionamiento de amenazas',
-    matrix_hint:'Haga clic en "Copiar matriz" para pegarla en sus documentos Memo-Seguridad y Plan de Seguridad.',
+    matrix_hint:'Haga clic en "Copiar matriz" para pegarla en sus documentos "Normas básicas de seguridad" y "Plan de Seguridad".',
     btn_copy_matrix:'📋 Copiar matriz',
     copy_ok:'✓ Copiado!',
     risk_click_hint:'Haga clic en un valor de probabilidad e impacto para calcular el nivel de riesgo.',
@@ -2374,16 +2406,16 @@ const THREAT_LIB = [
    reduceProb_es:`Compartir las coordenadas GPS de las instalaciones con las partes beligerantes pertinentes\nReforzar la visibilidad de vehículos y edificios — adhesivos de visibilidad (incluidos en tejados), banderas\nAsegurar vigilancia contextual — observar movimientos de drones y zonas activas\nEvaluar si los edificios están situados cerca de objetivos potenciales\nAplicar autorizaciones de movimiento mediante TOOL_MOV_Travel plan`,
    reduceImp_es:`Compartir con el personal clave el POE_Dron — Permanezca inmóvil, silencioso, busque refugio fuera de la línea de visión vertical\nDisponibilidad de botiquines de primeros auxilios apropiados\nFormar al personal en primeros auxilios\nAplicar el apoyo post-incidente — atención psicológica y enlace familiar`},
   {id:'bombing',      cat:'securite', name_fr:'Bombardement / Attaque aérienne', name_en:'Bombing / Air attack',  name_es:'Bombardeo / Ataque aéreo',
-   consequences:`Décès ou blessures graves\nDestruction des infrastructures\nTraumatisme du staff\nInterruption totale des opérations`,
-   vuln:`Bâtiment sans local sécurisé identifié\nAbsence de plan d'évacuation\nCoordonnées GPS non partagées`,
+   consequences:`Décès ou blessures graves du staff\nDestruction des bureaux, véhicules ou guesthouses\nTraumatisme psychologique du staff et des familles\nInterruption des opérations et évacuation / relocalisation\nPerte d'actifs critiques et de données\nAtteinte à la réputation si du staff est blessé ou tué\nAccès restreint aux zones affectées`,
+   vuln:`Bâtiment sans local sécurisé identifié\nAbsence de plan d'évacuation\nCoordonnées GPS non partagées avec les parties concernées\nBureaux situés près de cibles potentielles\nAbsence de SOP spécifique attaque aérienne\nDonnées critiques et actifs non sauvegardés hors site`,
    reduceProb:`Partager les coordonnées GPS avec les parties concernées\nÉvaluer la proximité des bureaux des cibles potentielles\nAssurer une veille contextuelle continue\nAppliquer les autorisations de mouvement`,
    reduceImp:`Identifier un local sécurisé dans chaque bâtiment (salle d'hibernation)\nDévelopper et afficher le plan d'évacuation\nFormer le staff aux premiers secours\nActiver le Plan de gestion de crise`,
-   consequences_en:`Death or serious injuries\nDestruction of infrastructure\nStaff trauma\nTotal disruption of operations`,
-   vuln_en:`Building with no identified safe room\nNo evacuation plan\nGPS coordinates not shared`,
+   consequences_en:`Death or serious injury of staff\nDestruction of office, vehicle, or guesthouse\nPsychological trauma for staff and families\nInterruption of operations and evacuation/relocation\nLoss of critical assets and data\nReputational damage if staff are injured or killed\nRestricted access to affected areas`,
+   vuln_en:`Building with no identified safe room\nNo evacuation plan\nGPS coordinates not shared with relevant parties\nOffices located near potential targets\nNo specific air attack SOP\nCritical data and assets not backed up off-site`,
    reduceProb_en:`Share GPS coordinates with relevant parties\nAssess proximity of offices to potential targets\nEnsure continuous contextual monitoring\nApply movement authorisations`,
    reduceImp_en:`Identify a safe room in each building (hibernation room)\nDevelop and post the evacuation plan\nTrain staff in first aid\nActivate the Crisis Management Plan`,
-   consequences_es:`Muerte o lesiones graves\nDestrucción de infraestructuras\nTrauma del personal\nInterrupción total de las operaciones`,
-   vuln_es:`Edificio sin sala segura identificada\nSin plan de evacuación\nCoordenadas GPS no compartidas`,
+   consequences_es:`Muerte o lesiones graves del personal\nDestrucción de oficinas, vehículos o casas de huéspedes\nTrauma psicológico del personal y sus familias\nInterrupción de las operaciones y evacuación/reubicación\nPérdida de activos críticos y datos\nDaño reputacional si el personal resulta herido o fallece\nAcceso restringido a las zonas afectadas`,
+   vuln_es:`Edificio sin sala segura identificada\nSin plan de evacuación\nCoordenadas GPS no compartidas con las partes pertinentes\nOficinas situadas cerca de objetivos potenciales\nSin POE específico sobre ataques aéreos\nDatos críticos y activos sin copia de seguridad fuera del sitio`,
    reduceProb_es:`Compartir las coordenadas GPS con las partes pertinentes\nEvaluar la proximidad de las oficinas a los objetivos potenciales\nAsegurar vigilancia contextual continua\nAplicar autorizaciones de movimiento`,
    reduceImp_es:`Identificar una sala segura en cada edificio (sala de hibernación)\nDesarrollar y publicar el plan de evacuación\nFormar al personal en primeros auxilios\nActivar el Plan de gestión de crisis`},
   {id:'checkpoint',   cat:'crime',    name_fr:'Harcèlement à un checkpoint',   name_en:'Checkpoint harassment',    name_es:'Acoso en checkpoint',
@@ -3048,14 +3080,17 @@ function renderVulnStep() {
     const cColStyle = cCount >= 4 ? 'column-count:3;column-gap:20px' : '';
     return `
     <div class="threat-card" id="vuln-card-${th.id}" style="margin-bottom:12px">
-      <div class="threat-card-header">
+      <div class="threat-card-header threat-card-header-collapse" style="cursor:pointer" onclick="toggleVulnCard('vuln-body-${th.id}','vuln-arrow-${th.id}')">
         <span class="threat-num">#${i+1}</span>
-        <span style="font-size:13px;font-weight:600;color:var(--text)">${escHtml(th.name)||'—'}</span>
-        <button class="btn-goto" onclick="goToThreat(3,'${th.id}')" title="${t('goto_measures')||'Définir les mesures'}">
+        <span style="font-size:13px;font-weight:600;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(th.name)||'—'}</span>
+        ${(()=>{ const sc=th.prob*th.impact; return sc>0 ? `<span class="risk-badge ${riskClass(sc)}" style="flex-shrink:0">${t('risk_label')} ${sc}</span>` : `<span style="font-size:11px;color:var(--text3);flex-shrink:0;font-style:italic">— ${t('not_rated')||'non évalué'}</span>`; })()}
+        <span class="vuln-collapsed-hint" id="vuln-hint-${th.id}" style="display:none">▶ ${t('step2_accordion_hint')||'Cliquer pour développer'}</span>
+        <button class="btn-goto" onclick="event.stopPropagation();goToThreat(3,'${th.id}')" title="${t('goto_measures')||'Définir les mesures'}" style="flex-shrink:0">
           ${t('btn_goto_measures')||'Mesures'} →
         </button>
+        <span id="vuln-arrow-${th.id}" style="font-size:16px;color:var(--accent2);margin-left:8px;transition:transform 0.25s;display:inline-block;flex-shrink:0;transform:rotate(-90deg)">▾</span>
       </div>
-      <div class="threat-card-body">
+      <div class="threat-card-body" id="vuln-body-${th.id}" style="display:none">
 
         <div class="form-group" style="margin-bottom:12px">
           <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_prog')}<span onclick="toggleFieldPopover(event,'prog')" title="${t('tip_prog')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
@@ -3754,8 +3789,8 @@ function renderSummary() {
       <td style="text-align:center"><span class="risk-badge ${riskClass(rl)}">${rl||'—'}</span></td>
       <td style="text-align:center">${ac}</td>
       <td style="text-align:center">${rl >= 15 ? (
-        th.decision === 'assumed' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--ok);color:#fff">✔ Assumé</span>'
-        : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--text);color:#fff">✘ Refusé</span>'
+        th.decision === 'assumed' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--ok);color:#fff">✔ '+t('dec_btn_assumed_short')+'</span>'
+        : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--text);color:#fff">✘ '+t('dec_btn_refused_short')+'</span>'
         : '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--warning-bg);border:1px solid var(--warning-bd);color:var(--warning)">⚠ Requise</span>'
       ) : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
     </tr>`;
@@ -3879,6 +3914,38 @@ function updateThreat(id, field, val) {
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
+/* ================================================================
+   === ACCORDÉON STEP 2 — collapse/expand par menace ===
+   ================================================================ */
+let _allCollapsed = false;
+function toggleVulnCard(bodyId, arrowId) {
+  const body = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : '';
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
+  // Mettre à jour le bouton global selon l'état réel
+  const anyOpen = document.querySelectorAll('[id^="vuln-body-"]').length > 0 &&
+    [...document.querySelectorAll('[id^="vuln-body-"]')].some(b => b.style.display !== 'none');
+  _allCollapsed = !anyOpen;
+  const btn = document.getElementById('btn_collapse_all');
+  if (btn) { btn.setAttribute('data-i18n', _allCollapsed ? 'step2_expand_all' : 'step2_collapse_all'); btn.textContent = t(_allCollapsed ? 'step2_expand_all' : 'step2_collapse_all'); }
+}
+function toggleAllCards() {
+  const bodies = document.querySelectorAll('[id^="vuln-body-"]');
+  const arrows = document.querySelectorAll('[id^="vuln-arrow-"]');
+  // Si tout est collapsé → on expand ; sinon on collapse
+  const anyOpen = [...bodies].some(b => b.style.display !== 'none');
+  const shouldCollapse = anyOpen;
+  bodies.forEach(b => { b.style.display = shouldCollapse ? 'none' : ''; });
+  arrows.forEach(a => { a.style.transform = shouldCollapse ? 'rotate(-90deg)' : 'rotate(0deg)'; });
+  _allCollapsed = shouldCollapse;
+  const btn = document.getElementById('btn_collapse_all');
+  if (btn) { btn.setAttribute('data-i18n', _allCollapsed ? 'step2_expand_all' : 'step2_collapse_all'); btn.textContent = t(_allCollapsed ? 'step2_expand_all' : 'step2_collapse_all'); }
+}
+
 function toggleCard(header) {
   header.classList.toggle('collapsed');
   header.nextElementSibling.classList.toggle('hidden');
