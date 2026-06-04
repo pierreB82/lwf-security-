@@ -132,7 +132,7 @@ body {
   background: var(--bg);
   border-radius: var(--r);
   box-shadow: 0 8px 32px rgba(0,0,0,0.28);
-  max-width: 580px; width: 100%;
+  max-width: 760px; width: 100%;
   max-height: 88vh; overflow: hidden;
   display: flex; flex-direction: column;
 }
@@ -248,10 +248,6 @@ body {
   border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
   flex-shrink: 0;
-}
-.notice-footer-save {
-  font-size: 11px; color: var(--text3);
-  display: flex; align-items: center; gap: 5px;
 }
 
 /* Legacy blocks kept for other uses */
@@ -1042,10 +1038,17 @@ body {
 
     </div>
 
-    <!-- FOOTER -->
-    <div class="notice-footer">
-      <div class="notice-footer-save">💾 <span data-i18n="notice_autosave">Data auto-saved in browser</span></div>
-      <button class="btn-primary" onclick="closeNotice()" data-i18n="btn_start">Start analysis →</button>
+    <!-- FOOTER — Save banner + bouton -->
+    <div class="notice-footer" style="background:#fffbee;border-top:1.5px solid #d4b84a;padding:12px 20px;align-items:flex-start;gap:20px">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:700;color:#7a5c00;margin-bottom:4px;display:flex;align-items:center;gap:6px">
+          <span>💾</span> <span data-i18n="notice_save_title" style="text-transform:uppercase;letter-spacing:0.3px">SAVE YOUR DATA — IMPORTANT</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.55" data-i18n="notice_save_text">
+Always export a JSON backup using <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Export → JSON Backup</em> after each session and save it in the JSON folder in your Local Security Pack, section <strong>&quot;Context and Risk Analysis&quot;</strong>. This file lets you restore all your answers at any time.
+        </div>
+      </div>
+      <button class="btn-primary" onclick="closeNotice()" data-i18n="btn_start" style="flex-shrink:0;align-self:center">Start →</button>
     </div>
 
   </div>
@@ -1201,7 +1204,8 @@ body {
               </div>
               <div class="form-group">
                 <div class="form-label" data-i18n="field_next_review">Prochaine révision prévue</div>
-                <input class="form-input" id="f_next_review" type="date">
+                <input class="form-input" id="f_next_review" type="date" oninput="checkNextReview()" onchange="checkNextReview()">
+                <div id="nextReviewStatus" style="margin-top:4px;font-size:11px;font-weight:700;display:none"></div>
               </div>
             </div>
             <div class="form-group" style="margin-top:14px">
@@ -1297,17 +1301,19 @@ body {
     <div class="step-panel" id="panel-2">
       <div class="panel-header">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
-          <div>
+          <div style="flex:1">
             <div class="panel-step-label" data-i18n="step2_label">Étape 2</div>
             <div class="panel-title" data-i18n="step2_title">Vulnérabilités et niveau de risque</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:6px">
+              <span style="font-size:12px;color:var(--text3);font-style:italic" data-i18n="step2_accordion_hint">Cliquez sur une menace pour afficher ou masquer le détail</span>
+              <button id="btn_collapse_all" onclick="toggleAllCards()" style="font-family:var(--font);font-size:11px;font-weight:600;background:var(--bg);color:var(--text2);border:1px solid var(--border2);padding:4px 10px;border-radius:var(--r2);cursor:pointer;white-space:nowrap;height:26px;transition:all 0.15s;flex-shrink:0" data-i18n="step2_expand_all" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">Tout déplier</button>
+            </div>
           </div>
           <div class="aide-box">
             <div class="aide-icon">💬</div>
-            <div class="aide-text" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-              <div><strong data-i18n="step2_aide_q">Pour le groupe :</strong> <span data-i18n="step2_aide_text">Commencez par identifier pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. <strong>La même menace peut avoir un niveau de risque très différent selon vos vulnérabilités.</strong> Ce n'est pas une science exacte — cherchez un consensus collectif.</span></div>
-              <button id="btn_collapse_all" onclick="toggleAllCards()" style="flex-shrink:0;font-family:var(--font);font-size:11px;font-weight:600;background:var(--bg);color:var(--text2);border:1px solid var(--border2);padding:4px 10px;border-radius:var(--r2);cursor:pointer;white-space:nowrap;height:28px;transition:all 0.15s" data-i18n="step2_expand_all" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">Tout déplier</button>
+            <div class="aide-text">
+              <strong data-i18n="step2_aide_q">Pour le groupe :</strong> <span data-i18n="step2_aide_text">Commencez par identifier pourquoi vous êtes vulnérables — puis notez le risque en tenant compte de ces failles. <strong>La même menace peut avoir un niveau de risque très différent selon vos vulnérabilités.</strong> Ce n'est pas une science exacte — cherchez un consensus collectif.</span>
             </div>
-            <div style="font-size:11px;color:var(--text3);font-style:italic;margin-top:6px" data-i18n="step2_accordion_hint">Cliquez sur une menace pour afficher ou masquer le détail</div>
           </div>
         </div>
       </div>
@@ -1352,9 +1358,13 @@ body {
     <div class="step-panel" id="panel-3">
       <div class="panel-header">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
-          <div>
+          <div style="flex:1">
             <div class="panel-step-label" data-i18n="step3_label">Étape 3</div>
             <div class="panel-title" data-i18n="step3_title">Mesures de réduction du risque</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:6px">
+              <span style="font-size:12px;color:var(--text3);font-style:italic" data-i18n="step3_accordion_hint">Cliquez sur une menace pour afficher ou masquer le détail</span>
+              <button id="btn_collapse_all_3" onclick="toggleAllMitigationCards()" style="font-family:var(--font);font-size:11px;font-weight:600;background:var(--bg);color:var(--text2);border:1px solid var(--border2);padding:4px 10px;border-radius:var(--r2);cursor:pointer;white-space:nowrap;height:26px;transition:all 0.15s;flex-shrink:0" data-i18n="step3_expand_all" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">Tout déplier</button>
+            </div>
           </div>
           <div class="aide-box">
             <div class="aide-icon">💬</div>
@@ -1598,8 +1608,8 @@ const I18N = {
     notice_phase4_desc:'Exportez le fichier JSON → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
     notice_phase5_label:'Validation du plan d\'action',
     notice_phase5_desc:'Session finale avec le personnel concerné — assignez les délais, responsables et coûts.',
-    notice_save_title:'Sauvegarde automatique &amp; Phase 4',
-    notice_save_text:'Vos données sont sauvegardées automatiquement dans ce navigateur. <strong>À la fin de chaque session (Phase 4)</strong>, exportez un fichier JSON et conservez-le dans le dossier dédié de votre Pack Sécurité Local — pas uniquement en local sur votre ordinateur — avant de le partager avec votre Security Advisor pour validation.',
+    notice_save_title:'SAUVEGARDEZ VOS DONNÉES — IMPORTANT',
+    notice_save_text:'Exportez toujours une sauvegarde JSON via <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Export → Sauvegarde JSON</em> après chaque session et enregistrez-la dans le dossier JSON de votre Pack Sécurité Local, section <strong>&quot;Contexte et analyse des risques&quot;</strong>. Ce fichier vous permet de restaurer toutes vos réponses à tout moment.',
     export_title:'Exporter l\'analyse', export_csv:'Exporter en CSV', export_csv_desc:'Compatible Excel — tableau complet',
     export_json:'Sauvegarde JSON', export_json_desc:'Pour recharger plus tard',
     export_print:'Imprimer / PDF', export_print_desc:'Enregistrer en PDF via l\'impression',
@@ -1633,6 +1643,9 @@ const I18N = {
     step2_accordion_hint:'Cliquez sur une menace pour afficher ou masquer le détail',
     not_rated:'non évalué',
     step3_label:'Étape 3', step3_title:'Mesures de réduction du risque',
+    step3_collapse_all:'Tout réduire', step3_expand_all:'Tout déplier',
+    step3_exclude_tip:'Exclure du résumé (Step 5)', step3_include_tip:'Réintégrer dans le résumé',
+    step3_accordion_hint:'Cliquez sur une menace pour afficher ou masquer le détail',
     step3_sub:'Pour les menaces prioritaires, définissez des mesures concrètes pour réduire la probabilité et l\'impact.',
     step3_aide_q:'Pour le groupe :',
     step3_aide_text:'Pour chaque menace prioritaire : quelles actions réduisent la probabilité ? Quelles actions réduisent l\'impact ? Proposez 2-3 actions concrètes. Pensez SOP, formation, équipement.',
@@ -1848,8 +1861,8 @@ const I18N = {
     notice_phase4_desc:'Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',
     notice_phase5_label:'Action plan validation',
     notice_phase5_desc:'Final session with relevant staff — assign deadlines, responsible persons and costs.',
-    notice_save_title:'Automatic saving &amp; Phase 4',
-    notice_save_text:'Your data is automatically saved in this browser. <strong>At the end of each session (Phase 4)</strong>, export a JSON file and save it in your Local Security Pack folder — not only locally on your computer — before sharing it with your Security Advisor for validation.',
+    notice_save_title:'SAVE YOUR DATA — IMPORTANT',
+    notice_save_text:'Always export a JSON backup using <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Export → JSON Backup</em> after each session and save it in the JSON folder in your Local Security Pack, section <strong>&quot;Context and Risk Analysis&quot;</strong>. This file lets you restore all your answers at any time.',
     export_title:'Export assessment', export_csv:'Export to CSV', export_csv_desc:'Excel-compatible — full table',
     export_json:'JSON backup', export_json_desc:'Reload your data later',
     export_print:'Print / PDF', export_print_desc:'Save as PDF via print',
@@ -1883,6 +1896,9 @@ const I18N = {
     step2_accordion_hint:'Click on a threat to show or hide the detail',
     not_rated:'not rated',
     step3_label:'Step 3', step3_title:'Risk reduction measures',
+    step3_collapse_all:'Collapse all', step3_expand_all:'Expand all',
+    step3_exclude_tip:'Exclude from summary (Step 5)', step3_include_tip:'Re-include in summary',
+    step3_accordion_hint:'Click on a threat to show or hide the detail',
     step3_sub:'For priority threats, define concrete measures to reduce probability and impact.',
     step3_aide_q:'For the group:',
     step3_aide_text:'For each priority threat: what actions reduce probability? What actions reduce impact? Aim for 2-3 concrete actions. Think SOPs, training, equipment.',
@@ -2097,8 +2113,8 @@ const I18N = {
     notice_phase4_label:'Guardado &amp; validación',
     notice_phase4_desc:'Exporte el archivo JSON → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_phase5_label:'Validación del plan de acción',
     notice_phase5_desc:'Sesión final con el personal pertinente — asigne plazos, responsables y costos.',
-    notice_save_title:'Guardado automático &amp; Fase 4',
-    notice_save_text:'Sus datos se guardan automáticamente en este navegador. <strong>Al final de cada sesión (Fase 4)</strong>, exporte un archivo JSON y consérvelo en la carpeta dedicada de su Pack de Seguridad Local — no solo localmente en su computadora — antes de compartirlo con su Security Advisor para validación.',
+    notice_save_title:'GUARDE SUS DATOS — IMPORTANTE',
+    notice_save_text:'Exporte siempre una copia de seguridad JSON usando <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Exportar → Copia de seguridad JSON</em> después de cada sesión y guárdela en la carpeta JSON de su Pack de Seguridad Local, sección <strong>&quot;Contexto y análisis de riesgos&quot;</strong>. Este archivo le permite restaurar todas sus respuestas en cualquier momento.',
     export_title:'Exportar análisis', export_csv:'Exportar en CSV', export_csv_desc:'Compatible con Excel — tabla completa',
     export_json:'Copia de seguridad JSON', export_json_desc:'Para recargar más tarde',
     export_print:'Imprimir / PDF', export_print_desc:'Guardar como PDF mediante impresión',
@@ -2132,6 +2148,9 @@ const I18N = {
     step2_accordion_hint:'Haga clic en una amenaza para mostrar u ocultar el detalle',
     not_rated:'no evaluado',
     step3_label:'Paso 3', step3_title:'Medidas de reducción del riesgo',
+    step3_collapse_all:'Contraer todo', step3_expand_all:'Expandir todo',
+    step3_exclude_tip:'Excluir del resumen (Paso 5)', step3_include_tip:'Reincorporar al resumen',
+    step3_accordion_hint:'Haga clic en una amenaza para mostrar u ocultar el detalle',
     step3_sub:'Para las amenazas prioritarias, defina medidas concretas para reducir la probabilidad y el impacto.',
     step3_aide_q:'Para el grupo:',
     step3_aide_text:'Para cada amenaza prioritaria: ¿qué acciones reducen la probabilidad? ¿qué acciones reducen el impacto? Proponga 2-3 acciones concretas. Piense en POE, formación, equipos.',
@@ -2458,15 +2477,15 @@ const THREAT_LIB = [
    reduceProb_es:`Instalar dispositivos de seguridad física adecuados en oficinas y alojamientos\nMejorar la gestión de visitantes\nAsegurar que todos los guardias estén bien formados en procedimientos de guardia y respuesta a crisis\nInstalar un sistema CCTV apropiado\nOrganizar simulacros para guardias y supervisores\nIluminar los posibles escondites dentro del recinto por la noche`,
    reduceImp_es:`Cumplir con los intrusos (generalmente armados) y darles lo que piden\nOrganizar formación en primeros auxilios para el personal\nDisponibilidad de equipos de primeros auxilios dentro del recinto\nOrganizar apoyo psicológico post-incidente`},
   {id:'assault',      cat:'crime',    name_fr:'Agression physique',            name_en:'Physical assault',         name_es:'Agresión física',
-   consequences:`Blessures physiques\nTraumatisme psychologique\nAbsence du staff lors de la convalescence\nImpact sur le moral de l'équipe`,
+   consequences:`Blessures graves\nMenaces directes sur le staff\nTraumatisme psychologique\nEffet réputationnel\nRetards dans la mise en oeuvre des activités\nAcceptation et confiance`,
    vuln:`Staff se déplaçant seul en zone à risque\nAbsence de politique de déplacement en solo\nSOP déplacement non appliqué`,
    reduceProb:`Appliquer une politique stricte interdisant les déplacements solo en zone à risque\nFormer le staff aux mesures de sécurité personnelle\nÉviter les zones à risque connu, particulièrement la nuit`,
    reduceImp:`Former le staff aux premiers secours\nDisposer d'un soutien psychologique post-incident\nActiver le Plan de gestion de crise si nécessaire`,
-   consequences_en:`Physical injuries\nPsychological trauma\nStaff absence during recovery\nImpact on team morale`,
+   consequences_en:`Serious injury\nPersonal threats\nTrauma\nReputational effect\nDelays in implementing activities\nAcceptance and trust`,
    vuln_en:`Staff travelling alone in risk areas\nNo solo movement policy\nMovement SOP not applied`,
    reduceProb_en:`Apply a strict policy prohibiting solo movement in risk areas\nTrain staff in personal security measures\nAvoid known risk areas, especially at night`,
    reduceImp_en:`Train staff in first aid\nProvide post-incident psychological support\nActivate the Crisis Management Plan if necessary`,
-   consequences_es:`Lesiones físicas\nTrauma psicológico\nAusencia del personal durante la recuperación\nImpacto en el moral del equipo`,
+   consequences_es:`Lesiones graves\nAmenazas directas al personal\nTrauma psicológico\nEfecto reputacional\nRetrasos en la implementación de actividades\nAceptación y confianza`,
    vuln_es:`Personal que se desplaza solo en zonas de riesgo\nSin política de desplazamiento en solitario\nPOE de desplazamiento no aplicado`,
    reduceProb_es:`Aplicar una política estricta que prohíba los desplazamientos en solitario en zonas de riesgo\nFormar al personal en medidas de seguridad personal\nEvitar zonas de riesgo conocidas, especialmente de noche`,
    reduceImp_es:`Formar al personal en primeros auxilios\nBrindar apoyo psicológico post-incidente\nActivar el Plan de gestión de crisis si es necesario`},
@@ -2893,6 +2912,39 @@ function onOfficeChange() {
 }
 
 /* ================================================================
+   === NEXT REVIEW DATE — alerte dépassement ===
+   ================================================================ */
+function checkNextReview() {
+  const val = document.getElementById('f_next_review').value;
+  const el = document.getElementById('nextReviewStatus');
+  const input = document.getElementById('f_next_review');
+  if (!el || !val) { if (el) el.style.display='none'; if (input) input.style.borderColor=''; return; }
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(val); d.setHours(0,0,0,0);
+  const diff = Math.round((d - today) / 86400000);
+  if (diff < 0) {
+    const days = Math.abs(diff);
+    el.style.display = 'block';
+    el.style.color = 'var(--danger)';
+    el.innerHTML = '⚠ ' + (lang==='en' ? days+' day'+(days>1?'s':'')+' overdue' : lang==='es' ? days+' día'+(days>1?'s':'')+' de retraso' : days+' j. de dépassement');
+    input.style.borderColor = 'var(--danger)';
+    input.style.color = 'var(--danger)';
+  } else if (diff === 0) {
+    el.style.display = 'block';
+    el.style.color = 'var(--warning)';
+    el.innerHTML = '⏰ ' + (lang==='en' ? 'Today' : lang==='es' ? 'Hoy' : "Aujourd'hui");
+    input.style.borderColor = 'var(--warning)';
+    input.style.color = 'var(--warning)';
+  } else {
+    el.style.display = 'block';
+    el.style.color = 'var(--ok)';
+    el.innerHTML = '✓ ' + (lang==='en' ? diff+' day'+(diff>1?'s':'')+' remaining' : lang==='es' ? diff+' día'+(diff>1?'s':'')+' restante'+(diff>1?'s':'') : diff+' j. restants');
+    input.style.borderColor = 'var(--ok)';
+    input.style.color = '';
+  }
+}
+
+/* ================================================================
    ÉTAPE 1 — BIBLIOTHÈQUE DE MENACES
    ================================================================ */
 function renderThreatLib() {
@@ -3246,12 +3298,16 @@ function renderRatingStep() {
     const rl = th.prob*th.impact;
     return `
     <div class="threat-card" style="margin-bottom:10px">
-      <div class="threat-card-header">
+      <div class="threat-card-header threat-card-header-collapse" style="cursor:pointer;${th.excludedFromSummary?'opacity:0.45;background:var(--bg3);':''}" onclick="toggleRatingCard('rating-body-${th.id}','rating-arrow-${th.id}')">
         <span class="threat-num">#${i+1}</span>
-        <span style="font-size:13px;font-weight:600;color:var(--text)">${escHtml(th.name)||'—'}</span>
-        <span class="risk-badge ${riskClass(rl)}">${rl>0?t('risk_label')+' '+rl:'—'}</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;${th.excludedFromSummary?'text-decoration:line-through;color:var(--text3);':''}">${escHtml(th.name)||'—'}</span>
+        ${th.excludedFromSummary ? `<span style="font-size:10px;font-weight:700;background:var(--bg3);color:var(--text3);border:1px solid var(--border2);border-radius:3px;padding:1px 6px;flex-shrink:0">exclu step 5</span>` : `<span class="risk-badge ${riskClass(rl)}" style="flex-shrink:0">${rl>0?t('risk_label')+' '+rl:'—'}</span>`}
+        <button onclick="event.stopPropagation();toggleMitExclude('${th.id}')" title="${th.excludedFromSummary?t('step3_include_tip'):t('step3_exclude_tip')}" style="background:none;border:none;cursor:pointer;font-size:${th.excludedFromSummary?'14':'16'}px;color:${th.excludedFromSummary?'var(--ok)':'var(--text3)'};padding:4px 6px;border-radius:3px;flex-shrink:0;transition:all 0.15s;line-height:1" onmouseover="this.style.background='${th.excludedFromSummary?'var(--ok-bg)':'var(--danger-bg)'}';this.style.color='${th.excludedFromSummary?'var(--ok)':'var(--danger)'}'" onmouseout="this.style.background='none';this.style.color='${th.excludedFromSummary?'var(--ok)':'var(--text3)'}'">
+          ${th.excludedFromSummary ? '↩' : '×'}
+        </button>
+        <span id="rating-arrow-${th.id}" style="font-size:16px;color:var(--accent2);margin-left:4px;transition:transform 0.25s;display:inline-block;flex-shrink:0;transform:rotate(-90deg)">▾</span>
       </div>
-      <div class="threat-card-body">
+      <div class="threat-card-body" id="rating-body-${th.id}" style="display:none">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div class="rating-wrap">
             <div class="rating-label">${t('prob_label')}</div>
@@ -3286,12 +3342,50 @@ function renderRatingStep() {
 
 function setProp(id, field, val) {
   const th = threats.find(x => String(x.id) === String(id));
-  if (th) { th[field]=val; renderVulnStep(); }
+  if (!th) return;
+  th[field] = val;
+  // Sauvegarder l'état ouvert/fermé de chaque carte avant re-render
+  const openIds = [];
+  document.querySelectorAll('[id^="vuln-body-"]').forEach(b => {
+    if (b.style.display !== 'none') openIds.push(b.id.replace('vuln-body-', ''));
+  });
+  renderVulnStep();
+  // Restaurer l'état après re-render
+  openIds.forEach(tid => {
+    const body = document.getElementById('vuln-body-' + tid);
+    const arrow = document.getElementById('vuln-arrow-' + tid);
+    if (body) body.style.display = '';
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+  });
+  // Restaurer aussi Step 3
+  openIds.forEach(tid => {
+    const body3 = document.getElementById('rating-body-' + tid);
+    const arrow3 = document.getElementById('rating-arrow-' + tid);
+    if (body3) body3.style.display = '';
+    if (arrow3) arrow3.style.transform = 'rotate(0deg)';
+  });
+  // Mettre à jour le bouton tout déplier/réduire
+  const anyOpen = [...document.querySelectorAll('[id^="vuln-body-"]')].some(b => b.style.display !== 'none');
+  _allCollapsed = !anyOpen;
+  const btn = document.getElementById('btn_collapse_all');
+  if (btn) { btn.setAttribute('data-i18n', _allCollapsed ? 'step2_expand_all' : 'step2_collapse_all'); btn.textContent = t(_allCollapsed ? 'step2_expand_all' : 'step2_collapse_all'); }
 }
 
 function setDecision(id, val) {
   const th = threats.find(x => String(x.id) === String(id));
-  if (th) { th.decision = val; renderVulnStep(); }
+  if (!th) return;
+  th.decision = val;
+  const openIds = [];
+  document.querySelectorAll('[id^="vuln-body-"]').forEach(b => {
+    if (b.style.display !== 'none') openIds.push(b.id.replace('vuln-body-', ''));
+  });
+  renderVulnStep();
+  openIds.forEach(tid => {
+    const body = document.getElementById('vuln-body-' + tid);
+    const arrow = document.getElementById('vuln-arrow-' + tid);
+    if (body) body.style.display = '';
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+  });
 }
 
 function toggleDecBody(bodyId, arrowId) {
@@ -3328,23 +3422,26 @@ function riskLevelText(r) {
 function renderMitigationStep() {
   const body = document.getElementById('mitigationBody');
   const sorted = [...threats].sort((a,b) => (b.prob*b.impact)-(a.prob*a.impact));
-  const priority = sorted.filter((th,i) => (th.prob*th.impact)>=8 || i<5);
-  if (priority.length===0) {
+  if (sorted.length===0) {
     body.innerHTML = `<div style="color:var(--text3);font-size:13px;font-style:italic">${t('step3_empty')}</div>`;
     return;
   }
-  body.innerHTML = priority.map((th,i) => {
+  body.innerHTML = sorted.map((th,i) => {
     const rl = th.prob*th.impact;
     const pBullets = toBullets(th.reduceProb);
     const iBullets = toBullets(th.reduceImp);
     return `
     <div class="threat-card" id="mit-card-${th.id}" style="margin-bottom:12px">
-      <div class="threat-card-header">
+      <div class="threat-card-header threat-card-header-collapse" style="cursor:pointer;${th.excludedFromSummary?'opacity:0.45;background:var(--bg3);':''}" onclick="toggleRatingCard('rating-body-${th.id}','rating-arrow-${th.id}')">
         <span class="threat-num">#${i+1}</span>
-        <span style="font-size:13px;font-weight:600;color:var(--text)">${escHtml(th.name)||'—'}</span>
-        <span class="risk-badge ${riskClass(rl)}">${rl>0?t('risk_label')+' '+rl:'—'}</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;${th.excludedFromSummary?'text-decoration:line-through;color:var(--text3);':''}">${escHtml(th.name)||'—'}</span>
+        ${th.excludedFromSummary ? `<span style="font-size:10px;font-weight:700;background:var(--bg3);color:var(--text3);border:1px solid var(--border2);border-radius:3px;padding:1px 6px;flex-shrink:0">exclu step 5</span>` : `<span class="risk-badge ${riskClass(rl)}" style="flex-shrink:0">${rl>0?t('risk_label')+' '+rl:'—'}</span>`}
+        <button onclick="event.stopPropagation();toggleMitExclude('${th.id}')" title="${th.excludedFromSummary?t('step3_include_tip'):t('step3_exclude_tip')}" style="background:none;border:none;cursor:pointer;font-size:${th.excludedFromSummary?'14':'16'}px;color:${th.excludedFromSummary?'var(--ok)':'var(--text3)'};padding:4px 6px;border-radius:3px;flex-shrink:0;transition:all 0.15s;line-height:1" onmouseover="this.style.background='${th.excludedFromSummary?'var(--ok-bg)':'var(--danger-bg)'}';this.style.color='${th.excludedFromSummary?'var(--ok)':'var(--danger)'}'" onmouseout="this.style.background='none';this.style.color='${th.excludedFromSummary?'var(--ok)':'var(--text3)'}'">
+          ${th.excludedFromSummary ? '↩' : '×'}
+        </button>
+        <span id="rating-arrow-${th.id}" style="font-size:16px;color:var(--accent2);margin-left:4px;transition:transform 0.25s;display:inline-block;flex-shrink:0;transform:rotate(-90deg)">▾</span>
       </div>
-      <div class="threat-card-body">
+      <div class="threat-card-body" id="rating-body-${th.id}" style="display:none">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
 
           <!-- RÉDUCTION PROBABILITÉ -->
@@ -3738,10 +3835,10 @@ function updateAction(id, field, val) {
    ÉTAPE 6 — RÉSUMÉ
    ================================================================ */
 function renderSummary() {
-  const sorted = [...threats].sort((a,b) => (b.prob*b.impact)-(a.prob*a.impact));
-  const crit = threats.filter(th => th.prob*th.impact>=20).length;
+  const sorted = [...threats].filter(th => !th.excludedFromSummary).sort((a,b) => (b.prob*b.impact)-(a.prob*a.impact));
+  const crit = threats.filter(th => !th.excludedFromSummary).filter(th => th.prob*th.impact>=20).length;
   const high = threats.filter(th => { const r=th.prob*th.impact; return r>=13&&r<20; }).length;
-  const highRisk  = threats.filter(th => th.prob*th.impact >= 15);
+  const highRisk  = threats.filter(th => !th.excludedFromSummary && th.prob*th.impact >= 15);
   const undecided = highRisk.filter(th => !th.decision || th.decision === '').length;
   const noOwner   = actions.filter(a => !(a.responsible||'').trim()).length;
   const noDate    = actions.filter(a => !a.date).length;
@@ -3919,6 +4016,33 @@ function escHtml(s) {
    === ACCORDÉON STEP 2 — collapse/expand par menace ===
    ================================================================ */
 let _allCollapsed = false;
+function toggleMitExclude(id) {
+  const th = threats.find(x => String(x.id) === String(id));
+  if (!th) return;
+  th.excludedFromSummary = !th.excludedFromSummary;
+  saveState();
+  renderMitigationStep();
+}
+
+function toggleAllMitigationCards() {
+  const bodies = document.querySelectorAll('[id^="rating-body-"]');
+  const arrows = document.querySelectorAll('[id^="rating-arrow-"]');
+  const anyOpen = [...bodies].some(b => b.style.display !== 'none');
+  bodies.forEach(b => { b.style.display = anyOpen ? 'none' : ''; });
+  arrows.forEach(a => { a.style.transform = anyOpen ? 'rotate(-90deg)' : 'rotate(0deg)'; });
+  const btn = document.getElementById('btn_collapse_all_3');
+  if (btn) { btn.setAttribute('data-i18n', anyOpen ? 'step3_expand_all' : 'step3_collapse_all'); btn.textContent = t(anyOpen ? 'step3_expand_all' : 'step3_collapse_all'); }
+}
+
+function toggleRatingCard(bodyId, arrowId) {
+  const body = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : '';
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
+}
+
 function toggleVulnCard(bodyId, arrowId) {
   const body = document.getElementById(bodyId);
   const arrow = document.getElementById(arrowId);
