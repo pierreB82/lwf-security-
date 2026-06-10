@@ -1662,8 +1662,8 @@ const I18N = {
     imp_desc_3:'— Blessures graves, suspension partielle',
     imp_desc_4:'— Blessures très graves, suspension des activités',
     imp_desc_5:'— Décès ou enlèvement, arrêt total',
-    risk_vl:'Très faible (1-3)', risk_l:'Faible (4-9)', risk_mo:'Modéré (10-12)',
-    risk_h:'Élevé (15-16)', risk_cr:'Critique (20)', risk_bk:'Extrême (25)',
+    risk_vl:'Faible (1-4)', risk_l:'Faible (1-4)', risk_mo:'Modéré (5-9)',
+    risk_h:'Élevé (10-15)', risk_cr:'Très élevé (16-20)', risk_bk:'Extrême (25)',
     step4_label:'Étape 4', step4_title:'Plan d\'action',
     step4_sub:'Transformez les mesures en actions concrètes avec un responsable, une date et une priorité.',
     step4_aide:'Priorités : Immédiate = maintenant / Essentielle = 1 à 3 mois / Désirable = 6 mois / Continue = permanent.',
@@ -1915,8 +1915,8 @@ const I18N = {
     imp_desc_3:'— Serious injuries, partial suspension',
     imp_desc_4:'— Very serious injuries, activity suspension',
     imp_desc_5:'— Death or kidnapping, full programme stop',
-    risk_vl:'Very low (1-3)', risk_l:'Low (4-9)', risk_mo:'Moderate (10-12)',
-    risk_h:'High (15-16)', risk_cr:'Critical (20)', risk_bk:'Extreme (25)',
+    risk_vl:'Low (1-4)', risk_l:'Low (1-4)', risk_mo:'Moderate (5-9)',
+    risk_h:'High (10-15)', risk_cr:'Very high (16-20)', risk_bk:'Extreme (25)',
     step4_label:'Step 4', step4_title:'Action plan',
     step4_sub:'Turn measures into concrete actions with an owner, a date and a priority.',
     step4_aide:'Priorities: Immediate = now / Essential = 1 to 3 months / Desirable = 6 months / Ongoing = permanent.',
@@ -2167,8 +2167,8 @@ const I18N = {
     imp_desc_3:'— Lesiones graves, suspensión parcial',
     imp_desc_4:'— Lesiones muy graves, suspensión de actividades',
     imp_desc_5:'— Muerte o secuestro, cese total del programa',
-    risk_vl:'Muy bajo (1-3)', risk_l:'Bajo (4-9)', risk_mo:'Moderado (10-12)',
-    risk_h:'Alto (15-16)', risk_cr:'Crítico (20)', risk_bk:'Extremo (25)',
+    risk_vl:'Bajo (1-4)', risk_l:'Bajo (1-4)', risk_mo:'Moderado (5-9)',
+    risk_h:'Alto (10-15)', risk_cr:'Muy alto (16-20)', risk_bk:'Extremo (25)',
     step4_label:'Paso 4', step4_title:'Plan de acción',
     step4_sub:'Convierta las medidas en acciones concretas con un responsable, una fecha y una prioridad.',
     step4_aide:'Prioridades: Inmediata = ahora / Esencial = 1 a 3 meses / Deseable = 6 meses / Continua = permanente.',
@@ -2723,14 +2723,14 @@ function renderScoreLegend() {
   const probHead = {'fr':'Probabilité','en':'Probability','es':'Probabilidad'};
   const impHead  = {'fr':'Impact','en':'Impact','es':'Impacto'};
   const noteText = {
-    fr:'Niveau de risque = P × I. Seuils : ≤3 Très faible · 4–9 Faible · 10–12 Modéré · 15–16 Élevé · 20 Critique · 25 Extrême',
-    en:'Risk level = P × I. Thresholds: ≤3 Very low · 4–9 Low · 10–12 Moderate · 15–16 High · 20 Critical · 25 Extreme',
-    es:'Nivel de riesgo = P × I. Umbrales: ≤3 Muy bajo · 4–9 Bajo · 10–12 Moderado · 15–16 Alto · 20 Crítico · 25 Extremo'
+    fr:'Niveau de risque = P × I. Seuils : 1 à 4 Faible, 5 à 9 Modéré, 10 à 15 Élevé, 16 à 20 Très élevé, 25 Extrême',
+    en:'Risk level = P × I. Thresholds: 1-4 Low, 5-9 Moderate, 10-15 High, 16-20 Very high, 25 Extreme',
+    es:'Nivel de riesgo = P × I. Umbrales: 1-4 Bajo, 5-9 Moderado, 10-15 Alto, 16-20 Muy alto, 25 Extremo'
   };
   const legendLabel = {
-    fr:'Référentiel de cotation — cliquez pour consulter',
-    en:'Scoring reference — click to view',
-    es:'Referencia de puntuación — haga clic para consultar'
+    fr:'Référentiel de cotation, cliquez pour consulter',
+    en:'Scoring reference, click to view',
+    es:'Referencia de puntuación, haga clic para consultar'
   };
   const el = document.getElementById('legendTitle');
   if (el) el.textContent = legendLabel[lang]||legendLabel.fr;
@@ -2750,7 +2750,7 @@ function renderScoreLegend() {
     const bg = rowBg[i%2];
     return `<tr style="background:${bg}">
       <td style="text-align:center;font-weight:700;padding:5px 8px;border:1px solid var(--border);color:var(--text2)">${v}</td>
-      <td style="padding:5px 8px;border:1px solid var(--border);color:#2255a4"><strong>${pLabel}</strong> — <span style="color:var(--text2)">${pDesc}</span></td>
+      <td style="padding:5px 8px;border:1px solid var(--border);color:#2255a4"><strong>${pLabel}</strong> : <span style="color:var(--text2)">${pDesc}</span></td>
       <td style="padding:5px 8px;border:1px solid var(--border);color:#8a4a00"><strong>${iLabel}</strong> <span style="color:var(--text2)">${iDesc}</span></td>
     </tr>`;
   }).join('');
@@ -3399,19 +3399,17 @@ function toggleDecBody(bodyId, arrowId) {
 
 function riskClass(r) {
   if (r===0)  return 'risk-0';
-  if (r<=3)   return 'risk-low';   // vert clair  — m-vl
-  if (r<=9)   return 'risk-low';   // vert        — m-l
-  if (r<=12)  return 'risk-mod';   // jaune/or    — m-mo
-  if (r<=16)  return 'risk-high';  // orange      — m-h
-  if (r<=20)  return 'risk-crit';  // rouge       — m-cr
-  return 'risk-extr';              // noir        — m-bk (25)
+  if (r<=4)   return 'risk-low';
+  if (r<=9)   return 'risk-mod';
+  if (r<=15)  return 'risk-high';
+  if (r<=20)  return 'risk-crit';
+  return 'risk-extr';
 }
 function riskLevelText(r) {
   if (r===0) return '';
-  if (r<=3)  return t('risk_vl');
-  if (r<=9)  return t('risk_l');
-  if (r<=12) return t('risk_mo');
-  if (r<=16) return t('risk_h');
+  if (r<=4)  return t('risk_l');
+  if (r<=9)  return t('risk_mo');
+  if (r<=15) return t('risk_h');
   if (r<=20) return t('risk_cr');
   return t('risk_bk');
 }
@@ -3896,14 +3894,13 @@ function renderSummary() {
 }
 
 function matrixCellColor(p, i) {
-  // Exact colors matching the reference image
+  // Couleurs alignees sur les seuils (harmonisee avec le PowerPoint)
   const r = p * i;
-  if (r >= 20) return { bg:'#1a1a1a', fg:'#ffffff' }; // noir
-  if (r >= 15) return { bg:'#d32f2f', fg:'#ffffff' }; // rouge vif
-  if (r >= 10) return { bg:'#e65100', fg:'#ffffff' }; // orange foncé
-  if (r >= 6)  return { bg:'#f9a825', fg:'#000000' }; // jaune-orange
-  if (r >= 4)  return { bg:'#fdd835', fg:'#000000' }; // jaune
-  return             { bg:'#8FAF2E', fg:'#2a3a00' }; // vert LWF
+  if (r >= 21) return { bg:'#1A1A1A', fg:'#ffffff' }; // Extreme (25)
+  if (r >= 16) return { bg:'#D2302F', fg:'#ffffff' }; // Tres eleve (16-20)
+  if (r >= 10) return { bg:'#E8821E', fg:'#1a1a1a' }; // Eleve (10-15)
+  if (r >= 5)  return { bg:'#F4C430', fg:'#1a1a1a' }; // Modere (5-9)
+  return             { bg:'#6E8C2A', fg:'#ffffff' };  // Faible (1-4)
 }
 
 // Surcharges manuelles de la matrice (persistées dans le state)
