@@ -501,7 +501,7 @@ body {
 .section-card-header .sc-icon {
   font-size: 14px;
   width: 28px; height: 28px; border-radius: 7px;
-  background: var(--accent); color: #fff;
+  background: #fff; border: 1px solid var(--border2); color: var(--accent2);
   display: inline-flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
@@ -1545,8 +1545,8 @@ Always export a JSON backup using <em style="color:var(--accent2);font-style:ita
                 <div style="width:28px;height:28px;border-radius:50%;background:#8FAF2E;color:#2a3a00;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
                 <div style="font-size:13px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)" data-i18n="after_share_title">Diffuser les nouveaux protocoles</strong><br><span data-i18n="after_share_desc">Partagez les mises à jour auprès de l'ensemble des staffs concernés, au travers de réunions d'équipe, de briefings et de formations.</span></div>
               </div>
-              <div style="display:flex;align-items:flex-start;gap:14px;background:var(--accent-lt);border:1px solid var(--accent);border-radius:var(--r2);padding:14px 16px">
-                <div style="width:28px;height:28px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🔄</div>
+              <div style="display:flex;align-items:flex-start;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px">
+                <div style="width:28px;height:28px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🔄</div>
                 <div style="font-size:13px;color:var(--text2);line-height:1.6" data-i18n="after_5">Réviser cette analyse au minimum une fois par an, et immédiatement lors de tout changement ou évolution majeure du contexte sécuritaire.</div>
               </div>
             </div>
@@ -1677,13 +1677,16 @@ const I18N = {
     after_2:'📋 Mettre en œuvre le plan d\'action',
     after_3:'🔒 Mettre à jour le Pack Sécurité',
     after_4:'📡 Diffuser les nouveaux protocoles',
-    after_5:'🔄 Réviser cette analyse au minimum une fois par an, et immédiatement lors de tout changement ou évolution majeure du contexte sécuritaire.',
+    after_5:'Réviser cette analyse au minimum une fois par an, et immédiatement lors de tout changement ou évolution majeure du contexte sécuritaire.',
     col_threat:'Menace', col_prob:'Probabilité', col_impact:'Impact',
     col_risk:'Niveau de risque', col_actions:'Actions', col_decision:'Décision',
     lbl_who:'Qui provoque la menace ?', lbl_where:'Où ?', lbl_when:'Quand ?',
     lbl_what:'Qui est à risque ?', lbl_why:'Pourquoi sommes-nous vulnérables ?',
     lbl_context_group:'Analyse contextuelle de la menace',
+    pop_context_group_title:'Analyse contextuelle de la menace',
+    pop_context_group_text:'Est-ce que cette menace nous concerne vraiment ? Décrivez où, quand et quelles équipes sont concernées. Une menace qui ne croise pas vos activités ne vous rend pas vulnérables.<br><br><strong>Exemple :</strong> braquages fréquents la nuit sur un axe que vos équipes n\'empruntent que de jour.',
     lbl_prog:'Activité concernée', lbl_consequences:'Conséquences potentielles',
+    dec_required:'Requise',
     dec_title_pending:'⚠ Score ≥ 15 — Une décision collective est requise',
     dec_title_assumed:'✔ Risque assumé — décision enregistrée',
     dec_title_refused:'✘ Risque refusé — décision enregistrée',
@@ -1930,13 +1933,16 @@ const I18N = {
     after_2:'📋 Implement the action plan',
     after_3:'🔒 Update the Security Pack',
     after_4:'📡 Share new protocols with all staff',
-    after_5:'🔄 Review this analysis at least once a year, and immediately whenever a significant change or major security development occurs.',
+    after_5:'Review this analysis at least once a year, and immediately whenever a significant change or major security development occurs.',
     col_threat:'Threat', col_prob:'Probability', col_impact:'Impact',
     col_risk:'Risk level', col_actions:'Actions', col_decision:'Decision',
     lbl_who:'Who causes the threat?', lbl_where:'Where?', lbl_when:'When?',
     lbl_what:'Who/what is at risk?', lbl_why:'Why are we vulnerable?',
     lbl_context_group:'Contextual threat analysis',
+    pop_context_group_title:'Contextual threat analysis',
+    pop_context_group_text:'Does this threat actually affect us? Describe where, when and which teams are exposed. A threat that never crosses your activities does not make you vulnerable.<br><br><strong>Example:</strong> frequent armed robberies at night on a road your teams only use during the day.',
     lbl_prog:'Programme area / activity', lbl_consequences:'Potential consequences',
+    dec_required:'Required',
     dec_title_pending:'⚠ Score ≥ 15 — A collective decision is required',
     dec_title_assumed:'✔ Risk accepted — decision recorded',
     dec_title_refused:'✘ Risk refused — decision recorded',
@@ -2182,13 +2188,16 @@ const I18N = {
     after_2:'📋 Implementar el plan de acción',
     after_3:'🔒 Actualizar el Security Pack',
     after_4:'📡 Difundir los nuevos protocolos a todo el personal',
-    after_5:'🔄 Revisar este análisis al menos una vez al año, e inmediatamente cuando se produzca un cambio significativo en el contexto de seguridad.',
+    after_5:'Revisar este análisis al menos una vez al año, e inmediatamente cuando se produzca un cambio significativo en el contexto de seguridad.',
     col_threat:'Amenaza', col_prob:'Probabilidad', col_impact:'Impacto',
     col_risk:'Nivel de riesgo', col_actions:'Acciones', col_decision:'Decisión',
     lbl_who:'¿Quién causa la amenaza?', lbl_where:'¿Dónde?', lbl_when:'¿Cuándo?',
     lbl_what:'¿Quién está en riesgo?', lbl_why:'¿Por qué somos vulnerables?',
     lbl_context_group:'Análisis contextual de la amenaza',
+    pop_context_group_title:'Análisis contextual de la amenaza',
+    pop_context_group_text:'¿Esta amenaza nos afecta realmente? Describa dónde, cuándo y qué equipos están expuestos. Una amenaza que nunca cruza sus actividades no los hace vulnerables.<br><br><strong>Ejemplo:</strong> robos frecuentes de noche en una ruta que sus equipos solo utilizan de día.',
     lbl_prog:'Área del programa / actividad', lbl_consequences:'Consecuencias potenciales',
+    dec_required:'Requerida',
     dec_title_pending:'⚠ Puntuación ≥ 15 — Se requiere una decisión colectiva',
     dec_title_assumed:'✔ Riesgo asumido — decisión registrada',
     dec_title_refused:'✘ Riesgo rechazado — decisión registrada',
@@ -3171,7 +3180,7 @@ function renderVulnStep() {
 
         <!-- BLOC ANALYSE CONTEXTUELLE — 4 champs en grille 2x2 -->
         <div style="border-top:1px solid var(--border);margin:4px 0 12px;padding-top:12px">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--text2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">${t('lbl_context_group')}</div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--text2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px">${t('lbl_context_group')}<span onclick="toggleFieldPopover(event,'context_group')" title="${t('tip_who')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div class="form-group">
               <div class="form-label" style="display:flex;align-items:center;gap:4px">${t('lbl_who')}<span onclick="toggleFieldPopover(event,'who')" title="${t('tip_who')||'Cliquez pour en savoir plus'}" style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;border:1.5px solid #e74c3c;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;line-height:1;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.25)" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#c0392b'">?</span></div>
@@ -3886,7 +3895,7 @@ function renderSummary() {
       <td style="text-align:center">${rl >= 15 ? (
         th.decision === 'assumed' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--ok);color:#fff">✔ '+t('dec_btn_assumed_short')+'</span>'
         : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--text);color:#fff">✘ '+t('dec_btn_refused_short')+'</span>'
-        : '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--warning-bg);border:1px solid var(--warning-bd);color:var(--warning)">⚠ Requise</span>'
+        : '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--warning-bg);border:1px solid var(--warning-bd);color:var(--warning)">⚠ '+t('dec_required')+'</span>'
       ) : '<span style="color:var(--text3);font-size:11px">—</span>'}</td>
     </tr>`;
   }).join('');
