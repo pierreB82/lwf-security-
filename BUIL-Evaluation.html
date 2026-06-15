@@ -81,16 +81,29 @@ body {
 }
 .topbar img { height: 36px; width: auto; flex-shrink: 0; }
 .topbar-logo {
-  font-weight: 700; font-size: 13px;
-  color: #fff; letter-spacing: 0.3px;
-  white-space: nowrap; line-height: 1.2;
-  flex-shrink: 0;
+  font-weight: 700; font-size: 12px;
+  color: #fff; letter-spacing: 0.2px;
+  white-space: normal; line-height: 1.25;
+  max-width: 82px; flex-shrink: 0;
 }
-.topbar-logo small { display: block; font-size: 10px; font-weight: 400; opacity: 0.65; }
+.topbar-logo small { display: none; }
 #saveIndicator {
   font-size: 11px; color: rgba(255,255,255,0.55);
   white-space: nowrap; display: none;
 }
+.lang-select {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px; font-weight: 600;
+  height: 36px; padding: 0 4px;
+  border-radius: var(--r2); cursor: pointer;
+  outline: none; flex-shrink: 0; width: 52px;
+  -webkit-appearance: none; appearance: none;
+  text-align: center;
+}
+.lang-select option { background: var(--accent2); color: #fff; }
+/* Keep lang-btn for notice modal */
 .lang-switcher { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
 .lang-btn {
   background: rgba(255,255,255,0.15);
@@ -736,14 +749,14 @@ input[type=file].hidden-input { display: none; }
     <span data-i18n="topbar_title">Building Evaluation</span>
     <small>LWF World Service <span id="topbarVersion" style="opacity:0.7"></span></small>
   </div>
-  <button class="btn-notice" onclick="openNotice()" data-i18n="btn_help">❓ Help</button>
+  <button class="btn-topbar" onclick="openNotice()" title="Aide / Help" data-i18n-title="btn_help">❓</button>
   <div class="topbar-sep"></div>
   <div id="saveIndicator" data-i18n="saved_indicator">✓ saved</div>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">🇬🇧</span><span class="lang-abbr" style="display:none">EN</span></button>
-    <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">🇫🇷</span><span class="lang-abbr" style="display:none">FR</span></button>
-    <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">🇪🇸</span><span class="lang-abbr" style="display:none">ES</span></button>
-  </div>
+  <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+    <option value="en">EN</option>
+    <option value="fr">FR</option>
+    <option value="es">ES</option>
+  </select>
   <button class="btn-topbar" onclick="confirmReset()" title="Reset" data-i18n-title="btn_reset">🔄</button>
   <button class="btn-topbar" onclick="openExport()" title="Export / Import" data-i18n-title="btn_export">💾</button>
 </div>
@@ -863,7 +876,7 @@ input[type=file].hidden-input { display: none; }
 /* ================================================================
    TOOL CONFIG
    ================================================================ */
-const TOOL_VERSION_BASE = '1.2';
+const TOOL_VERSION_BASE = '1.3';
 const TOOL_VERSION = 'v' + TOOL_VERSION_BASE;
 const LS_KEY = 'lwf_buil_v1';
 let lang = 'en';
@@ -934,7 +947,7 @@ const I18N = {
     type_picker_title: '1. Building type — required',
     type_picker_sub: 'Tap to choose. This determines which questions appear in the checklist.',
     type_banner: 'Building type not selected — tap here to choose it. Some questions may be missing.',
-    type_office: 'Office / Villa', type_apt: 'Apartment', type_other: 'Other',
+    type_office: 'Office / Villa', type_apt: 'Apartment', type_other: 'Warehouse',
     field_floors: 'Total floors (building)', field_floor_apt: 'Apartment floor',
     field_apt_specs: 'Other specifications', ph_apt_specs: 'Lift, stairwell, roof access...',
     card_comment: 'General Comments',
@@ -956,9 +969,9 @@ const I18N = {
     ph_comment: 'Comment / observation...',
     // Categories
     cat_env: 'Environment',
-    cat_passive: 'Passive Protection',
-    cat_active: 'Active Protection',
-    cat_other: 'Other',
+    cat_passive: 'Passive Protection (fences, walls, bars, locks)',
+    cat_active: 'Active Protection (guards, alarms, CCTV, access control)',
+    cat_other: 'Warehouse / Other',
     cat_apt: 'Apartment / Building',
     sub_fence: 'Fencing / Perimeter wall',
     sub_bars: 'Window bars / Shutters / Security grilles',
@@ -1033,7 +1046,7 @@ const I18N = {
     type_picker_title: '1. Type de bâtiment — obligatoire',
     type_picker_sub: 'Touchez pour choisir. Ce choix détermine les questions de la checklist.',
     type_banner: 'Type de bâtiment non sélectionné — touchez ici pour le choisir. Des questions peuvent manquer.',
-    type_office: 'Bureau / Villa', type_apt: 'Appartement', type_other: 'Autre',
+    type_office: 'Bureau / Villa', type_apt: 'Appartement', type_other: 'Entrepôt',
     field_floors: 'Nb d&#39;étages (bâtiment)', field_floor_apt: 'Étage de l&#39;appartement',
     field_apt_specs: 'Autres spécifications', ph_apt_specs: 'Ascenseur, cage d&#39;escalier, accès toit...',
     card_comment: 'Commentaire général',
@@ -1052,9 +1065,9 @@ const I18N = {
     ap_days_late: 'j de retard', ap_days_left: 'j restants', ap_today: 'Aujourd&#39;hui',
     ph_comment: 'Commentaire / observation...',
     cat_env: 'Environnement',
-    cat_passive: 'Protection passive',
-    cat_active: 'Protection active',
-    cat_other: 'Divers',
+    cat_passive: 'Protection passive (clôtures, murs, grilles, serrures)',
+    cat_active: 'Protection active (gardiennage, alarmes, CCTV, contrôle d&#39;accès)',
+    cat_other: 'Entrepôt / Divers',
     cat_apt: 'Appartement / Immeuble',
     sub_fence: 'Clôture / Mur de périmètre',
     sub_bars: 'Barreaux / Volets / Grilles de sécurité',
@@ -1129,7 +1142,7 @@ const I18N = {
     type_picker_title: '1. Tipo de edificio — obligatorio',
     type_picker_sub: 'Toque para elegir. Esto determina qué preguntas aparecen en la lista.',
     type_banner: 'Tipo de edificio no seleccionado — toque aquí para elegirlo. Pueden faltar preguntas.',
-    type_office: 'Oficina / Villa', type_apt: 'Apartamento', type_other: 'Otro',
+    type_office: 'Oficina / Villa', type_apt: 'Apartamento', type_other: 'Almacén',
     field_floors: 'Nº de plantas (edificio)', field_floor_apt: 'Planta del apartamento',
     field_apt_specs: 'Otras especificaciones', ph_apt_specs: 'Ascensor, escalera, acceso techo...',
     card_comment: 'Comentario general',
@@ -1148,9 +1161,9 @@ const I18N = {
     ap_days_late: 'd de retraso', ap_days_left: 'd restantes', ap_today: 'Hoy',
     ph_comment: 'Comentario / observación...',
     cat_env: 'Entorno',
-    cat_passive: 'Protección pasiva',
-    cat_active: 'Protección activa',
-    cat_other: 'Otros',
+    cat_passive: 'Protección pasiva (cercas, muros, rejas, cerraduras)',
+    cat_active: 'Protección activa (vigilancia, alarmas, CCTV, control de acceso)',
+    cat_other: 'Almacén / Otros',
     cat_apt: 'Apartamento / Edificio',
     sub_fence: 'Valla / Muro perimetral',
     sub_bars: 'Rejas / Persianas / Rejas de seguridad',
@@ -1394,11 +1407,18 @@ function applyI18n() {
   ph('f_apt_specs','ph_apt_specs'); ph('f_general','ph_general');
 }
 
+function updateLangSelect(l) {
+  const sel = document.getElementById('langSelect');
+  if (sel) sel.value = l;
+  // Keep lang-btn active state in notice modal
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+l+"'")));
+}
+
 function setLang(l) {
   lang = l;
   // Manual choice: persist as explicit preference (overrides browser detection)
   try { localStorage.setItem('lwf_buil_lang_manual', l); } catch(e) {}
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+l+"'")));
+  updateLangSelect(l);
   document.documentElement.lang = l;
   applyI18n();
   renderInfoPage();
@@ -1411,7 +1431,7 @@ function setLang(l) {
 
 function setLangSilent(l) {
   lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+l+"'")));
+  updateLangSelect(l);
   document.documentElement.lang = l;
 }
 
@@ -1438,7 +1458,7 @@ function renderInfoPage() {
     <div class="type-picker-sub" data-i18n="type_picker_sub">${t('type_picker_sub')}</div>
     <div class="type-cards">
       <div class="type-card" data-type="office" onclick="setBuildingType('office')">
-        <div class="type-card-icon">🏢</div>
+        <div class="type-card-icon">🏠</div>
         <div class="type-card-label" data-i18n="type_office">${t('type_office')}</div>
       </div>
       <div class="type-card" data-type="apt" onclick="setBuildingType('apt')">
@@ -1446,7 +1466,7 @@ function renderInfoPage() {
         <div class="type-card-label" data-i18n="type_apt">${t('type_apt')}</div>
       </div>
       <div class="type-card" data-type="other" onclick="setBuildingType('other')">
-        <div class="type-card-icon">📦</div>
+        <div class="type-card-icon">🏭</div>
         <div class="type-card-label" data-i18n="type_other">${t('type_other')}</div>
       </div>
     </div>
@@ -2179,7 +2199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       lang = I18N[browserLang] ? browserLang : 'en';
     }
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+lang+"'")));
+    updateLangSelect(lang);
     document.documentElement.lang = lang;
 
     const restored = loadState();
