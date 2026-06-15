@@ -114,6 +114,11 @@ body{
 .tbtn.edit-active{background:var(--accent);color:#fff;border-color:var(--accent2);}
 .tbtn-print{background:#d96b00;color:#fff !important;border-color:#b85900 !important;font-weight:600;}
 .tbtn-print:hover{background:#b85900 !important;}
+.pool-chip{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 6px;background:var(--accent-lt);border:1px solid var(--accent);border-radius:20px;cursor:pointer;font-size:11px;transition:background 0.15s;}
+.pool-chip:hover{background:#d4e89a;}
+.pool-chip .pc-btn{width:20px;height:20px;border-radius:50%;background:#27ae60;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;line-height:1;flex-shrink:0;}
+.pool-chip .pc-name{font-weight:600;color:var(--text1);}
+.pool-chip .pc-ph{color:var(--text3);font-size:10px;}
 .tip-bar{background:#fff8e1;border-bottom:2px solid #ffe082;padding:7px 20px;font-size:12px;color:#7a5c00;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 
 /* ===================== ARBRE ===================== */
@@ -163,6 +168,11 @@ body{
 .ncb-add:hover{background:#219a52;}
 .ncb-del{background:var(--danger);color:#fff;}
 .ncb-del:hover{background:#a93226;}
+.ncb-pool{background:#2980b9;color:#fff;font-size:11px;}
+.ncb-pool:hover{background:#2471a3;}
+.ni-add,.ni-pool{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;color:#fff;font-weight:700;line-height:1;vertical-align:middle;margin:0 2px;}
+.ni-add{background:#27ae60;font-size:12px;}
+.ni-pool{background:#2980b9;font-size:9px;}
 .ncard-warn{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--warning);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;pointer-events:none;z-index:5;}
 
 /* CONNECTEURS */
@@ -239,6 +249,8 @@ body{
 .export-opt-icon{font-size:20px;}
 .export-opt-label{font-size:13px;font-weight:600;color:var(--text);}
 .export-opt-desc{font-size:11px;color:var(--text3);margin-top:1px;}
+.export-section-lbl{padding:8px 0 4px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;border-top:1px solid var(--border);margin-top:4px;}
+.export-section-lbl:first-child{border-top:none;margin-top:0;}
 .export-footer{padding:12px 20px;border-top:1px solid var(--border);text-align:right;}
 
 /* Boutons génériques */
@@ -370,6 +382,13 @@ body{
     </div>
     <div class="modal-body" style="max-height:55vh;overflow-y:auto;padding:16px">
 
+      <div class="ns" style="background:var(--accent-lt);border:1px solid var(--accent);border-radius:var(--r);padding:10px 14px;margin-bottom:8px">
+        <div class="ns-h" style="color:var(--accent2)"><span>&#128101;</span>&nbsp;<span data-i18n="n_s0_title">Remplir l&#39;arbre depuis une liste de contacts</span></div>
+        <div class="ns-b">
+          <ol id="ns0list" style="margin:6px 0 0 16px;line-height:1.8;font-size:12px"></ol>
+        </div>
+      </div>
+
       <div class="ns">
         <div class="ns-h"><span data-i18n="n_s1_icon">&#128203;</span>&nbsp;<span data-i18n="n_s1_title">Purpose</span></div>
         <div class="ns-b">
@@ -451,25 +470,31 @@ body{
       <span data-i18n="export_warn"><strong>Important:</strong> always save the file in the dedicated folder of your Security Pack on SharePoint.</span>
     </div>
     <div class="export-body">
-      <div class="export-option" onclick="exportJSON()">
-        <div class="export-opt-icon">&#128190;</div>
-        <div><div class="export-opt-label" data-i18n="exp_json_lbl">Save as JSON</div><div class="export-opt-desc" data-i18n="exp_json_dsc">Full reloadable backup</div></div>
+      <div class="export-section-lbl" data-i18n="exp_section_import">IMPORTER</div>
+      <div class="export-option" onclick="dlXLSTemplate()">
+        <div class="export-opt-icon">&#128202;</div>
+        <div><div class="export-opt-label" data-i18n="csv_tpl_lbl">Télécharger le modèle Excel</div><div class="export-opt-desc" data-i18n="csv_tpl_dsc">Complétez et sauvegardez en CSV pour import</div></div>
       </div>
-      <div class="export-option" onclick="exportCSV()">
-        <div class="export-opt-icon">&#128196;</div>
-        <div><div class="export-opt-label" data-i18n="exp_csv_lbl">Export contacts as CSV</div><div class="export-opt-desc" data-i18n="exp_csv_dsc">Contact list to open in Excel or SharePoint</div></div>
-      </div>
-      <div class="export-option" onclick="exportExcel()">
-        <div class="export-opt-icon">&#128311;</div>
-        <div><div class="export-opt-label" data-i18n="exp_xls_lbl">Export contacts as Excel</div><div class="export-opt-desc" data-i18n="exp_xls_dsc">Formatted .xls file with colours</div></div>
-      </div>
-      <div class="export-option" onclick="printTree()">
-        <div class="export-opt-icon">&#128438;</div>
-        <div><div class="export-opt-label" data-i18n="exp_print_lbl">Print / PDF</div><div class="export-opt-desc" data-i18n="exp_print_dsc">Printable version (A4 landscape)</div></div>
+      <div class="export-option" onclick="importCSVContacts()">
+        <div class="export-opt-icon">&#128101;</div>
+        <div><div class="export-opt-label" data-i18n="imp_csv_lbl">Importer une liste de contacts</div><div class="export-opt-desc" data-i18n="imp_csv_dsc">Fichier CSV issu du modèle Excel</div></div>
       </div>
       <div class="export-option" onclick="importJSON()">
         <div class="export-opt-icon">&#128194;</div>
-        <div><div class="export-opt-label" data-i18n="imp_json_lbl">Load a JSON backup</div><div class="export-opt-desc" data-i18n="imp_json_dsc">Resume saved work</div></div>
+        <div><div class="export-opt-label" data-i18n="imp_json_lbl">Importer une sauvegarde JSON</div><div class="export-opt-desc" data-i18n="imp_json_dsc">Reprendre un travail sauvegardé</div></div>
+      </div>
+      <div class="export-section-lbl" style="margin-top:4px" data-i18n="exp_section_export">EXPORTER</div>
+      <div class="export-option" onclick="exportJSON()">
+        <div class="export-opt-icon">&#128190;</div>
+        <div><div class="export-opt-label" data-i18n="exp_json_lbl">Exporter en JSON</div><div class="export-opt-desc" data-i18n="exp_json_dsc">Sauvegarde complète rechargeable</div></div>
+      </div>
+      <div class="export-option" onclick="exportExcel()">
+        <div class="export-opt-icon">&#128200;</div>
+        <div><div class="export-opt-label" data-i18n="exp_xls_lbl">Exporter les contacts en Excel</div><div class="export-opt-desc" data-i18n="exp_xls_dsc">Fichier .xls avec mise en forme</div></div>
+      </div>
+      <div class="export-option" onclick="printTree()">
+        <div class="export-opt-icon">&#128424;</div>
+        <div><div class="export-opt-label" data-i18n="exp_print_lbl">Imprimer / PDF</div><div class="export-opt-desc" data-i18n="exp_print_dsc">Version imprimable (A4 paysage)</div></div>
       </div>
     </div>
     <div class="export-footer">
@@ -500,18 +525,31 @@ body{
   <div class="modal-box" style="max-width:380px">
     <div class="modal-header" data-i18n="add_title">Add a contact</div>
     <div class="modal-body">
-      <label data-i18n="add_fn_lbl">Role / Function</label>
-      <input type="text" id="a-fn">
       <label data-i18n="add_name_lbl">Name</label>
       <input type="text" id="a-name">
-      <label data-i18n="add_ph1_lbl">Phone 1</label>
+      <label data-i18n="add_ph1_lbl">Phone</label>
       <input type="text" id="a-ph1" placeholder="+00 000 000 000">
-      <label data-i18n="add_ph2_lbl">Phone 2 (optional)</label>
-      <input type="text" id="a-ph2" placeholder="+00 000 000 000">
+      <div id="pool-pick" style="display:none;margin-top:12px">
+        <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px" data-i18n="pool_pick">Pick from imported contacts</div>
+        <div id="pool-chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeM('m-add')" data-i18n="reset_cancel">Cancel</button>
       <button class="btn-primary" onclick="confirmAdd()" data-i18n="add_confirm">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pool-pick pour remplir un nœud existant -->
+<div class="overlay hidden" id="m-poolpick">
+  <div class="modal-box" style="max-width:460px">
+    <div class="modal-header"><span data-i18n="poolpick_title">Choisir un contact</span></div>
+    <div class="modal-body">
+      <div id="poolpick-chips" style="display:flex;flex-wrap:wrap;gap:8px;max-height:320px;overflow-y:auto"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeM('m-poolpick')" data-i18n="reset_cancel">Cancel</button>
     </div>
   </div>
 </div>
@@ -550,6 +588,16 @@ var I18N = {
   fr: {
     topbar_title:'Arbre d&#39;Appel Sécurité',
     tip_print:'<strong>Bon à savoir :</strong> après chaque mise à jour, exportez le fichier en <strong>JSON</strong> (sauvegarde rechargeable) et en <strong>PDF</strong> (format de partage). Imprimez une copie papier et conservez-la dans un endroit accessible aux personnes autorisées à déclencher l&#39;arbre.',
+    exp_section_export:'EXPORTER',
+    exp_section_import:'IMPORTER',
+    imp_csv_lbl:'Importer une liste de contacts',
+    imp_csv_dsc:'Fichier CSV issu du modèle Excel',
+    csv_tpl_lbl:'Télécharger le modèle Excel',
+    csv_tpl_dsc:'Ouvrez dans Excel, complétez, sauvegardez en CSV',
+    pool_pick:'Choisir dans les contacts importés',
+    poolpick_title:'Remplir depuis la liste',
+    pool_fill_tt:'Remplir ce nœud depuis la liste importée',
+    pool_imported:'contact(s) importé(s) depuis le CSV',
     btn_help:'&#10067; <span>Aide</span>',
     btn_reset:'&#128260; <span>Remise à zéro</span>',
     btn_export:'&#8595; <span>Exporter / Importer</span>',
@@ -564,6 +612,17 @@ var I18N = {
     btn_edit_exit:'Quitter l&#39;édition',
     btn_print:'Imprimer',
     btn_start:'Commencer &#8594;',
+    tpl_col_nom:'Nom complet', tpl_col_tel:'Téléphone',
+    tpl_paste_warn:'⚠ Si les numéros s\'affichent en notation scientifique après collage : sélectionner toute la colonne B → Ctrl+1 → Nombre → 0 décimale → OK → puis Fichier → Enregistrer sous → CSV.',
+    tpl_examples:[['Dupont Marie','+33 6 00 00 00 00'],['Traoré Amadou','+00 000 000 000'],['Koné Fatima','+00 000 000 000']],
+    n_s0_title:'Remplir l&#39;arbre depuis une liste de contacts',
+    n_s0_steps:[
+      'Topbar → cliquez <strong>Exporter / Importer</strong>',
+      'Section <strong>IMPORTER</strong> → Téléchargez le <strong>modèle Excel</strong>',
+      'Enregistrez le fichier complété en <strong>CSV</strong> (Fichier → Enregistrer sous → .csv)',
+      'Modale → <strong>Importer une liste de contacts</strong>',
+      'Cliquez <b class="ni-pool">&#9636;</b> sur un nœud pour le remplir depuis la liste',
+      'Cliquez <b class="ni-add">+</b> sur un nœud pour ajouter un contact manuellement'],
     n_s1_icon:'&#128203;', n_s1_title:'Objectif',
     n_s1_text:'L&#39;arbre de communication permet de diffuser rapidement une information critique en cascade vers l&#39;ensemble du personnel concerné, et de confirmer que chaque personne a reçu et compris le message.',
     n_s1_hl:'L&#39;information circule du haut vers le bas, en cascade. Ce n&#39;est pas un outil de communication bidirectionnel.',
@@ -598,7 +657,7 @@ var I18N = {
     export_warn:'<strong>Important :</strong> exportez en <strong>JSON</strong> (sauvegarde rechargeable) et en <strong>PDF</strong> (format de partage). Enregistrez les deux dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
     exp_html_lbl:'Exporter en HTML (fichier portable)',
     exp_html_dsc:'Fichier complet avec l&#39;arbre intégré, utilisable hors connexion',
-    exp_json_lbl:'Sauvegarder en JSON',
+    exp_json_lbl:'Exporter en JSON',
     exp_json_dsc:'Sauvegarde complète rechargeable',
     exp_csv_lbl:'Exporter les contacts en CSV',
     exp_csv_dsc:'Liste de contacts ouvrable dans Excel',
@@ -606,7 +665,7 @@ var I18N = {
     exp_xls_dsc:'Fichier .xls avec mise en forme',
     exp_print_lbl:'Imprimer / PDF',
     exp_print_dsc:'Version imprimable (paysage conseillé)',
-    imp_json_lbl:'Charger une sauvegarde JSON',
+    imp_json_lbl:'Importer une sauvegarde JSON',
     imp_json_dsc:'Reprendre un travail sauvegardé',
     close:'Fermer',
     reset_header:'&#128260; Remettre à zéro ?',
@@ -640,6 +699,16 @@ var I18N = {
   en: {
     topbar_title:'Security Call Tree',
     tip_print:'<strong>Tip:</strong> after each update, export the file as <strong>JSON</strong> (reloadable backup) and as <strong>PDF</strong> (sharing format). Print a copy and keep it in a location accessible to persons authorised to activate the tree.',
+    exp_section_export:'EXPORT',
+    exp_section_import:'IMPORT',
+    imp_csv_lbl:'Import a contact list',
+    imp_csv_dsc:'CSV file from the Excel template',
+    csv_tpl_lbl:'Download Excel template',
+    csv_tpl_dsc:'Open in Excel, fill in, save as CSV',
+    pool_pick:'Pick from imported contacts',
+    poolpick_title:'Fill from list',
+    pool_fill_tt:'Fill this node from the imported list',
+    pool_imported:'contact(s) imported from CSV',
     btn_help:'&#10067; <span>Help</span>',
     btn_reset:'&#128260; <span>Reset</span>',
     btn_export:'&#8595; <span>Export / Import</span>',
@@ -654,6 +723,17 @@ var I18N = {
     btn_edit_exit:'Exit editing',
     btn_print:'Print',
     btn_start:'Start &#8594;',
+    tpl_col_nom:'Nom complet', tpl_col_tel:'Téléphone',
+    tpl_paste_warn:'⚠ Si les numéros s\'affichent en notation scientifique après collage : sélectionner toute la colonne B → Ctrl+1 → Nombre → 0 décimale → OK → puis Fichier → Enregistrer sous → CSV.',
+    tpl_examples:[['Dupont Marie','+33 6 00 00 00 00'],['Traoré Amadou','+00 000 000 000'],['Koné Fatima','+00 000 000 000']],
+    n_s0_title:'Remplir l&#39;arbre depuis une liste de contacts',
+    n_s0_steps:[
+      'Topbar → click <strong>Export / Import</strong>',
+      'Section <strong>IMPORT</strong> → Download the <strong>Excel template</strong>',
+      'Save the completed file as <strong>CSV</strong> (File → Save As → .csv)',
+      'Modal → <strong>Import contact list</strong>',
+      'Click <b class="ni-pool">&#9636;</b> on a node to fill it from the imported list',
+      'Click <b class="ni-add">+</b> on a node to add a contact manually'],
     n_s1_icon:'&#128203;', n_s1_title:'Purpose',
     n_s1_text:'The communication tree enables rapid top-down dissemination of critical information to all relevant staff, and confirms that each person has received and understood the message.',
     n_s1_hl:'Information flows downward in a cascade. This is not a bidirectional communication tool.',
@@ -688,7 +768,7 @@ var I18N = {
     export_warn:'<strong>Important:</strong> export as <strong>JSON</strong> (reloadable backup) and as <strong>PDF</strong> (sharing format). Save both in the dedicated folder of your Local Security Pack on SharePoint.',
     exp_html_lbl:'Export as HTML (portable file)',
     exp_html_dsc:'Full standalone file with embedded tree, works offline',
-    exp_json_lbl:'Save as JSON',
+    exp_json_lbl:'Export as JSON',
     exp_json_dsc:'Full reloadable backup',
     exp_csv_lbl:'Export contacts as CSV',
     exp_csv_dsc:'Contact list to open in Excel',
@@ -696,7 +776,7 @@ var I18N = {
     exp_xls_dsc:'Formatted .xls file',
     exp_print_lbl:'Print / PDF',
     exp_print_dsc:'Printable version (landscape recommended)',
-    imp_json_lbl:'Load a JSON backup',
+    imp_json_lbl:'Import a JSON backup',
     imp_json_dsc:'Resume saved work',
     close:'Close',
     reset_header:'&#128260; Reset everything?',
@@ -730,6 +810,16 @@ var I18N = {
   es: {
     topbar_title:'Árbol de Llamada de Seguridad',
     tip_print:'<strong>Consejo:</strong> tras cada actualización, exporte el archivo en <strong>JSON</strong> (copia de seguridad recargable) y en <strong>PDF</strong> (formato de distribución). Imprima una copia y consérvela en un lugar accesible para las personas autorizadas a activar el árbol.',
+    exp_section_export:'EXPORTAR',
+    exp_section_import:'IMPORTAR',
+    imp_csv_lbl:'Importar una lista de contactos',
+    imp_csv_dsc:'Archivo CSV del modelo Excel',
+    csv_tpl_lbl:'Descargar plantilla Excel',
+    csv_tpl_dsc:'Abra en Excel, complete y guarde como CSV',
+    pool_pick:'Elegir de los contactos importados',
+    poolpick_title:'Rellenar desde la lista',
+    pool_fill_tt:'Rellenar este nodo desde la lista importada',
+    pool_imported:'contacto(s) importado(s) desde CSV',
     btn_help:'&#10067; <span>Ayuda</span>',
     btn_reset:'&#128260; <span>Reiniciar</span>',
     btn_export:'&#8595; <span>Exportar / Importar</span>',
@@ -744,6 +834,17 @@ var I18N = {
     btn_edit_exit:'Salir de la edición',
     btn_print:'Imprimir',
     btn_start:'Comenzar &#8594;',
+    tpl_col_nom:'Nom complet', tpl_col_tel:'Téléphone',
+    tpl_paste_warn:'⚠ Si les numéros s\'affichent en notation scientifique après collage : sélectionner toute la colonne B → Ctrl+1 → Nombre → 0 décimale → OK → puis Fichier → Enregistrer sous → CSV.',
+    tpl_examples:[['Dupont Marie','+33 6 00 00 00 00'],['Traoré Amadou','+00 000 000 000'],['Koné Fatima','+00 000 000 000']],
+    n_s0_title:'Remplir l&#39;arbre depuis une liste de contacts',
+    n_s0_steps:[
+      'Barra superior → clic en <strong>Exportar / Importar</strong>',
+      'Sección <strong>IMPORTAR</strong> → Descargar la <strong>plantilla Excel</strong>',
+      'Guardar el archivo completado como <strong>CSV</strong> (Archivo → Guardar como → .csv)',
+      'Modal → <strong>Importar lista de contactos</strong>',
+      'Clic en <b class="ni-pool">&#9636;</b> sobre un nodo para rellenarlo desde la lista importada',
+      'Clic en <b class="ni-add">+</b> sobre un nodo para agregar un contacto manualmente'],
     n_s1_icon:'&#128203;', n_s1_title:'Objetivo',
     n_s1_text:'El árbol de comunicación permite difundir rápidamente información crítica en cascada a todo el personal, y confirmar que cada persona ha recibido y comprendido el mensaje.',
     n_s1_hl:'La información fluye de arriba hacia abajo, en cascada. No es una herramienta de comunicación bidireccional.',
@@ -837,6 +938,7 @@ function setLang(l){
   setActiveFlag(l);
   document.documentElement.lang=l;
   applyI18n();
+  updateNoticeList('ns0list','n_s0_steps');
   updateNoticeList('ns1list','n_s1_items');
   updateNoticeList('ns2list','n_s2_items');
   updateNoticeList('ns4list','n_s4_items');
@@ -851,12 +953,12 @@ function applyI18n(){
     var v=t(k);
     if(v!=null && typeof v==='string') el.innerHTML=v;
   });
+  updateNoticeList('ns0list','n_s0_steps');
   updateNoticeList('ns1list','n_s1_items');
   updateNoticeList('ns2list','n_s2_items');
   updateNoticeList('ns4list','n_s4_items');
   updateNoticeList('ns6list','n_s6_items');
   /* Placeholders modale ajout */
-  var aFn=document.getElementById('a-fn'); if(aFn) aFn.placeholder=t('add_fn_ph');
   var aNm=document.getElementById('a-name'); if(aNm) aNm.placeholder=t('add_name_ph');
 }
 
@@ -953,6 +1055,11 @@ function mkCard(node){
     db.onclick=(function(id){ return function(e){ e.stopPropagation(); delNode(id); }; })(node.id);
     ctrl.appendChild(db);
   }
+  /* Bouton pool-fill : toujours visible \u2014 si pool vide, redirige vers l'import */
+  var pb=document.createElement('button'); pb.className='ncb ncb-pool'; pb.textContent='\u25a4';
+  pb.title=t('pool_fill_tt');
+  pb.onclick=(function(id){ return function(e){ e.stopPropagation(); openPoolPick(id); }; })(node.id);
+  ctrl.appendChild(pb);
   card.appendChild(ctrl);
 
   card.appendChild(mkf('f-name','name',node.id, node.name||t('node_name')));
@@ -1041,19 +1148,19 @@ function updateEditBtn(){
    ================================================================ */
 function openAdd(pid){
   pendPid=pid;
-  ['a-fn','a-name','a-ph1','a-ph2'].forEach(function(i){ var el=document.getElementById(i); if(el) el.value=''; });
+  ['a-name','a-ph1'].forEach(function(i){ var el=document.getElementById(i); if(el) el.value=''; });
+  renderPoolPick();
   document.getElementById('m-add').classList.remove('hidden');
-  setTimeout(function(){ var el=document.getElementById('a-fn'); if(el) el.focus(); },50);
+  setTimeout(function(){ var el=document.getElementById('a-name'); if(el) el.focus(); },50);
 }
 function confirmAdd(){
   if(!pendPid) return;
   var p=findN(pendPid,D.root); if(!p) return;
   var nn={
     id:gid(),
-    fn:gv('a-fn')||t('node_fn'),
-    name:gv('a-name')||t('node_name'),
-    ph1:gv('a-ph1')||'+00 000 000 000',
-    ph2:gv('a-ph2'),
+    fn:'',
+    name:gv('a-name')||'',
+    ph1:gv('a-ph1')||'',
     children:[]
   };
   if(!p.children) p.children=[];
@@ -1061,6 +1168,13 @@ function confirmAdd(){
   closeM('m-add');
   saveState();
   render();
+}
+/* Libère récursivement dans le pool tous les contacts du sous-arbre supprimé */
+function releasePoolSubtree(node){
+  pool.forEach(function(ct){
+    if(ct.used && ct.name===node.name && ct.ph1===node.ph1) ct.used=false;
+  });
+  (node.children||[]).forEach(releasePoolSubtree);
 }
 function delNode(id){
   var p=findP(id,D.root); if(!p) return;
@@ -1070,12 +1184,12 @@ function delNode(id){
     ? t('del_sub').replace('%fn%',n.fn).replace('%nm%',n.name)
     : t('del_simple').replace('%fn%',n.fn).replace('%nm%',n.name);
   if(!confirm(msg)) return;
+  releasePoolSubtree(n); /* remettre les contacts dans le pool avant suppression */
   p.children.splice(idx,1);
-  saveState();
-  render();
+  render(); saveState();
 }
 
-['a-fn','a-name','a-ph1','a-ph2'].forEach(function(i){
+['a-name','a-ph1'].forEach(function(i){
   var el=document.getElementById(i);
   if(el) el.addEventListener('keydown', function(e){
     if(e.key==='Enter') confirmAdd();
@@ -1233,6 +1347,163 @@ function exportExcel(){
   html+='</table></body></html>';
   dlFile(getFilename('xls'),html,'application/vnd.ms-excel');
   closeExport();
+}
+
+/* ================================================================
+   POOL CSV
+   ================================================================ */
+var pool = [];
+
+function importCSVContacts(){
+  var inp=document.createElement('input'); inp.type='file'; inp.accept='.csv,.txt';
+  inp.onchange=function(e){
+    var file=e.target.files[0]; if(!file) return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var buf=ev.target.result;
+      var bytes=new Uint8Array(buf,0,3);
+      /* Détection encodage : BOM UTF-8 → utf-8, sinon windows-1252 (Excel France/Afrique) */
+      var hasUtf8Bom=(bytes[0]===0xEF&&bytes[1]===0xBB&&bytes[2]===0xBF);
+      var enc=hasUtf8Bom?'utf-8':'windows-1252';
+      var text=new TextDecoder(enc).decode(buf);
+      if(hasUtf8Bom) text=text.replace(/^\uFEFF/,'');
+      var lines=text.split(/\r?\n/).filter(function(l){ return l.trim(); });
+      if(lines.length<2){ alert(t('pool_empty')); return; }
+      /* Auto-detect delimiter: Excel France uses ; */
+      var delim=',';
+      if((lines[0].match(/;/g)||[]).length>(lines[0].match(/,/g)||[]).length) delim=';';
+      /* Detect column positions from header row */
+      var headers=lines[0].split(delim).map(function(h){ return h.trim().replace(/^"|"$/g,'').toLowerCase(); });
+      var iNom=-1, iPhone=-1;
+      headers.forEach(function(h,i){
+        if(iNom<0  && /^(nom|name|full.?name|apellido|nombre)/.test(h)) iNom=i;
+        if(iPhone<0 && /^(t[eé]l|phone|tel[eé]fono)/.test(h)) iPhone=i;
+      });
+      if(iNom<0)   iNom=0;
+      if(iPhone<0) iPhone=1;
+      /* Convert scientific notation or plain integer phone numbers from Excel */
+      function fixPhone(v){
+        if(!v) return '';
+        /* French/EU scientific notation: 2,11912E+11 or 2.11912E+11 */
+        if(/\d[,.]?\d*[Ee][+\-]?\d/.test(v)){
+          var normalized=v.replace(',','.');
+          var n=Math.round(parseFloat(normalized));
+          return isNaN(n)?v:('+'+n);
+        }
+        /* Plain integer >= 9 digits without + (e.g. 211912000000 pasted from Number-formatted cell) */
+        if(/^\d{9,}$/.test(v.replace(/[\s ]/g,''))){
+          return '+'+v.replace(/[\s ]/g,'');
+        }
+        return v;
+      }
+      var added=0;
+      for(var i=1;i<lines.length;i++){
+        var cols=lines[i].split(delim).map(function(s){ return s.trim().replace(/^"|"$/g,''); });
+        var nom=(cols[iNom]||'').trim();
+        var phone=fixPhone((cols[iPhone]||'').trim());
+        if(!nom) continue;
+        pool.push({ name:nom, ph1:phone, used:false });
+        added++;
+      }
+      closeExport();
+      alert(added+' '+t('pool_imported'));
+    };
+    reader.readAsArrayBuffer(file);
+  };
+  inp.click();
+}
+
+var pendPoolNodeId=null;
+function openPoolPick(nodeId){
+  pendPoolNodeId=nodeId;
+  /* Pool vide → ouvre directement la modale d'import */
+  var avail=pool.filter(function(p){ return !p.used; });
+  if(avail.length===0){ openExport(); return; }
+  var chips=document.getElementById('poolpick-chips');
+  if(!chips) return;
+  chips.innerHTML='';
+  pool.forEach(function(ct,idx){
+    if(ct.used) return;
+    var ch=document.createElement('div'); ch.className='pool-chip';
+    ch.innerHTML='<div class="pc-btn">+</div><span class="pc-name">'+ct.name+'</span>'+(ct.ph1?'<span class="pc-ph">'+ct.ph1+'</span>':'');
+    ch.onclick=(function(j){ return function(){
+      var node=findN(pendPoolNodeId,D.root);
+      if(node){
+        /* Libère l'ancien contact pool si ce nœud en avait un */
+        pool.forEach(function(ct2){
+          if(ct2.used && ct2.name===node.name && ct2.ph1===node.ph1) ct2.used=false;
+        });
+        node.name=pool[j].name; node.ph1=pool[j].ph1; pool[j].used=true;
+      }
+      closeM('m-poolpick');
+      render(); saveState();
+    }; })(idx);
+    chips.appendChild(ch);
+  });
+  document.getElementById('m-poolpick').classList.remove('hidden');
+}
+
+function renderPoolPick(){
+  var wrap=document.getElementById('pool-pick');
+  var chips=document.getElementById('pool-chips');
+  if(!wrap||!chips) return;
+  var avail=pool.filter(function(p){ return !p.used; });
+  if(avail.length===0){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  chips.innerHTML='';
+  pool.forEach(function(ct,idx){
+    if(ct.used) return;
+    var ch=document.createElement('div'); ch.className='pool-chip';
+    ch.innerHTML='<div class="pc-btn">+</div><span class="pc-name">'+ct.name+'</span>'+(ct.ph1?'<span class="pc-ph">'+ct.ph1+'</span>':'');
+    ch.onclick=(function(j){ return function(){
+      var el=document.getElementById('a-name'); if(el) el.value=pool[j].name;
+      var el2=document.getElementById('a-ph1'); if(el2) el2.value=pool[j].ph1;
+      pool[j].used=true;
+      renderPoolPick();
+    }; })(idx);
+    chips.appendChild(ch);
+  });
+}
+
+function dlCSVTemplate(){
+  var rows='Nom,Prenom,Telephone\nDupont,Marie,+00 000 000 000\nMartin,Jean,+00 000 000 000\n';
+  dlFile('LWF_CallTree_contacts_template.csv',rows,'text/csv;charset=utf-8');
+}
+function dlXLSTemplate(){
+  var h=t('tpl_col_nom'); var tel=t('tpl_col_tel');
+  var ex=t('tpl_examples');
+  var warn=t('tpl_paste_warn');
+  /* SpreadsheetML (Office 2003 XML) — format natif Excel, styles colonne garantis */
+  var xml='<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml+='<?mso-application progid="Excel.Sheet"?>\n';
+  xml+='<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"';
+  xml+=' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"';
+  xml+=' xmlns:x="urn:schemas-microsoft-com:office:excel">\n';
+  xml+=' <Styles>\n';
+  xml+='  <Style ss:ID="hdr"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#8FAF2E" ss:Pattern="Solid"/></Style>\n';
+  xml+='  <Style ss:ID="tel"><NumberFormat ss:Format="0"/></Style>\n';
+  xml+='  <Style ss:ID="warn"><Font ss:Italic="1" ss:Color="#7a5c00"/><Interior ss:Color="#fff8e1" ss:Pattern="Solid"/></Style>\n';
+  xml+=' </Styles>\n';
+  xml+=' <Worksheet ss:Name="Contacts">\n  <Table>\n';
+  xml+='   <Column ss:Width="380"/>\n';
+  xml+='   <Column ss:Width="180" ss:StyleID="tel"/>\n';
+  /* Ligne 1 : instruction visible */
+  xml+='   <Row ss:Height="36">';
+  xml+='<Cell ss:StyleID="warn" ss:MergeAcross="1"><Data ss:Type="String">'+warn+'</Data></Cell>';
+  xml+='</Row>\n';
+  /* Ligne 2 : en-têtes */
+  xml+='   <Row><Cell ss:StyleID="hdr"><Data ss:Type="String">'+h+'</Data></Cell>';
+  xml+='<Cell ss:StyleID="hdr"><Data ss:Type="String">'+tel+'</Data></Cell></Row>\n';
+  ex.forEach(function(row){
+    xml+='   <Row><Cell><Data ss:Type="String">'+row[0]+'</Data></Cell>';
+    xml+='<Cell ss:StyleID="tel"><Data ss:Type="String">'+row[1]+'</Data></Cell></Row>\n';
+  });
+  for(var i=0;i<30;i++){
+    xml+='   <Row><Cell><Data ss:Type="String"></Data></Cell>';
+    xml+='<Cell ss:StyleID="tel"><Data ss:Type="Number">0</Data></Cell></Row>\n';
+  }
+  xml+='  </Table>\n </Worksheet>\n</Workbook>';
+  dlFile('LWF_CallTree_contacts_template.xls',xml,'application/vnd.ms-excel;charset=utf-8');
 }
 
 /* ================================================================
