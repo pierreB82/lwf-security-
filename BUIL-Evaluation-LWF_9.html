@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  Outil d'évaluation préliminaire des locaux
+  Conçu par Pierre Beaurenaut pour la Fédération Luthérienne Mondiale (FLM / LWF)
+  Version 1.0 — Juin 2026
+  Basé sur le TOOL_BUIL_Building evaluation check-list V1.1
+  ================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="author" content="Pierre Beaurenaut — Fédération Luthérienne Mondiale (FLM/LWF)">
+<meta name="description" content="Outil d'évaluation préliminaire des locaux — LWF World Service">
+<title>Building Evaluation — LWF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   VARIABLES & RESET — identiques Risk Assessment
+   ================================================================ */
+:root {
+  --bg:          #ffffff;
+  --bg2:         #f4f6f0;
+  --bg3:         #eaede4;
+  --border:      #d4dcc4;
+  --border2:     #bfcbaa;
+  --text:        #1a1f26;
+  --text2:       #4a5568;
+  --text3:       #8a95a3;
+  --accent:      #8FAF2E;
+  --accent2:     #6a8420;
+  --accent-lt:   #edf3e0;
+  --danger:      #c0392b;
+  --danger-bg:   #fdf0ee;
+  --danger-bd:   #e8a99f;
+  --warning:     #b7600a;
+  --warning-bg:  #fdf5e8;
+  --warning-bd:  #e8c98a;
+  --ok:          #1a6b3a;
+  --ok-bg:       #e8f5ed;
+  --ok-bd:       #a5d6a7;
+  --moderate:    #92660a;
+  --moderate-bg: #fefce8;
+  --moderate-bd: #d4b84a;
+  --partial:     #b7600a;
+  --partial-bg:  #fdf5e8;
+  --partial-bd:  #e8c98a;
+  --na:          #8a95a3;
+  --na-bg:       #f5f5f5;
+  --na-bd:       #bdbdbd;
+  --r:           6px;
+  --r2:          4px;
+  --shadow:      0 1px 3px rgba(80,110,30,0.08), 0 1px 2px rgba(80,110,30,0.05);
+  --shadow2:     0 2px 8px rgba(80,110,30,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg2);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 72px;
+}
+
+/* ================================================================
+   TOPBAR — fidèle Risk Assessment, adapté mobile
+   ================================================================ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--accent);
+  border-bottom: 1px solid var(--accent2);
+  padding: 0 12px;
+  display: flex; align-items: center; gap: 8px;
+  height: 50px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+.topbar img { height: 36px; width: auto; flex-shrink: 0; }
+.topbar-logo {
+  font-weight: 700; font-size: 13px;
+  color: #fff; letter-spacing: 0.3px;
+  white-space: nowrap; line-height: 1.2;
+  flex-shrink: 0;
+}
+.topbar-logo small { display: block; font-size: 10px; font-weight: 400; opacity: 0.65; }
+#saveIndicator {
+  font-size: 11px; color: rgba(255,255,255,0.55);
+  white-space: nowrap; display: none;
+}
+.lang-switcher { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
+.lang-btn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff; cursor: pointer;
+  font-size: 15px; padding: 2px 5px;
+  border-radius: 3px; transition: background 0.15s;
+  line-height: 1; min-width: 28px; min-height: 28px;
+  display: flex; align-items: center; justify-content: center;
+}
+.lang-btn.active {
+  background: rgba(255,255,255,0.35);
+  border-color: rgba(255,255,255,0.6);
+}
+.btn-topbar {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; font-family: 'Source Sans 3', sans-serif;
+  font-size: 18px; font-weight: 500;
+  width: 36px; height: 36px; border-radius: var(--r2);
+  cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.btn-topbar:active { background: rgba(255,255,255,0.35); }
+.topbar-sep { flex: 1; }
+.btn-notice {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #ffffff;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 6px 12px; border-radius: var(--r2);
+  cursor: pointer; letter-spacing: 0.3px;
+  transition: background 0.15s;
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.btn-notice:hover { background: rgba(255,255,255,0.28); }
+.btn-reset {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 6px 12px; border-radius: var(--r2);
+  cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.btn-reset:hover { background: rgba(255,80,60,0.35); border-color: rgba(255,100,80,0.5); }
+.btn-export {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 6px 14px; border-radius: var(--r2);
+  cursor: pointer; transition: background 0.15s;
+  white-space: nowrap; flex-shrink: 0;
+}
+.btn-export:hover { background: rgba(255,255,255,0.25); }
+
+/* ================================================================
+   NOTICE MODALE — identique Risk Assessment
+   ================================================================ */
+.notice-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.notice-overlay.hidden { display: none; pointer-events: none; }
+.notice-box {
+  background: var(--bg);
+  border-radius: var(--r);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+  max-width: 520px; width: 100%;
+  max-height: 88vh; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.notice-header {
+  background: var(--accent);
+  color: #fff; padding: 14px 16px;
+  border-radius: var(--r) var(--r) 0 0;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.notice-header-text h2 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.notice-header-text p { font-size: 11px; color: rgba(255,255,255,0.75); }
+.notice-body { padding: 0; overflow-y: auto; flex: 1; }
+.notice-atelier {
+  background: #fffbea;
+  border-left: 3px solid #d4a017;
+  padding: 14px 16px;
+  display: flex; gap: 10px; align-items: flex-start;
+  border-bottom: 1px solid var(--border);
+}
+.notice-atelier-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.notice-atelier p { font-size: 13px; line-height: 1.6; }
+.notice-atelier p strong { color: #7a5a00; }
+.notice-reminders {
+  padding: 14px 16px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.notice-reminders-title {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text3); margin-bottom: 10px;
+}
+.notice-reminder-item {
+  font-size: 12px; color: var(--text2);
+  line-height: 1.55; margin-bottom: 6px;
+  padding-left: 14px; position: relative;
+}
+.notice-reminder-item::before {
+  content: '\00B7'; position: absolute; left: 0;
+  color: var(--accent); font-size: 18px; line-height: 1;
+}
+.notice-save-block {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #fffbf0;
+}
+.notice-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: flex-end;
+  flex-shrink: 0;
+}
+.btn-primary {
+  background: var(--accent); color: #fff;
+  border: none; font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px; font-weight: 600;
+  padding: 9px 22px; border-radius: 8px;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--accent2); }
+.btn-secondary {
+  background: var(--bg2); color: var(--text2);
+  border: 1px solid var(--border2);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px; font-weight: 500;
+  padding: 8px 16px; border-radius: var(--r2);
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-secondary:hover { background: var(--bg3); }
+
+/* ================================================================
+   EXPORT MODALE — identique Risk Assessment
+   ================================================================ */
+.export-overlay {
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.export-overlay.hidden { display: none; pointer-events: none; }
+.export-box {
+  background: var(--bg); border-radius: var(--r);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  max-width: 440px; width: 100%;
+}
+.export-header {
+  padding: 16px 16px; border-bottom: 1px solid var(--border);
+  font-size: 15px; font-weight: 700;
+}
+.export-body { padding: 16px 16px; }
+.export-warning {
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+  background: #fffbea; border: 1px solid #e8c98a;
+  border-radius: var(--r2); padding: 10px 12px; margin-bottom: 12px;
+}
+.export-option {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.export-option:last-child { border-bottom: none; }
+.export-option:hover .export-opt-label { color: var(--accent); }
+.export-opt-icon { font-size: 20px; }
+.export-opt-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.export-opt-desc { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.export-footer {
+  padding: 12px 16px; border-top: 1px solid var(--border);
+  text-align: right;
+}
+
+/* ================================================================
+   BOTTOM TABS — navigation mobile
+   ================================================================ */
+.bottom-tabs {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: var(--bg);
+  border-top: 2px solid var(--accent);
+  display: flex;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+.tab-btn {
+  flex: 1; padding: 8px 4px 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 10px; font-weight: 600; color: var(--text3);
+  border: none; background: transparent; cursor: pointer;
+  border-top: 3px solid transparent;
+  letter-spacing: 0.3px; text-transform: uppercase;
+}
+.tab-btn .tab-icon { font-size: 18px; line-height: 1; }
+.tab-btn.active { color: var(--accent2); border-top-color: var(--accent); }
+
+/* ================================================================
+   PAGES
+   ================================================================ */
+.page { display: none; padding: 12px; }
+.page.active { display: block; }
+
+/* ================================================================
+   FORM — identique Risk Assessment
+   ================================================================ */
+.form-row { display: grid; gap: 10px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-label {
+  font-size: 11px; font-weight: 600; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.7px;
+}
+.form-input, .form-textarea, .form-select {
+  background: #f7faf3;
+  border: 1px solid var(--border2); color: var(--text);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px; padding: 10px 12px;
+  border-radius: 8px; outline: none;
+  transition: border-color 0.15s; width: 100%;
+  min-height: 44px; -webkit-appearance: none;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--accent);
+}
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--text3); font-style: italic;
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-hint {
+  font-size: 11px; color: var(--text3);
+  font-style: italic; margin-top: 2px; line-height: 1.4;
+}
+.form-gps-row { display: flex; gap: 8px; }
+.form-gps-row .form-input { flex: 1; }
+.btn-gps {
+  min-width: 44px; min-height: 44px;
+  background: var(--accent); border: none;
+  border-radius: 8px; color: #fff; font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+}
+.btn-gps:active { background: var(--accent2); }
+
+/* ================================================================
+   SECTION CARD — identique Risk Assessment
+   ================================================================ */
+.section-card {
+  background: var(--bg);
+  border: 1.5px solid var(--border2);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.section-card-header {
+  padding: 12px 14px;
+  border-bottom: 1.5px solid var(--border2);
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 600; color: var(--text);
+  cursor: pointer; user-select: none;
+  background: var(--bg2);
+}
+.section-card-header:hover { background: var(--bg3); }
+.section-card-header .sc-icon {
+  font-size: 14px;
+  width: 28px; height: 28px; border-radius: 7px;
+  background: #fff; border: 1px solid var(--border2); color: var(--accent2);
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.section-card-header .sc-toggle {
+  margin-left: auto; color: var(--text3);
+  font-size: 10px; transition: transform 0.2s;
+}
+.section-card-header.collapsed .sc-toggle { transform: rotate(-90deg); }
+.section-card-body { padding: 14px; }
+.section-card-body.hidden { display: none; }
+
+/* ================================================================
+   CHECKLIST ITEMS
+   ================================================================ */
+.cat-block { margin-bottom: 14px; }
+.cat-header {
+  background: var(--accent2); color: #fff;
+  padding: 11px 14px;
+  border-radius: 10px 10px 0 0;
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; user-select: none;
+}
+.cat-count {
+  font-size: 10px; background: rgba(255,255,255,0.25);
+  padding: 2px 8px; border-radius: 10px;
+}
+.cat-body { background: var(--bg); border: 1.5px solid var(--border2); border-top: none; border-radius: 0 0 10px 10px; }
+.cat-body.collapsed { display: none; }
+.subcat-header {
+  background: var(--accent-lt);
+  padding: 8px 14px;
+  font-size: 11px; font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+.item { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.item:last-child { border-bottom: none; }
+.item-q-row { display: flex; gap: 8px; align-items: flex-start; }
+.item-num {
+  font-size: 11px; font-weight: 700; color: var(--accent2);
+  background: var(--accent-lt); border: 1px solid var(--accent);
+  padding: 1px 6px; border-radius: 3px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+}
+.item-q { font-size: 13px; line-height: 1.45; color: var(--text); flex: 1; }
+.item-photo-hint { font-size: 10px; color: var(--text3); font-style: italic; }
+.resp-row { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
+.resp-btn {
+  flex: 1; min-width: 56px;
+  padding: 8px 4px;
+  border-radius: var(--r2);
+  border: 1.5px solid var(--border2);
+  font-size: 11px; font-weight: 700;
+  cursor: pointer; background: var(--bg2);
+  color: var(--text2); text-align: center;
+  min-height: 40px; transition: all 0.12s;
+  font-family: 'Source Sans 3', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+.resp-btn:active { opacity: 0.7; }
+.resp-btn.sel-yes { background: var(--ok-bg);      color: var(--ok);      border-color: var(--ok-bd); }
+.resp-btn.sel-no  { background: var(--danger-bg);   color: var(--danger);  border-color: var(--danger-bd); }
+.resp-btn.sel-na  { background: var(--na-bg);       color: var(--na);      border-color: var(--na-bd); }
+.resp-btn.sel-pt  { background: var(--partial-bg);  color: var(--partial); border-color: var(--partial-bd); }
+.item-extras { display: flex; gap: 6px; margin-top: 8px; align-items: flex-start; }
+.item-comment {
+  flex: 1;
+  border: 1px solid var(--border2); border-radius: var(--r2);
+  padding: 8px 10px;
+  font-family: 'Source Sans 3', sans-serif; font-size: 13px;
+  color: var(--text); background: var(--bg);
+  outline: none; resize: none;
+  min-height: 40px; height: 40px;
+  transition: border-color 0.15s, height 0.15s;
+}
+.item-comment:focus { border-color: var(--accent); height: 72px; }
+.btn-photo {
+  width: 40px; height: 40px; flex-shrink: 0;
+  border: 1px solid var(--border2); border-radius: var(--r2);
+  background: var(--bg2); color: var(--text3);
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.12s;
+}
+.btn-photo.has-photo { background: var(--accent-lt); color: var(--accent2); border-color: var(--accent); }
+.photo-names { font-size: 10px; color: var(--text3); margin-top: 3px; }
+
+/* ================================================================
+   PROGRESS BAR
+   ================================================================ */
+.progress-card {
+  background: var(--bg); border: 1.5px solid var(--border2);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
+.progress-stats { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.pstat {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 12px; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.pstat-yes { background: var(--ok-bg);      color: var(--ok); }
+.pstat-no  { background: var(--danger-bg);  color: var(--danger); }
+.pstat-na  { background: var(--na-bg);      color: var(--na); }
+.pstat-pt  { background: var(--partial-bg); color: var(--partial); }
+
+/* ================================================================
+   ACTION PLAN — fidèle Risk Assessment
+   ================================================================ */
+.ap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.ap-table th {
+  background: var(--bg3); color: var(--text2);
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  padding: 7px 10px; text-align: left;
+  border-bottom: 2px solid var(--border2);
+}
+.ap-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.ap-table tr:hover td { background: var(--bg2); }
+.ap-input {
+  width: 100%; background: transparent;
+  border: none; outline: none;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px; color: var(--text);
+  min-height: 32px;
+}
+.ap-input::placeholder { color: var(--text3); font-style: italic; }
+.ap-select {
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px; padding: 3px 6px; border-radius: var(--r2);
+  outline: none; width: 100%;
+}
+.ap-empty {
+  text-align: center; padding: 40px 20px;
+  color: var(--text3); font-size: 13px;
+}
+.ap-empty span { display: block; font-size: 32px; margin-bottom: 8px; }
+/* Mobile AP cards */
+.ap-card {
+  background: var(--bg); border: 1.5px solid var(--border2);
+  border-left: 4px solid var(--border2);
+  border-radius: 10px; padding: 14px;
+  margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: opacity 0.2s;
+}
+.ap-card.done { opacity: 0.55; }
+.prio-immediat  { background: var(--danger-bg);   color: var(--danger);   border: 1px solid var(--danger-bd);   padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+.prio-essentiel { background: var(--warning-bg);  color: var(--warning);  border: 1px solid var(--warning-bd);  padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+.prio-desirable { background: var(--moderate-bg); color: var(--moderate); border: 1px solid var(--moderate-bd); padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+.prio-continu   { background: var(--ok-bg);       color: var(--ok);       border: 1px solid var(--ok-bd);       padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 700; }
+.ap-card-header { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 10px; }
+.ap-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 3px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.ap-badge.no  { background: var(--danger-bg);  color: var(--danger);  border: 1px solid var(--danger-bd); }
+.ap-badge.pt  { background: var(--partial-bg); color: var(--partial); border: 1px solid var(--partial-bd); }
+.ap-card-q { font-size: 12px; font-weight: 600; line-height: 1.35; }
+.ap-card-num { font-size: 10px; color: var(--text3); }
+
+/* ================================================================
+   EMERGENCY BAR — identique Risk Assessment
+   ================================================================ */
+.emergency-bar {
+  display: none; position: fixed; bottom: 72px; left: 0; right: 0; z-index: 600;
+  background: var(--danger); color: #fff; padding: 10px 16px;
+  text-align: center; font-size: 12px;
+}
+.emergency-bar.show { display: block; }
+
+/* ================================================================
+   SUMMARY / SCORING
+   ================================================================ */
+.summary-disclaimer {
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 10px 12px; margin-bottom: 14px;
+  font-style: italic;
+}
+.redflag-card {
+  background: var(--danger-bg); border: 1.5px solid var(--danger-bd);
+  border-radius: 10px; padding: 14px; margin-bottom: 14px;
+}
+.redflag-title {
+  font-size: 14px; font-weight: 700; color: var(--danger);
+  margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.4px;
+}
+.redflag-item {
+  font-size: 13px; color: var(--text); line-height: 1.4;
+  padding: 7px 0; border-top: 1px solid var(--danger-bd);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.redflag-num {
+  font-size: 11px; font-weight: 700; color: var(--danger);
+  background: #fff; border: 1px solid var(--danger-bd);
+  padding: 1px 6px; border-radius: 3px; flex-shrink: 0;
+}
+.noflag-card {
+  background: var(--ok-bg); border: 1.5px solid var(--ok-bd);
+  border-radius: 10px; padding: 14px; margin-bottom: 14px;
+  font-size: 14px; font-weight: 600; color: var(--ok);
+  text-align: center;
+}
+.cat-score-row { margin-bottom: 14px; }
+.cat-score-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+.cat-score-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.cat-score-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+.cat-score-sub { font-size: 10px; color: var(--text3); margin-top: 3px; }
+.global-score {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px; padding-top: 14px; border-top: 2px solid var(--border);
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+.summary-legend {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 12px 14px; margin-bottom: 14px;
+}
+.legend-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text3); margin-bottom: 8px; }
+.legend-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text2); margin-bottom: 5px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+/* ================================================================
+   BUILDING TYPE PICKER
+   ================================================================ */
+.type-picker-card {
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 16px 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(80,110,30,0.12);
+}
+.type-picker-card.unset {
+  border-color: var(--warning-bd);
+  background: var(--warning-bg);
+}
+.type-picker-title {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  margin-bottom: 3px;
+}
+.type-picker-card.unset .type-picker-title { color: var(--warning); }
+.type-picker-sub {
+  font-size: 12px; color: var(--text2); margin-bottom: 12px; line-height: 1.4;
+}
+.type-cards { display: flex; gap: 8px; }
+.type-card {
+  flex: 1;
+  border: 2px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; touch-action: manipulation;
+  background: var(--bg2); transition: all 0.15s;
+  text-align: center;
+}
+.type-card:active { transform: scale(0.97); }
+.type-card-icon { font-size: 28px; line-height: 1; }
+.type-card-label { font-size: 12px; font-weight: 600; color: var(--text2); line-height: 1.2; }
+.type-card.selected {
+  border-color: var(--accent);
+  background: var(--accent-lt);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.type-card.selected .type-card-label { color: var(--accent2); }
+.type-banner {
+  background: var(--warning-bg);
+  border: 1.5px solid var(--warning-bd);
+  color: var(--warning);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; line-height: 1.4;
+}
+.type-banner:active { opacity: 0.85; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (min-width: 480px) {
+  .resp-btn { font-size: 12px; }
+}
+@media print {
+  .topbar, .bottom-tabs, .notice-overlay, .export-overlay, .emergency-bar { display: none !important; }
+  body { padding-bottom: 0; }
+  .page { display: block !important; }
+}
+
+input[type=file].hidden-input { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NOTICE MODALE
+     ============================================================ -->
+<div class="notice-overlay hidden" id="noticeOverlay">
+  <div class="notice-box">
+    <div class="notice-header">
+      <div class="notice-header-text">
+        <h2 data-i18n="notice_title">Building Evaluation</h2>
+        <p>LWF World Service</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:12px">
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">🇬🇧</span><span class="lang-abbr" style="display:none">EN</span></button>
+          <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">🇫🇷</span><span class="lang-abbr" style="display:none">FR</span></button>
+          <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">🇪🇸</span><span class="lang-abbr" style="display:none">ES</span></button>
+        </div>
+        <button onclick="closeNotice()" data-i18n="btn_start" style="padding:6px 14px;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.5);border-radius:var(--r2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap">Commencer →</button>
+      </div>
+    </div>
+    <div class="notice-body">
+      <div class="notice-atelier">
+        <div class="notice-atelier-icon">🏢</div>
+        <div>
+          <p data-i18n="notice_desc">Preliminary building evaluation tool. Complete the general information, then go through the checklist as you walk through the building. Data is saved automatically on this device.</p>
+        </div>
+      </div>
+      <div class="notice-reminders">
+        <div class="notice-reminders-title" data-i18n="notice_tips_title">Tips</div>
+        <div class="notice-reminder-item" data-i18n="notice_tip1">Use this tool on-site, moving through each area of the building.</div>
+        <div class="notice-reminder-item" data-i18n="notice_tip2">Take photos when prompted — they are not mandatory but highly recommended.</div>
+        <div class="notice-reminder-item" data-i18n="notice_tip3">Items marked NO or PARTIAL will automatically appear in the Action Plan tab.</div>
+        <div class="notice-reminder-item" data-i18n="notice_tip4">Export your evaluation as JSON to save it in the Security Pack on SharePoint.</div>
+      </div>
+      <div class="notice-save-block">
+        <span>💾</span>
+        <div style="font-size:12px;color:var(--text2);line-height:1.55" data-i18n="notice_save_text">Data is saved automatically in your browser. <strong>Always export the JSON file</strong> and save it in the dedicated folder of your Security Pack on SharePoint.</div>
+      </div>
+    </div>
+    <div class="notice-footer">
+      <div style="font-size:10px;color:var(--text3);flex:1" id="noticeVersion">BUIL v1.0</div>
+      <button class="btn-primary" onclick="closeNotice()" data-i18n="btn_start">Start →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOPBAR
+     ============================================================ -->
+<div class="topbar">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUgAAAdDCAYAAACL2tFIAABVOElEQVR4nOzdWZLjOBZFQaks979l9kdGdMaggSOGd91/27qCgigKOAlS92VZlhsAAAAAQCKBFAAAAABItCzL8l/vgwAAAAAA6EUgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAA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ALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAg61hrrauPAAAAAAAAAAAAAOBEb18+mIA61T9IAAAAAElFTkSuQmCC" alt="LWF" style="height:36px;width:auto;flex-shrink:0">
+  <div class="topbar-logo">
+    <span data-i18n="topbar_title">Building Evaluation</span>
+    <small>LWF World Service <span id="topbarVersion" style="opacity:0.7"></span></small>
+  </div>
+  <button class="btn-notice" onclick="openNotice()" data-i18n="btn_help">❓ Help</button>
+  <div class="topbar-sep"></div>
+  <div id="saveIndicator" data-i18n="saved_indicator">✓ saved</div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">🇬🇧</span><span class="lang-abbr" style="display:none">EN</span></button>
+    <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">🇫🇷</span><span class="lang-abbr" style="display:none">FR</span></button>
+    <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">🇪🇸</span><span class="lang-abbr" style="display:none">ES</span></button>
+  </div>
+  <button class="btn-reset" onclick="confirmReset()" data-i18n="btn_reset">🔄 Reset</button>
+  <button class="btn-export" onclick="openExport()" data-i18n="btn_export">⬇ Export / Import</button>
+</div>
+
+<!-- ============================================================
+     EXPORT MODALE
+     ============================================================ -->
+<div class="export-overlay hidden" id="exportOverlay">
+  <div class="export-box">
+    <div class="export-header" data-i18n="export_header">Export / Import</div>
+    <div class="export-body">
+      <div class="export-warning" data-i18n="export_warning"><strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint — not only on your local device.</div>
+      <div class="export-option" id="shareOption" onclick="shareJSON()" style="display:none">
+        <div class="export-opt-icon">📤</div>
+        <div>
+          <div class="export-opt-label" data-i18n="export_share_label">Share (email, Teams, WhatsApp…)</div>
+          <div class="export-opt-desc" data-i18n="export_share_desc">Recommended on phone / tablet</div>
+        </div>
+      </div>
+      <div class="export-option" onclick="exportJSON()">
+        <div class="export-opt-icon">💾</div>
+        <div>
+          <div class="export-opt-label" data-i18n="export_json_label">Save as JSON</div>
+          <div class="export-opt-desc" data-i18n="export_json_desc">Full backup — reloadable on any device</div>
+        </div>
+      </div>
+      <div class="export-option" onclick="exportCSV()">
+        <div class="export-opt-icon">📊</div>
+        <div>
+          <div class="export-opt-label" data-i18n="export_csv_label">Export CSV</div>
+          <div class="export-opt-desc" data-i18n="export_csv_desc">Full checklist — open in Excel or SharePoint</div>
+        </div>
+      </div>
+      <div class="export-option" onclick="printTool()">
+        <div class="export-opt-icon">🖨</div>
+        <div>
+          <div class="export-opt-label" data-i18n="export_print_label">Print / PDF</div>
+          <div class="export-opt-desc" data-i18n="export_print_desc">Via browser</div>
+        </div>
+      </div>
+      <div class="export-option" onclick="triggerImport()">
+        <div class="export-opt-icon">📂</div>
+        <div>
+          <div class="export-opt-label" data-i18n="import_json_label">Load a JSON backup</div>
+          <div class="export-opt-desc" data-i18n="import_json_desc">Resume a saved session</div>
+        </div>
+      </div>
+    </div>
+    <div class="export-footer">
+      <button class="btn-secondary" onclick="closeExport()" data-i18n="btn_close">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     RESET MODALE
+     ============================================================ -->
+<div class="export-overlay hidden" id="resetOverlay">
+  <div class="export-box">
+    <div class="export-header" data-i18n="reset_header">🔄 Reset?</div>
+    <div class="export-body">
+      <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px" data-i18n="reset_text">You are about to erase all data entered in this form. <strong>All responses, comments and actions will be deleted.</strong> This action cannot be undone.</p>
+      <div style="background:#fffbea;border:1px solid #e8c98a;border-radius:var(--r2);padding:10px 12px;margin-bottom:14px">
+        <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important:</strong> Browser data can be lost if you clear your cache. <strong>Export a JSON backup before resetting.</strong></span>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-secondary" onclick="closeReset()" data-i18n="reset_cancel">Cancel</button>
+        <button class="btn-secondary" onclick="exportJSON()" data-i18n="reset_export" style="color:var(--accent2)">💾 Export first</button>
+        <button class="btn-primary" style="background:var(--danger)" onclick="doReset()" data-i18n="reset_confirm">Yes, erase all</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     EMERGENCY BAR
+     ============================================================ -->
+<div class="emergency-bar" id="emergencyBar">
+  <span data-i18n="emergency_msg">⚠ A problem was detected. Click the button to reset the tool.</span>
+  <button onclick="localStorage.removeItem('lwf_buil_v1');location.reload();" style="background:#fff;color:var(--danger);border:none;padding:4px 12px;border-radius:4px;font-weight:700;cursor:pointer;font-size:12px;margin-left:8px" data-i18n="emergency_btn">Reset</button>
+</div>
+
+<!-- ============================================================
+     PAGES
+     ============================================================ -->
+<div class="page active" id="page-0"></div>
+<div class="page" id="page-1"></div>
+<div class="page" id="page-2"></div>
+<div class="page" id="page-3"></div>
+
+<!-- ============================================================
+     BOTTOM TABS
+     ============================================================ -->
+<div class="bottom-tabs">
+  <button class="tab-btn active" onclick="goTab(0)">
+    <span class="tab-icon">📋</span>
+    <span data-i18n="tab_info">Info</span>
+  </button>
+  <button class="tab-btn" onclick="goTab(1)">
+    <span class="tab-icon">✅</span>
+    <span data-i18n="tab_check">Checklist</span>
+  </button>
+  <button class="tab-btn" onclick="goTab(2)">
+    <span class="tab-icon">📊</span>
+    <span data-i18n="tab_summary">Summary</span>
+  </button>
+  <button class="tab-btn" onclick="goTab(3)">
+    <span class="tab-icon">📌</span>
+    <span data-i18n="tab_actions">Actions</span>
+  </button>
+</div>
+
+<input type="file" id="importFile" class="hidden-input" accept=".json" onchange="importJSON(event)">
+<input type="file" id="photoFile" class="hidden-input" accept="image/*" capture="environment" onchange="handlePhoto(event)">
+
+<script>
+/* ================================================================
+   TOOL CONFIG
+   ================================================================ */
+const TOOL_VERSION_BASE = '1.0';
+const TOOL_VERSION = 'v' + TOOL_VERSION_BASE;
+const LS_KEY = 'lwf_buil_v1';
+let lang = 'en';
+
+/* ================================================================
+   I18N — data-i18n pattern (identique Risk Assessment)
+   ================================================================ */
+const I18N = {
+  en: {
+    topbar_title: 'Building Evaluation',
+    saved_indicator: '✓ saved',
+    notice_title: 'LWF Building Evaluation',
+    notice_desc: 'Preliminary building evaluation tool. Complete the general information, then go through the checklist as you walk through the building. Data is saved automatically on this device.',
+    notice_tips_title: 'Tips',
+    notice_tip1: 'Use this tool on-site, moving through each area of the building.',
+    notice_tip2: 'Take photos when prompted — they are not mandatory but highly recommended.',
+    notice_tip3: 'Items marked NO or PARTIAL will automatically appear in the Action Plan tab.',
+    notice_tip4: 'Export your evaluation as JSON to save it in the Security Pack on SharePoint.',
+    notice_save_text: 'Data is saved automatically in your browser. <strong>Always export the JSON file</strong> and save it in the dedicated folder of your Security Pack on SharePoint.',
+    btn_start: 'Start →',
+    btn_close: 'Close',
+    export_header: 'Export / Import',
+    export_warning: '<strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint — not only on your local device.',
+    export_share_label: 'Share (email, Teams, WhatsApp…)', export_share_desc: 'Recommended on phone / tablet',
+    export_json_label: 'Save as JSON', export_json_desc: 'Full backup — reloadable on any device',
+    export_csv_label: 'Export CSV', export_csv_desc: 'Full checklist — open in Excel or SharePoint',
+    export_print_label: 'Print / PDF', export_print_desc: 'Via browser',
+    import_json_label: 'Load a JSON backup', import_json_desc: 'Resume a saved session',
+    reset_header: '🔄 Reset?',
+    reset_text: 'You are about to erase all data entered in this form. <strong>All responses, comments and actions will be deleted.</strong> This action cannot be undone.',
+    reset_warn: '<strong>Important:</strong> Browser data can be lost if you clear your cache. <strong>Export a JSON backup before resetting.</strong>',
+    reset_cancel: 'Cancel', reset_export: '💾 Export first', reset_confirm: 'Yes, erase all',
+    emergency_msg: '⚠ A problem was detected. Click the button to reset the tool.',
+    emergency_btn: 'Reset',
+    tab_info: 'Info', tab_check: 'Checklist', tab_actions: 'Actions', tab_summary: 'Summary',
+    sum_disclaimer: 'Indicative scoring to compare buildings and spot weaknesses. It does not replace professional judgement. A critical failure (red flag) outweighs a high overall score.',
+    sum_redflags: 'Critical points failing',
+    sum_noflags: 'No critical point failing',
+    sum_profile: 'Security profile',
+    sum_cat_scores: 'Scores by category',
+    sum_scored: 'scored',
+    sum_global: 'Overall (indicative)',
+    sum_legend_title: 'Reading guide',
+    sum_legend_good: '75–100% — Satisfactory',
+    sum_legend_mod: '50–74% — To reinforce',
+    sum_legend_weak: '0–49% — Weak, priority',
+    btn_help: '❓ Help', btn_reset: '🔄 Reset', btn_export: '⬇ Export / Import',
+    export_prefix: 'Building_Evaluation',
+    // Step 0
+    card_general: 'General Information',
+    field_country: 'Country', ph_country: 'e.g. Kenya',
+    field_office: 'Office / Sub-office', ph_office: 'e.g. Nairobi',
+    field_sfp: 'Evaluator — Name and function', ph_sfp: 'FirstName LASTNAME — SFP / Admin',
+    field_date: 'Evaluation date',
+    field_risk: 'Country risk level',
+    risk_opts: '--,1 — Low,2 — Moderate,3 — High,4 — Critical,5 — Extreme',
+    card_location: 'Building Location',
+    field_address: 'Address', ph_address: 'Street, neighbourhood, city',
+    field_gps: 'GPS Coordinates', ph_gps: 'e.g. -1.2921, 36.8219',
+    gps_ok: 'Position obtained ✓', gps_err: 'GPS unavailable',
+    card_owner: 'Owner Information',
+    field_owner: 'Owner name / Organisation', ph_owner: 'Owner name or entity',
+    field_owner_contact: 'Owner contact', ph_owner_contact: 'Phone, email',
+    field_owner_notes: 'Owner notes', ph_owner_notes: 'Reliability, possible links, remarks...',
+    card_building: 'Building Characteristics',
+    field_area_build: 'Building area (m²)', field_area_plot: 'Plot area (m²)',
+    field_type: 'Building type',
+    type_picker_title: '1. Building type — required',
+    type_picker_sub: 'Tap to choose. This determines which questions appear in the checklist.',
+    type_banner: 'Building type not selected — tap here to choose it. Some questions may be missing.',
+    type_office: 'Office / Villa', type_apt: 'Apartment', type_other: 'Other',
+    field_floors: 'Total floors (building)', field_floor_apt: 'Apartment floor',
+    field_apt_specs: 'Other specifications', ph_apt_specs: 'Lift, stairwell, roof access...',
+    card_comment: 'General Comments',
+    ph_general: 'Context, general observations about the building...',
+    // Checklist
+    progress_label: 'Progress',
+    r_yes: 'YES', r_no: 'NO', r_na: 'N/A', r_pt: 'PARTIAL',
+    photo_hint: '📷 photo recommended',
+    // Action plan
+    ap_title: 'Action Plan',
+    ap_desc: 'Items marked NO or PARTIAL — corrective actions to plan.',
+    ap_action: 'Corrective action', ap_resp: 'Responsible', ap_due: 'Target date', ap_status: 'Status',
+    ap_status_opts: '-- Status,In progress,Partially,Done,Suspended',
+    ap_comment: 'Evaluator comment',
+    ap_empty: 'No items marked NO or PARTIAL yet.',
+    ap_priority: 'Priority', ap_cost: 'Cost (USD)', ap_cost_ph: 'e.g. 500',
+    prio_immediat: 'Immediate', prio_essentiel: 'Essential', prio_desirable: 'Desirable', prio_continu: 'Ongoing',
+    ap_days_late: 'd overdue', ap_days_left: 'd left', ap_today: 'Today',
+    ph_comment: 'Comment / observation...',
+    // Categories
+    cat_env: 'Environment',
+    cat_passive: 'Passive Protection',
+    cat_active: 'Active Protection',
+    cat_other: 'Other',
+    cat_apt: 'Apartment / Building',
+    sub_fence: 'Fencing / Perimeter wall',
+    sub_bars: 'Window bars / Shutters / Security grilles',
+    sub_veg: 'Vegetation',
+    sub_light: 'Lighting',
+    sub_doors: 'Doors and gates',
+    sub_guards: 'Guarding',
+    sub_alarm: 'Alarm systems',
+    sub_parking: 'Garages and parking',
+    sub_fire: 'Fire prevention',
+    sub_power: 'Power / Energy',
+    sub_intrusion: 'Staff protection in case of intrusion',
+  },
+  fr: {
+    topbar_title: 'Évaluation des locaux',
+    saved_indicator: '✓ sauvegardé',
+    notice_title: 'Évaluation des locaux LWF',
+    notice_desc: 'Outil d&#39;évaluation préliminaire des locaux. Remplissez les informations générales, puis parcourez la checklist en vous déplaçant dans le bâtiment. Les données sont sauvegardées automatiquement sur cet appareil.',
+    notice_tips_title: 'Conseils',
+    notice_tip1: 'Utilisez cet outil sur place, en parcourant chaque zone du bâtiment.',
+    notice_tip2: 'Prenez des photos lorsque c&#39;est suggéré — elles ne sont pas obligatoires mais fortement recommandées.',
+    notice_tip3: 'Les items marqués NON ou PARTIEL apparaîtront automatiquement dans l&#39;onglet Plan d&#39;action.',
+    notice_tip4: 'Exportez votre évaluation en JSON pour la sauvegarder dans le Security Pack sur SharePoint.',
+    notice_save_text: 'Les données sont sauvegardées automatiquement dans votre navigateur. <strong>Exportez toujours le fichier JSON</strong> et sauvegardez-le dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
+    btn_start: 'Commencer →',
+    btn_close: 'Fermer',
+    export_header: 'Exporter / Importer',
+    export_warning: '<strong>Important :</strong> Sauvegardez toujours le fichier JSON dans le dossier dédié de votre Pack Sécurité sur SharePoint — pas uniquement en local.',
+    export_share_label: 'Partager (email, Teams, WhatsApp…)', export_share_desc: 'Recommandé sur téléphone / tablette',
+    export_json_label: 'Sauvegarder en JSON', export_json_desc: 'Sauvegarde complète — rechargeable sur n&#39;importe quel poste',
+    export_csv_label: 'Exporter en CSV', export_csv_desc: 'Checklist complète — ouvrir dans Excel ou SharePoint',
+    export_print_label: 'Imprimer / PDF', export_print_desc: 'Via le navigateur',
+    import_json_label: 'Charger une sauvegarde JSON', import_json_desc: 'Reprendre un travail sauvegardé',
+    reset_header: '🔄 Remettre à zéro ?',
+    reset_text: 'Vous êtes sur le point d&#39;effacer toutes les données saisies. <strong>Toutes les réponses, commentaires et actions seront effacés.</strong> Cette action est irréversible.',
+    reset_warn: '<strong>Important :</strong> Les données du navigateur peuvent être perdues si vous videz le cache. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong>',
+    reset_cancel: 'Annuler', reset_export: '💾 Exporter d&#39;abord', reset_confirm: 'Oui, tout effacer',
+    emergency_msg: '⚠ Un problème a été détecté. Cliquez sur le bouton pour réinitialiser l&#39;outil.',
+    emergency_btn: 'Réinitialiser',
+    tab_info: 'Infos', tab_check: 'Checklist', tab_actions: 'Actions', tab_summary: 'Synthèse',
+    sum_disclaimer: 'Notation indicative pour comparer les bâtiments et repérer les faiblesses. Elle ne remplace pas le jugement professionnel. Un point critique en échec (drapeau rouge) prime sur un score global élevé.',
+    sum_redflags: 'Points critiques en échec',
+    sum_noflags: 'Aucun point critique en échec',
+    sum_profile: 'Profil de sécurité',
+    sum_cat_scores: 'Scores par catégorie',
+    sum_scored: 'évalués',
+    sum_global: 'Global (indicatif)',
+    sum_legend_title: 'Guide de lecture',
+    sum_legend_good: '75–100% — Satisfaisant',
+    sum_legend_mod: '50–74% — À renforcer',
+    sum_legend_weak: '0–49% — Faible, prioritaire',
+    btn_help: '❓ Aide', btn_reset: '🔄 Remise à zéro', btn_export: '⬇ Exporter / Importer',
+    export_prefix: 'Évaluation_locaux',
+    card_general: 'Informations générales',
+    field_country: 'Pays', ph_country: 'ex. Kenya',
+    field_office: 'Bureau / Sous-bureau', ph_office: 'ex. Nairobi',
+    field_sfp: 'Évaluateur — Nom et fonction', ph_sfp: 'Prénom NOM — SFP / Admin',
+    field_date: 'Date d&#39;évaluation',
+    field_risk: 'Niveau de risque pays',
+    risk_opts: '--,1 — Faible,2 — Modéré,3 — Élevé,4 — Critique,5 — Extrême',
+    card_location: 'Localisation du bâtiment',
+    field_address: 'Adresse', ph_address: 'Rue, quartier, ville',
+    field_gps: 'Coordonnées GPS', ph_gps: 'ex. -1.2921, 36.8219',
+    gps_ok: 'Position obtenue ✓', gps_err: 'GPS indisponible',
+    card_owner: 'Informations sur le propriétaire',
+    field_owner: 'Nom / Organisation propriétaire', ph_owner: 'Nom ou entité propriétaire',
+    field_owner_contact: 'Contact propriétaire', ph_owner_contact: 'Téléphone, email',
+    field_owner_notes: 'Notes sur le propriétaire', ph_owner_notes: 'Fiabilité, liens éventuels, remarques...',
+    card_building: 'Caractéristiques du bâtiment',
+    field_area_build: 'Surface bâtiment (m²)', field_area_plot: 'Surface terrain (m²)',
+    field_type: 'Type de bâtiment',
+    type_picker_title: '1. Type de bâtiment — obligatoire',
+    type_picker_sub: 'Touchez pour choisir. Ce choix détermine les questions de la checklist.',
+    type_banner: 'Type de bâtiment non sélectionné — touchez ici pour le choisir. Des questions peuvent manquer.',
+    type_office: 'Bureau / Villa', type_apt: 'Appartement', type_other: 'Autre',
+    field_floors: 'Nb d&#39;étages (bâtiment)', field_floor_apt: 'Étage de l&#39;appartement',
+    field_apt_specs: 'Autres spécifications', ph_apt_specs: 'Ascenseur, cage d&#39;escalier, accès toit...',
+    card_comment: 'Commentaire général',
+    ph_general: 'Contexte, observations générales sur le bâtiment...',
+    progress_label: 'Progression',
+    r_yes: 'OUI', r_no: 'NON', r_na: 'N/A', r_pt: 'PARTIEL',
+    photo_hint: '📷 photo conseillée',
+    ap_title: 'Plan d&#39;action',
+    ap_desc: 'Items marqués NON ou PARTIEL — actions correctives à planifier.',
+    ap_action: 'Action corrective', ap_resp: 'Responsable', ap_due: 'Date prévue', ap_status: 'Statut',
+    ap_status_opts: '-- Statut,En cours,Partiellement,Terminé,Suspendu',
+    ap_comment: 'Commentaire de l&#39;évaluateur',
+    ap_empty: 'Aucun item NON ou PARTIEL pour l&#39;instant.',
+    ap_priority: 'Priorité', ap_cost: 'Coût (USD)', ap_cost_ph: 'ex. 500',
+    prio_immediat: 'Immédiate', prio_essentiel: 'Essentielle', prio_desirable: 'Désirable', prio_continu: 'Continue',
+    ap_days_late: 'j de retard', ap_days_left: 'j restants', ap_today: 'Aujourd&#39;hui',
+    ph_comment: 'Commentaire / observation...',
+    cat_env: 'Environnement',
+    cat_passive: 'Protection passive',
+    cat_active: 'Protection active',
+    cat_other: 'Divers',
+    cat_apt: 'Appartement / Immeuble',
+    sub_fence: 'Clôture / Mur de périmètre',
+    sub_bars: 'Barreaux / Volets / Grilles de sécurité',
+    sub_veg: 'Végétation',
+    sub_light: 'Éclairage',
+    sub_doors: 'Portes et portails',
+    sub_guards: 'Gardiennage',
+    sub_alarm: 'Systèmes d&#39;alarme',
+    sub_parking: 'Garages et stationnement',
+    sub_fire: 'Prévention incendie',
+    sub_power: 'Alimentation électrique / Énergie',
+    sub_intrusion: 'Protection du personnel en cas d&#39;intrusion',
+  },
+  es: {
+    topbar_title: 'Evaluación de locales',
+    saved_indicator: '✓ guardado',
+    notice_title: 'Evaluación de locales LWF',
+    notice_desc: 'Herramienta de evaluación preliminar de locales. Complete la información general, luego recorra la lista de verificación mientras recorre el edificio. Los datos se guardan automáticamente en este dispositivo.',
+    notice_tips_title: 'Consejos',
+    notice_tip1: 'Use esta herramienta in situ, recorriendo cada zona del edificio.',
+    notice_tip2: 'Tome fotos cuando se sugiera — no son obligatorias pero muy recomendadas.',
+    notice_tip3: 'Los ítems marcados NO o PARCIAL aparecerán automáticamente en la pestaña Plan de acción.',
+    notice_tip4: 'Exporte su evaluación en JSON para guardarla en el Security Pack en SharePoint.',
+    notice_save_text: 'Los datos se guardan automáticamente en su navegador. <strong>Exporte siempre el archivo JSON</strong> y guárdelo en la carpeta dedicada de su Pack de Seguridad en SharePoint.',
+    btn_start: 'Comenzar →',
+    btn_close: 'Cerrar',
+    export_header: 'Exportar / Importar',
+    export_warning: '<strong>Importante:</strong> Guarde siempre el archivo JSON en la carpeta dedicada de su Pack de Seguridad en SharePoint — no solo en su dispositivo local.',
+    export_share_label: 'Compartir (email, Teams, WhatsApp…)', export_share_desc: 'Recomendado en teléfono / tableta',
+    export_json_label: 'Guardar en JSON', export_json_desc: 'Copia de seguridad completa — recargable en cualquier dispositivo',
+    export_csv_label: 'Exportar CSV', export_csv_desc: 'Lista completa — abrir en Excel o SharePoint',
+    export_print_label: 'Imprimir / PDF', export_print_desc: 'A través del navegador',
+    import_json_label: 'Cargar una copia JSON', import_json_desc: 'Reanudar una sesión guardada',
+    reset_header: '🔄 ¿Reiniciar?',
+    reset_text: 'Está a punto de borrar todos los datos introducidos. <strong>Todas las respuestas, comentarios y acciones serán eliminados.</strong> Esta acción es irreversible.',
+    reset_warn: '<strong>Importante:</strong> Los datos del navegador pueden perderse si borra la caché. <strong>Exporte una copia JSON antes de reiniciar.</strong>',
+    reset_cancel: 'Cancelar', reset_export: '💾 Exportar primero', reset_confirm: 'Sí, borrar todo',
+    emergency_msg: '⚠ Se detectó un problema. Haga clic en el botón para reiniciar la herramienta.',
+    emergency_btn: 'Reiniciar',
+    tab_info: 'Info', tab_check: 'Lista', tab_actions: 'Acciones', tab_summary: 'Síntesis',
+    sum_disclaimer: 'Puntuación indicativa para comparar edificios y detectar debilidades. No reemplaza el juicio profesional. Un punto crítico fallido (bandera roja) prevalece sobre una puntuación global alta.',
+    sum_redflags: 'Puntos críticos fallidos',
+    sum_noflags: 'Ningún punto crítico fallido',
+    sum_profile: 'Perfil de seguridad',
+    sum_cat_scores: 'Puntuaciones por categoría',
+    sum_scored: 'evaluados',
+    sum_global: 'Global (indicativo)',
+    sum_legend_title: 'Guía de lectura',
+    sum_legend_good: '75–100% — Satisfactorio',
+    sum_legend_mod: '50–74% — A reforzar',
+    sum_legend_weak: '0–49% — Débil, prioritario',
+    btn_help: '❓ Ayuda', btn_reset: '🔄 Reiniciar', btn_export: '⬇ Exportar / Importar',
+    export_prefix: 'Evaluacion_locales',
+    card_general: 'Información general',
+    field_country: 'País', ph_country: 'ej. Kenya',
+    field_office: 'Oficina / Sub-oficina', ph_office: 'ej. Nairobi',
+    field_sfp: 'Evaluador — Nombre y función', ph_sfp: 'Nombre APELLIDO — SFP / Admin',
+    field_date: 'Fecha de evaluación',
+    field_risk: 'Nivel de riesgo país',
+    risk_opts: '--,1 — Bajo,2 — Moderado,3 — Alto,4 — Crítico,5 — Extremo',
+    card_location: 'Ubicación del edificio',
+    field_address: 'Dirección', ph_address: 'Calle, barrio, ciudad',
+    field_gps: 'Coordenadas GPS', ph_gps: 'ej. -1.2921, 36.8219',
+    gps_ok: 'Posición obtenida ✓', gps_err: 'GPS no disponible',
+    card_owner: 'Información del propietario',
+    field_owner: 'Nombre / Organización propietaria', ph_owner: 'Nombre o entidad propietaria',
+    field_owner_contact: 'Contacto del propietario', ph_owner_contact: 'Teléfono, email',
+    field_owner_notes: 'Notas sobre el propietario', ph_owner_notes: 'Fiabilidad, vínculos posibles, observaciones...',
+    card_building: 'Características del edificio',
+    field_area_build: 'Superficie edificio (m²)', field_area_plot: 'Superficie terreno (m²)',
+    field_type: 'Tipo de edificio',
+    type_picker_title: '1. Tipo de edificio — obligatorio',
+    type_picker_sub: 'Toque para elegir. Esto determina qué preguntas aparecen en la lista.',
+    type_banner: 'Tipo de edificio no seleccionado — toque aquí para elegirlo. Pueden faltar preguntas.',
+    type_office: 'Oficina / Villa', type_apt: 'Apartamento', type_other: 'Otro',
+    field_floors: 'Nº de plantas (edificio)', field_floor_apt: 'Planta del apartamento',
+    field_apt_specs: 'Otras especificaciones', ph_apt_specs: 'Ascensor, escalera, acceso techo...',
+    card_comment: 'Comentario general',
+    ph_general: 'Contexto, observaciones generales sobre el edificio...',
+    progress_label: 'Progreso',
+    r_yes: 'SÍ', r_no: 'NO', r_na: 'N/A', r_pt: 'PARCIAL',
+    photo_hint: '📷 foto recomendada',
+    ap_title: 'Plan de acción',
+    ap_desc: 'Ítems marcados NO o PARCIAL — acciones correctivas a planificar.',
+    ap_action: 'Acción correctiva', ap_resp: 'Responsable', ap_due: 'Fecha prevista', ap_status: 'Estado',
+    ap_status_opts: '-- Estado,En curso,Parcialmente,Terminado,Suspendido',
+    ap_comment: 'Comentario del evaluador',
+    ap_empty: 'No hay ítems NO o PARCIAL por ahora.',
+    ap_priority: 'Prioridad', ap_cost: 'Costo (USD)', ap_cost_ph: 'ej. 500',
+    prio_immediat: 'Inmediata', prio_essentiel: 'Esencial', prio_desirable: 'Deseable', prio_continu: 'Continua',
+    ap_days_late: 'd de retraso', ap_days_left: 'd restantes', ap_today: 'Hoy',
+    ph_comment: 'Comentario / observación...',
+    cat_env: 'Entorno',
+    cat_passive: 'Protección pasiva',
+    cat_active: 'Protección activa',
+    cat_other: 'Otros',
+    cat_apt: 'Apartamento / Edificio',
+    sub_fence: 'Valla / Muro perimetral',
+    sub_bars: 'Rejas / Persianas / Rejas de seguridad',
+    sub_veg: 'Vegetación',
+    sub_light: 'Iluminación',
+    sub_doors: 'Puertas y portones',
+    sub_guards: 'Vigilancia',
+    sub_alarm: 'Sistemas de alarma',
+    sub_parking: 'Garajes y estacionamiento',
+    sub_fire: 'Prevención de incendios',
+    sub_power: 'Energía eléctrica',
+    sub_intrusion: 'Protección del personal en caso de intrusión',
+  }
+};
+
+// Questions are stored separately — only EN text here; FR/ES loaded from I18N-style objects
+// Each question: { n, q:{en,fr,es}, photo?:true }
+// Category/subcategory names use i18n keys
+const CATS = [
+  { id:'env', nameKey:'cat_env', subcats:[
+    { nameKey:null, items:[
+      {n:1, q:{en:'Is the building within a reasonable travel time of a hospital able to handle serious trauma (given local traffic and road conditions)?',fr:'Le bâtiment est-il situé à un temps de trajet raisonnable d&#39;un hôpital capable de prendre en charge un traumatisme grave (compte tenu de la circulation et de l&#39;état des routes) ?',es:'¿Está el edificio a un tiempo de viaje razonable de un hospital capaz de atender un trauma grave (considerando el tráfico y el estado de las vías)?'}},
+      {n:2, q:{en:'Is it located near key transport routes for your organisation?',fr:'Est-il situé à proximité des axes de transport clés de votre organisation ?',es:'¿Está cerca de las rutas de transporte clave de su organización?'}},
+      {n:3, q:{en:'Are access conditions to the building satisfactory? (road condition, all-season accessibility)',fr:'Les conditions d&#39;accès au bâtiment sont-elles satisfaisantes ? (état de la route, accessibilité toute saison)',es:'¿Las condiciones de acceso al edificio son satisfactorias? (estado de la vía, accesibilidad en toda estación)'}},
+      {n:4, q:{en:'Is the building accessible from multiple access points (more than one entry/exit)?',fr:'Le bâtiment est-il accessible depuis plusieurs points d&#39;accès (plus d&#39;une entrée/sortie) ?',es:'¿El edificio es accesible desde múltiples puntos de acceso?'}},
+      {n:5, q:{en:'Is it discreetly located or highly exposed? (profiling risk)',fr:'Est-il discrètement situé ou très exposé ? (risque de profilage)',es:'¿Está ubicado discretamente o muy expuesto? (riesgo de perfilamiento)'}},
+      {n:6, q:{en:'Is the building located in an area prone to flooding, earthquakes or other natural hazards?',fr:'Le bâtiment est-il situé dans une zone sujette aux inondations, séismes ou autres risques naturels ?',es:'¿Está en zona propensa a inundaciones, terremotos u otros riesgos naturales?'}},
+      {n:7, q:{en:'If yes, is it protected against these threats?',fr:'Si oui, est-il protégé contre ces menaces ?',es:'En caso afirmativo, ¿está protegido contra estas amenazas?'}},
+      {n:8, q:{en:'Are there health or industrial risks in the neighbourhood? (e.g. infrastructure, factories)',fr:'Existe-t-il des risques sanitaires ou industriels dans le voisinage ? (ex. infrastructures, usines)',es:'¿Existen riesgos sanitarios o industriales en el vecindario?'}},
+      {n:9, q:{en:'If yes, is it protected against these threats?',fr:'Si oui, est-il protégé contre ces menaces ?',es:'En caso afirmativo, ¿está protegido contra estas amenazas?'}},
+      {n:10,q:{en:'In case of armed conflict, would the building be directly exposed to gunfire?',fr:'En cas de conflit armé, le bâtiment serait-il directement exposé aux tirs ?',es:'En caso de conflicto armado, ¿el edificio estaría directamente expuesto a disparos?'}},
+      {n:11,q:{en:'Is the building located near a sensitive site? (e.g. barracks, government building, checkpoint)',fr:'Le bâtiment est-il situé à proximité d&#39;un site sensible ? (ex. caserne, bâtiment gouvernemental, checkpoint)',es:'¿Está cerca de un sitio sensible? (ej. cuartel, edificio gubernamental, puesto de control)'}},
+      {n:12,q:{en:'Who are the immediate neighbours? Nature of adjoining/nearby buildings?',fr:'Qui sont les voisins immédiats ? Nature des bâtiments adjacents/proches ?',es:'¿Quiénes son los vecinos inmediatos? ¿Naturaleza de los edificios colindantes?'}},
+      {n:13,q:{en:'Overall footfall in the neighbourhood (residents, transit, tourism, markets, etc.)?',fr:'Fréquentation générale du quartier (résidents, transit, tourisme, marchés, etc.) ?',es:'¿Tránsito general en el vecindario (residentes, tránsito, turismo, mercados, etc.)?'}},
+      {n:14,q:{en:'Can police or other security forces reach the building reasonably quickly if called (given the local context)?',fr:'La police ou les forces de sécurité peuvent-elles atteindre le bâtiment dans un délai raisonnable en cas d&#39;appel (compte tenu du contexte local) ?',es:'¿Pueden la policía u otras fuerzas de seguridad llegar al edificio en un plazo razonable si se les llama (según el contexto local)?'}},
+      {n:15,q:{en:'Is the perimeter protection similar to that of other buildings in the area?',fr:'La protection du périmètre est-elle similaire à celle des autres bâtiments de la zone ?',es:'¿La protección del perímetro es similar a la de otros edificios de la zona?'}},
+      {n:16,q:{en:'Who is the building owner and are they reliable and reputable? Do they have links with any armed group?',fr:'Qui est le propriétaire du bâtiment et est-il fiable et réputé ? A-t-il des liens avec un groupe armé ?',es:'¿Quién es el propietario del edificio y es confiable? ¿Tiene vínculos con algún grupo armado?'}},
+      {n:64,q:{en:'Is the neighbourhood&#39;s security history known and acceptable? (past incidents: burglaries, attacks, unrest)',fr:'L&#39;historique sécuritaire du quartier est-il connu et acceptable ? (incidents passés : cambriolages, attaques, troubles)',es:'¿Se conoce y es aceptable el historial de seguridad del vecindario? (incidentes pasados: robos, ataques, disturbios)'}},
+    ]}
+  ]},
+  { id:'passive', nameKey:'cat_passive', subcats:[
+    { nameKey:'sub_fence', items:[
+      {n:17,q:{en:'Is the plot completely enclosed? (preferably with walls or solid fence ≥2m high)',fr:'L&#39;enceinte est-elle entièrement clôturée ? (de préférence murs ou clôture pleine ≥2m)',es:'¿El terreno está completamente cercado? (preferiblemente con muros o valla sólida ≥2m)'}},
+      {n:74,q:{en:'Is the perimeter wall/fence in good condition along its whole length? (no cracks, gaps or low sections)',fr:'Le mur/la clôture du périmètre est-il en bon état sur toute sa longueur ? (pas de fissures, brèches ou parties basses)',es:'¿El muro/valla perimetral está en buen estado en toda su longitud? (sin fisuras, brechas o secciones bajas)'}},
+      {n:75,q:{en:'Is the wall/fence solid and difficult to breach or climb? (material, height effectively deterrent all around)',fr:'Le mur/la clôture est-il solide et difficile à percer ou escalader ? (matériau, hauteur réellement dissuasive sur tout le périmètre)',es:'¿El muro/valla es sólido y difícil de perforar o escalar? (material, altura disuasoria en todo el perímetro)'}},
+      {n:76,q:{en:'Is there an anti-intrusion device on top of the wall? (broken glass, spikes, concertina, etc.)',fr:'Existe-t-il un dispositif anti-intrusion en crête de mur ? (tessons de verre, piques, concertina, etc.)',es:'¿Existe un dispositivo antiintrusión en la parte superior del muro? (vidrios, púas, concertina, etc.)'}},
+      {n:18,q:{en:'Is there barbed wire on top of the fence/wall?',fr:'Y a-t-il des barbelés sur la clôture/le mur ?',es:'¿Hay alambre de púas en la parte superior de la valla/muro?'}},
+      {n:19,q:{en:'What type of fence do neighbouring residences have? DESCRIPTION + PHOTO',fr:'Quel type de clôture ont les résidences voisines ? DESCRIPTION + PHOTO',es:'¿Qué tipo de valla tienen las residencias vecinas? DESCRIPCIÓN + FOTO'},photo:true},
+    ]},
+    { nameKey:'sub_bars', items:[
+      {n:20,q:{en:'Are all ground floor and first floor openings secured (bars, grilles, shutters)?',fr:'Toutes les ouvertures du rez-de-chaussée et du premier étage sont-elles sécurisées ?',es:'¿Todas las aberturas de la planta baja y primer piso están aseguradas?'}},
+      {n:21,q:{en:'If bars are present, do they meet minimum specifications (spacing ≤10cm, fixed)?',fr:'Si des barreaux sont présents, respectent-ils les spécifications minimales (espacement ≤10cm, fixés) ?',es:'Si hay rejas, ¿cumplen las especificaciones mínimas (espaciado ≤10cm, fijas)?'}},
+      {n:22,q:{en:'Are there other protection means (grilles, roller shutters) for windows without bars?',fr:'Existe-t-il d&#39;autres moyens de protection pour les fenêtres sans barreaux ?',es:'¿Hay otros medios de protección para ventanas sin rejas?'}},
+      {n:23,q:{en:'If not, can they be installed?',fr:'Si non, peuvent-ils être installés ?',es:'Si no, ¿pueden instalarse?'}},
+      {n:24,q:{en:'How are neighbouring residences protected?',fr:'Comment les résidences voisines sont-elles protégées ?',es:'¿Cómo están protegidas las residencias vecinas?'}},
+    ]},
+    { nameKey:'sub_veg', items:[
+      {n:25,q:{en:'If vegetation is present, are there areas difficult to observe from a guard post?',fr:'Si de la végétation est présente, existe-t-il des zones difficiles à observer depuis un poste de garde ?',es:'Si hay vegetación, ¿hay zonas difíciles de observar desde un puesto de guardia?'}},
+      {n:26,q:{en:'Are there foothold points allowing someone to both climb over the wall/gate and reach an upper floor? (e.g. tree branches, gate ornaments/decorations, bins, parked vehicle, air conditioner, adjoining structure)',fr:'Existe-t-il des points d&#39;appui permettant à la fois de franchir le mur/portail et d&#39;atteindre un étage ? (ex : branches d&#39;arbres, fioritures ou ornements de portail, poubelles, véhicule garé, climatiseur, structure adossée)',es:'¿Existen puntos de apoyo que permitan a la vez franquear el muro/portón y alcanzar un piso superior? (ej: ramas, adornos del portón, contenedores, vehículo aparcado, aire acondicionado, estructura adosada)'}},
+    ]},
+    { nameKey:'sub_light', items:[
+      {n:27,q:{en:'Is the plot sufficiently lit to facilitate guarding (no major shadow areas)?',fr:'L&#39;enceinte est-elle suffisamment éclairée pour faciliter la garde ?',es:'¿El terreno está suficientemente iluminado para facilitar la vigilancia?'}},
+      {n:28,q:{en:'Are outdoor electrical equipment and lighting protected against tampering?',fr:'Les équipements électriques extérieurs sont-ils protégés contre les manipulations ?',es:'¿Los equipos eléctricos exteriores están protegidos contra manipulaciones?'}},
+      {n:29,q:{en:'Is the outdoor lighting switch accessible from inside the building?',fr:'L&#39;interrupteur d&#39;éclairage extérieur est-il accessible depuis l&#39;intérieur ?',es:'¿El interruptor de iluminación exterior es accesible desde el interior?'}},
+      {n:30,q:{en:'If available, are motion sensors installed for outdoor lights?',fr:'Des détecteurs de mouvement sont-ils installés pour les lumières extérieures ?',es:'¿Hay sensores de movimiento para las luces exteriores?'}},
+      {n:31,q:{en:'Are outdoor bulbs protected by metal grilles or protective covers?',fr:'Les ampoules extérieures sont-elles protégées par des grilles métalliques ?',es:'¿Las bombillas exteriores están protegidas por rejas metálicas?'}},
+      {n:32,q:{en:'Is the parking area or access road lit by a bright white light?',fr:'La zone de stationnement ou la voie d&#39;accès est-elle éclairée par une lumière blanche vive ?',es:'¿La zona de aparcamiento está iluminada con luz blanca intensa?'}},
+    ]},
+    { nameKey:'sub_doors', items:[
+      {n:33,q:{en:'Are all plot entrances closed by gates of sufficient height (≥2m) and in good condition?',fr:'Toutes les entrées de l&#39;enceinte sont-elles fermées par des portails de hauteur suffisante (≥2m) ?',es:'¿Todas las entradas están cerradas por portones de altura suficiente (≥2m)?'}},
+      {n:34,q:{en:'Are reception/guard posts sanctuarised to isolate them if needed?',fr:'Les postes de réception/garde sont-ils "sanctuarisés" pour les isoler si nécessaire ?',es:'¿Los puestos de recepción/guardia están aislados del resto del terreno?'}},
+      {n:35,q:{en:'Are gates high enough to make them difficult to climb over?',fr:'Les portails sont-ils assez hauts pour les rendre difficiles à escalader ?',es:'¿Los portones son lo suficientemente altos para dificultar su escalada?'}},
+      {n:36,q:{en:'Are building entrance doors solid? (check locks, hinges, frames)',fr:'Les portes d&#39;entrée du bâtiment sont-elles solides ? (serrures, charnières, cadres)',es:'¿Las puertas de entrada son sólidas? (cerraduras, bisagras, marcos)'}},
+      {n:37,q:{en:'Is it possible to lock each office individually?',fr:'Est-il possible de verrouiller chaque bureau individuellement ?',es:'¿Es posible cerrar cada oficina individualmente?'}},
+      {n:38,q:{en:'Is there an electronic access control system? (specify type)',fr:'Y a-t-il un système de contrôle d&#39;accès électronique ? (préciser le type)',es:'¿Hay un sistema de control de acceso electrónico? (especificar tipo)'}},
+      {n:39,q:{en:'Are there multiple locks? (specify how many)',fr:'Y a-t-il plusieurs serrures ? (préciser combien)',es:'¿Hay múltiples cerraduras? (especificar cuántas)'}},
+      {n:40,q:{en:'Are roof openings (hatches, doors) secured?',fr:'Les ouvertures de toit (trappes, portes) sont-elles sécurisées ?',es:'¿Las aberturas del techo están aseguradas?'}},
+      {n:41,q:{en:'Is roof access easy from outside?',fr:'L&#39;accès au toit est-il facile depuis l&#39;extérieur ?',es:'¿El acceso al tejado es fácil desde el exterior?'}},
+      {n:42,q:{en:'Is the roof structure concrete? (specify if not)',fr:'La structure du toit est-elle en béton ? (préciser si non)',es:'¿La estructura del techo es de hormigón? (especificar si no)'}},
+    ]},
+  ]},
+  { id:'active', nameKey:'cat_active', subcats:[
+    { nameKey:'sub_guards', items:[
+      {n:77,q:{en:'Are there guards on site?',fr:'Y a-t-il des gardes sur le site ?',es:'¿Hay guardias en el sitio?'}},
+      {n:78,q:{en:'Is the guarding coverage adequate? (day and night / 24-7 as required)',fr:'La couverture de gardiennage est-elle adéquate ? (jour et nuit / 24-7 selon le besoin)',es:'¿La cobertura de vigilancia es adecuada? (día y noche / 24-7 según necesidad)'}},
+      {n:79,q:{en:'Are the guards provided by a contracted security company (rather than informal/in-house)?',fr:'Les gardes sont-ils fournis par une société de gardiennage sous contrat (plutôt qu&#39;informels/internes) ?',es:'¿Los guardias son proporcionados por una empresa de seguridad contratada (en lugar de informales/internos)?'}},
+      {n:80,q:{en:'Are the guards trained and briefed on the site&#39;s security procedures?',fr:'Les gardes sont-ils formés et briefés sur les consignes de sécurité du site ?',es:'¿Los guardias están formados e informados sobre los procedimientos de seguridad del sitio?'}},
+      {n:81,q:{en:'Does the guard have a reliable means of communication / alert? (radio, phone, alarm to a control room)',fr:'Le garde dispose-t-il d&#39;un moyen de communication / alerte fiable ? (radio, téléphone, alarme vers un central)',es:'¿El guardia dispone de un medio de comunicación / alerta fiable? (radio, teléfono, alarma a una central)'}},
+      {n:82,q:{en:'Does the guard post allow good observation of the entrance and the perimeter?',fr:'Le poste de garde permet-il une bonne observation de l&#39;entrée et du périmètre ?',es:'¿El puesto de guardia permite una buena observación de la entrada y el perímetro?'}},
+      {n:83,q:{en:'Are the guards armed? (factual observation to report)',fr:'Les gardes sont-ils armés ? (constat factuel à signaler)',es:'¿Los guardias están armados? (observación factual a señalar)'}},
+    ]},
+    { nameKey:'sub_alarm', items:[
+      {n:43,q:{en:'Does the building have an alarm system?',fr:'Le bâtiment dispose-t-il d&#39;un système d&#39;alarme ?',es:'¿El edificio tiene un sistema de alarma?'}},
+      {n:44,q:{en:'Are there panic buttons in the building and guard post? (specify locations)',fr:'Y a-t-il des boutons d&#39;alarme dans le bâtiment et au poste de garde ?',es:'¿Hay botones de pánico en el edificio y puesto de guardia?'}},
+    ]},
+    { nameKey:'sub_parking', items:[
+      {n:45,q:{en:'Can vehicles park safely, preferably within the compound? PHOTO',fr:'Nos véhicules peuvent-ils stationner en sécurité, de préférence dans l&#39;enceinte ? PHOTO',es:'¿Los vehículos pueden aparcar de forma segura dentro del recinto? FOTO'},photo:true},
+      {n:46,q:{en:'Is adequate space provided for guards, including sanitary facilities?',fr:'Un espace approprié est-il prévu pour les gardes, avec accès aux sanitaires ?',es:'¿Se proporciona espacio adecuado para los guardias, incluyendo sanitarios?'}},
+      {n:65,q:{en:'If not, is it easily possible to install sanitary facilities for the guards?',fr:'Si non, est-il possible d&#39;installer facilement des sanitaires pour les gardes ?',es:'Si no, ¿es posible instalar fácilmente sanitarios para los guardias?'}},
+      {n:47,q:{en:'Are parking areas properly lit and close to the offices?',fr:'Les zones de stationnement sont-elles correctement éclairées et proches des bureaux ?',es:'¿Las zonas de aparcamiento están bien iluminadas y cerca de las oficinas?'}},
+    ]},
+    { nameKey:'sub_fire', items:[
+      {n:48,q:{en:'Does an evacuation plan exist?',fr:'Un plan d&#39;évacuation existe-t-il ?',es:'¿Existe un plan de evacuación?'}},
+      {n:49,q:{en:'Are there emergency exits with panic bar doors?',fr:'Y a-t-il des sorties de secours avec portes anti-panique ?',es:'¿Hay salidas de emergencia con puertas antipánico?'}},
+      {n:50,q:{en:'Are there smoke detectors in each room?',fr:'Y a-t-il des détecteurs de fumée dans chaque pièce ?',es:'¿Hay detectores de humo en cada habitación?'}},
+    ]},
+    { nameKey:'sub_power', items:[
+      {n:51,q:{en:'If necessary, is there a backup power system? (generator, solar, UPS)',fr:'Si nécessaire, y a-t-il un système d&#39;alimentation de secours ? (générateur, solaire, UPS)',es:'Si es necesario, ¿hay sistema de energía de respaldo?'}},
+      {n:52,q:{en:'If fuel reserves are needed, can they be stored safely?',fr:'Si des réserves de carburant sont nécessaires, peuvent-elles être stockées en sécurité ?',es:'Si se necesitan reservas de combustible, ¿pueden almacenarse de forma segura?'}},
+      {n:53,q:{en:'Does the electrical installation comply with safety standards? (earthing, circuit breakers)',fr:'L&#39;installation électrique est-elle conforme aux normes de sécurité ?',es:'¿La instalación eléctrica cumple las normas de seguridad?'}},
+      {n:54,q:{en:'Is there a lightning rod?',fr:'Y a-t-il un paratonnerre ?',es:'¿Hay un pararrayos?'}},
+      {n:55,q:{en:'Are outdoor electrical installations secured? (protected from tampering or theft)',fr:'Les installations électriques extérieures sont-elles sécurisées ?',es:'¿Las instalaciones eléctricas exteriores están aseguradas?'}},
+    ]},
+    { nameKey:'sub_intrusion', items:[
+      {n:56,q:{en:'Is there an appropriate shelter in case of armed robbery, gunfire or fighting?',fr:'Y a-t-il un abri approprié en cas de vol à main armée, de tirs ou de combats ?',es:'¿Hay refugio apropiado en caso de robo armado, disparos o combates?'}},
+      {n:57,q:{en:'Is there an equipped safe room? How is it protected? INSERT PHOTOS',fr:'Y a-t-il une salle sécurisée équipée ? Comment est-elle protégée ? INSÉRER PHOTOS',es:'¿Hay una sala segura equipada? ¿Cómo está protegida? INSERTAR FOTOS'},photo:true},
+      {n:58,q:{en:'If not, can one be created?',fr:'Si non, peut-on en créer une ?',es:'Si no, ¿se puede crear una?'}},
+      {n:59,q:{en:'If staff sleep on site, can the sleeping area be isolated from the rest?',fr:'Si du personnel dort sur place, la zone de couchage peut-elle être isolée ?',es:'Si el personal duerme en el lugar, ¿puede aislarse la zona de descanso?'}},
+      {n:60,q:{en:'If not, can a security grille be installed to isolate sleeping areas?',fr:'Sinon, peut-on installer une grille de sécurité pour isoler les zones de couchage ?',es:'Si no, ¿puede instalarse una reja de seguridad para aislar las zonas de descanso?'}},
+    ]},
+  ]},
+  { id:'other', nameKey:'cat_other', subcats:[
+    { nameKey:null, items:[
+      {n:61,q:{en:'Are there pest or insect issues (stagnant water)?',fr:'Y a-t-il des problèmes de parasites ou d&#39;insectes (eaux stagnantes) ?',es:'¿Hay problemas de plagas o insectos (aguas estancadas)?'}},
+      {n:62,q:{en:'Is the water supply reliable? If not, will you need your own system?',fr:'L&#39;approvisionnement en eau est-il fiable ? Sinon, faudra-t-il installer votre propre système ?',es:'¿El suministro de agua es fiable? Si no, ¿será necesario instalar su propio sistema?'}},
+      {n:63,q:{en:'Are there adequate sanitary facilities?',fr:'Les installations sanitaires sont-elles adéquates ?',es:'¿Hay instalaciones sanitarias adecuadas?'}},
+    ]}
+  ]},
+  { id:'apt', nameKey:'cat_apt', subcats:[
+    { nameKey:null, items:[
+      {n:66,q:{en:'Is access to the building controlled? (locked entrance, intercom, keypad, building caretaker)',fr:'L&#39;accès à l&#39;immeuble est-il contrôlé ? (porte fermée, interphone, digicode, gardien d&#39;immeuble)',es:'¿El acceso al edificio está controlado? (puerta cerrada, interfono, teclado, conserje)'}},
+      {n:67,q:{en:'Are the common areas (lobby, stairwell, lift) safe and well lit?',fr:'Les parties communes (hall, cage d&#39;escalier, ascenseur) sont-elles sûres et bien éclairées ?',es:'¿Las áreas comunes (vestíbulo, escalera, ascensor) son seguras y están bien iluminadas?'}},
+      {n:68,q:{en:'Are the occupants of neighbouring/same-floor apartments known and reliable?',fr:'Connaît-on les occupants des appartements voisins / du même palier ? Sont-ils fiables ?',es:'¿Se conoce a los ocupantes de los apartamentos vecinos / del mismo rellano? ¿Son fiables?'}},
+      {n:69,q:{en:'Is the apartment entrance door reinforced? (armoured door, multipoint lock, peephole/door chain)',fr:'La porte d&#39;entrée de l&#39;appartement est-elle renforcée ? (porte blindée, serrure multipoints, judas/entrebâilleur)',es:'¿La puerta de entrada del apartamento está reforzada? (puerta blindada, cerradura multipunto, mirilla/cadena)'}},
+      {n:70,q:{en:'Does the apartment floor present a specific risk? (ground floor = easy intrusion; very high floor = difficult evacuation)',fr:'L&#39;étage de l&#39;appartement présente-t-il un risque particulier ? (RDC = intrusion facile ; étage très élevé = évacuation difficile)',es:'¿La planta del apartamento presenta un riesgo particular? (planta baja = intrusión fácil; planta muy alta = evacuación difícil)'}},
+      {n:71,q:{en:'Is there a possible access via balcony, drainpipe, air conditioner or neighbouring apartment?',fr:'Existe-t-il un accès possible par balcon, gouttière, climatiseur ou appartement voisin ?',es:'¿Existe un acceso posible por balcón, canalón, aire acondicionado o apartamento vecino?'}},
+      {n:72,q:{en:'Does the building have at least two usable evacuation routes?',fr:'L&#39;immeuble dispose-t-il d&#39;au moins deux voies d&#39;évacuation praticables ?',es:'¿El edificio dispone de al menos dos vías de evacuación practicables?'}},
+      {n:73,q:{en:'Does the building show obvious fire risks? (wiring, blocked exits, no common extinguishers)',fr:'L&#39;immeuble présente-t-il des risques incendie évidents ? (câblage, encombrement des issues, absence d&#39;extincteurs communs)',es:'¿El edificio presenta riesgos de incendio evidentes? (cableado, salidas obstruidas, ausencia de extintores comunes)'}},
+    ]}
+  ]}
+];
+
+/* ================================================================
+   ITEM_META — Pondération et logique de score (centralisé, modifiable par le SA)
+   w  : 'C' = Critique (killer)  |  'I' = Important  |  'D' = Souhaitable  |  null = non scoré (descriptif)
+   inv: true = question inversée (OUI = risque / mauvais)
+   Poids numériques : C=3, I=2, D=1
+   Score réponse : OUI=1 · PARTIEL=0.5 · NON=0 · N/A=exclu  (inversé : OUI=0 · NON=1)
+   Drapeau rouge : item Critique dont la réponse effective = 0
+   ================================================================ */
+const WEIGHT_VAL = { C: 3, I: 2, D: 1 };
+const ITEM_META = {
+  // tag: 'all' (commun) | 'office' (bureau/villa avec parcelle) | 'apt' (appartement en immeuble)
+  // Environnement
+  1:{w:'I',tag:'all'},  2:{w:'D',tag:'all'},  3:{w:'I',tag:'all'},  4:{w:'I',tag:'all'},  5:{w:null,tag:'all'},
+  6:{w:'I',inv:true,tag:'all'},  7:{w:'I',tag:'all'},  8:{w:'I',inv:true,tag:'all'},  9:{w:'I',tag:'all'},
+  10:{w:'C',inv:true,tag:'all'}, 11:{w:'I',inv:true,tag:'all'}, 12:{w:null,tag:'all'}, 13:{w:null,tag:'all'},
+  14:{w:'I',tag:'all'}, 15:{w:'D',tag:'office'}, 16:{w:'C',tag:'all'}, 64:{w:'I',tag:'all'},
+  // Protection passive
+  17:{w:'C',tag:'office'}, 18:{w:'D',tag:'office'}, 19:{w:null,tag:'office'},
+  20:{w:'C',tag:'all'}, 21:{w:'I',tag:'all'}, 22:{w:'I',tag:'all'}, 23:{w:'D',tag:'all'}, 24:{w:null,tag:'all'},
+  25:{w:'I',inv:true,tag:'office'}, 26:{w:'I',inv:true,tag:'all'},
+  27:{w:'I',tag:'office'}, 28:{w:'D',tag:'office'}, 29:{w:'D',tag:'office'}, 30:{w:'D',tag:'office'}, 31:{w:'D',tag:'office'}, 32:{w:'D',tag:'office'},
+  33:{w:'C',tag:'office'}, 34:{w:'I',tag:'office'}, 35:{w:'I',tag:'office'}, 36:{w:'C',tag:'all'}, 37:{w:'I',tag:'all'}, 38:{w:'D',tag:'all'},
+  39:{w:'D',tag:'all'}, 40:{w:'I',tag:'office'}, 41:{w:'I',inv:true,tag:'office'}, 42:{w:'D',tag:'office'},
+  // Protection active
+  43:{w:'I',tag:'all'}, 44:{w:'I',tag:'all'}, 45:{w:'I',tag:'office'}, 46:{w:'I',tag:'office'}, 65:{w:'C',tag:'office'}, 47:{w:'D',tag:'office'},
+  48:{w:'D',tag:'all'}, 49:{w:'I',tag:'all'}, 50:{w:'I',tag:'all'},
+  51:{w:'D',tag:'all'}, 52:{w:'D',tag:'all'}, 53:{w:'I',tag:'all'}, 54:{w:'D',tag:'office'}, 55:{w:'D',tag:'office'},
+  56:{w:'D',tag:'all'}, 57:{w:'D',tag:'all'}, 58:{w:'I',tag:'all'}, 59:{w:'I',tag:'all'}, 60:{w:'D',tag:'all'},
+  // Divers
+  61:{w:'D',inv:true,tag:'all'}, 62:{w:'I',tag:'all'}, 63:{w:'I',tag:'all'},
+  // Mur d'enceinte (enrichissement clôture)
+  74:{w:'I',tag:'office'}, 75:{w:'I',tag:'office'}, 76:{w:'D',tag:'office'},
+  // Gardiennage
+  77:{w:'I',tag:'office'}, 78:{w:'I',tag:'office'}, 79:{w:'D',tag:'office'}, 80:{w:'I',tag:'office'},
+  81:{w:'I',tag:'office'}, 82:{w:'I',tag:'office'}, 83:{w:null,tag:'office'},
+  // Spécifique APPARTEMENT (immeuble)
+  66:{w:'I',tag:'apt'}, 67:{w:'I',tag:'apt'}, 68:{w:'D',tag:'apt'}, 69:{w:'C',tag:'apt'},
+  70:{w:'I',tag:'apt'}, 71:{w:'I',inv:true,tag:'apt'}, 72:{w:'I',tag:'apt'}, 73:{w:'I',inv:true,tag:'apt'}
+};
+
+// Which item tags are visible for a given building type
+function visibleTags() {
+  const type = (getFormValues().f_type) || '';
+  if (type === 'apt')   return ['all','apt'];
+  if (type === 'office')return ['all','office'];
+  if (type === 'other') return ['all','office'];   // Autre : commun + parcelle, sans le bloc appartement
+  return ['all','office'];  // type non encore choisi → commun + parcelle par défaut
+}
+function isItemVisible(n) {
+  const tag = (ITEM_META[n]||{}).tag || 'all';
+  return visibleTags().indexOf(tag) !== -1;
+}
+
+// Effective score of a response (0..1), accounting for inversion. Returns null if not counted.
+function effScore(n) {
+  const meta = ITEM_META[n] || {};
+  if (meta.w == null) return null;       // descriptive, not scored
+  const r = (items[n] || {}).resp;
+  if (!r || r === 'na') return null;     // N/A or unanswered excluded
+  let s = r === 'yes' ? 1 : r === 'pt' ? 0.5 : 0;
+  if (meta.inv) s = 1 - s;               // invert (yes becomes 0, no becomes 1)
+  return s;
+}
+
+// Is this a critical item currently failing (red flag)?
+function isRedFlag(n) {
+  const meta = ITEM_META[n] || {};
+  if (meta.w !== 'C') return false;
+  const s = effScore(n);
+  return s === 0;
+}
+
+/* ================================================================
+   STATE
+   ================================================================ */
+let items = {};   // { 1: {resp:'yes',comment:'...',photos:['file.jpg']}, ... }
+let apData = {};  // { 1: {action:'...',resp:'...',due:'...',status:''}, ... }
+let currentPhotoItem = null;
+
+/* ================================================================
+   HELPER — i18n
+   ================================================================ */
+function t(key) { return (I18N[lang] && I18N[lang][key]) || (I18N.en[key]) || key; }
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (I18N[lang] && I18N[lang][k]) el.innerHTML = I18N[lang][k];
+  });
+  // Placeholders
+  const ph = (id, key) => { const el = document.getElementById(id); if (el && t(key)) el.placeholder = t(key); };
+  ph('f_country','ph_country'); ph('f_office','ph_office'); ph('f_sfp','ph_sfp');
+  ph('f_address','ph_address'); ph('f_gps','ph_gps');
+  ph('f_owner','ph_owner'); ph('f_owner_contact','ph_owner_contact'); ph('f_owner_notes','ph_owner_notes');
+  ph('f_apt_specs','ph_apt_specs'); ph('f_general','ph_general');
+}
+
+function setLang(l) {
+  lang = l;
+  // Manual choice: persist as explicit preference (overrides browser detection)
+  try { localStorage.setItem('lwf_buil_lang_manual', l); } catch(e) {}
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+l+"'")));
+  document.documentElement.lang = l;
+  applyI18n();
+  renderInfoPage();
+  renderChecklist();
+  renderActionPlan();
+  updateProgress();
+  renderSummary();
+  openNotice();
+}
+
+function setLangSilent(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+l+"'")));
+  document.documentElement.lang = l;
+}
+
+/* ================================================================
+   TABS
+   ================================================================ */
+function goTab(n) {
+  document.querySelectorAll('.page').forEach((p,i) => p.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+  if (n===2) renderSummary();
+  if (n===3) renderActionPlan();
+  window.scrollTo(0,0);
+}
+
+/* ================================================================
+   RENDER INFO PAGE (Step 0)
+   ================================================================ */
+function renderInfoPage() {
+  const p = document.getElementById('page-0');
+  const curType = (getFormValues._stored && getFormValues._stored.f_type) || (document.getElementById('f_type') ? document.getElementById('f_type').value : '') || '';
+  p.innerHTML = `
+  <div class="type-picker-card" id="typePickerCard">
+    <div class="type-picker-title" data-i18n="type_picker_title">${t('type_picker_title')}</div>
+    <div class="type-picker-sub" data-i18n="type_picker_sub">${t('type_picker_sub')}</div>
+    <div class="type-cards">
+      <div class="type-card" data-type="office" onclick="setBuildingType('office')">
+        <div class="type-card-icon">🏢</div>
+        <div class="type-card-label" data-i18n="type_office">${t('type_office')}</div>
+      </div>
+      <div class="type-card" data-type="apt" onclick="setBuildingType('apt')">
+        <div class="type-card-icon">🏬</div>
+        <div class="type-card-label" data-i18n="type_apt">${t('type_apt')}</div>
+      </div>
+      <div class="type-card" data-type="other" onclick="setBuildingType('other')">
+        <div class="type-card-icon">📦</div>
+        <div class="type-card-label" data-i18n="type_other">${t('type_other')}</div>
+      </div>
+    </div>
+    <input type="hidden" id="f_type" value="${curType}">
+  </div>
+
+  <div class="section-card">
+    <div class="section-card-header" onclick="toggleSection(this)"><span class="sc-icon">📋</span> <span data-i18n="card_general">${t('card_general')}</span><span class="sc-toggle">▼</span></div>
+    <div class="section-card-body">
+      <div class="form-row cols-2">
+        <div class="form-group"><div class="form-label" data-i18n="field_country">${t('field_country')}</div><input class="form-input" id="f_country" placeholder="${t('ph_country')}"></div>
+        <div class="form-group"><div class="form-label" data-i18n="field_office">${t('field_office')}</div><input class="form-input" id="f_office" placeholder="${t('ph_office')}"></div>
+      </div>
+      <div class="form-row"><div class="form-group"><div class="form-label" data-i18n="field_sfp">${t('field_sfp')}</div><input class="form-input" id="f_sfp" placeholder="${t('ph_sfp')}"></div></div>
+      <div class="form-row cols-2">
+        <div class="form-group"><div class="form-label" data-i18n="field_date">${t('field_date')}</div><input class="form-input" type="date" id="f_date"></div>
+        <div class="form-group"><div class="form-label" data-i18n="field_risk">${t('field_risk')}</div><select class="form-select" id="f_risk">${t('risk_opts').split(',').map((r,i) => `<option value="${i===0?'':i}">${r}</option>`).join('')}</select></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-card-header" onclick="toggleSection(this)"><span class="sc-icon">📍</span> <span data-i18n="card_location">${t('card_location')}</span><span class="sc-toggle">▼</span></div>
+    <div class="section-card-body">
+      <div class="form-row"><div class="form-group"><div class="form-label" data-i18n="field_address">${t('field_address')}</div><input class="form-input" id="f_address" placeholder="${t('ph_address')}"></div></div>
+      <div class="form-row">
+        <div class="form-group">
+          <div class="form-label" data-i18n="field_gps">${t('field_gps')}</div>
+          <div class="form-gps-row"><input class="form-input" id="f_gps" placeholder="${t('ph_gps')}"><button class="btn-gps" onclick="getGPS()" title="GPS">📍</button></div>
+          <div class="form-hint" id="gps_status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-card-header" onclick="toggleSection(this)"><span class="sc-icon">🏢</span> <span data-i18n="card_building">${t('card_building')}</span><span class="sc-toggle">▼</span></div>
+    <div class="section-card-body">
+      <div class="form-row cols-2">
+        <div class="form-group"><div class="form-label" data-i18n="field_area_build">${t('field_area_build')}</div><input class="form-input" type="number" id="f_area_build" placeholder="m²"></div>
+        <div class="form-group"><div class="form-label" data-i18n="field_area_plot">${t('field_area_plot')}</div><input class="form-input" type="number" id="f_area_plot" placeholder="m²"></div>
+      </div>
+      <div id="aptFields" style="display:none">
+        <div class="form-row cols-2">
+          <div class="form-group"><div class="form-label" data-i18n="field_floors">${t('field_floors')}</div><input class="form-input" type="number" id="f_floors" placeholder="6"></div>
+          <div class="form-group"><div class="form-label" data-i18n="field_floor_apt">${t('field_floor_apt')}</div><input class="form-input" type="number" id="f_floor_apt" placeholder="3"></div>
+        </div>
+        <div class="form-row"><div class="form-group"><div class="form-label" data-i18n="field_apt_specs">${t('field_apt_specs')}</div><textarea class="form-textarea" id="f_apt_specs" placeholder="${t('ph_apt_specs')}"></textarea></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-card-header" onclick="toggleSection(this)"><span class="sc-icon">👤</span> <span data-i18n="card_owner">${t('card_owner')}</span><span class="sc-toggle">▼</span></div>
+    <div class="section-card-body">
+      <div class="form-row"><div class="form-group"><div class="form-label" data-i18n="field_owner">${t('field_owner')}</div><input class="form-input" id="f_owner" placeholder="${t('ph_owner')}"></div></div>
+      <div class="form-row"><div class="form-group"><div class="form-label" data-i18n="field_owner_contact">${t('field_owner_contact')}</div><input class="form-input" id="f_owner_contact" placeholder="${t('ph_owner_contact')}"></div></div>
+      <div class="form-row"><div class="form-group"><div class="form-label" data-i18n="field_owner_notes">${t('field_owner_notes')}</div><textarea class="form-textarea" id="f_owner_notes" placeholder="${t('ph_owner_notes')}"></textarea></div></div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-card-header" onclick="toggleSection(this)"><span class="sc-icon">📝</span> <span data-i18n="card_comment">${t('card_comment')}</span><span class="sc-toggle">▼</span></div>
+    <div class="section-card-body">
+      <div class="form-row"><div class="form-group"><textarea class="form-textarea" id="f_general" placeholder="${t('ph_general')}"></textarea></div></div>
+    </div>
+  </div>`;
+  loadFormValues();
+  refreshTypeCards();
+  toggleApt();
+}
+
+function setBuildingType(type) {
+  const hidden = document.getElementById('f_type');
+  if (hidden) hidden.value = type;
+  refreshTypeCards();
+  toggleApt();
+  saveState();
+  renderChecklist();
+}
+
+function refreshTypeCards() {
+  const cur = (document.getElementById('f_type') || {}).value || '';
+  document.querySelectorAll('.type-card').forEach(c => c.classList.toggle('selected', c.getAttribute('data-type') === cur));
+  const card = document.getElementById('typePickerCard');
+  if (card) card.classList.toggle('unset', !cur);
+  // Checklist warning banner
+  updateTypeBanner();
+}
+
+function updateTypeBanner() {
+  const cur = (document.getElementById('f_type') || {}).value || '';
+  let banner = document.getElementById('typeBanner');
+  if (cur) { if (banner) banner.remove(); return; }
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'typeBanner';
+    banner.className = 'type-banner';
+    banner.onclick = () => goTab(0);
+    const page1 = document.getElementById('page-1');
+    if (page1) page1.insertBefore(banner, page1.firstChild);
+  }
+  banner.innerHTML = '⚠ ' + t('type_banner');
+}
+
+function toggleApt() {
+  const el = document.getElementById('f_type');
+  const af = document.getElementById('aptFields');
+  if (el && af) af.style.display = el.value === 'apt' ? 'block' : 'none';
+  // Building type drives which checklist questions are visible — re-render
+  renderChecklist();
+}
+
+/* ================================================================
+   GPS
+   ================================================================ */
+function getGPS() {
+  const st = document.getElementById('gps_status');
+  if (!navigator.geolocation) { st.textContent = t('gps_err'); return; }
+  st.textContent = '…';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const val = pos.coords.latitude.toFixed(6) + ', ' + pos.coords.longitude.toFixed(6);
+      document.getElementById('f_gps').value = val;
+      st.textContent = t('gps_ok');
+      saveState();
+    },
+    () => { st.textContent = t('gps_err'); },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+/* ================================================================
+   RENDER CHECKLIST
+   ================================================================ */
+function renderChecklist() {
+  const container = document.getElementById('page-1');
+  let html = `<div class="progress-card" id="progressCard">
+    <div class="progress-label"><span data-i18n="progress_label">${t('progress_label')}</span><span id="progressPct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-stats" id="progressStats"></div>
+  </div>`;
+
+  CATS.forEach(cat => {
+    const catName = t(cat.nameKey);
+    let totalCat = 0, answeredCat = 0;
+    cat.subcats.forEach(sc => sc.items.forEach(item => {
+      if (!isItemVisible(item.n)) return;
+      totalCat++; if (items[item.n] && items[item.n].resp) answeredCat++;
+    }));
+    // Skip category entirely if it has no visible item for the current building type
+    if (totalCat === 0) return;
+
+    html += `<div class="cat-block"><div class="cat-header" onclick="toggleCat('${cat.id}')"><span>${catName}</span> <span style="display:flex;align-items:center;gap:8px"><span class="cat-count">${answeredCat}/${totalCat}</span><span style="font-size:10px;font-weight:400;opacity:0.8">▼</span></span></div>`;
+    html += `<div class="cat-body" id="catbody_${cat.id}">`;
+
+    cat.subcats.forEach(sc => {
+      const visibleItems = sc.items.filter(item => isItemVisible(item.n));
+      if (visibleItems.length === 0) return;
+      if (sc.nameKey) html += `<div class="subcat-header">${t(sc.nameKey)}</div>`;
+      visibleItems.forEach(item => {
+        const d = items[item.n] || {};
+        const resp = d.resp || '';
+        const comment = d.comment || '';
+        const photos = d.photos || [];
+        const photoHint = item.photo ? `<div class="item-photo-hint">${t('photo_hint')}</div>` : '';
+        const photoCls = photos.length ? ' has-photo' : '';
+        const photoNames = photos.length ? `<div class="photo-names">${photos.map(p=>'📎 '+p).join(', ')}</div>` : '';
+
+        html += `<div class="item" id="item_${item.n}">
+          <div class="item-q-row"><span class="item-num">${item.n}</span><div class="item-q">${item.q[lang] || item.q.en}${photoHint}</div></div>
+          <div class="resp-row">
+            <button class="resp-btn${resp==='yes'?' sel-yes':''}" onclick="setResp(${item.n},'yes')">${t('r_yes')}</button>
+            <button class="resp-btn${resp==='no'?' sel-no':''}" onclick="setResp(${item.n},'no')">${t('r_no')}</button>
+            <button class="resp-btn${resp==='na'?' sel-na':''}" onclick="setResp(${item.n},'na')">${t('r_na')}</button>
+            <button class="resp-btn${resp==='pt'?' sel-pt':''}" onclick="setResp(${item.n},'pt')">${t('r_pt')}</button>
+          </div>
+          <div class="item-extras">
+            <textarea class="item-comment" placeholder="${t('ph_comment')}" oninput="setComment(${item.n},this.value)">${comment.replace(/</g,'&lt;')}</textarea>
+            <button class="btn-photo${photoCls}" onclick="openPhoto(${item.n})" title="${t('photo_hint')}">📷</button>
+          </div>
+          ${photoNames}
+        </div>`;
+      });
+    });
+    html += '</div></div>';
+  });
+  container.innerHTML = html;
+  updateProgress();
+  updateTypeBanner();
+}
+
+function toggleSection(header) {
+  header.classList.toggle('collapsed');
+  const body = header.nextElementSibling;
+  if (body) body.classList.toggle('hidden');
+}
+
+function toggleCat(id) {
+  const body = document.getElementById('catbody_' + id);
+  body.classList.toggle('collapsed');
+}
+
+function setResp(n, val) {
+  if (!items[n]) items[n] = {};
+  items[n].resp = val;
+  // Update buttons inline
+  const el = document.getElementById('item_'+n);
+  if (el) {
+    const btns = el.querySelectorAll('.resp-btn');
+    ['yes','no','na','pt'].forEach((v,i) => {
+      btns[i].className = 'resp-btn' + (v===val ? ' sel-'+v : '');
+    });
+  }
+  saveState();
+  updateProgress();
+}
+
+function setComment(n, val) {
+  if (!items[n]) items[n] = {};
+  items[n].comment = val;
+  saveState();
+}
+
+function openPhoto(n) {
+  currentPhotoItem = n;
+  document.getElementById('photoFile').click();
+}
+
+function handlePhoto(e) {
+  const file = e.target.files[0];
+  if (!file || !currentPhotoItem) return;
+  if (!items[currentPhotoItem]) items[currentPhotoItem] = {};
+  if (!items[currentPhotoItem].photos) items[currentPhotoItem].photos = [];
+  items[currentPhotoItem].photos.push(file.name);
+  const el = document.getElementById('item_'+currentPhotoItem);
+  if (el) {
+    el.querySelector('.btn-photo').classList.add('has-photo');
+    let pn = el.querySelector('.photo-names');
+    if (!pn) { pn = document.createElement('div'); pn.className='photo-names'; el.appendChild(pn); }
+    pn.textContent = items[currentPhotoItem].photos.map(p=>'📎 '+p).join(', ');
+  }
+  saveState();
+  e.target.value = '';
+}
+
+/* ================================================================
+   PROGRESS
+   ================================================================ */
+function updateProgress() {
+  let total=0, answered=0, yes=0, no=0, na=0, pt=0;
+  CATS.forEach(cat => cat.subcats.forEach(sc => sc.items.forEach(item => {
+    if (!isItemVisible(item.n)) return;
+    total++;
+    const r = (items[item.n]||{}).resp;
+    if (r) answered++;
+    if (r==='yes') yes++; if (r==='no') no++; if (r==='na') na++; if (r==='pt') pt++;
+  })));
+  const pct = total ? Math.round(answered/total*100) : 0;
+  const fill = document.getElementById('progressFill');
+  if (fill) fill.style.width = pct+'%';
+  const pctEl = document.getElementById('progressPct');
+  if (pctEl) pctEl.textContent = pct+'%';
+  const stats = document.getElementById('progressStats');
+  if (stats) stats.innerHTML =
+    `<span class="pstat pstat-yes">${t('r_yes')} ${yes}</span>
+     <span class="pstat pstat-no">${t('r_no')} ${no}</span>
+     <span class="pstat pstat-na">${t('r_na')} ${na}</span>
+     <span class="pstat pstat-pt">${t('r_pt')} ${pt}</span>`;
+}
+
+/* ================================================================
+   ACTION PLAN
+   ================================================================ */
+function getDateStatus(dateStr) {
+  if (!dateStr) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(dateStr); d.setHours(0,0,0,0);
+  const diff = Math.round((d - today) / 86400000);
+  if (diff < 0)  return { type:'late', days: Math.abs(diff) };
+  if (diff === 0) return { type:'today', days: 0 };
+  if (diff <= 7) return { type:'soon', days: diff };
+  return { type:'ok', days: diff };
+}
+
+function dateBadgeHtml(dateStr) {
+  const s = getDateStatus(dateStr);
+  if (!s) return '';
+  if (s.type === 'late')  return `<span style="font-size:10px;font-weight:700;color:var(--danger);background:var(--danger-bg);border-radius:3px;padding:1px 6px;display:inline-block;margin-left:6px">⚠ -${s.days} ${t('ap_days_late')}</span>`;
+  if (s.type === 'today') return `<span style="font-size:10px;font-weight:700;color:var(--warning);background:var(--warning-bg);border-radius:3px;padding:1px 6px;display:inline-block;margin-left:6px">⏰ ${t('ap_today')}</span>`;
+  if (s.type === 'soon')  return `<span style="font-size:10px;font-weight:700;color:var(--warning);background:var(--warning-bg);border-radius:3px;padding:1px 6px;display:inline-block;margin-left:6px">⏳ ${s.days} ${t('ap_days_left')}</span>`;
+  return `<span style="font-size:10px;color:var(--ok);background:var(--ok-bg);border-radius:3px;padding:1px 6px;display:inline-block;margin-left:6px">✓ ${s.days} ${t('ap_days_left')}</span>`;
+}
+
+function prioBorderColor(p) {
+  if (p === t('prio_immediat')  || p === 'Immédiate'  || p === 'Immediate' || p === 'Inmediata')  return 'var(--danger)';
+  if (p === t('prio_essentiel') || p === 'Essentielle'|| p === 'Essential' || p === 'Esencial')   return 'var(--warning)';
+  if (p === t('prio_desirable') || p === 'Désirable'  || p === 'Desirable' || p === 'Deseable')   return 'var(--moderate)';
+  if (p === t('prio_continu')   || p === 'Continue'   || p === 'Ongoing'   || p === 'Continua')   return 'var(--ok)';
+  return 'var(--border2)';
+}
+
+function prioBadgeClass(p) {
+  if (!p) return '';
+  if (p === t('prio_immediat')  || p === 'Immédiate'  || p === 'Immediate' || p === 'Inmediata')  return 'prio-immediat';
+  if (p === t('prio_essentiel') || p === 'Essentielle'|| p === 'Essential' || p === 'Esencial')   return 'prio-essentiel';
+  if (p === t('prio_desirable') || p === 'Désirable'  || p === 'Desirable' || p === 'Deseable')   return 'prio-desirable';
+  if (p === t('prio_continu')   || p === 'Continue'   || p === 'Ongoing'   || p === 'Continua')   return 'prio-continu';
+  return '';
+}
+
+function renderActionPlan() {
+  const container = document.getElementById('page-3');
+  const flagged = [];
+  CATS.forEach(cat => cat.subcats.forEach(sc => sc.items.forEach(item => {
+    if (!isItemVisible(item.n)) return;
+    const r = (items[item.n]||{}).resp;
+    if (r==='no' || r==='pt') flagged.push({item, resp: r});
+  })));
+
+  let html = `<div class="section-card" style="margin-bottom:12px">
+    <div class="section-card-header"><span class="sc-icon">📌</span> <span data-i18n="ap_title">${t('ap_title')}</span></div>
+    <div class="section-card-body"><div style="font-size:12px;color:var(--text2)" data-i18n="ap_desc">${t('ap_desc')}</div></div>
+  </div>`;
+
+  if (!flagged.length) {
+    html += `<div class="ap-empty"><span>✅</span><span data-i18n="ap_empty">${t('ap_empty')}</span></div>`;
+  } else {
+    const statusOpts = t('ap_status_opts').split(',');
+    const prioOpts = [t('prio_immediat'), t('prio_essentiel'), t('prio_desirable'), t('prio_continu')];
+
+    flagged.forEach(({item, resp}) => {
+      const ap = apData[item.n] || {};
+      const evaluatorComment = (items[item.n]||{}).comment || '';
+      const badgeCls = resp==='no'?'no':'pt';
+      const badgeTxt = resp==='no'?t('r_no'):t('r_pt');
+      const isDone = ap.status && ['Terminé','Done','Realizado','Terminado'].includes(ap.status);
+      const borderColor = prioBorderColor(ap.priority);
+      const pBadgeCls = prioBadgeClass(ap.priority);
+
+      html += `<div class="ap-card${isDone?' done':''}" style="border-left-color:${borderColor}">
+        <div class="ap-card-header">
+          <span class="ap-badge ${badgeCls}">${badgeTxt}</span>
+          <div style="flex:1;min-width:0">
+            <div class="ap-card-num">#${item.n}</div>
+            <div class="ap-card-q">${item.q[lang]||item.q.en}</div>
+          </div>
+          ${ap.priority ? `<span class="${pBadgeCls}" style="flex-shrink:0">${ap.priority}</span>` : ''}
+        </div>
+        ${evaluatorComment ? `<div class="form-row"><div class="form-group"><div class="form-label">${t('ap_comment')}</div><div style="font-size:12px;color:var(--text2);font-style:italic;padding:6px 0">${evaluatorComment.replace(/</g,'&lt;')}</div></div></div>` : ''}
+        <div class="form-row"><div class="form-group"><div class="form-label">${t('ap_action')}</div><textarea class="form-textarea" style="min-height:60px" oninput="setAP(${item.n},'action',this.value)">${(ap.action||'').replace(/</g,'&lt;')}</textarea></div></div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <div class="form-label">${t('ap_priority')}</div>
+            <select class="form-select" onchange="setAP(${item.n},'priority',this.value);renderActionPlan()">
+              <option value="">—</option>
+              ${prioOpts.map(p => `<option value="${p}"${ap.priority===p?' selected':''}>${p}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">${t('ap_due')}${!isDone ? dateBadgeHtml(ap.due) : ''}</div>
+            <input class="form-input" type="date" value="${ap.due||''}" oninput="setAP(${item.n},'due',this.value);renderActionPlan()">
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group"><div class="form-label">${t('ap_resp')}</div><input class="form-input" value="${(ap.resp||'').replace(/"/g,'&quot;')}" oninput="setAP(${item.n},'resp',this.value)"></div>
+          <div class="form-group"><div class="form-label">${t('ap_cost')}</div><input class="form-input" type="number" value="${ap.cost||''}" placeholder="${t('ap_cost_ph')}" oninput="setAP(${item.n},'cost',this.value)"></div>
+        </div>
+        <div class="form-row"><div class="form-group"><div class="form-label">${t('ap_status')}</div>
+          <select class="form-select" onchange="setAP(${item.n},'status',this.value);renderActionPlan()">
+            ${statusOpts.map((s,i) => `<option value="${i===0?'':s}"${ap.status===s?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div></div>
+      </div>`;
+    });
+  }
+  container.innerHTML = html;
+}
+
+function setAP(n, field, val) {
+  if (!apData[n]) apData[n] = {};
+  apData[n][field] = val;
+  saveState();
+}
+
+/* ================================================================
+   SUMMARY / SCORING
+   ================================================================ */
+function computeScores() {
+  const result = { cats: [], redFlags: [], global: null };
+  let gNum = 0, gDen = 0;
+  CATS.forEach(cat => {
+    let num = 0, den = 0, answered = 0, applicable = 0, visibleCount = 0;
+    cat.subcats.forEach(sc => sc.items.forEach(item => {
+      if (!isItemVisible(item.n)) return;  // not relevant for this building type
+      visibleCount++;
+      const meta = ITEM_META[item.n] || {};
+      if (meta.w == null) return;          // descriptive item, skip
+      applicable++;
+      const s = effScore(item.n);
+      if (s === null) return;              // N/A or unanswered
+      answered++;
+      const wv = WEIGHT_VAL[meta.w] || 1;
+      num += wv * s;
+      den += wv;
+      if (isRedFlag(item.n)) result.redFlags.push(item);
+    }));
+    if (visibleCount === 0) return;        // hide category not relevant for this type
+    const score = den > 0 ? Math.round(num / den * 100) : null;
+    result.cats.push({ id: cat.id, nameKey: cat.nameKey, score, answered, applicable });
+    gNum += num; gDen += den;
+  });
+  result.global = gDen > 0 ? Math.round(gNum / gDen * 100) : null;
+  return result;
+}
+
+function scoreColor(score) {
+  if (score === null) return 'var(--text3)';
+  if (score >= 75) return 'var(--ok)';
+  if (score >= 50) return 'var(--moderate)';
+  return 'var(--danger)';
+}
+
+function buildRadar(cats) {
+  const size = 260, cx = size/2, cy = size/2, R = 90;
+  const n = cats.length;
+  const angle = i => (-Math.PI/2) + (i * 2*Math.PI / n);
+  const pt = (i, r) => [cx + r*Math.cos(angle(i)), cy + r*Math.sin(angle(i))];
+  // Grid rings
+  let grid = '';
+  [0.25,0.5,0.75,1].forEach(f => {
+    const pts = cats.map((_,i) => pt(i, R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
+    grid += `<polygon points="${pts}" fill="none" stroke="var(--border)" stroke-width="1"/>`;
+  });
+  // Axes
+  let axes = '';
+  cats.forEach((_,i) => {
+    const [x,y] = pt(i, R);
+    axes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="1"/>`;
+  });
+  // Data polygon
+  const dataPts = cats.map((c,i) => {
+    const f = c.score === null ? 0 : c.score/100;
+    return pt(i, R*f).map(v=>v.toFixed(1)).join(',');
+  }).join(' ');
+  // Labels + vertices
+  let labels = '', dots = '';
+  cats.forEach((c,i) => {
+    const [lx,ly] = pt(i, R+20);
+    const anchor = Math.abs(lx-cx) < 10 ? 'middle' : (lx > cx ? 'start' : 'end');
+    const short = t(c.nameKey);
+    labels += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" font-size="10" font-weight="600" fill="var(--text2)">${short}</text>`;
+    if (c.score !== null) {
+      const [dx,dy] = pt(i, R*c.score/100);
+      dots += `<circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="3" fill="var(--accent2)"/>`;
+    }
+  });
+  return `<svg viewBox="0 0 ${size} ${size}" overflow="visible" style="width:100%;max-width:220px;display:block;margin:30px auto 30px">
+    ${grid}${axes}
+    <polygon points="${dataPts}" fill="rgba(143,175,46,0.25)" stroke="var(--accent2)" stroke-width="2"/>
+    ${dots}${labels}
+  </svg>`;
+}
+
+function renderSummary() {
+  const c = document.getElementById('page-2');
+  const sc = computeScores();
+
+  // Disclaimer
+  let html = `<div class="summary-disclaimer" data-i18n="sum_disclaimer">${t('sum_disclaimer')}</div>`;
+
+  // Red flags
+  if (sc.redFlags.length) {
+    html += `<div class="redflag-card">
+      <div class="redflag-title">🚩 <span data-i18n="sum_redflags">${t('sum_redflags')}</span> (${sc.redFlags.length})</div>`;
+    sc.redFlags.forEach(item => {
+      html += `<div class="redflag-item"><span class="redflag-num">#${item.n}</span> ${item.q[lang]||item.q.en}</div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="noflag-card">✅ <span data-i18n="sum_noflags">${t('sum_noflags')}</span></div>`;
+  }
+
+  // Radar
+  html += `<div class="section-card"><div class="section-card-header" style="cursor:default"><span class="sc-icon">📊</span> <span data-i18n="sum_profile">${t('sum_profile')}</span></div>
+    <div class="section-card-body">${buildRadar(sc.cats)}</div></div>`;
+
+  // Category scores
+  html += `<div class="section-card"><div class="section-card-header" style="cursor:default"><span class="sc-icon">📈</span> <span data-i18n="sum_cat_scores">${t('sum_cat_scores')}</span></div><div class="section-card-body">`;
+  sc.cats.forEach(cat => {
+    const col = scoreColor(cat.score);
+    const w = cat.score === null ? 0 : cat.score;
+    const label = cat.score === null ? 'N/A' : cat.score + '%';
+    html += `<div class="cat-score-row">
+      <div class="cat-score-head"><span>${t(cat.nameKey)}</span><span style="color:${col};font-weight:700">${label}</span></div>
+      <div class="cat-score-track"><div class="cat-score-fill" style="width:${w}%;background:${col}"></div></div>
+      <div class="cat-score-sub">${cat.answered}/${cat.applicable} ${t('sum_scored')}</div>
+    </div>`;
+  });
+  // Global (indicative)
+  const gcol = scoreColor(sc.global);
+  const glabel = sc.global === null ? 'N/A' : sc.global + '%';
+  html += `<div class="global-score">
+    <span data-i18n="sum_global">${t('sum_global')}</span>
+    <span style="color:${gcol};font-weight:700;font-size:20px">${glabel}</span>
+  </div>`;
+  html += `</div></div>`;
+
+  // Legend
+  html += `<div class="summary-legend">
+    <div class="legend-title" data-i18n="sum_legend_title">${t('sum_legend_title')}</div>
+    <div class="legend-row"><span class="legend-dot" style="background:var(--ok)"></span><span data-i18n="sum_legend_good">${t('sum_legend_good')}</span></div>
+    <div class="legend-row"><span class="legend-dot" style="background:var(--moderate)"></span><span data-i18n="sum_legend_mod">${t('sum_legend_mod')}</span></div>
+    <div class="legend-row"><span class="legend-dot" style="background:var(--danger)"></span><span data-i18n="sum_legend_weak">${t('sum_legend_weak')}</span></div>
+  </div>`;
+
+  c.innerHTML = html;
+}
+
+
+/* ================================================================
+   SAVE / LOAD — identique Risk Assessment pattern
+   ================================================================ */
+function getFormValues() {
+  const fields = ['f_country','f_office','f_sfp','f_date','f_risk','f_address','f_gps',
+    'f_owner','f_owner_contact','f_owner_notes','f_area_build','f_area_plot',
+    'f_type','f_floors','f_floor_apt','f_apt_specs','f_general'];
+  const vals = {};
+  fields.forEach(id => { const el = document.getElementById(id); if (el) vals[id] = el.value; });
+  return vals;
+}
+
+function loadFormValues() {
+  const stored = getFormValues._stored || {};
+  Object.entries(stored).forEach(([id, val]) => {
+    const el = document.getElementById(id); if (el) el.value = val;
+  });
+}
+
+function saveState() {
+  try {
+    const data = {
+      version: TOOL_VERSION_BASE, lang,
+      form: getFormValues(),
+      items, apData,
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    const ind = document.getElementById('saveIndicator');
+    if (ind) {
+      ind.style.display = 'block';
+      clearTimeout(ind._t);
+      ind._t = setTimeout(() => { ind.style.display = 'none'; }, 1500);
+    }
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    if (typeof d !== 'object' || d === null) { localStorage.removeItem(LS_KEY); return false; }
+    items = (d.items && typeof d.items === 'object') ? d.items : {};
+    apData = (d.apData && typeof d.apData === 'object') ? d.apData : {};
+    // Only let a saved session restore its language if the user made an explicit manual choice;
+    // otherwise browser detection (set in init) prevails.
+    if (d.lang && localStorage.getItem('lwf_buil_lang_manual')) setLangSilent(d.lang);
+    if (d.form && typeof d.form === 'object') getFormValues._stored = d.form;
+    return true;
+  } catch(e) {
+    try { localStorage.removeItem(LS_KEY); } catch(e2) {}
+    return false;
+  }
+}
+
+/* ================================================================
+   EXPORT / IMPORT — identique Risk Assessment pattern
+   ================================================================ */
+function getExportFilename(ext) {
+  const slug = v => (v||'').trim()
+    .replace(/[^\wÀ-ɏ\s-]/g, '').trim()
+    .replace(/[\s]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  const form = getFormValues();
+  const parts = [slug(form.f_country), slug(form.f_office), slug(form.f_sfp), form.f_date || new Date().toISOString().slice(0,10)].filter(s => s && s.length > 0);
+  const core = parts.length ? parts.join('_') : 'export';
+  const prefix = t('export_prefix') || 'Building_Evaluation';
+  return `${prefix}_${core}.${ext}`;
+}
+
+function buildExportData() {
+  return {
+    version: TOOL_VERSION_BASE, lang,
+    form: getFormValues(),
+    items, apData,
+    exportedAt: new Date().toISOString()
+  };
+}
+
+async function shareJSON() {
+  const data = buildExportData();
+  const filename = getExportFilename('json');
+  const file = new File([JSON.stringify(data, null, 2)], filename, {type:'application/json'});
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename });
+      closeExport();
+      return;
+    }
+  } catch(e) {
+    // User cancelled or share failed — fall back to download
+    if (e && e.name === 'AbortError') { return; }
+  }
+  // Fallback: classic download
+  exportJSON();
+}
+
+function exportJSON() {
+  const data = buildExportData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = getExportFilename('json');
+  a.click();
+  closeExport();
+}
+
+function exportCSV() {
+  const BOM = '﻿';
+  let rows = ['#;Question;'+t('r_yes')+'/'+t('r_no')+'/'+t('r_na')+'/'+t('r_pt')+';Weight;Comment;Photos\n'];
+  CATS.forEach(cat => {
+    const visibleInCat = cat.subcats.some(sc => sc.items.some(item => isItemVisible(item.n)));
+    if (!visibleInCat) return;
+    rows.push(t(cat.nameKey).toUpperCase()+';;;;;\n');
+    cat.subcats.forEach(sc => {
+      const visItems = sc.items.filter(item => isItemVisible(item.n));
+      if (visItems.length === 0) return;
+      if (sc.nameKey) rows.push(';'+t(sc.nameKey)+';;;;\n');
+      visItems.forEach(item => {
+        const d = items[item.n]||{};
+        const resp = d.resp==='yes'?t('r_yes'):d.resp==='no'?t('r_no'):d.resp==='na'?t('r_na'):d.resp==='pt'?t('r_pt'):'';
+        const meta = ITEM_META[item.n]||{};
+        const wlabel = meta.w==='C'?'Critical':meta.w==='I'?'Important':meta.w==='D'?'Desirable':'';
+        const inv = meta.inv ? ' (inv)' : '';
+        const q = '"'+(item.q[lang]||item.q.en).replace(/"/g,'""')+'"';
+        const c = '"'+((d.comment||'')).replace(/"/g,'""')+'"';
+        rows.push(item.n+';'+q+';'+resp+';'+wlabel+inv+';'+c+';'+((d.photos||[]).join(' | '))+'\n');
+      });
+    });
+  });
+  // Scoring summary block
+  const sc = computeScores();
+  rows.push(';;;;;\n');
+  rows.push('=== '+t('tab_summary').toUpperCase()+' ===;;;;;\n');
+  sc.cats.forEach(cat => {
+    rows.push(';'+t(cat.nameKey)+';'+(cat.score===null?'N/A':cat.score+'%')+';;;\n');
+  });
+  rows.push(';'+t('sum_global')+';'+(sc.global===null?'N/A':sc.global+'%')+';;;\n');
+  rows.push(';'+t('sum_redflags')+';'+sc.redFlags.length+';;;\n');
+  sc.redFlags.forEach(item => {
+    rows.push(';#'+item.n+' '+(item.q[lang]||item.q.en).replace(/"/g,'')+';;;;\n');
+  });
+  const blob = new Blob([BOM+rows.join('')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = getExportFilename('csv');
+  a.click();
+  closeExport();
+}
+
+function printTool() { closeExport(); setTimeout(()=>window.print(), 300); }
+function triggerImport() { closeExport(); document.getElementById('importFile').click(); }
+function importJSON(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      items = d.items || {};
+      apData = d.apData || {};
+      if (d.form) getFormValues._stored = d.form;
+      if (d.lang) setLangSilent(d.lang);
+      localStorage.setItem(LS_KEY, JSON.stringify(d));
+      renderInfoPage(); renderChecklist(); updateProgress(); renderActionPlan();
+    } catch(err) { alert('Invalid file'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+/* ================================================================
+   MODALS
+   ================================================================ */
+function openNotice()  { document.getElementById('noticeOverlay').classList.remove('hidden'); }
+function closeNotice() { document.getElementById('noticeOverlay').classList.add('hidden'); }
+function openExport()  { document.getElementById('exportOverlay').classList.remove('hidden'); }
+function closeExport() { document.getElementById('exportOverlay').classList.add('hidden'); }
+function confirmReset(){ document.getElementById('resetOverlay').classList.remove('hidden'); }
+function closeReset()  { document.getElementById('resetOverlay').classList.add('hidden'); }
+function doReset() {
+  items = {}; apData = {};
+  getFormValues._stored = {};
+  localStorage.removeItem(LS_KEY);
+  renderInfoPage(); renderChecklist(); updateProgress(); renderActionPlan();
+  closeReset();
+}
+
+/* ================================================================
+   AUTO-SAVE on input/change (identique Risk Assessment)
+   ================================================================ */
+document.addEventListener('input',  () => saveState());
+document.addEventListener('change', () => saveState());
+
+/* ================================================================
+   INIT
+   ================================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const vEl = document.getElementById('topbarVersion');
+    if (vEl) vEl.textContent = TOOL_VERSION;
+    const nv = document.getElementById('noticeVersion');
+    if (nv) nv.textContent = 'BUIL ' + TOOL_VERSION + ' — Juin 2026';
+
+    // Language: explicit manual choice wins; otherwise browser detection (fallback EN)
+    const manualLang = localStorage.getItem('lwf_buil_lang_manual');
+    if (manualLang && I18N[manualLang]) {
+      lang = manualLang;
+    } else {
+      const browserLang = (navigator.language || navigator.userLanguage || 'en').slice(0, 2).toLowerCase();
+      lang = I18N[browserLang] ? browserLang : 'en';
+    }
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'"+lang+"'")));
+    document.documentElement.lang = lang;
+
+    const restored = loadState();
+    renderInfoPage();
+    if (!restored) {
+      document.getElementById('f_date').value = new Date().toISOString().slice(0,10);
+    }
+    applyI18n();
+    renderChecklist();
+    renderActionPlan();
+
+    // Show "Share" option only if the device supports sharing files (mobile)
+    try {
+      const testFile = new File(['{}'], 'test.json', {type:'application/json'});
+      if (navigator.canShare && navigator.canShare({ files: [testFile] })) {
+        const so = document.getElementById('shareOption');
+        if (so) so.style.display = 'flex';
+      }
+    } catch(e) {}
+
+    openNotice();
+  } catch(e) {
+    console.error('Init error:', e);
+    const bar = document.getElementById('emergencyBar');
+    if (bar) bar.classList.add('show');
+  }
+});
+</script>
+<script>
+// Flag emoji fallback detection (identique Risk Assessment)
+(function(){
+  var c=document.createElement('canvas'); c.width=c.height=20;
+  var ctx=c.getContext('2d'); ctx.fillText('🇬🇧',0,16);
+  var d=ctx.getImageData(0,0,20,20).data;
+  var ok=Array.from(d).some(function(v,i){return i%4!==3&&v>0;});
+  if(!ok){
+    document.querySelectorAll('.lang-flag').forEach(function(el){el.style.display='none';});
+    document.querySelectorAll('.lang-abbr').forEach(function(el){el.style.display='inline';});
+  }
+})();
+</script>
+</body>
+</html>
