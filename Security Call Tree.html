@@ -112,6 +112,9 @@ body{
 }
 .tbtn:hover{background:var(--bg3);border-color:var(--accent);color:var(--accent2);}
 .tbtn.edit-active{background:var(--accent);color:#fff;border-color:var(--accent2);}
+.tbtn-print{background:#d96b00;color:#fff !important;border-color:#b85900 !important;font-weight:600;}
+.tbtn-print:hover{background:#b85900 !important;}
+.tip-bar{background:#fff8e1;border-bottom:2px solid #ffe082;padding:7px 20px;font-size:12px;color:#7a5c00;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 
 /* ===================== ARBRE ===================== */
 #tree-panel{padding:24px 20px 60px;overflow-x:auto;}
@@ -335,8 +338,12 @@ body{
     <button class="tbtn edit-active" id="edit-btn" onclick="toggleEdit()">
       <span id="edit-ico">&#10003;</span>&nbsp;<span id="edit-lbl" data-i18n="btn_edit_exit">Exit editing</span>
     </button>
-    <button class="tbtn" onclick="window.print()">&#128438; <span data-i18n="btn_print">Print</span></button>
+    <button class="tbtn tbtn-print" onclick="printTree()">&#128424; <span data-i18n="btn_print">Print / PDF</span></button>
   </div>
+</div>
+
+<div class="tip-bar" id="tipBar">
+  &#128424;&nbsp;<span data-i18n="tip_print"></span>
 </div>
 
 <!-- ============================================================ TREE PANEL ============================================================ -->
@@ -542,6 +549,7 @@ var D = { root: null };
 var I18N = {
   fr: {
     topbar_title:'Arbre d&#39;Appel Sécurité',
+    tip_print:'<strong>Bon à savoir :</strong> après chaque mise à jour, exportez le fichier en <strong>JSON</strong> (sauvegarde rechargeable) et en <strong>PDF</strong> (format de partage). Imprimez une copie papier et conservez-la dans un endroit accessible aux personnes autorisées à déclencher l&#39;arbre.',
     btn_help:'&#10067; <span>Aide</span>',
     btn_reset:'&#128260; <span>Remise à zéro</span>',
     btn_export:'&#8595; <span>Exporter / Importer</span>',
@@ -585,9 +593,9 @@ var I18N = {
     n_s7_icon:'&#128274;', n_s7_title:'Confidentialité',
     n_s7_text:'Ce document est <strong>CONFIDENTIEL</strong>. Il contient des coordonnées personnelles du staff LWF. Ne pas diffuser hors équipe. Ne pas laisser accessible à des tiers.',
     notice_save_title:'SAUVEGARDEZ VOS DONNÉES - IMPORTANT',
-    notice_save_text:'Exportez toujours une sauvegarde après chaque modification et enregistrez-la dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
+    notice_save_text:'Après chaque modification : exportez en <strong>JSON</strong> (sauvegarde) et en <strong>PDF</strong> (partage). Imprimez une copie et affichez-la dans un endroit accessible aux personnes autorisées à déclencher l&#39;arbre.',
     export_header:'Exporter / Importer',
-    export_warn:'<strong>Important :</strong> sauvegardez toujours le fichier dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
+    export_warn:'<strong>Important :</strong> exportez en <strong>JSON</strong> (sauvegarde rechargeable) et en <strong>PDF</strong> (format de partage). Enregistrez les deux dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
     exp_html_lbl:'Exporter en HTML (fichier portable)',
     exp_html_dsc:'Fichier complet avec l&#39;arbre intégré, utilisable hors connexion',
     exp_json_lbl:'Sauvegarder en JSON',
@@ -631,6 +639,7 @@ var I18N = {
   },
   en: {
     topbar_title:'Security Call Tree',
+    tip_print:'<strong>Tip:</strong> after each update, export the file as <strong>JSON</strong> (reloadable backup) and as <strong>PDF</strong> (sharing format). Print a copy and keep it in a location accessible to persons authorised to activate the tree.',
     btn_help:'&#10067; <span>Help</span>',
     btn_reset:'&#128260; <span>Reset</span>',
     btn_export:'&#8595; <span>Export / Import</span>',
@@ -674,9 +683,9 @@ var I18N = {
     n_s7_icon:'&#128274;', n_s7_title:'Confidentiality',
     n_s7_text:'This document is <strong>CONFIDENTIAL</strong>. It contains personal contact details of LWF staff. Do not share outside the team. Do not leave accessible to third parties.',
     notice_save_title:'SAVE YOUR DATA - IMPORTANT',
-    notice_save_text:'Always export a backup after each modification and save it in the dedicated folder of your Local Security Pack on SharePoint.',
+    notice_save_text:'After each modification: export as <strong>JSON</strong> (backup) and <strong>PDF</strong> (sharing). Print a copy and display it where persons authorised to activate the tree can access it quickly.',
     export_header:'Export / Import',
-    export_warn:'<strong>Important:</strong> always save the file in the dedicated folder of your Security Pack on SharePoint.',
+    export_warn:'<strong>Important:</strong> export as <strong>JSON</strong> (reloadable backup) and as <strong>PDF</strong> (sharing format). Save both in the dedicated folder of your Local Security Pack on SharePoint.',
     exp_html_lbl:'Export as HTML (portable file)',
     exp_html_dsc:'Full standalone file with embedded tree, works offline',
     exp_json_lbl:'Save as JSON',
@@ -720,6 +729,7 @@ var I18N = {
   },
   es: {
     topbar_title:'Árbol de Llamada de Seguridad',
+    tip_print:'<strong>Consejo:</strong> tras cada actualización, exporte el archivo en <strong>JSON</strong> (copia de seguridad recargable) y en <strong>PDF</strong> (formato de distribución). Imprima una copia y consérvela en un lugar accesible para las personas autorizadas a activar el árbol.',
     btn_help:'&#10067; <span>Ayuda</span>',
     btn_reset:'&#128260; <span>Reiniciar</span>',
     btn_export:'&#8595; <span>Exportar / Importar</span>',
@@ -763,9 +773,9 @@ var I18N = {
     n_s7_icon:'&#128274;', n_s7_title:'Confidencialidad',
     n_s7_text:'Este documento es <strong>CONFIDENCIAL</strong>. Contiene datos de contacto personales del personal LWF. No difundir fuera del equipo. No dejar accesible a terceros.',
     notice_save_title:'GUARDE SUS DATOS - IMPORTANTE',
-    notice_save_text:'Exporte siempre una copia después de cada modificación y guárdela en la carpeta dedicada de su Paquete de Seguridad en SharePoint.',
+    notice_save_text:'Tras cada modificación: exporte en <strong>JSON</strong> (copia de seguridad) y en <strong>PDF</strong> (distribución). Imprima una copia y colóquela donde las personas autorizadas a activar el árbol puedan consultarla rápidamente.',
     export_header:'Exportar / Importar',
-    export_warn:'<strong>Importante:</strong> guarde siempre el archivo en la carpeta dedicada de su Paquete de Seguridad en SharePoint.',
+    export_warn:'<strong>Importante:</strong> exporte en <strong>JSON</strong> (copia de seguridad recargable) y en <strong>PDF</strong> (formato de distribución). Guarde ambos en la carpeta dedicada de su Paquete de Seguridad en SharePoint.',
     exp_html_lbl:'Exportar como HTML (archivo portátil)',
     exp_html_dsc:'Archivo completo con árbol integrado, funciona sin conexión',
     exp_json_lbl:'Guardar como JSON',
