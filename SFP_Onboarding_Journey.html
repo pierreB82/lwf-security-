@@ -96,8 +96,16 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
 .task-body { flex:1; }
 .task-text { font-size:13px; color:var(--text); line-height:1.5; margin-bottom:2px; }
 .task-note { font-size:11px; color:var(--text2); line-height:1.45; padding:5px 10px; margin-top:5px; background:var(--bg2); border-left:2px solid var(--border2); border-radius:0 var(--r2) var(--r2) 0; }
-.task-doc { font-size:11px; color:var(--accent2); margin-top:4px; display:flex; align-items:baseline; gap:5px; }
+.task-doc { font-size:11px; color:var(--accent2); margin-top:4px; display:flex; align-items:baseline; gap:5px; text-decoration:none; }
 .task-doc::before { content:'\2192'; font-weight:700; }
+a.task-doc { text-decoration:underline; text-underline-offset:2px; }
+a.task-doc::after { content:' \1F517'; font-size:10px; margin-left:2px; font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif; }
+a.task-doc:hover { opacity:0.75; }
+a.task-doc[href="#"] { text-decoration:none; opacity:0.45; cursor:default; pointer-events:none; }
+a.task-doc[href="#"]::after { display:none; }
+:lang(en) .pi-tag-time::before { content:'Est. time\A0\2022\A0'; }
+:lang(fr) .pi-tag-time::before { content:'Temps estim\E9\A0\2022\A0'; }
+:lang(es) .pi-tag-time::before { content:'Tiempo estimado\A0\2022\A0'; }
 .done-banner { display:none; background:var(--ok-bg); border:1px solid var(--ok-bd); border-radius:var(--r); padding:20px; text-align:center; margin-top:14px; }
 .done-banner.visible { display:block; }
 .done-check { width:44px; height:44px; background:var(--ok); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-size:20px; color:#fff; }
@@ -224,7 +232,7 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
       <div class="cb" id="cb-j7_1"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j7_1_text">Read, understand, and note any questions about your ToR</div>
-        <div class="task-doc" id="tor-doc-text"></div>
+        <a class="task-doc" id="tor-doc-text" href="#" target="_blank"></a>
       </div>
     </div>
   </div>
@@ -237,14 +245,14 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
       <div class="cb" id="cb-j7_2"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j7_2_text">Familiarise yourself with the LWF Safety &amp; Security Policy</div>
-        <div class="task-doc" data-i18n="j7_2_doc">LWF S&amp;S Policy 2024 &mdash; see document list on the SharePoint page</div>
+        <a class="task-doc" id="j7-2-doc-link" data-i18n="j7_2_doc" href="#" target="_blank">LWF S&amp;S Policy 2024 &mdash; see document list on the SharePoint page</a>
       </div>
     </div>
     <div class="task-row" data-id="j7_3" data-role="both" onclick="toggle(this)">
       <div class="cb" id="cb-j7_3"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j7_3_text">Watch the incident reporting video</div>
-        <div class="task-doc" data-i18n="j7_3_doc">Incident reporting video &mdash; see document list on the SharePoint page</div>
+        <a class="task-doc" id="j7-3-doc-link" data-i18n="j7_3_doc" href="#" target="_blank">Incident reporting video &mdash; see document list on the SharePoint page</a>
       </div>
     </div>
     <div class="task-row" data-id="j7_3b" data-role="both" onclick="toggle(this)">
@@ -327,14 +335,14 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
       <div class="cb" id="cb-j30_1"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_1_text">Watch: Introduction to the S&amp;S Framework at LWF</div>
-        <div class="task-doc" data-i18n="j30_1_doc">Video &mdash; see document list on the SharePoint page</div>
+        <a class="task-doc" id="j30-1-doc-link" data-i18n="j30_1_doc" href="#" target="_blank">Video &mdash; see document list on the SharePoint page</a>
       </div>
     </div>
     <div class="task-row" data-id="j30_2" data-role="both" onclick="toggle(this)">
       <div class="cb" id="cb-j30_2"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_2_text">Complete the mandatory Cyber Security training</div>
-        <div class="task-doc" data-i18n="j30_2_doc">Mandatory trainings &mdash; see document list on the SharePoint page</div>
+        <a class="task-doc" id="j30-2-doc-link" data-i18n="j30_2_doc" href="#" target="_blank">Mandatory trainings &mdash; see document list on the SharePoint page</a>
       </div>
     </div>
   </div>
@@ -381,14 +389,14 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
         <div class="task-note">
           <span data-i18n="j30_7_note_pre">Mandatory: share the JSON export with</span> <span id="j30-7-share"></span><span data-i18n="j30_7_note_suf">, and save it in the Local Security Pack under Context and Risk Analysis.</span>
         </div>
-        <div class="task-doc" data-i18n="j30_7_doc">Interactive Security Self-Assessment Tool &mdash; available on SharePoint</div>
+        <a class="task-doc" id="j30-7-doc-link" data-i18n="j30_7_doc" href="#" target="_blank">Interactive Security Self-Assessment Tool &mdash; available on SharePoint</a>
       </div>
     </div>
     <div class="task-row" data-id="j30_7b" data-role="both" onclick="toggle(this)">
       <div class="cb" id="cb-j30_7b"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_7b_text">Based on the self-assessment results, draw up a simple security action plan</div>
-        <div class="task-note" data-i18n="j30_7b_note">Format: 2 to 3 priorities / responsible person / deadline. One page maximum. Save it in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.</div>
+        <div class="task-note" data-i18n="j30_7b_note">The tool generates the action plan from your self-assessment results. Review and adjust as needed, discuss it with your manager, then save in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.</div>
       </div>
     </div>
     <div class="task-row" data-id="j30_8" data-role="both" onclick="toggle(this)">
@@ -632,8 +640,14 @@ const i18n = {
 "share_lsfp": "the C-SFP and the Security Advisor",
 "share_all": "the C-SFP and the Security Advisor",
 "j30_7_doc": "Interactive Security Self-Assessment Tool — available on SharePoint",
+"tor_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/02_Supplement%20%E2%80%93%20Security%20staff/ToR",
+"j7_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/01_For%20all%20staff",
+"j7_3_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/02_Supplement%20%E2%80%93%20Security%20staff",
+"j30_1_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/02_Supplement%20%E2%80%93%20Security%20staff",
+"j30_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/01_For%20all%20staff",
+"j30_7_url": "https://pierreb82.github.io/lwf-security-/Self-Assessment.html",
 "j30_7b_text": "Based on the self-assessment results, draw up a simple security action plan",
-"j30_7b_note": "Format: 2 to 3 priorities / responsible person / deadline. One page maximum. Save it in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.",
+"j30_7b_note": "The tool generates the action plan from your self-assessment results. Review and adjust as needed, discuss it with your manager, then save in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.",
 "j30_8_text": "Open the Security Plan document and locate the Risk Profile and the Induction Briefing protocol",
 "j30_8_note": "These are your two main tools for briefing new staff and visitors.",
 "j30_9_text": "Check that the Risk Profile reflects the current context",
@@ -761,8 +775,14 @@ const i18n = {
 "share_lsfp": "le C-SFP et le Conseiller Sécurité",
 "share_all": "le C-SFP et le Conseiller Sécurité",
 "j30_7_doc": "Outil Interactif d’Auto-Évaluation Sécurité — disponible sur SharePoint",
+"tor_url": "https://lutheranworld.sharepoint.com/:f:/r/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/02_Compl%C3%A9ment%20%E2%80%93%20Personnel%20s%C3%A9curit%C3%A9/03.%20RH?csf=1&web=1&e=1L2cBx",
+"j7_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/01_Pour%20tout%20le%20personnel",
+"j7_3_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/02_Compl%C3%A9ment%20%E2%80%93%20Personnel%20s%C3%A9curit%C3%A9/Rapport%20incident%20video%20FR%20V1.mp4?csf=1&web=1&e=esIFcY",
+"j30_1_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/02_Compl%C3%A9ment%20%E2%80%93%20Personnel%20s%C3%A9curit%C3%A9",
+"j30_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/01_Pour%20tout%20le%20personnel",
+"j30_7_url": "https://pierreb82.github.io/lwf-security-/Self-Assessment.html",
 "j30_7b_text": "Sur la base des résultats de l’auto-évaluation, rédiger un plan d’action sécurité simple",
-"j30_7b_note": "Format : 2 à 3 priorités / responsable / délai. Une page maximum. Sauvegarder dans le Pack Sécurité Local et partager avec le Conseiller Sécurité. Ce document devient la référence de travail au Jour 90.",
+"j30_7b_note": "L’outil génère le plan d’action à partir des résultats de l’auto-évaluation. Vérifiez, ajustez si nécessaire, discutez-en avec votre manager, puis sauvegardez dans le Pack Sécurité Local et partagez avec le Conseiller Sécurité. Ce document devient la référence de travail au Jour 90.",
 "j30_8_text": "Ouvrir le document Plan de Sécurité et localiser le Profil de Risque et le protocole de briefing d’accueil",
 "j30_8_note": "Ce sont vos deux principaux outils pour informer les nouveaux arrivants et les visiteurs.",
 "j30_9_text": "Vérifier que le Profil de Risque reflète le contexte actuel",
@@ -890,8 +910,14 @@ const i18n = {
 "share_lsfp": "el C-SFP y el Asesor de Seguridad",
 "share_all": "el C-SFP y el Asesor de Seguridad",
 "j30_7_doc": "Herramienta Interactiva de Autoevaluación de Seguridad — disponible en SharePoint",
+"tor_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/02_Complemento%20%E2%80%93%20Personal%20de%20seguridad/HR",
+"j7_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/01_Para%20todo%20el%20personal",
+"j7_3_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/02_Complemento%20%E2%80%93%20Personal%20de%20seguridad",
+"j30_1_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/02_Complemento%20%E2%80%93%20Personal%20de%20seguridad",
+"j30_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/01_Para%20todo%20el%20personal",
+"j30_7_url": "https://pierreb82.github.io/lwf-security-/Self-Assessment.html",
 "j30_7b_text": "Con base en los resultados de la autoevaluación, elaborar un plan de acción de seguridad simple",
-"j30_7b_note": "Formato: 2 a 3 prioridades / responsable / fecha límite. Una página máximo. Guardar en el Paquete de Seguridad Local y compartir con el Asesor de Seguridad. Este documento se convierte en la referencia de trabajo en el Día 90.",
+"j30_7b_note": "La herramienta genera el plan de acción a partir de los resultados de la autoevaluación. Revíselo, ajústelo si es necesario, coméntelo con su gerente, luego guárdelo en el Paquete de Seguridad Local y compártalo con el Asesor de Seguridad. Este documento se convierte en la referencia de trabajo en el Día 90.",
 "j30_8_text": "Abrir el documento Plan de Seguridad y localizar el Perfil de Riesgo y el protocolo de briefing de orientación",
 "j30_8_note": "Estas son sus dos herramientas principales para informar a los nuevos miembros del personal y visitantes.",
 "j30_9_text": "Verificar que el Perfil de Riesgo refleje el contexto actual",
@@ -950,6 +976,21 @@ function setLang(lang) {
     const key = el.dataset.i18n;
     if (t[key] !== undefined) el.textContent = t[key];
   });
+  const docLinks = {
+    'j7-2-doc-link': t.j7_2_url,
+    'j7-3-doc-link': t.j7_3_url,
+    'j30-1-doc-link': t.j30_1_url,
+    'j30-2-doc-link': t.j30_2_url,
+    'j30-7-doc-link': t.j30_7_url
+  };
+  Object.entries(docLinks).forEach(([id, url]) => {
+    const el = document.getElementById(id);
+    if (el) el.href = url || '#';
+  });
+  if (role) {
+    const tor = document.getElementById('tor-doc-text');
+    if (tor) tor.href = t.tor_url || '#';
+  }
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
   document.querySelectorAll('.modal-lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.modalLang === lang));
   if (role) {
@@ -972,7 +1013,10 @@ function hideModal() { document.getElementById('modal').classList.add('hidden');
 function updateRoleTexts(r) {
   const t = i18n[currentLang];
   const tor = document.getElementById('tor-doc-text');
-  if (tor) tor.textContent = r === 'csfp' ? t.tor_csfp : r === 'lsfp' ? t.tor_lsfp : t.tor_all;
+  if (tor) {
+    tor.textContent = r === 'csfp' ? t.tor_csfp : r === 'lsfp' ? t.tor_lsfp : t.tor_all;
+    tor.href = t.tor_url || '#';
+  }
   const share = document.getElementById('j30-7-share');
   if (share) share.textContent = r === 'csfp' ? t.share_csfp : r === 'all' ? t.share_all : t.share_lsfp;
   const j90desc = document.getElementById('j90-desc-text');
