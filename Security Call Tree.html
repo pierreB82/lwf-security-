@@ -1243,7 +1243,9 @@ function restoreData(d){
   if(!d) return;
   sv('f_country',d.country); sv('f_office',d.office); sv('f_sfp',d.sfp);
   sv('f_date',d.date); sv('f_next_review',d.nextReview);
-  if(d.tree&&d.tree.root) D=JSON.parse(JSON.stringify(d.tree));
+  /* Accepter d.tree.root (exportJSON) ET d.root (format alternatif) */
+  var treeData=(d.tree&&d.tree.root)?d.tree:(d.root?{root:d.root}:null);
+  if(treeData) D=JSON.parse(JSON.stringify(treeData));
   onOfficeChange();
   checkNextReview();
   render();
@@ -1335,6 +1337,8 @@ function handleImport(e){
       var d=JSON.parse(ev.target.result);
       var payload=d.data||d;
       if(d._lang&&I18N[d._lang]) setLang(d._lang);
+      /* Forcer sortie mode édition pour éviter que syncAll() écrase les données restaurées */
+      if(editMode){ editMode=false; updateEditBtn(); }
       restoreData(payload);
       currentJsonVersion=(d.metadata&&d.metadata.jsonVersion)?d.metadata.jsonVersion+1:2;
       saveState();
