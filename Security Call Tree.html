@@ -174,6 +174,18 @@ body{
 .ni-add{background:#27ae60;font-size:12px;}
 .ni-pool{background:#2980b9;font-size:9px;}
 .ncard-warn{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--warning);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;pointer-events:none;z-index:5;}
+/* ETIQUETTE SURVOL BOUTONS */
+.ncb-w{position:relative;}
+.ncb-lbl{
+  display:none;position:absolute;right:28px;top:50%;transform:translateY(-50%);
+  background:rgba(30,30,30,0.88);color:#fff;font-size:11px;font-family:var(--font);
+  padding:4px 9px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:300;
+}
+.ncb-lbl::after{
+  content:'';position:absolute;left:100%;top:50%;transform:translateY(-50%);
+  border:5px solid transparent;border-left-color:rgba(30,30,30,0.88);
+}
+.ncb-w:hover .ncb-lbl{display:block;}
 
 /* CONNECTEURS */
 .v-down{width:var(--lw);height:var(--vh);background:var(--connector);flex-shrink:0;}
@@ -271,7 +283,7 @@ body{
 @media print{
   @page{size:A4 landscape;margin:0.6cm;}
   html{zoom:0.65;}
-  .topbar,.step0-bar,.overlay,.emergency-bar,.nctrl,.ncard-warn{display:none !important;}
+  .topbar,.step0-bar,.overlay,.emergency-bar,.nctrl,.ncard-warn,.tip-bar{display:none !important;}
   *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
   body{background:#fff;display:block;}
   #tree-panel{padding:4px;overflow:visible;}
@@ -294,12 +306,12 @@ body{
 {
   "step0": { "country":"", "office":"", "sfp":"", "date":"", "nextReview":"" },
   "root": {
-    "id":"root","fn":"Security Focal Point","name":"Nom Prénom","ph1":"+00 000 000 000","ph2":"",
+    "id":"root","fn":"","name":"","ph1":"","ph2":"",
     "children":[
-      {"id":"n2","fn":"Logisticien / Admin","name":"Nom Prénom","ph1":"+00 000 000 000","ph2":"",
-       "children":[{"id":"n2a","fn":"Chauffeur principal","name":"Nom Prénom","ph1":"+00 000 000 000","ph2":"","children":[]}]},
-      {"id":"n3","fn":"Chef de projet","name":"Nom Prénom","ph1":"+00 000 000 000","ph2":"","children":[]},
-      {"id":"n4","fn":"Fonction","name":"Nom Prénom","ph1":"+00 000 000 000","ph2":"","children":[]}
+      {"id":"n2","fn":"","name":"","ph1":"","ph2":"",
+       "children":[{"id":"n2a","fn":"","name":"","ph1":"","ph2":"","children":[]}]},
+      {"id":"n3","fn":"","name":"","ph1":"","ph2":"","children":[]},
+      {"id":"n4","fn":"","name":"","ph1":"","ph2":"","children":[]}
     ]
   }
 }
@@ -685,7 +697,7 @@ var I18N = {
     add_fn_ph:'ex : Chauffeur, Chef de projet...',
     add_name_lbl:'Nom Prénom',
     add_name_ph:'Nom Prénom',
-    add_ph1_lbl:'Téléphone 1',
+    add_ph1_lbl:'Téléphone',
     add_ph2_lbl:'Téléphone 2 (optionnel)',
     add_confirm:'Ajouter',
     del_sub:'Supprimer "%fn% - %nm%" et tous ses sous-contacts ?',
@@ -796,7 +808,7 @@ var I18N = {
     add_fn_ph:'e.g. Driver, Project Manager...',
     add_name_lbl:'Name',
     add_name_ph:'First Last',
-    add_ph1_lbl:'Phone 1',
+    add_ph1_lbl:'Phone',
     add_ph2_lbl:'Phone 2 (optional)',
     add_confirm:'Add',
     del_sub:'Delete "%fn% - %nm%" and all sub-contacts?',
@@ -907,7 +919,7 @@ var I18N = {
     add_fn_ph:'ej: Conductor, Jefe de proyecto...',
     add_name_lbl:'Nombre',
     add_name_ph:'Nombre Apellido',
-    add_ph1_lbl:'Teléfono 1',
+    add_ph1_lbl:'Teléfono',
     add_ph2_lbl:'Teléfono 2 (opcional)',
     add_confirm:'Añadir',
     del_sub:'¿Eliminar "%fn% - %nm%" y todos sus subcontactos?',
@@ -944,6 +956,7 @@ function setLang(l){
   updateNoticeList('ns4list','n_s4_items');
   updateNoticeList('ns6list','n_s6_items');
   updateEditBtn();
+  render();
 }
 function setLangSilent(l){ if(!I18N[l]) return; lang=l; setActiveFlag(l); document.documentElement.lang=l; }
 
@@ -1045,24 +1058,32 @@ function mkCard(node){
   card.dataset.nid=node.id;
 
   var ctrl=document.createElement('div'); ctrl.className='nctrl';
+  /* Bouton + avec \u00e9tiquette survol */
+  var aw=document.createElement('div'); aw.className='ncb-w';
   var ab=document.createElement('button'); ab.className='ncb ncb-add'; ab.textContent='+';
-  ab.title=t('node_add_tt');
+  var al=document.createElement('span'); al.className='ncb-lbl'; al.textContent=t('node_add_tt');
   ab.onclick=(function(id){ return function(e){ e.stopPropagation(); openAdd(id); }; })(node.id);
-  ctrl.appendChild(ab);
+  aw.appendChild(ab); aw.appendChild(al); ctrl.appendChild(aw);
+  /* Bouton \u00d7 avec \u00e9tiquette survol */
   if(!isRoot){
+    var dw=document.createElement('div'); dw.className='ncb-w';
     var db=document.createElement('button'); db.className='ncb ncb-del'; db.innerHTML='&times;';
-    db.title=t('node_del_tt');
+    var dl=document.createElement('span'); dl.className='ncb-lbl'; dl.textContent=t('node_del_tt');
     db.onclick=(function(id){ return function(e){ e.stopPropagation(); delNode(id); }; })(node.id);
-    ctrl.appendChild(db);
+    dw.appendChild(db); dw.appendChild(dl); ctrl.appendChild(dw);
   }
-  /* Bouton pool-fill : toujours visible \u2014 si pool vide, redirige vers l'import */
+  /* Bouton pool avec \u00e9tiquette survol */
+  var pw=document.createElement('div'); pw.className='ncb-w';
   var pb=document.createElement('button'); pb.className='ncb ncb-pool'; pb.textContent='\u25a4';
-  pb.title=t('pool_fill_tt');
+  var pl=document.createElement('span'); pl.className='ncb-lbl'; pl.textContent=t('pool_fill_tt');
   pb.onclick=(function(id){ return function(e){ e.stopPropagation(); openPoolPick(id); }; })(node.id);
-  ctrl.appendChild(pb);
+  pw.appendChild(pb); pw.appendChild(pl); ctrl.appendChild(pw);
   card.appendChild(ctrl);
 
-  card.appendChild(mkf('f-name','name',node.id, node.name||t('node_name')));
+  /* Traiter les anciens placeholders hardcodés comme vides pour respecter la langue active */
+  var _namePlaceholders=['Nom Prénom','First Last','Nombre Apellido'];
+  var _displayName=(!node.name||_namePlaceholders.indexOf(node.name)>=0)?t('node_name'):node.name;
+  card.appendChild(mkf('f-name','name',node.id, _displayName));
   var ph=document.createElement('div'); ph.className='f-ph';
   ph.appendChild(mkph('ph1',node.id,node.ph1||'','&#128222;'));
   card.appendChild(ph);
@@ -1114,7 +1135,13 @@ function findP(id, node){
   }
   return null;
 }
-function syncF(el){ var n=findN(el.dataset.nid,D.root); if(n) n[el.dataset.field]=el.textContent.trim(); }
+function syncF(el){
+  var n=findN(el.dataset.nid,D.root); if(!n) return;
+  var val=el.textContent.trim();
+  /* Ne pas stocker un placeholder i18n comme valeur réelle */
+  if(el.dataset.field==='name'&&['Nom Prénom','First Last','Nombre Apellido'].indexOf(val)>=0) val='';
+  n[el.dataset.field]=val;
+}
 function syncAll(){ document.querySelectorAll('[data-nid][data-field]').forEach(function(el){ syncF(el); }); }
 
 /* ================================================================
@@ -1235,7 +1262,7 @@ function loadState(){
     if(!raw) return false;
     var d=JSON.parse(raw);
     if(typeof d!=='object'||d===null){ localStorage.removeItem(LS_KEY); return false; }
-    if(d._lang&&I18N[d._lang]) setLangSilent(d._lang);
+    /* _lang dans les données ignoré : LS_LANG gère la préférence de langue */
     restoreData(d);
     return true;
   }catch(e){ try{ localStorage.removeItem(LS_KEY); }catch(e2){} return false; }
