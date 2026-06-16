@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">SFP Onboarding Journey - LWF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#ffffff; --bg2:#f4f6f0; --bg3:#eaede4;
+  --border:#d4dcc4; --border2:#bfcbaa;
+  --text:#1a1f26; --text2:#4a5568; --text3:#8a95a3;
+  --accent:#8FAF2E; --accent2:#6a8420; --accent-lt:#edf3e0;
+  --danger:#c0392b; --danger-bg:#fdf0ee; --danger-bd:#e8a99f;
+  --ok:#1a6b3a; --ok-bg:#e8f5ed; --ok-bd:#a8d5b5;
+  --r:6px; --r2:4px;
+  --font:'Source Sans 3', sans-serif;
+  --shadow:0 1px 3px rgba(80,110,30,0.08);
+}
+body { font-family:var(--font); background:var(--bg2); color:var(--text); font-size:14px; line-height:1.5; min-height:100vh; }
+.modal-overlay { position:fixed; inset:0; z-index:200; background:rgba(26,31,22,0.65); display:flex; align-items:center; justify-content:center; padding:20px; }
+.modal-overlay.hidden { display:none; }
+.modal-card { background:var(--bg); border-radius:12px; border:1px solid var(--border); box-shadow:0 8px 32px rgba(0,0,0,0.18); padding:32px 28px; max-width:480px; width:100%; text-align:center; }
+.modal-card .modal-icon { width:56px; height:56px; background:var(--accent-lt); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:26px; }
+.modal-card h2 { font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.modal-card .modal-sub { font-size:13px; color:var(--text2); margin-bottom:24px; line-height:1.5; }
+.role-choices { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.role-choice { background:var(--bg2); border:2px solid var(--border); border-radius:var(--r); padding:16px 14px; cursor:pointer; text-align:left; transition:all 0.15s; }
+.role-choice:hover { border-color:var(--accent); background:var(--accent-lt); }
+.role-choice.selected { border-color:var(--accent); background:var(--accent-lt); box-shadow:0 0 0 3px rgba(143,175,46,0.2); }
+.role-choice-wide { grid-column:1 / -1; }
+.rc-tag { display:inline-block; font-size:11px; font-weight:700; color:var(--accent2); background:var(--accent-lt); border:1px solid var(--border2); padding:2px 8px; border-radius:99px; margin-bottom:8px; letter-spacing:0.04em; }
+.rc-tag-all { background:var(--bg3); color:var(--text2); }
+.rc-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.rc-desc { font-size:11px; color:var(--text2); line-height:1.4; }
+.modal-note { font-size:11px; color:var(--text3); margin-top:16px; }
+.topbar { position:sticky; top:0; z-index:100; background:var(--accent); border-bottom:1px solid var(--accent2); padding:0 14px; display:flex; align-items:center; gap:10px; min-height:50px; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
+.topbar-title { font-weight:700; font-size:13px; color:#fff; white-space:nowrap; }
+.topbar-title span { font-size:11px; opacity:0.7; font-weight:400; margin-left:4px; }
+.topbar-spacer { flex:1; }
+.lang-switcher { display:flex; gap:3px; }
+.lang-btn { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); border-radius:var(--r2); padding:2px 7px; font-size:18px; line-height:1; color:rgba(255,255,255,0.75); font-family:var(--font); cursor:pointer; transition:all 0.15s; }
+.lang-btn:hover { background:rgba(255,255,255,0.25); color:#fff; }
+.lang-btn.active { background:rgba(255,255,255,0.35); color:#fff; border-color:rgba(255,255,255,0.5); box-shadow:0 0 0 2px rgba(255,255,255,0.25); }
+.modal-lang { display:flex; justify-content:center; gap:8px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+.modal-lang-btn { background:var(--bg2); border:1.5px solid var(--border); border-radius:var(--r2); padding:3px 10px; font-size:20px; line-height:1.2; font-family:var(--font); cursor:pointer; transition:all 0.15s; }
+.modal-lang-btn:hover { border-color:var(--accent); background:var(--accent-lt); }
+.modal-lang-btn.active { border-color:var(--accent); background:var(--accent-lt); box-shadow:0 0 0 2px rgba(143,175,46,0.25); }
+.topbar-role { display:flex; align-items:center; gap:6px; }
+.topbar-role-label { font-size:11px; color:rgba(255,255,255,0.75); white-space:nowrap; }
+.topbar-role-badge { background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.35); border-radius:99px; padding:3px 12px; font-size:12px; font-weight:700; color:#fff; cursor:pointer; transition:background 0.15s; white-space:nowrap; }
+.topbar-role-badge:hover { background:rgba(255,255,255,0.3); }
+.topbar-reset-btn { font-size:11px; font-weight:600; color:rgba(255,255,255,0.75); background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); font-family:var(--font); cursor:pointer; padding:4px 10px; border-radius:var(--r2); transition:all 0.15s; white-space:nowrap; }
+.topbar-reset-btn:hover { color:#fff; background:rgba(255,255,255,0.22); }
+.phase-nav { background:var(--bg); border-bottom:1px solid var(--border); display:flex; overflow-x:auto; }
+.phase-tab { padding:13px 20px 11px; border:none; border-bottom:3px solid transparent; background:transparent; cursor:pointer; display:flex; flex-direction:column; align-items:flex-start; gap:3px; min-width:120px; transition:all 0.15s; }
+.phase-tab:hover { background:var(--accent-lt); }
+.phase-tab.active { border-bottom-color:var(--accent); background:var(--accent-lt); }
+.phase-tab .pt-label { font-size:13px; font-weight:700; color:var(--text2); }
+.phase-tab.active .pt-label { color:var(--accent2); }
+.phase-tab .pt-sub { font-size:11px; color:var(--text3); }
+.phase-tab .pt-bar { width:100%; height:3px; background:var(--border); border-radius:99px; overflow:hidden; margin-top:2px; }
+.phase-tab .pt-fill { height:100%; background:var(--accent); border-radius:99px; transition:width 0.35s ease; }
+.overall-bar-wrap { background:var(--bg); border-bottom:1px solid var(--border); padding:9px 20px; display:flex; align-items:center; gap:12px; }
+.overall-bar-wrap .ob-label { font-size:12px; color:var(--text3); white-space:nowrap; }
+.ob-track { flex:1; height:6px; background:var(--border); border-radius:99px; overflow:hidden; }
+.ob-fill { height:100%; background:var(--accent); border-radius:99px; transition:width 0.4s ease; }
+.ob-count { font-size:12px; font-weight:700; color:var(--accent2); white-space:nowrap; }
+.main { max-width:740px; margin:0 auto; padding:20px 16px 48px; }
+.phase-panel { display:none; }
+.phase-panel.active { display:block; }
+.phase-intro { background:var(--accent-lt); border:1px solid var(--border2); border-radius:var(--r); padding:16px 20px; margin-bottom:16px; display:flex; align-items:flex-start; gap:14px; box-shadow:var(--shadow); }
+.pi-icon { width:42px; height:42px; flex-shrink:0; background:rgba(143,175,46,0.2); border-radius:var(--r); display:flex; align-items:center; justify-content:center; font-size:20px; }
+.pi-title { font-size:15px; font-weight:700; color:var(--accent2); margin-bottom:4px; }
+.pi-tags { display:flex; gap:6px; margin-bottom:6px; }
+.pi-tag { font-size:11px; font-weight:600; padding:2px 9px; border-radius:99px; }
+.pi-tag-time { background:rgba(143,175,46,0.25); color:var(--accent2); }
+.pi-tag-period { background:var(--bg3); color:var(--text2); }
+.pi-desc { font-size:12px; color:var(--text2); line-height:1.5; }
+.section-card { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); margin-bottom:10px; overflow:hidden; box-shadow:var(--shadow); }
+.section-head { background:var(--bg2); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.section-head-left { display:flex; align-items:center; gap:8px; }
+.section-head h3 { font-size:13px; font-weight:700; color:var(--text2); }
+.section-time-badge { font-size:10px; font-weight:600; padding:2px 7px; border-radius:99px; background:var(--bg3); color:var(--text3); }
+.section-count { font-size:11px; color:var(--text3); }
+.task-row { padding:11px 16px; border-bottom:1px solid var(--bg2); display:flex; align-items:flex-start; gap:12px; cursor:pointer; transition:background 0.1s; }
+.task-row:last-child { border-bottom:none; }
+.task-row:hover { background:var(--bg2); }
+.task-row.role-hidden { display:none; }
+.task-row.done .task-text { color:var(--text3); text-decoration:line-through; }
+.cb { width:18px; height:18px; flex-shrink:0; margin-top:2px; border:1.5px solid var(--border2); border-radius:3px; background:var(--bg); display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+.cb.checked { background:var(--accent); border-color:var(--accent2); }
+.cb.checked::after { content:''; width:10px; height:6px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(-45deg) translateY(-1px); display:block; }
+.task-body { flex:1; }
+.task-text { font-size:13px; color:var(--text); line-height:1.5; margin-bottom:2px; }
+.task-note { font-size:11px; color:var(--text2); line-height:1.45; padding:5px 10px; margin-top:5px; background:var(--bg2); border-left:2px solid var(--border2); border-radius:0 var(--r2) var(--r2) 0; }
+.task-doc { font-size:11px; color:var(--accent2); margin-top:4px; display:flex; align-items:baseline; gap:5px; }
+.task-doc::before { content:'\2192'; font-weight:700; }
+.done-banner { display:none; background:var(--ok-bg); border:1px solid var(--ok-bd); border-radius:var(--r); padding:20px; text-align:center; margin-top:14px; }
+.done-banner.visible { display:block; }
+.done-check { width:44px; height:44px; background:var(--ok); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-size:20px; color:#fff; }
+.done-banner h3 { font-size:14px; font-weight:700; color:var(--ok); margin-bottom:4px; }
+.done-banner p { font-size:12px; color:#2d6b47; line-height:1.5; }
+.support-card { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:16px 20px; margin-top:10px; }
+.support-card h3 { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.7px; color:var(--text3); margin-bottom:12px; }
+.support-row { display:flex; align-items:flex-start; gap:12px; padding:8px 0; border-bottom:1px solid var(--bg2); }
+.support-row:last-child { border-bottom:none; padding-bottom:0; }
+.s-avatar { width:32px; height:32px; border-radius:50%; background:var(--accent-lt); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--accent2); flex-shrink:0; }
+.s-name { font-size:13px; font-weight:600; color:var(--text); }
+.s-desc { font-size:11px; color:var(--text2); line-height:1.4; margin-top:2px; }
+.footer { background:var(--bg); border-top:1px solid var(--border); padding:10px 20px; }
+.footer-note { font-size:11px; color:var(--text3); }
+@media (max-width:520px) {
+  .role-choices { grid-template-columns:1fr; }
+  .phase-tab { min-width:90px; padding:10px 12px; }
+  .main { padding:14px 12px 36px; }
+  .topbar { gap:7px; padding:0 10px; }
+}
+@media print {
+  .topbar,.phase-nav,.overall-bar-wrap,.footer,.modal-overlay { display:none !important; }
+  .phase-panel { display:block !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal-card">
+    <div class="modal-icon">&#128737;</div>
+    <h2 data-i18n="modal_title">Select your role</h2>
+    <p class="modal-sub" data-i18n="modal_sub">Your onboarding journey will be tailored to your responsibilities. You can change this at any time from the toolbar.</p>
+    <div class="modal-lang">
+      <button class="modal-lang-btn" data-modal-lang="en" onclick="setLang('en')" title="English">&#127468;&#127463;</button>
+      <button class="modal-lang-btn" data-modal-lang="fr" onclick="setLang('fr')" title="Fran&ccedil;ais">&#127467;&#127479;</button>
+      <button class="modal-lang-btn" data-modal-lang="es" onclick="setLang('es')" title="Espa&ntilde;ol">&#127466;&#127480;</button>
+    </div>
+    <div class="role-choices">
+      <div class="role-choice" onclick="setRole('csfp')">
+        <div class="rc-tag">C-SFP</div>
+        <div class="rc-title" data-i18n="csfp_title">Country Security Focal Point</div>
+        <div class="rc-desc" data-i18n="csfp_desc">Coordination and oversight at country programme level. Interface between L-SFPs, management, and the Security Advisor.</div>
+      </div>
+      <div class="role-choice" onclick="setRole('lsfp')">
+        <div class="rc-tag">L-SFP</div>
+        <div class="rc-title" data-i18n="lsfp_title">Local Security Focal Point</div>
+        <div class="rc-desc" data-i18n="lsfp_desc">Responsible for implementing security measures at field office level. First operational point of contact within the office.</div>
+      </div>
+      <div class="role-choice role-choice-wide" onclick="setRole('all')">
+        <div class="rc-tag rc-tag-all" data-i18n="all_tag">All roles</div>
+        <div class="rc-title" data-i18n="all_title">View all tasks</div>
+        <div class="rc-desc" data-i18n="all_desc">Display C-SFP and L-SFP tasks together. Useful for review, training, or document preparation.</div>
+      </div>
+    </div>
+    <p class="modal-note" data-i18n="modal_note">Your progress will be saved automatically.</p>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+      <button onclick="confirmReset()" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--danger);font-family:var(--font);padding:0;" data-i18n="modal_reset">Reset all progress</button>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUgAAAdDCAYAAACL2tFIAABVOElEQVR4nOzdWZLjOBZFQaks979l9kdGdMaggSOGd91/27qCgigKOAlS92VZlhsAAAAAQCKBFAAAAABItCzL8l/vgwAAAAAA6EUgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAA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ALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAg61hrrauPAAAAAAAAAAAAAOBEb18+mIA61T9IAAAAAElFTkSuQmCC" alt="LWF" style="height:38px;width:auto;flex-shrink:0;">
+  <div class="topbar-title"><span data-i18n="topbar_title">SFP Onboarding</span> <span>V2.1</span></div>
+  <div class="topbar-spacer"></div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="en" onclick="setLang('en')" title="English">&#127468;&#127463;</button>
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" title="Fran&ccedil;ais">&#127467;&#127479;</button>
+    <button class="lang-btn" data-lang="es" onclick="setLang('es')" title="Espa&ntilde;ol">&#127466;&#127480;</button>
+  </div>
+  <div class="topbar-role">
+    <span class="topbar-role-label" data-i18n="role_label">Role:</span>
+    <button class="topbar-role-badge" id="role-badge" onclick="showModal()">&#8212;</button>
+  </div>
+  <button class="topbar-reset-btn" onclick="confirmReset()" data-i18n="reset_btn">Reset</button>
+</div>
+
+<nav class="phase-nav">
+  <button class="phase-tab active" onclick="showPhase('j7')" id="tab-j7">
+    <span class="pt-label" data-i18n="tab_j7">&#128640; Day 7</span>
+    <span class="pt-sub" data-i18n="tab_j7_sub">First week &middot; ~1h30</span>
+    <div class="pt-bar"><div class="pt-fill" id="fill-j7" style="width:0%"></div></div>
+  </button>
+  <button class="phase-tab" onclick="showPhase('j30')" id="tab-j30">
+    <span class="pt-label" data-i18n="tab_j30">&#128269; Day 30</span>
+    <span class="pt-sub" data-i18n="tab_j30_sub">Weeks 2&ndash;4 &middot; ~7h</span>
+    <div class="pt-bar"><div class="pt-fill" id="fill-j30" style="width:0%"></div></div>
+  </button>
+  <button class="phase-tab" onclick="showPhase('j90')" id="tab-j90">
+    <span class="pt-label" data-i18n="tab_j90">&#9889; Day 90</span>
+    <span class="pt-sub" data-i18n="tab_j90_sub">Months 2&ndash;3</span>
+    <div class="pt-bar"><div class="pt-fill" id="fill-j90" style="width:0%"></div></div>
+  </button>
+</nav>
+
+<div class="overall-bar-wrap">
+  <span class="ob-label" data-i18n="overall_label">Overall progress</span>
+  <div class="ob-track"><div class="ob-fill" id="ob-fill" style="width:0%"></div></div>
+  <span class="ob-count" id="ob-count"></span>
+</div>
+
+<main class="main">
+
+<!-- J+7 -->
+<div class="phase-panel active" id="panel-j7">
+  <div class="phase-intro">
+    <div class="pi-icon">&#128640;</div>
+    <div>
+      <div class="pi-title" data-i18n="j7_title">Day 7 &mdash; First week</div>
+      <div class="pi-tags">
+        <span class="pi-tag pi-tag-time" data-i18n="j7_time">~1h30</span>
+        <span class="pi-tag pi-tag-period" data-i18n="j7_period">Week 1</span>
+      </div>
+      <p class="pi-desc" data-i18n="j7_desc">The bare minimum to be operational in the event of an immediate incident. Do not wait until you have read everything &mdash; contact the Security Advisor early.</p>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j7_s1_title">1. Read your Terms of Reference</h3><span class="section-time-badge" data-i18n="j7_s1_time">10 min</span></div>
+      <span class="section-count" id="sc-j7-1"></span>
+    </div>
+    <div class="task-row" data-id="j7_1" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_1"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_1_text">Read, understand, and note any questions about your ToR</div>
+        <div class="task-doc" id="tor-doc-text"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j7_s2_title">2. Immediate priorities</h3><span class="section-time-badge" data-i18n="j7_s2_time">20 min</span></div>
+      <span class="section-count" id="sc-j7-2"></span>
+    </div>
+    <div class="task-row" data-id="j7_2" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_2"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_2_text">Familiarise yourself with the LWF Safety &amp; Security Policy</div>
+        <div class="task-doc" data-i18n="j7_2_doc">LWF S&amp;S Policy 2024 &mdash; see document list on the SharePoint page</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j7_3" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_3"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_3_text">Watch the incident reporting video</div>
+        <div class="task-doc" data-i18n="j7_3_doc">Incident reporting video &mdash; see document list on the SharePoint page</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j7_3b" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_3b"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_3b_text">Take time to explore the Toolkit section on SharePoint to get an overview of the available SOPs, tools, guidelines and key documents</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j7_s3_title">3. First contacts</h3><span class="section-time-badge" data-i18n="j7_s3_time">1h</span></div>
+      <span class="section-count" id="sc-j7-3"></span>
+    </div>
+    <div class="task-row" data-id="j7_4" data-role="lsfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_4"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_4_text">Contact the C-SFP to introduce yourself, then contact the Security Advisor</div>
+        <div class="task-note" data-i18n="j7_4_note">This call covers: S&amp;S architecture overview, country risk analysis, and agreement on check-in dates before key process milestones.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j7_5" data-role="csfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_5"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_5_text">Contact the Security Advisor and all L-SFPs</div>
+        <div class="task-note" data-i18n="j7_5_note">This call covers: S&amp;S architecture overview, country risk analysis, and agreement on check-in dates before key process milestones.</div>
+      </div>
+    </div>
+  </div>
+  <div class="done-banner" id="done-j7">
+    <div class="done-check">&#10003;</div>
+    <h3 data-i18n="j7_done_title">Day 7 complete</h3>
+    <p data-i18n="j7_done_text">You have the minimum required to respond to an immediate incident. Continue with Day 30 to build your full understanding of the security setup.</p>
+  </div>
+  <div class="support-card">
+    <h3 data-i18n="support_title">Available support</h3>
+    <div class="support-row">
+      <div class="s-avatar">SA</div>
+      <div>
+        <div class="s-name" data-i18n="support_sa_name">Security Advisor</div>
+        <div class="s-desc" data-i18n="support_sa_desc">Technical support, substantive questions, complex situations. Introductory call at Day 7: S&amp;S architecture, questions, first review of the country risk analysis.</div>
+      </div>
+    </div>
+    <div class="support-row">
+      <div class="s-avatar">CS</div>
+      <div>
+        <div class="s-name">C-SFP <span style="font-weight:400;color:var(--text3)" data-i18n="support_cs_sub">(for L-SFPs)</span></div>
+        <div class="s-desc" data-i18n="support_cs_desc">First point of contact for day-to-day operational questions at office level.</div>
+      </div>
+    </div>
+    <div class="support-row">
+      <div class="s-avatar">MG</div>
+      <div>
+        <div class="s-name" data-i18n="support_mg_name">Manager / Country Representative</div>
+        <div class="s-desc" data-i18n="support_mg_desc">Decisions on priorities, workload, and available resources.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- J+30 -->
+<div class="phase-panel" id="panel-j30">
+  <div class="phase-intro">
+    <div class="pi-icon">&#128269;</div>
+    <div>
+      <div class="pi-title" data-i18n="j30_title">Day 30 &mdash; Weeks 2 to 4</div>
+      <div class="pi-tags">
+        <span class="pi-tag pi-tag-time" data-i18n="j30_time">~7h</span>
+        <span class="pi-tag pi-tag-period" data-i18n="j30_period">Weeks 2&ndash;4</span>
+      </div>
+      <p class="pi-desc" data-i18n="j30_desc">Understand the tools, explore the context, identify the gaps. If documents are missing or outdated &mdash; this is not a personal failure. Note the gaps and escalate to the Security Advisor.</p>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j30_s1_title">1. Read and watch</h3><span class="section-time-badge" data-i18n="j30_s1_time">2h</span></div>
+      <span class="section-count" id="sc-j30-1"></span>
+    </div>
+    <div class="task-row" data-id="j30_1" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_1"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_1_text">Watch: Introduction to the S&amp;S Framework at LWF</div>
+        <div class="task-doc" data-i18n="j30_1_doc">Video &mdash; see document list on the SharePoint page</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_2" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_2"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_2_text">Complete the mandatory Cyber Security training</div>
+        <div class="task-doc" data-i18n="j30_2_doc">Mandatory trainings &mdash; see document list on the SharePoint page</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j30_s2_title">2. Open and browse the office Local Security Pack</h3><span class="section-time-badge" data-i18n="j30_s2_time">1h</span></div>
+      <span class="section-count" id="sc-j30-2"></span>
+    </div>
+    <div class="task-row" data-id="j30_3" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_3"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_3_text">Read the Basic Security Rules document from your Local Security Pack</div></div>
+    </div>
+    <div class="task-row" data-id="j30_4" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_4"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_4_text">Check available SOPs &mdash; minimum expected: one Travel SOP and one Fire SOP</div></div>
+    </div>
+    <div class="task-row" data-id="j30_5" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_5"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_5_text">Verify the Security Risk Assessment</div></div>
+    </div>
+    <div class="task-row" data-id="j30_6" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_6"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_6_text">Verify that emergency contacts are present and up to date</div>
+        <div class="task-note" data-i18n="j30_6_note">Emergency contacts are in the Communication folder of the Local Security Pack.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_6b" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_6b"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_6b_text">Explore your Local Security Pack to familiarise yourself with its full structure and the documents it contains</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j30_s3_title">3. Analyse the existing setup</h3><span class="section-time-badge" data-i18n="j30_s3_time">2h</span></div>
+      <span class="section-count" id="sc-j30-3"></span>
+    </div>
+    <div class="task-row" data-id="j30_7" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_7"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_7_text">Conduct the security self-assessment using the Interactive Security Self-Assessment Tool</div>
+        <div class="task-note">
+          <span data-i18n="j30_7_note_pre">Mandatory: share the JSON export with</span> <span id="j30-7-share"></span><span data-i18n="j30_7_note_suf">, and save it in the Local Security Pack under Context and Risk Analysis.</span>
+        </div>
+        <div class="task-doc" data-i18n="j30_7_doc">Interactive Security Self-Assessment Tool &mdash; available on SharePoint</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_7b" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_7b"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_7b_text">Based on the self-assessment results, draw up a simple security action plan</div>
+        <div class="task-note" data-i18n="j30_7b_note">Format: 2 to 3 priorities / responsible person / deadline. One page maximum. Save it in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_8" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_8"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_8_text">Open the Security Plan document and locate the Risk Profile and the Induction Briefing protocol</div>
+        <div class="task-note" data-i18n="j30_8_note">These are your two main tools for briefing new staff and visitors.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_9" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_9"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_9_text">Check that the Risk Profile reflects the current context</div>
+        <div class="task-note" data-i18n="j30_9_note">If the Security Plan does not yet exist: note the gap and inform the Security Advisor.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_10" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_10"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_10_text">Check that the Induction Briefing protocol is usable as-is or flag it for update</div></div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j30_s4_title">4. Understand the context</h3><span class="section-time-badge" data-i18n="j30_s4_time">2h</span></div>
+      <span class="section-count" id="sc-j30-4"></span>
+    </div>
+    <div class="task-row" data-id="j30_11" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_11"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_11_text">Have a dedicated conversation with your manager on current security issues related to the office's activities</div></div>
+    </div>
+    <div class="task-row" data-id="j30_12" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_12"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_12_text">Agree with your manager on realistic priorities given the overall workload</div></div>
+    </div>
+    <div class="task-row" data-id="j30_13" data-role="csfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_13"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_13_text">Hold a call with each L-SFP to get acquainted with the situation of each office</div></div>
+    </div>
+    <div class="task-row" data-id="j30_14a" data-role="csfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_14a"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_14a_text">Identify whether specific training or support is needed and alert the Security Advisor</div></div>
+    </div>
+    <div class="task-row" data-id="j30_14b" data-role="lsfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_14b"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j30_14b_text">Identify whether specific training or support is needed and alert the C-SFP or the Security Advisor</div></div>
+    </div>
+  </div>
+  <div class="done-banner" id="done-j30">
+    <div class="done-check">&#10003;</div>
+    <h3 data-i18n="j30_done_title">Day 30 complete</h3>
+    <p data-i18n="j30_done_text">You have a clear picture of the current situation and priorities. Continue with Day 90 to move into independent operation.</p>
+  </div>
+</div>
+
+<!-- J+90 -->
+<div class="phase-panel" id="panel-j90">
+  <div class="phase-intro">
+    <div class="pi-icon">&#9889;</div>
+    <div>
+      <div class="pi-title" data-i18n="j90_title">Day 90 &mdash; Months 2 and 3</div>
+      <div class="pi-tags">
+        <span class="pi-tag pi-tag-time" data-i18n="j90_time">4h+</span>
+        <span class="pi-tag pi-tag-period" data-i18n="j90_period">Months 2&ndash;3</span>
+      </div>
+      <p class="pi-desc" id="j90-desc-text">Operate independently and initiate the first concrete actions. This is a team effort &mdash; skills are built over time with the support of the Security Advisor and in cooperation with the L-SFPs.</p>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j90_s1_title">1. Review of the first 90 days</h3><span class="section-time-badge" data-i18n="j90_s1_time">2h</span></div>
+      <span class="section-count" id="sc-j90-1"></span>
+    </div>
+    <div class="task-row" data-id="j90_1" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_1"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j90_1_text">Review with your manager: what is working, what is missing?</div></div>
+    </div>
+    <div class="task-row" data-id="j90_2" data-role="csfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_2"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j90_2_text">Review security priorities at country level with the Security Advisor</div></div>
+    </div>
+    <div class="task-row" data-id="j90_3" data-role="lsfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_3"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j90_3_text">Review security priorities at office level with the C-SFP</div></div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j90_s2_title">2. Concrete actions to initiate</h3><span class="section-time-badge" data-i18n="j90_s2_time">2h</span></div>
+      <span class="section-count" id="sc-j90-2"></span>
+    </div>
+    <div class="task-row" data-id="j90_4" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_4"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j90_4_text">Review and update the action plan established at Day 30</div>
+        <div class="task-note" data-i18n="j90_4_note">What has been completed? What is still pending? What needs updating based on changes in context? This is the same document &mdash; update it in place rather than creating a new one.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j90_5" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_5"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j90_5_text">Verify that key SOPs are known to all staff</div>
+        <div class="task-note" data-i18n="j90_5_note">Identify the most critical SOPs in your context (start with Fire SOP, Travel SOP, and evacuation procedures including the assembly point). Use team meetings to introduce them &mdash; one SOP per meeting.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j90_6" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_6"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j90_6_text">Ensure the most recently arrived staff member has received their security induction</div>
+        <div class="task-note" data-i18n="j90_6_note">Verify: Basic Security Rules signed, briefing conducted per the Induction Briefing protocol in the Security Plan.</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j90_s3_title">3. Integration into routine</h3></div>
+      <span class="section-count" id="sc-j90-3"></span>
+    </div>
+    <div class="task-row" data-id="j90_7" data-role="both" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_7"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j90_7_text">Establish a regular rhythm for sharing security information with your manager or C-SFP</div></div>
+    </div>
+    <div class="task-row" data-id="j90_8" data-role="csfp" onclick="toggle(this)">
+      <div class="cb" id="cb-j90_8"></div>
+      <div class="task-body"><div class="task-text" data-i18n="j90_8_text">Establish or participate in at least one regular communication with the L-SFPs</div></div>
+    </div>
+  </div>
+  <div class="done-banner" id="done-j90">
+    <div class="done-check">&#10003;</div>
+    <h3 data-i18n="j90_done_title">Onboarding journey complete</h3>
+    <p data-i18n="j90_done_text">You are operational on the fundamentals. The Security Advisor remains available for support. This package will be reviewed after first field feedback.</p>
+  </div>
+</div>
+
+</main>
+<footer class="footer">
+  <span class="footer-note" data-i18n="footer_note">LWF World Service &mdash; Safety &amp; Security &nbsp;&middot;&nbsp; Progress saved automatically</span>
+</footer>
+
+<script>
+const KEY = 'lwf_sfp_v2';
+const ROLE_KEY = 'lwf_sfp_role_v2';
+const LANG_KEY = 'lwf_sfp_lang_v2';
+const sections = {
+  'j7-1':  ['j7_1'],
+  'j7-2':  ['j7_2','j7_3','j7_3b'],
+  'j7-3':  ['j7_4','j7_5'],
+  'j30-1': ['j30_1','j30_2'],
+  'j30-2': ['j30_3','j30_4','j30_5','j30_6','j30_6b'],
+  'j30-3': ['j30_7','j30_7b','j30_8','j30_9','j30_10'],
+  'j30-4': ['j30_11','j30_12','j30_13','j30_14a','j30_14b'],
+  'j90-1': ['j90_1','j90_2','j90_3'],
+  'j90-2': ['j90_4','j90_5','j90_6'],
+  'j90-3': ['j90_7','j90_8']
+};
+const phases = {
+  j7:  ['j7_1','j7_2','j7_3','j7_3b','j7_4','j7_5'],
+  j30: ['j30_1','j30_2','j30_3','j30_4','j30_5','j30_6','j30_6b','j30_7','j30_7b','j30_8','j30_9','j30_10','j30_11','j30_12','j30_13','j30_14a','j30_14b'],
+  j90: ['j90_1','j90_2','j90_3','j90_4','j90_5','j90_6','j90_7','j90_8']
+};
+const i18n = {
+"en": {
+"page_title": "SFP Onboarding Journey — LWF",
+"modal_title": "Select your role",
+"modal_sub": "Your onboarding journey will be tailored to your responsibilities. You can change this at any time from the toolbar.",
+"csfp_title": "Country Security Focal Point",
+"csfp_desc": "Coordination and oversight at country programme level. Interface between L-SFPs, management, and the Security Advisor.",
+"lsfp_title": "Local Security Focal Point",
+"lsfp_desc": "Responsible for implementing security measures at field office level. First operational point of contact within the office.",
+"all_tag": "All roles",
+"all_title": "View all tasks",
+"all_desc": "Display C-SFP and L-SFP tasks together. Useful for review, training, or document preparation.",
+"modal_note": "Your progress will be saved automatically.",
+"modal_reset": "Reset all progress",
+"topbar_title": "SFP Onboarding",
+"role_label": "Role:",
+"reset_btn": "Reset",
+"tab_j7": "🚀 Day 7",
+"tab_j7_sub": "First week · ~1h30",
+"tab_j30": "🔍 Day 30",
+"tab_j30_sub": "Weeks 2–4 · ~7h",
+"tab_j90": "⚡ Day 90",
+"tab_j90_sub": "Months 2–3",
+"overall_label": "Overall progress",
+"no_role": "Select a role to start",
+"j7_title": "Day 7 — First week",
+"j7_time": "~1h30",
+"j7_period": "Week 1",
+"j7_desc": "The bare minimum to be operational in the event of an immediate incident. Do not wait until you have read everything — contact the Security Advisor early.",
+"j7_s1_title": "1. Read your Terms of Reference",
+"j7_s1_time": "10 min",
+"j7_1_text": "Read, understand, and note any questions about your ToR",
+"tor_csfp": "Terms of Reference — C-SFP — see document list on the SharePoint page",
+"tor_lsfp": "Terms of Reference — L-SFP — see document list on the SharePoint page",
+"tor_all": "Terms of Reference — see document list on the SharePoint page",
+"j7_s2_title": "2. Immediate priorities",
+"j7_s2_time": "20 min",
+"j7_2_text": "Familiarise yourself with the LWF Safety & Security Policy",
+"j7_2_doc": "LWF S&S Policy 2024 — see document list on the SharePoint page",
+"j7_3_text": "Watch the incident reporting video",
+"j7_3_doc": "Incident reporting video — see document list on the SharePoint page",
+"j7_3b_text": "Take time to explore the Toolkit section on SharePoint to get an overview of the available SOPs, tools, guidelines and key documents",
+"j7_s3_title": "3. First contacts",
+"j7_s3_time": "1h",
+"j7_4_text": "Contact the C-SFP to introduce yourself, then contact the Security Advisor",
+"j7_4_note": "This call covers: S&S architecture overview, country risk analysis, and agreement on check-in dates before key process milestones.",
+"j7_5_text": "Contact the Security Advisor and all L-SFPs",
+"j7_5_note": "This call covers: S&S architecture overview, country risk analysis, and agreement on check-in dates before key process milestones.",
+"j7_done_title": "Day 7 complete",
+"j7_done_text": "You have the minimum required to respond to an immediate incident. Continue with Day 30 to build your full understanding of the security setup.",
+"support_title": "Available support",
+"support_sa_name": "Security Advisor",
+"support_sa_desc": "Technical support, substantive questions, complex situations. Introductory call at Day 7: S&S architecture, questions, first review of the country risk analysis.",
+"support_cs_sub": "(for L-SFPs)",
+"support_cs_desc": "First point of contact for day-to-day operational questions at office level.",
+"support_mg_name": "Manager / Country Representative",
+"support_mg_desc": "Decisions on priorities, workload, and available resources.",
+"j30_title": "Day 30 — Weeks 2 to 4",
+"j30_time": "~7h",
+"j30_period": "Weeks 2–4",
+"j30_desc": "Understand the tools, explore the context, identify the gaps. If documents are missing or outdated — this is not a personal failure. Note the gaps and escalate to the Security Advisor.",
+"j30_s1_title": "1. Read and watch",
+"j30_s1_time": "2h",
+"j30_1_text": "Watch: Introduction to the S&S Framework at LWF",
+"j30_1_doc": "Video — see document list on the SharePoint page",
+"j30_2_text": "Complete the mandatory Cyber Security training",
+"j30_2_doc": "Mandatory trainings — see document list on the SharePoint page",
+"j30_s2_title": "2. Open and browse the office Local Security Pack",
+"j30_s2_time": "1h",
+"j30_3_text": "Read the Basic Security Rules document from your Local Security Pack",
+"j30_4_text": "Check available SOPs — minimum expected: one Travel SOP and one Fire SOP",
+"j30_5_text": "Verify the Security Risk Assessment",
+"j30_6_text": "Verify that emergency contacts are present and up to date",
+"j30_6_note": "Emergency contacts are in the Communication folder of the Local Security Pack.",
+"j30_6b_text": "Explore your Local Security Pack to familiarise yourself with its full structure and the documents it contains",
+"j30_s3_title": "3. Analyse the existing setup",
+"j30_s3_time": "2h",
+"j30_7_text": "Conduct the security self-assessment using the Interactive Security Self-Assessment Tool",
+"j30_7_note_pre": "Mandatory: share the JSON export with",
+"j30_7_note_suf": ", and save it in the Local Security Pack under Context and Risk Analysis.",
+"share_csfp": "the Security Advisor",
+"share_lsfp": "the C-SFP and the Security Advisor",
+"share_all": "the C-SFP and the Security Advisor",
+"j30_7_doc": "Interactive Security Self-Assessment Tool — available on SharePoint",
+"j30_7b_text": "Based on the self-assessment results, draw up a simple security action plan",
+"j30_7b_note": "Format: 2 to 3 priorities / responsible person / deadline. One page maximum. Save it in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.",
+"j30_8_text": "Open the Security Plan document and locate the Risk Profile and the Induction Briefing protocol",
+"j30_8_note": "These are your two main tools for briefing new staff and visitors.",
+"j30_9_text": "Check that the Risk Profile reflects the current context",
+"j30_9_note": "If the Security Plan does not yet exist: note the gap and inform the Security Advisor.",
+"j30_10_text": "Check that the Induction Briefing protocol is usable as-is or flag it for update",
+"j30_s4_title": "4. Understand the context",
+"j30_s4_time": "2h",
+"j30_11_text": "Have a dedicated conversation with your manager on current security issues related to the office's activities",
+"j30_12_text": "Agree with your manager on realistic priorities given the overall workload",
+"j30_13_text": "Hold a call with each L-SFP to get acquainted with the situation of each office",
+"j30_14a_text": "Identify whether specific training or support is needed and alert the Security Advisor",
+"j30_14b_text": "Identify whether specific training or support is needed and alert the C-SFP or the Security Advisor",
+"j30_done_title": "Day 30 complete",
+"j30_done_text": "You have a clear picture of the current situation and priorities. Continue with Day 90 to move into independent operation.",
+"j90_title": "Day 90 — Months 2 and 3",
+"j90_time": "4h+",
+"j90_period": "Months 2–3",
+"j90_desc_csfp": "Operate independently and initiate the first concrete actions. This is a team effort — skills are built over time with the support of the Security Advisor and in cooperation with the L-SFPs.",
+"j90_desc_lsfp": "Operate independently and initiate the first concrete actions. This is a team effort — skills are built over time with the support of the Security Advisor and in cooperation with the C-SFP.",
+"j90_desc_all": "Operate independently and initiate the first concrete actions. This is a team effort — skills are built over time with the support of the Security Advisor and in cooperation with the L-SFPs.",
+"j90_s1_title": "1. Review of the first 90 days",
+"j90_s1_time": "2h",
+"j90_1_text": "Review with your manager: what is working, what is missing?",
+"j90_2_text": "Review security priorities at country level with the Security Advisor",
+"j90_3_text": "Review security priorities at office level with the C-SFP",
+"j90_s2_title": "2. Concrete actions to initiate",
+"j90_s2_time": "2h",
+"j90_4_text": "Review and update the action plan established at Day 30",
+"j90_4_note": "What has been completed? What is still pending? What needs updating based on changes in context? This is the same document — update it in place rather than creating a new one.",
+"j90_5_text": "Verify that key SOPs are known to all staff",
+"j90_5_note": "Identify the most critical SOPs in your context (start with Fire SOP, Travel SOP, and evacuation procedures including the assembly point). Use team meetings to introduce them — one SOP per meeting.",
+"j90_6_text": "Ensure the most recently arrived staff member has received their security induction",
+"j90_6_note": "Verify: Basic Security Rules signed, briefing conducted per the Induction Briefing protocol in the Security Plan.",
+"j90_s3_title": "3. Integration into routine",
+"j90_7_text": "Establish a regular rhythm for sharing security information with your manager or C-SFP",
+"j90_8_text": "Establish or participate in at least one regular communication with the L-SFPs",
+"j90_done_title": "Onboarding journey complete",
+"j90_done_text": "You are operational on the fundamentals. The Security Advisor remains available for support. This package will be reviewed after first field feedback.",
+"footer_note": "LWF World Service — Safety & Security · Progress saved automatically",
+"role_badge_csfp": "C-SFP",
+"role_badge_lsfp": "L-SFP",
+"role_badge_all": "All",
+"confirm_reset": "Reset all progress? This cannot be undone."
+},
+"fr": {
+"page_title": "Parcours d’intégration SFP — LWF",
+"modal_title": "Sélectionnez votre rôle",
+"modal_sub": "Votre parcours d’intégration sera adapté à vos responsabilités. Vous pouvez modifier ce choix à tout moment depuis la barre de navigation.",
+"csfp_title": "Point Focal Sécurité Pays",
+"csfp_desc": "Coordination et supervision au niveau du programme pays. Interface entre les L-SFP, la direction et le Conseiller Sécurité.",
+"lsfp_title": "Point Focal Sécurité Local",
+"lsfp_desc": "Responsable de la mise en œuvre des mesures de sécurité au niveau du bureau terrain. Premier point de contact opérationnel au sein du bureau.",
+"all_tag": "Tous les rôles",
+"all_title": "Voir toutes les tâches",
+"all_desc": "Afficher les tâches C-SFP et L-SFP ensemble. Utile pour la révision, la formation ou la préparation de documents.",
+"modal_note": "Votre progression est sauvegardée automatiquement.",
+"modal_reset": "Réinitialiser la progression",
+"topbar_title": "Intégration SFP",
+"role_label": "Rôle :",
+"reset_btn": "Réinit.",
+"tab_j7": "🚀 Jour 7",
+"tab_j7_sub": "Première semaine · ~1h30",
+"tab_j30": "🔍 Jour 30",
+"tab_j30_sub": "Semaines 2–4 · ~7h",
+"tab_j90": "⚡ Jour 90",
+"tab_j90_sub": "Mois 2–3",
+"overall_label": "Progression globale",
+"no_role": "Sélectionnez un rôle pour commencer",
+"j7_title": "Jour 7 — Première semaine",
+"j7_time": "~1h30",
+"j7_period": "Semaine 1",
+"j7_desc": "Le minimum requis pour être opérationnel en cas d’incident immédiat. N’attendez pas d’avoir tout lu — contactez rapidement le Conseiller Sécurité.",
+"j7_s1_title": "1. Lisez vos Termes de Référence",
+"j7_s1_time": "10 min",
+"j7_1_text": "Lisez, comprenez et notez toute question concernant vos TdR",
+"tor_csfp": "Termes de Référence — C-SFP — voir la liste des documents sur la page SharePoint",
+"tor_lsfp": "Termes de Référence — L-SFP — voir la liste des documents sur la page SharePoint",
+"tor_all": "Termes de Référence — voir la liste des documents sur la page SharePoint",
+"j7_s2_title": "2. Priorités immédiates",
+"j7_s2_time": "20 min",
+"j7_2_text": "Familiarisez-vous avec la Politique Sécurité du LWF",
+"j7_2_doc": "Politique S&S LWF 2024 — voir la liste des documents sur la page SharePoint",
+"j7_3_text": "Regardez la vidéo sur le signalement d’incidents",
+"j7_3_doc": "Vidéo sur le signalement d’incidents — voir la liste des documents sur la page SharePoint",
+"j7_3b_text": "Prenez le temps de naviguer dans la section Boîte à outils sur SharePoint pour vous faire une idée des SOP, outils, guides et documents clés disponibles",
+"j7_s3_title": "3. Premiers contacts",
+"j7_s3_time": "1h",
+"j7_4_text": "Prenez contact avec le C-SFP pour vous présenter, puis contactez le Conseiller Sécurité",
+"j7_4_note": "Cet appel couvre : vue d’ensemble de l’architecture S&S, analyse des risques pays, et accord sur les dates de suivi avant les étapes clés du processus.",
+"j7_5_text": "Contactez le Conseiller Sécurité et tous les L-SFP",
+"j7_5_note": "Cet appel couvre : vue d’ensemble de l’architecture S&S, analyse des risques pays, et accord sur les dates de suivi avant les étapes clés du processus.",
+"j7_done_title": "Jour 7 terminé",
+"j7_done_text": "Vous disposez du minimum requis pour répondre à un incident immédiat. Poursuivez avec le Jour 30 pour approfondir votre compréhension du dispositif sécurité.",
+"support_title": "Soutien disponible",
+"support_sa_name": "Conseiller Sécurité",
+"support_sa_desc": "Soutien technique, questions de fond, situations complexes. Appel d’introduction au Jour 7 : architecture S&S, questions, première révision de l’analyse des risques pays.",
+"support_cs_sub": "(pour les L-SFP)",
+"support_cs_desc": "Premier point de contact pour les questions opérationnelles quotidiennes au niveau du bureau.",
+"support_mg_name": "Manager / Représentant Pays",
+"support_mg_desc": "Décisions sur les priorités, la charge de travail et les ressources disponibles.",
+"j30_title": "Jour 30 — Semaines 2 à 4",
+"j30_time": "~7h",
+"j30_period": "Semaines 2–4",
+"j30_desc": "Comprendre les outils, explorer le contexte, identifier les lacunes. Si des documents sont manquants ou obsolètes — ce n’est pas un échec personnel. Notez les lacunes et escaladez au Conseiller Sécurité.",
+"j30_s1_title": "1. Lire et visionner",
+"j30_s1_time": "2h",
+"j30_1_text": "Visionner : Introduction au Cadre S&S au LWF",
+"j30_1_doc": "Vidéo — voir la liste des documents sur la page SharePoint",
+"j30_2_text": "Suivre la formation obligatoire sur la cybersécurité",
+"j30_2_doc": "Formations obligatoires — voir la liste des documents sur la page SharePoint",
+"j30_s2_title": "2. Ouvrir et parcourir le Pack Sécurité Local du bureau",
+"j30_s2_time": "1h",
+"j30_3_text": "Lire le document Règles de Sécurité de Base de votre Pack Sécurité Local",
+"j30_4_text": "Vérifier les SOP disponibles — minimum attendu : une SOP Voyage et une SOP Incendie",
+"j30_5_text": "Vérifier l’Évaluation des Risques Sécurité",
+"j30_6_text": "Vérifier que les contacts d’urgence sont présents et à jour",
+"j30_6_note": "Les contacts d’urgence se trouvent dans le dossier Communication du Pack Sécurité Local.",
+"j30_6b_text": "Explorez votre Pack Sécurité local pour vous familiariser avec sa structure complète et les documents qu’il contient",
+"j30_s3_title": "3. Analyser le dispositif existant",
+"j30_s3_time": "2h",
+"j30_7_text": "Conduire l’auto-évaluation sécurité via l’Outil Interactif d’Auto-Évaluation",
+"j30_7_note_pre": "Obligatoire : partager l’export JSON avec",
+"j30_7_note_suf": ", et le sauvegarder dans le Pack Sécurité Local sous Contexte et Analyse des Risques.",
+"share_csfp": "le Conseiller Sécurité",
+"share_lsfp": "le C-SFP et le Conseiller Sécurité",
+"share_all": "le C-SFP et le Conseiller Sécurité",
+"j30_7_doc": "Outil Interactif d’Auto-Évaluation Sécurité — disponible sur SharePoint",
+"j30_7b_text": "Sur la base des résultats de l’auto-évaluation, rédiger un plan d’action sécurité simple",
+"j30_7b_note": "Format : 2 à 3 priorités / responsable / délai. Une page maximum. Sauvegarder dans le Pack Sécurité Local et partager avec le Conseiller Sécurité. Ce document devient la référence de travail au Jour 90.",
+"j30_8_text": "Ouvrir le document Plan de Sécurité et localiser le Profil de Risque et le protocole de briefing d’accueil",
+"j30_8_note": "Ce sont vos deux principaux outils pour informer les nouveaux arrivants et les visiteurs.",
+"j30_9_text": "Vérifier que le Profil de Risque reflète le contexte actuel",
+"j30_9_note": "Si le Plan de Sécurité n’existe pas encore : noter la lacune et en informer le Conseiller Sécurité.",
+"j30_10_text": "Vérifier que le protocole de briefing d’accueil est utilisable tel quel ou le signaler pour mise à jour",
+"j30_s4_title": "4. Comprendre le contexte",
+"j30_s4_time": "2h",
+"j30_11_text": "Avoir une conversation dédiée avec votre manager sur les problématiques sécurité actuelles liées aux activités du bureau",
+"j30_12_text": "Convenir avec votre manager de priorités réalistes en fonction de la charge de travail globale",
+"j30_13_text": "Tenir un appel avec chaque L-SFP pour vous familiariser avec la situation de chaque bureau",
+"j30_14a_text": "Identifier si des formations ou un soutien spécifique sont nécessaires et alerter le Conseiller Sécurité",
+"j30_14b_text": "Identifier si des formations ou un soutien spécifique sont nécessaires et alerter le C-SFP ou le Conseiller Sécurité",
+"j30_done_title": "Jour 30 terminé",
+"j30_done_text": "Vous avez une vision claire de la situation et des priorités actuelles. Poursuivez avec le Jour 90 pour passer en mode opérationnel autonome.",
+"j90_title": "Jour 90 — Mois 2 et 3",
+"j90_time": "4h+",
+"j90_period": "Mois 2–3",
+"j90_desc_csfp": "Opérer de manière autonome et initier les premières actions concrètes. C’est un travail d’équipe — les compétences se construisent dans le temps avec le soutien du Conseiller Sécurité et en coopération avec les L-SFP.",
+"j90_desc_lsfp": "Opérer de manière autonome et initier les premières actions concrètes. C’est un travail d’équipe — les compétences se construisent dans le temps avec le soutien du Conseiller Sécurité et en coopération avec le C-SFP.",
+"j90_desc_all": "Opérer de manière autonome et initier les premières actions concrètes. C’est un travail d’équipe — les compétences se construisent dans le temps avec le soutien du Conseiller Sécurité et en coopération avec les L-SFP.",
+"j90_s1_title": "1. Bilan des 90 premiers jours",
+"j90_s1_time": "2h",
+"j90_1_text": "Faire le point avec votre manager : ce qui fonctionne, ce qui manque.",
+"j90_2_text": "Revoir les priorités sécurité au niveau pays avec le Conseiller Sécurité",
+"j90_3_text": "Revoir les priorités sécurité au niveau du bureau avec le C-SFP",
+"j90_s2_title": "2. Actions concrètes à initier",
+"j90_s2_time": "2h",
+"j90_4_text": "Revoir et mettre à jour le plan d’action établi au Jour 30",
+"j90_4_note": "Qu’est-ce qui a été accompli ? Qu’est-ce qui est en attente ? Qu’est-ce qui doit être mis à jour en fonction des évolutions du contexte ? C’est le même document — mettez-le à jour en place plutôt que d’en créer un nouveau.",
+"j90_5_text": "Vérifier que les SOP clés sont connus de tout le staff",
+"j90_5_note": "Identifiez les SOP les plus critiques dans votre contexte (commencez par la SOP Incendie, la SOP Voyage et les procédures d’évacuation incluant le point de rassemblement). Profitez des réunions d’équipe pour en présenter une à chaque fois.",
+"j90_6_text": "S’assurer que le dernier arrivant a reçu son briefing sécurité",
+"j90_6_note": "Vérifier : Règles de Sécurité de Base signées, briefing conduit conformément au protocole de briefing d’accueil du Plan de Sécurité.",
+"j90_s3_title": "3. Intégration dans la routine",
+"j90_7_text": "Établir un rythme régulier pour partager les informations sécurité avec votre manager ou le C-SFP",
+"j90_8_text": "Établir ou participer à au moins une communication régulière avec les L-SFP",
+"j90_done_title": "Parcours d’intégration terminé",
+"j90_done_text": "Vous êtes opérationnel sur les fondamentaux. Le Conseiller Sécurité reste disponible pour vous soutenir. Ce package sera revu après les premiers retours terrain.",
+"footer_note": "LWF World Service — Safety & Security · Progression sauvegardée automatiquement",
+"role_badge_csfp": "C-SFP",
+"role_badge_lsfp": "L-SFP",
+"role_badge_all": "Tous",
+"confirm_reset": "Réinitialiser toute la progression ? Cette action est irréversible."
+},
+"es": {
+"page_title": "Recorrido de incorporación SFP — LWF",
+"modal_title": "Seleccione su rol",
+"modal_sub": "Su recorrido de incorporación estará adaptado a sus responsabilidades. Puede cambiar esto en cualquier momento desde la barra de navegación.",
+"csfp_title": "Punto Focal de Seguridad País",
+"csfp_desc": "Coordinación y supervisión a nivel de programa país. Interfaz entre los L-SFP, la dirección y el Asesor de Seguridad.",
+"lsfp_title": "Punto Focal de Seguridad Local",
+"lsfp_desc": "Responsable de implementar las medidas de seguridad a nivel de oficina de campo. Primer punto de contacto operacional dentro de la oficina.",
+"all_tag": "Todos los roles",
+"all_title": "Ver todas las tareas",
+"all_desc": "Mostrar las tareas de C-SFP y L-SFP juntas. Útil para revisión, formación o preparación de documentos.",
+"modal_note": "Su progreso se guardará automáticamente.",
+"modal_reset": "Restablecer el progreso",
+"topbar_title": "Incorporación SFP",
+"role_label": "Rol:",
+"reset_btn": "Restab.",
+"tab_j7": "🚀 Día 7",
+"tab_j7_sub": "Primera semana · ~1h30",
+"tab_j30": "🔍 Día 30",
+"tab_j30_sub": "Semanas 2–4 · ~7h",
+"tab_j90": "⚡ Día 90",
+"tab_j90_sub": "Meses 2–3",
+"overall_label": "Progreso general",
+"no_role": "Seleccione un rol para comenzar",
+"j7_title": "Día 7 — Primera semana",
+"j7_time": "~1h30",
+"j7_period": "Semana 1",
+"j7_desc": "El mínimo necesario para ser operacional ante un incidente inmediato. No espere a haberlo leído todo — contacte al Asesor de Seguridad con prontitud.",
+"j7_s1_title": "1. Lea sus Términos de Referencia",
+"j7_s1_time": "10 min",
+"j7_1_text": "Lea, comprenda y anote cualquier pregunta sobre sus TdR",
+"tor_csfp": "Términos de Referencia — C-SFP — ver lista de documentos en la página SharePoint",
+"tor_lsfp": "Términos de Referencia — L-SFP — ver lista de documentos en la página SharePoint",
+"tor_all": "Términos de Referencia — ver lista de documentos en la página SharePoint",
+"j7_s2_title": "2. Prioridades inmediatas",
+"j7_s2_time": "20 min",
+"j7_2_text": "Famíliarese con la Política de Seguridad del LWF",
+"j7_2_doc": "Política S&S LWF 2024 — ver lista de documentos en la página SharePoint",
+"j7_3_text": "Ver el video sobre el reporte de incidentes",
+"j7_3_doc": "Video sobre reporte de incidentes — ver lista de documentos en la página SharePoint",
+"j7_3b_text": "Tómese el tiempo de explorar la sección Caja de herramientas en SharePoint para hacerse una idea de los SOP, herramientas, guías y documentos clave disponibles",
+"j7_s3_title": "3. Primeros contactos",
+"j7_s3_time": "1h",
+"j7_4_text": "Contacte al C-SFP para presentarse, luego contacte al Asesor de Seguridad",
+"j7_4_note": "Esta llamada cubre: visión general de la arquitectura S&S, análisis de riesgos del país, y acuerdo sobre fechas de seguimiento antes de los hitos clave del proceso.",
+"j7_5_text": "Contacte al Asesor de Seguridad y a todos los L-SFP",
+"j7_5_note": "Esta llamada cubre: visión general de la arquitectura S&S, análisis de riesgos del país, y acuerdo sobre fechas de seguimiento antes de los hitos clave del proceso.",
+"j7_done_title": "Día 7 completado",
+"j7_done_text": "Cuenta con el mínimo requerido para responder a un incidente inmediato. Continúe con el Día 30 para profundizar su comprensión del dispositivo de seguridad.",
+"support_title": "Apoyo disponible",
+"support_sa_name": "Asesor de Seguridad",
+"support_sa_desc": "Apoyo técnico, preguntas de fondo, situaciones complejas. Llamada introductoria en el Día 7: arquitectura S&S, preguntas, primera revisión del análisis de riesgos del país.",
+"support_cs_sub": "(para L-SFPs)",
+"support_cs_desc": "Primer punto de contacto para preguntas operacionales diarias a nivel de oficina.",
+"support_mg_name": "Gerente / Representante País",
+"support_mg_desc": "Decisiones sobre prioridades, carga de trabajo y recursos disponibles.",
+"j30_title": "Día 30 — Semanas 2 a 4",
+"j30_time": "~7h",
+"j30_period": "Semanas 2–4",
+"j30_desc": "Comprender las herramientas, explorar el contexto, identificar las brechas. Si faltan documentos o están desactualizados — no es un fracaso personal. Registre las brechas y escálelas al Asesor de Seguridad.",
+"j30_s1_title": "1. Leer y ver",
+"j30_s1_time": "2h",
+"j30_1_text": "Ver: Introducción al Marco S&S en LWF",
+"j30_1_doc": "Video — ver lista de documentos en la página SharePoint",
+"j30_2_text": "Completar la formación obligatoria sobre ciberseguridad",
+"j30_2_doc": "Formaciones obligatorias — ver lista de documentos en la página SharePoint",
+"j30_s2_title": "2. Abrir y revisar el Paquete de Seguridad Local de la oficina",
+"j30_s2_time": "1h",
+"j30_3_text": "Leer el documento de Reglas Básicas de Seguridad de su Paquete de Seguridad Local",
+"j30_4_text": "Verificar los SOPs disponibles — mínimo esperado: un SOP de Viaje y un SOP de Incendio",
+"j30_5_text": "Verificar la Evaluación de Riesgos de Seguridad",
+"j30_6_text": "Verificar que los contactos de emergencia estén presentes y actualizados",
+"j30_6_note": "Los contactos de emergencia se encuentran en la carpeta Comunicación del Paquete de Seguridad Local.",
+"j30_6b_text": "Explore su Paquete de Seguridad local para familiarizarse con su estructura completa y los documentos que contiene",
+"j30_s3_title": "3. Analizar el dispositivo existente",
+"j30_s3_time": "2h",
+"j30_7_text": "Realizar la autoevaluación de seguridad usando la Herramienta Interactiva de Autoevaluación",
+"j30_7_note_pre": "Obligatorio: compartir la exportación JSON con",
+"j30_7_note_suf": ", y guardarlo en el Paquete de Seguridad Local bajo Contexto y Análisis de Riesgos.",
+"share_csfp": "el Asesor de Seguridad",
+"share_lsfp": "el C-SFP y el Asesor de Seguridad",
+"share_all": "el C-SFP y el Asesor de Seguridad",
+"j30_7_doc": "Herramienta Interactiva de Autoevaluación de Seguridad — disponible en SharePoint",
+"j30_7b_text": "Con base en los resultados de la autoevaluación, elaborar un plan de acción de seguridad simple",
+"j30_7b_note": "Formato: 2 a 3 prioridades / responsable / fecha límite. Una página máximo. Guardar en el Paquete de Seguridad Local y compartir con el Asesor de Seguridad. Este documento se convierte en la referencia de trabajo en el Día 90.",
+"j30_8_text": "Abrir el documento Plan de Seguridad y localizar el Perfil de Riesgo y el protocolo de briefing de orientación",
+"j30_8_note": "Estas son sus dos herramientas principales para informar a los nuevos miembros del personal y visitantes.",
+"j30_9_text": "Verificar que el Perfil de Riesgo refleje el contexto actual",
+"j30_9_note": "Si el Plan de Seguridad aún no existe: registre la brecha e informe al Asesor de Seguridad.",
+"j30_10_text": "Verificar que el protocolo de briefing de orientación es utilizable tal como está o marcarlo para actualización",
+"j30_s4_title": "4. Comprender el contexto",
+"j30_s4_time": "2h",
+"j30_11_text": "Mantener una conversación dedicada con su gerente sobre los problemas de seguridad actuales relacionados con las actividades de la oficina",
+"j30_12_text": "Acordar con su gerente prioridades realistas dada la carga de trabajo general",
+"j30_13_text": "Mantener una llamada con cada L-SFP para conocer la situación de cada oficina",
+"j30_14a_text": "Identificar si se necesita formación o apoyo específico y alertar al Asesor de Seguridad",
+"j30_14b_text": "Identificar si se necesita formación o apoyo específico y alertar al C-SFP o al Asesor de Seguridad",
+"j30_done_title": "Día 30 completado",
+"j30_done_text": "Tiene una imagen clara de la situación y prioridades actuales. Continúe con el Día 90 para pasar a la operación autónoma.",
+"j90_title": "Día 90 — Meses 2 y 3",
+"j90_time": "4h+",
+"j90_period": "Meses 2–3",
+"j90_desc_csfp": "Operar de forma autónoma e iniciar las primeras acciones concretas. Es un trabajo en equipo — las habilidades se construyen con el tiempo con el apoyo del Asesor de Seguridad y en cooperación con los L-SFP.",
+"j90_desc_lsfp": "Operar de forma autónoma e iniciar las primeras acciones concretas. Es un trabajo en equipo — las habilidades se construyen con el tiempo con el apoyo del Asesor de Seguridad y en cooperación con el C-SFP.",
+"j90_desc_all": "Operar de forma autónoma e iniciar las primeras acciones concretas. Es un trabajo en equipo — las habilidades se construyen con el tiempo con el apoyo del Asesor de Seguridad y en cooperación con los L-SFP.",
+"j90_s1_title": "1. Revisión de los primeros 90 días",
+"j90_s1_time": "2h",
+"j90_1_text": "Revisar con su gerente: ¿qué funciona, qué falta?",
+"j90_2_text": "Revisar las prioridades de seguridad a nivel país con el Asesor de Seguridad",
+"j90_3_text": "Revisar las prioridades de seguridad a nivel de oficina con el C-SFP",
+"j90_s2_title": "2. Acciones concretas a iniciar",
+"j90_s2_time": "2h",
+"j90_4_text": "Revisar y actualizar el plan de acción establecido en el Día 30",
+"j90_4_note": "¿Qué se ha completado? ¿Qué está pendiente? ¿Qué necesita actualizarse por cambios en el contexto? Es el mismo documento — actualice en el mismo lugar en lugar de crear uno nuevo.",
+"j90_5_text": "Verificar que los SOPs clave son conocidos por todo el personal",
+"j90_5_note": "Identifique los SOPs más críticos en su contexto (comience con el SOP de Incendio, el SOP de Viaje y los procedimientos de evacuación incluido el punto de reunión). Use las reuniones de equipo para presentarlos — un SOP por reunión.",
+"j90_6_text": "Asegurarse de que el último miembro del personal incorporado haya recibido su orientación de seguridad",
+"j90_6_note": "Verificar: Reglas Básicas de Seguridad firmadas, briefing realizado según el protocolo de briefing de orientación del Plan de Seguridad.",
+"j90_s3_title": "3. Integración en la rutina",
+"j90_7_text": "Establecer un ritmo regular para compartir información de seguridad con su gerente o C-SFP",
+"j90_8_text": "Establecer o participar en al menos una comunicación regular con los L-SFP",
+"j90_done_title": "Recorrido de incorporación completado",
+"j90_done_text": "Está operacional en los fundamentos. El Asesor de Seguridad sigue disponible para apoyo. Este paquete será revisado tras los primeros comentarios de campo.",
+"footer_note": "LWF World Service — Safety & Security · Progreso guardado automáticamente",
+"role_badge_csfp": "C-SFP",
+"role_badge_lsfp": "L-SFP",
+"role_badge_all": "Todos",
+"confirm_reset": "¿Restablecer todo el progreso? Esta acción no se puede deshacer."
+}
+};
+let role = '', currentLang = 'en';
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; } }
+function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e) {} }
+function setLang(lang) {
+  currentLang = lang;
+  try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+  const t = i18n[lang];
+  document.getElementById('html-root').lang = lang;
+  document.getElementById('page-title').textContent = t.page_title;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+  document.querySelectorAll('.modal-lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.modalLang === lang));
+  if (role) {
+    updateRoleTexts(role);
+    document.getElementById('role-badge').textContent =
+      role === 'csfp' ? t.role_badge_csfp : role === 'lsfp' ? t.role_badge_lsfp : t.role_badge_all;
+  }
+  updateAll();
+}
+function showModal() {
+  document.getElementById('modal').classList.remove('hidden');
+  document.querySelectorAll('.role-choice').forEach(el => el.classList.remove('selected'));
+  if (role) {
+    const idx = role === 'csfp' ? 0 : role === 'lsfp' ? 1 : 2;
+    const choices = document.querySelectorAll('.role-choice');
+    if (choices[idx]) choices[idx].classList.add('selected');
+  }
+}
+function hideModal() { document.getElementById('modal').classList.add('hidden'); }
+function updateRoleTexts(r) {
+  const t = i18n[currentLang];
+  const tor = document.getElementById('tor-doc-text');
+  if (tor) tor.textContent = r === 'csfp' ? t.tor_csfp : r === 'lsfp' ? t.tor_lsfp : t.tor_all;
+  const share = document.getElementById('j30-7-share');
+  if (share) share.textContent = r === 'csfp' ? t.share_csfp : r === 'all' ? t.share_all : t.share_lsfp;
+  const j90desc = document.getElementById('j90-desc-text');
+  if (j90desc) j90desc.textContent = r === 'lsfp' ? t.j90_desc_lsfp : r === 'all' ? t.j90_desc_all : t.j90_desc_csfp;
+}
+function setRole(r) {
+  role = r;
+  try { localStorage.setItem(ROLE_KEY, r); } catch(e) {}
+  const t = i18n[currentLang];
+  document.getElementById('role-badge').textContent =
+    r === 'csfp' ? t.role_badge_csfp : r === 'lsfp' ? t.role_badge_lsfp : t.role_badge_all;
+  updateRoleTexts(r);
+  applyRoleFilter();
+  hideModal();
+  updateAll();
+}
+function applyRoleFilter() {
+  document.querySelectorAll('.task-row').forEach(el => {
+    const tr = el.dataset.role;
+    el.classList.toggle('role-hidden', role !== 'all' && tr !== 'both' && tr !== role);
+  });
+}
+function toggle(el) {
+  if (el.classList.contains('role-hidden')) return;
+  const id = el.dataset.id;
+  const s = load();
+  s[id] = !s[id];
+  save(s);
+  renderCb(id, s[id]);
+  el.classList.toggle('done', !!s[id]);
+  updateAll();
+}
+function renderCb(id, checked) {
+  const cb = document.getElementById('cb-' + id);
+  if (cb) cb.classList.toggle('checked', !!checked);
+  const row = document.querySelector('[data-id="' + id + '"]');
+  if (row) row.classList.toggle('done', !!checked);
+}
+function visibleIds(ids) {
+  return ids.filter(id => {
+    const el = document.querySelector('[data-id="' + id + '"]');
+    return el && !el.classList.contains('role-hidden');
+  });
+}
+function updateAll() {
+  const s = load();
+  const t = i18n[currentLang];
+  Object.entries(sections).forEach(([k, ids]) => {
+    const vis = visibleIds(ids);
+    const done = vis.filter(id => s[id]).length;
+    const el = document.getElementById('sc-' + k);
+    if (el) el.textContent = vis.length ? done + ' / ' + vis.length : '';
+  });
+  let totalV = 0, totalD = 0;
+  Object.entries(phases).forEach(([ph, ids]) => {
+    const vis = visibleIds(ids);
+    const done = vis.filter(id => s[id]).length;
+    const pct = vis.length ? Math.round(done / vis.length * 100) : 0;
+    document.getElementById('fill-' + ph).style.width = pct + '%';
+    const banner = document.getElementById('done-' + ph);
+    if (banner) banner.classList.toggle('visible', pct === 100 && vis.length > 0);
+    totalV += vis.length; totalD += done;
+  });
+  const pct = totalV ? Math.round(totalD / totalV * 100) : 0;
+  document.getElementById('ob-fill').style.width = pct + '%';
+  document.getElementById('ob-count').textContent = totalV ? totalD + ' / ' + totalV : t.no_role;
+}
+function showPhase(ph) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + ph).classList.add('active');
+  document.getElementById('tab-' + ph).classList.add('active');
+}
+function confirmReset() {
+  if (confirm(i18n[currentLang].confirm_reset)) {
+    localStorage.removeItem(KEY);
+    localStorage.removeItem(ROLE_KEY);
+    role = '';
+    document.querySelectorAll('.cb').forEach(cb => cb.classList.remove('checked'));
+    document.querySelectorAll('.task-row').forEach(r => r.classList.remove('done'));
+    document.querySelectorAll('.done-banner').forEach(b => b.classList.remove('visible'));
+    document.getElementById('role-badge').textContent = '—';
+    updateAll();
+    showModal();
+  }
+}
+function init() {
+  const savedLang = localStorage.getItem(LANG_KEY);
+  if (savedLang && i18n[savedLang]) {
+    currentLang = savedLang;
+  } else {
+    const navLang = ((navigator.language || navigator.userLanguage || 'en')).toLowerCase().slice(0, 2);
+    currentLang = ['fr', 'es'].includes(navLang) ? navLang : 'en';
+  }
+  const savedRole = localStorage.getItem(ROLE_KEY);
+  if (savedRole === 'csfp' || savedRole === 'lsfp' || savedRole === 'all') {
+    role = savedRole;
+    applyRoleFilter();
+  }
+  setLang(currentLang);
+  const s = load();
+  Object.keys(s).forEach(id => { if (s[id]) renderCb(id, true); });
+  updateAll();
+  showModal();
+}
+init();
+</script>
+</body>
+</html>
