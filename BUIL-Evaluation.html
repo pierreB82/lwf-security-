@@ -666,6 +666,20 @@ body {
   box-shadow: 0 0 0 1px var(--accent);
 }
 .type-card.selected .type-card-label { color: var(--accent2); }
+.mobile-hint {
+  background: var(--accent-lt);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.mobile-hint-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
 .type-banner {
   background: var(--warning-bg);
   border: 1.5px solid var(--warning-bd);
@@ -718,7 +732,7 @@ input[type=file].hidden-input { display: none; }
       <div class="notice-atelier">
         <div class="notice-atelier-icon">🏢</div>
         <div>
-          <p data-i18n="notice_desc">Preliminary building evaluation tool. Complete the general information, then go through the checklist as you walk through the building. Data is saved automatically on this device.</p>
+          <p data-i18n="notice_desc">Designed to be used on a <strong>smartphone or tablet</strong> during the building visit. Complete the general information, then go through the checklist as you walk through each area. Data is saved automatically on this device.</p>
         </div>
       </div>
       <div class="notice-reminders">
@@ -888,10 +902,11 @@ const I18N = {
   en: {
     topbar_title: 'Building Evaluation',
     saved_indicator: '✓ saved',
+    mobile_hint: 'This tool is designed to be used on a smartphone or tablet during the building visit.',
     notice_title: 'LWF Building Evaluation',
-    notice_desc: 'Preliminary building evaluation tool. Complete the general information, then go through the checklist as you walk through the building. Data is saved automatically on this device.',
+    notice_desc: 'Designed to be used on a <strong>smartphone or tablet</strong> during the building visit. Complete the general information, then go through the checklist as you walk through each area. Data is saved automatically on this device.',
     notice_tips_title: 'Tips',
-    notice_tip1: 'Use this tool on-site, moving through each area of the building.',
+    notice_tip1: 'Open this tool on your phone or tablet before entering the building — keep it in hand as you move through each area.',
     notice_tip2: 'Take photos when prompted — they are not mandatory but highly recommended.',
     notice_tip3: 'Items marked NO or PARTIAL will automatically appear in the Action Plan tab.',
     notice_tip4: 'Export your evaluation as JSON to save it in the Security Pack on SharePoint.',
@@ -988,10 +1003,11 @@ const I18N = {
   fr: {
     topbar_title: 'Évaluation des locaux',
     saved_indicator: '✓ sauvegardé',
+    mobile_hint: 'Cet outil est conçu pour être utilisé sur smartphone ou tablette pendant la visite des locaux.',
     notice_title: 'Évaluation des locaux LWF',
-    notice_desc: 'Outil d&#39;évaluation préliminaire des locaux. Remplissez les informations générales, puis parcourez la checklist en vous déplaçant dans le bâtiment. Les données sont sauvegardées automatiquement sur cet appareil.',
+    notice_desc: 'Outil conçu pour être utilisé sur <strong>smartphone ou tablette</strong> pendant la visite des locaux. Remplissez les informations générales, puis parcourez la checklist en vous déplaçant dans le bâtiment. Les données sont sauvegardées automatiquement sur cet appareil.',
     notice_tips_title: 'Conseils',
-    notice_tip1: 'Utilisez cet outil sur place, en parcourant chaque zone du bâtiment.',
+    notice_tip1: 'Ouvrez cet outil sur votre téléphone ou tablette avant d&#39;entrer dans le bâtiment — gardez-le en main pendant toute la visite.',
     notice_tip2: 'Prenez des photos lorsque c&#39;est suggéré — elles ne sont pas obligatoires mais fortement recommandées.',
     notice_tip3: 'Les items marqués NON ou PARTIEL apparaîtront automatiquement dans l&#39;onglet Plan d&#39;action.',
     notice_tip4: 'Exportez votre évaluation en JSON pour la sauvegarder dans le Security Pack sur SharePoint.',
@@ -1084,10 +1100,11 @@ const I18N = {
   es: {
     topbar_title: 'Evaluación de locales',
     saved_indicator: '✓ guardado',
+    mobile_hint: 'Esta herramienta está diseñada para usarse en un teléfono o tableta durante la visita al edificio.',
     notice_title: 'Evaluación de locales LWF',
-    notice_desc: 'Herramienta de evaluación preliminar de locales. Complete la información general, luego recorra la lista de verificación mientras recorre el edificio. Los datos se guardan automáticamente en este dispositivo.',
+    notice_desc: 'Herramienta diseñada para usarse en un <strong>teléfono o tableta</strong> durante la visita al edificio. Complete la información general, luego recorra la lista de verificación mientras recorre el edificio. Los datos se guardan automáticamente en este dispositivo.',
     notice_tips_title: 'Consejos',
-    notice_tip1: 'Use esta herramienta in situ, recorriendo cada zona del edificio.',
+    notice_tip1: 'Abra esta herramienta en su teléfono o tableta antes de entrar al edificio — manténgala en mano durante todo el recorrido.',
     notice_tip2: 'Tome fotos cuando se sugiera — no son obligatorias pero muy recomendadas.',
     notice_tip3: 'Los ítems marcados NO o PARCIAL aparecerán automáticamente en la pestaña Plan de acción.',
     notice_tip4: 'Exporte su evaluación en JSON para guardarla en el Security Pack en SharePoint.',
@@ -1453,6 +1470,7 @@ function renderInfoPage() {
   const p = document.getElementById('page-0');
   const curType = (getFormValues._stored && getFormValues._stored.f_type) || (document.getElementById('f_type') ? document.getElementById('f_type').value : '') || '';
   p.innerHTML = `
+  <div class="mobile-hint"><span class="mobile-hint-icon">📱</span><span>${t('mobile_hint')}</span></div>
   <div class="type-picker-card" id="typePickerCard">
     <div class="type-picker-title" data-i18n="type_picker_title">${t('type_picker_title')}</div>
     <div class="type-picker-sub" data-i18n="type_picker_sub">${t('type_picker_sub')}</div>
