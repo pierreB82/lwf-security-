@@ -96,7 +96,7 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
 .task-body { flex:1; }
 .task-text { font-size:17px; color:var(--text); line-height:1.6; margin-bottom:2px; }
 .task-note { font-size:15px; color:var(--text2); line-height:1.55; padding:5px 10px; margin-top:5px; background:var(--bg2); border-left:2px solid var(--border2); border-radius:0 var(--r2) var(--r2) 0; }
-.task-doc { font-size:11px; color:var(--accent2); margin-top:4px; display:flex; align-items:baseline; gap:5px; text-decoration:none; }
+.task-doc { font-size:14px; color:var(--accent); margin-top:4px; display:flex; align-items:baseline; gap:5px; text-decoration:none; }
 .task-doc::before { content:'\2192'; font-weight:700; }
 a.task-doc { text-decoration:underline; text-underline-offset:2px; }
 a.task-doc::after { content:' \1F517'; font-size:10px; margin-left:2px; font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif; }
@@ -654,9 +654,9 @@ const i18n = {
 "j7_2_doc": "LWF S&S Policy 2024 — see document list on the SharePoint page",
 "j7_3_text": "Watch the incident reporting video",
 "j7_3_doc": "Incident reporting video — see document list on the SharePoint page",
-"j7_3b_text": "Take time to explore the Toolkit section on SharePoint to get an overview of the available SOPs, tools, guidelines and key documents",
-"j7_3b_doc": "Toolkit section — see document list on the SharePoint page",
-"j7_3b_url": "#",
+"j7_3b_text": "Take time to explore the Find a tool section on SharePoint to get an overview of the available SOPs, tools, guidelines and key documents",
+"j7_3b_doc": "Find a tool section — see document list on the SharePoint page",
+"j7_3b_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/SitePages/find-a-tool.aspx",
 "j7_s3_title": "3. First contacts",
 "j7_s3_time": "1h",
 "j7_4_text": "Contact the C-SFP to introduce yourself, then contact the Security Advisor",
@@ -700,9 +700,11 @@ const i18n = {
 "share_all": "the C-SFP and the Security Advisor",
 "j30_7_doc": "Interactive Security Self-Assessment Tool — available on SharePoint",
 "tor_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/02_Supplement%20%E2%80%93%20Security%20staff/ToR",
-"j7_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/01_For%20all%20staff",
-"j7_3_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/02_Supplement%20%E2%80%93%20Security%20staff",
-"j30_1_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/English/02_Supplement%20%E2%80%93%20Security%20staff",
+"tor_csfp_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/English/HR_ToR_Country_Security_Focal_Point_CSFP_v1.docx?d=w2bf2f98cd68d4e329830ca35cbcc3851&csf=1&web=1&e=tn1lZb",
+"tor_lsfp_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/English/HR_ToR_Local_Security_Focal_Point_LSFP_v1.docx?d=w08fc16a2721c454fbf3b24f31765dbe5&csf=1&web=1&e=vHGLhb",
+"j7_2_url": "https://lutheranworld.sharepoint.com/:b:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/English/POLICY_LWF_Safety_and_Security_2024_v1.pdf?csf=1&web=1&e=Evo9rR",
+"j7_3_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/04.%20Video%20and%20training/VIDEO_LWF_Incident_report_English.mp4?csf=1&web=1&e=E4TYNY",
+"j30_1_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/04.%20Video%20and%20training/VIDEO_LWF_Incident_report_English.mp4?csf=1&web=1&e=qGAEip",
 "j30_2_url": "https://fabo.org/lwf/lwf_cyber_sec",
 "j30_7_url": "https://pierreb82.github.io/lwf-security-/Self-Assessment.html",
 "j30_7b_text": "Based on the self-assessment results, draw up a simple security action plan",
@@ -755,7 +757,7 @@ const i18n = {
 "notes_placeholder": "Questions, observations, follow-up points...",
 "j7_cr_1_text": "Read the LWF Security Structure document: roles and responsibilities of Security Focal Points",
 "j7_cr_1_doc": "LWF Security Structure — C-SFP and L-SFP roles — see document list on the SharePoint page",
-"j7_cr_1_url": "#",
+"j7_cr_1_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/English/HR_Roles%20and%20Responsibilities%20of%20Security%20Focal%20PointsV1.docx?d=w71b87a35b871470e914c7f61f52e79d9&csf=1&web=1&e=rwTJWR",
 "j7_cr_4_text": "Contact the C-SFP to get acquainted with the security setup, then contact the Security Advisor",
 "j7_cr_4_note": "This first call with the Security Advisor covers: overview of the LWF S&S architecture, current country risk level, and identification of immediate management priorities.",
 "j30_s3cr_title": "3. Meet with the C-SFP",
@@ -809,9 +811,9 @@ const i18n = {
 "j7_2_doc": "Politique S&S LWF 2024 — voir la liste des documents sur la page SharePoint",
 "j7_3_text": "Regardez la vidéo sur le signalement d’incidents",
 "j7_3_doc": "Vidéo sur le signalement d’incidents — voir la liste des documents sur la page SharePoint",
-"j7_3b_text": "Prenez le temps de naviguer dans la section Boîte à outils sur SharePoint pour vous faire une idée des SOP, outils, guides et documents clés disponibles",
-"j7_3b_doc": "Section Boîte à outils — voir la liste des documents sur la page SharePoint",
-"j7_3b_url": "#",
+"j7_3b_text": "Prenez le temps de naviguer dans la section Find a tool sur SharePoint pour vous faire une idée des SOP, outils, guides et documents clés disponibles",
+"j7_3b_doc": "Section Find a tool — voir la liste des documents sur la page SharePoint",
+"j7_3b_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/SitePages/find-a-tool.aspx",
 "j7_s3_title": "3. Premiers contacts",
 "j7_s3_time": "1h",
 "j7_4_text": "Prenez contact avec le C-SFP pour vous présenter, puis contactez le Conseiller Sécurité",
@@ -855,9 +857,11 @@ const i18n = {
 "share_all": "le C-SFP et le Conseiller Sécurité",
 "j30_7_doc": "Outil Interactif d’Auto-Évaluation Sécurité — disponible sur SharePoint",
 "tor_url": "https://lutheranworld.sharepoint.com/:f:/r/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/02_Compl%C3%A9ment%20%E2%80%93%20Personnel%20s%C3%A9curit%C3%A9/03.%20RH?csf=1&web=1&e=1L2cBx",
-"j7_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/01_Pour%20tout%20le%20personnel",
-"j7_3_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/02_Compl%C3%A9ment%20%E2%80%93%20Personnel%20s%C3%A9curit%C3%A9/Rapport%20incident%20video%20FR%20V1.mp4?csf=1&web=1&e=esIFcY",
-"j30_1_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/French/02_Compl%C3%A9ment%20%E2%80%93%20Personnel%20s%C3%A9curit%C3%A9",
+"tor_csfp_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Fran%C3%A7ais/HR_ToR_Point_Focal_Securite_Pays_CSFP_V1.docx?d=w98c93f1c851740699bf5e542abb93f7d&csf=1&web=1&e=2bhvS1",
+"tor_lsfp_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Fran%C3%A7ais/HR_ToR_Point_Focal_Securite_Local_LSFP_V1.docx?d=wde2a5ae8626349fead60d14b07b752ab&csf=1&web=1&e=gaY8iI",
+"j7_2_url": "https://lutheranworld.sharepoint.com/:b:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Fran%C3%A7ais/POLICY_Securite_et_Surete_v1.pdf?csf=1&web=1&e=oR98SE",
+"j7_3_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/04.%20Video%20and%20training/VIDEO_Rapport_incident_French.mp4?csf=1&web=1&e=gqtuWN",
+"j30_1_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/04.%20Video%20and%20training/VIDEO_Rapport_incident_French.mp4?csf=1&web=1&e=0eiMOR",
 "j30_2_url": "https://fabo.org/lwf/lwf-cybers-fr",
 "j30_7_url": "https://pierreb82.github.io/lwf-security-/Self-Assessment.html",
 "j30_7b_text": "Sur la base des résultats de l’auto-évaluation, rédiger un plan d’action sécurité simple",
@@ -910,7 +914,7 @@ const i18n = {
 "notes_placeholder": "Questions, observations, points à suivre...",
 "j7_cr_1_text": "Lire le document Structure Sécurité LWF : rôles et responsabilités des Points Focaux Sécurité",
 "j7_cr_1_doc": "Structure Sécurité LWF — Rôles C-SFP et L-SFP — voir la liste des documents sur la page SharePoint",
-"j7_cr_1_url": "#",
+"j7_cr_1_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Fran%C3%A7ais/HR_Ro%CC%82les%20et%20responsabilite%CC%81s%20des%20Security%20Focal%20Points.docx?d=w8d617004ec0d46b7b30b5cffd040b2e2&csf=1&web=1&e=jUY7QT",
 "j7_cr_4_text": "Prendre contact avec le C-SFP pour vous familiariser avec le dispositif sécurité, puis contacter le Conseiller Sécurité",
 "j7_cr_4_note": "Ce premier appel avec le Conseiller Sécurité couvre : vue d'ensemble de l'architecture S&S LWF, niveau de risque pays actuel, et identification des priorités managériales immédiates.",
 "j30_s3cr_title": "3. Rencontrer le C-SFP",
@@ -962,9 +966,9 @@ const i18n = {
 "j7_2_doc": "Política S&S LWF 2024 — ver lista de documentos en la página SharePoint",
 "j7_3_text": "Ver el video sobre el reporte de incidentes",
 "j7_3_doc": "Video sobre reporte de incidentes — ver lista de documentos en la página SharePoint",
-"j7_3b_text": "Tómese el tiempo de explorar la sección Caja de herramientas en SharePoint para hacerse una idea de los SOP, herramientas, guías y documentos clave disponibles",
-"j7_3b_doc": "Sección Caja de herramientas — ver lista de documentos en la página SharePoint",
-"j7_3b_url": "#",
+"j7_3b_text": "Tómese el tiempo de explorar la sección Find a tool en SharePoint para hacerse una idea de los SOP, herramientas, guías y documentos clave disponibles",
+"j7_3b_doc": "Sección Find a tool — ver lista de documentos en la página SharePoint",
+"j7_3b_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/SitePages/find-a-tool.aspx",
 "j7_s3_title": "3. Primeros contactos",
 "j7_s3_time": "1h",
 "j7_4_text": "Contacte al C-SFP para presentarse, luego contacte al Asesor de Seguridad",
@@ -987,7 +991,7 @@ const i18n = {
 "j30_s1_title": "1. Leer y ver",
 "j30_s1_time": "2h",
 "j30_1_text": "Ver: Introducción al Marco S&S en LWF",
-"j30_1_doc": "Video — ver lista de documentos en la página SharePoint",
+"j30_1_doc": "Próximamente — vídeo no disponible en español",
 "j30_2_text": "Completar la formación obligatoria sobre ciberseguridad",
 "j30_2_doc": "Formaciones obligatorias — ver lista de documentos en la página SharePoint",
 "j30_s2_title": "2. Abrir y revisar el Paquete de Seguridad Local de la oficina",
@@ -1008,9 +1012,11 @@ const i18n = {
 "share_all": "el C-SFP y el Asesor de Seguridad",
 "j30_7_doc": "Herramienta Interactiva de Autoevaluación de Seguridad — disponible en SharePoint",
 "tor_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/02_Complemento%20%E2%80%93%20Personal%20de%20seguridad/HR",
-"j7_2_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/01_Para%20todo%20el%20personal",
-"j7_3_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/02_Complemento%20%E2%80%93%20Personal%20de%20seguridad",
-"j30_1_url": "https://lutheranworld.sharepoint.com/sites/SAFETYSECURITY/PublicDocuments/Induction%20documents/Spanish/02_Complemento%20%E2%80%93%20Personal%20de%20seguridad",
+"tor_csfp_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Espa%C3%B1ol/HR_TOR_Punto_Focal_Seguridad_Pais_CSFP%20V1..docx?d=w93c3fd0722ef4083b1912a50fc918504&csf=1&web=1&e=gAq5E7",
+"tor_lsfp_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Espa%C3%B1ol/HR_TOR_Punto_Focal_Seguridad_Local_LSFP%20V1.docx?d=w4c294d68febb4f18b4e0d6f573de81e8&csf=1&web=1&e=tM9cOa",
+"j7_2_url": "https://lutheranworld.sharepoint.com/:b:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Espa%C3%B1ol/POLICY_Seguridad_LWF_v1.pdf?csf=1&web=1&e=5HOAeC",
+"j7_3_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/04.%20Video%20and%20training/VIDEO_LWF_Reporte_incidentes_Spanish.mp4?csf=1&web=1&e=x750oU",
+"j30_1_url": "https://lutheranworld.sharepoint.com/:v:/r/sites/SAFETYSECURITY/PublicDocuments/04.%20Video%20and%20training/VIDEO_LWF_Incident_report_English.mp4?csf=1&web=1&e=qGAEip",
 "j30_2_url": "https://fabo.org/lwf/lwf_cyber_sec",
 "j30_7_url": "https://pierreb82.github.io/lwf-security-/Self-Assessment.html",
 "j30_7b_text": "Con base en los resultados de la autoevaluación, elaborar un plan de acción de seguridad simple",
@@ -1057,13 +1063,15 @@ const i18n = {
 "role_badge_csfp": "C-SFP",
 "role_badge_lsfp": "L-SFP",
 "role_badge_cr": "CR",
+"cr_title": "Representante País",
+"cr_desc": "Responsabilidad de gestión del programa país. Supervisión del equipo del programa y responsabilidad de Duty of Care.",
 "role_badge_all": "Todos",
 "confirm_reset": "¿Restablecer todo el progreso? Esta acción no se puede deshacer.",
 "notes_label": "Notes",
 "notes_placeholder": "Preguntas, observaciones, puntos de seguimiento...",
 "j7_cr_1_text": "Leer el documento Estructura de Seguridad LWF: roles y responsabilidades de los Puntos Focales de Seguridad",
 "j7_cr_1_doc": "Estructura de Seguridad LWF — Roles C-SFP y L-SFP — ver lista de documentos en la página SharePoint",
-"j7_cr_1_url": "#",
+"j7_cr_1_url": "https://lutheranworld.sharepoint.com/:w:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/02.%20Policy%20and%20HR/Espa%C3%B1ol/HR_Roles%20y%20responsabilidades%20de%20los%20Security%20Focal%20Points%20V1.docx?d=w87bcf0da9f4e4a9793eec46f065dc7e9&csf=1&web=1&e=3BwDUL",
 "j7_cr_4_text": "Contactar al C-SFP para familiarizarse con el dispositivo de seguridad, luego contactar al Asesor de Seguridad",
 "j7_cr_4_note": "Esta primera llamada con el Asesor de Seguridad cubre: visión general de la arquitectura S&S de LWF, nivel de riesgo actual del país, e identificación de prioridades de gestión inmediatas.",
 "j30_s3cr_title": "3. Reunirse con el C-SFP",
@@ -1137,7 +1145,11 @@ function setLang(lang) {
   });
   if (role) {
     const tor = document.getElementById('tor-doc-text');
-    if (tor) tor.href = t.tor_url || '#';
+    if (tor) {
+      if (role === 'csfp') tor.href = t.tor_csfp_url || '#';
+      else if (role === 'lsfp') tor.href = t.tor_lsfp_url || '#';
+      else tor.href = t.tor_url || '#';
+    }
   }
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
   document.querySelectorAll('.modal-lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.modalLang === lang));
