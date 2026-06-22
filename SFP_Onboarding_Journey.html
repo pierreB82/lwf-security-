@@ -19,7 +19,7 @@
   --font:'Source Sans 3', sans-serif;
   --shadow:0 1px 3px rgba(80,110,30,0.08);
 }
-body { font-family:var(--font); background:var(--bg2); color:var(--text); font-size:14px; line-height:1.5; min-height:100vh; }
+body { font-family:var(--font); background:var(--bg2); color:var(--text); font-size:18px; line-height:1.6; min-height:100vh; }
 .modal-overlay { position:fixed; inset:0; z-index:200; background:rgba(26,31,22,0.65); display:flex; align-items:center; justify-content:center; padding:20px; }
 .modal-overlay.hidden { display:none; }
 .modal-card { background:var(--bg); border-radius:12px; border:1px solid var(--border); box-shadow:0 8px 32px rgba(0,0,0,0.18); padding:32px 28px; max-width:480px; width:100%; text-align:center; }
@@ -33,12 +33,12 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
 .role-choice-wide { grid-column:1 / -1; }
 .rc-tag { display:inline-block; font-size:11px; font-weight:700; color:var(--accent2); background:var(--accent-lt); border:1px solid var(--border2); padding:2px 8px; border-radius:99px; margin-bottom:8px; letter-spacing:0.04em; }
 .rc-tag-all { background:var(--bg3); color:var(--text2); }
-.rc-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
-.rc-desc { font-size:11px; color:var(--text2); line-height:1.4; }
+.rc-title { font-size:16px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.rc-desc { font-size:14px; color:var(--text2); line-height:1.4; }
 .modal-note { font-size:11px; color:var(--text3); margin-top:16px; }
 .topbar { position:sticky; top:0; z-index:100; background:var(--accent); border-bottom:1px solid var(--accent2); padding:0 14px; display:flex; align-items:center; gap:10px; min-height:50px; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
-.topbar-title { font-weight:700; font-size:13px; color:#fff; white-space:nowrap; }
-.topbar-title span { font-size:11px; opacity:0.7; font-weight:400; margin-left:4px; }
+.topbar-title { font-weight:700; font-size:15px; color:#fff; white-space:nowrap; }
+.topbar-title span { font-size:12px; opacity:0.7; font-weight:400; margin-left:4px; }
 .topbar-spacer { flex:1; }
 .lang-switcher { display:flex; gap:3px; }
 .lang-btn { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); border-radius:var(--r2); padding:2px 7px; font-size:18px; line-height:1; color:rgba(255,255,255,0.75); font-family:var(--font); cursor:pointer; transition:all 0.15s; }
@@ -73,16 +73,16 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
 .phase-panel.active { display:block; }
 .phase-intro { background:var(--accent-lt); border:1px solid var(--border2); border-radius:var(--r); padding:16px 20px; margin-bottom:16px; display:flex; align-items:flex-start; gap:14px; box-shadow:var(--shadow); }
 .pi-icon { width:42px; height:42px; flex-shrink:0; background:rgba(143,175,46,0.2); border-radius:var(--r); display:flex; align-items:center; justify-content:center; font-size:20px; }
-.pi-title { font-size:15px; font-weight:700; color:var(--accent2); margin-bottom:4px; }
+.pi-title { font-size:19px; font-weight:700; color:var(--accent2); margin-bottom:4px; }
 .pi-tags { display:flex; gap:6px; margin-bottom:6px; }
 .pi-tag { font-size:11px; font-weight:600; padding:2px 9px; border-radius:99px; }
 .pi-tag-time { background:rgba(143,175,46,0.25); color:var(--accent2); }
 .pi-tag-period { background:var(--bg3); color:var(--text2); }
-.pi-desc { font-size:12px; color:var(--text2); line-height:1.5; }
+.pi-desc { font-size:16px; color:var(--text2); line-height:1.55; }
 .section-card { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); margin-bottom:10px; overflow:hidden; box-shadow:var(--shadow); }
 .section-head { background:var(--bg2); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .section-head-left { display:flex; align-items:center; gap:8px; }
-.section-head h3 { font-size:13px; font-weight:700; color:var(--text2); }
+.section-head h3 { font-size:17px; font-weight:700; color:var(--text2); }
 .section-time-badge { font-size:10px; font-weight:600; padding:2px 7px; border-radius:99px; background:var(--bg3); color:var(--text3); }
 .section-count { font-size:11px; color:var(--text3); }
 .task-row { padding:11px 16px; border-bottom:1px solid var(--bg2); display:flex; align-items:flex-start; gap:12px; cursor:pointer; transition:background 0.1s; }
@@ -94,8 +94,8 @@ body { font-family:var(--font); background:var(--bg2); color:var(--text); font-s
 .cb.checked { background:var(--accent); border-color:var(--accent2); }
 .cb.checked::after { content:''; width:10px; height:6px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(-45deg) translateY(-1px); display:block; }
 .task-body { flex:1; }
-.task-text { font-size:13px; color:var(--text); line-height:1.5; margin-bottom:2px; }
-.task-note { font-size:11px; color:var(--text2); line-height:1.45; padding:5px 10px; margin-top:5px; background:var(--bg2); border-left:2px solid var(--border2); border-radius:0 var(--r2) var(--r2) 0; }
+.task-text { font-size:17px; color:var(--text); line-height:1.6; margin-bottom:2px; }
+.task-note { font-size:15px; color:var(--text2); line-height:1.55; padding:5px 10px; margin-top:5px; background:var(--bg2); border-left:2px solid var(--border2); border-radius:0 var(--r2) var(--r2) 0; }
 .task-doc { font-size:11px; color:var(--accent2); margin-top:4px; display:flex; align-items:baseline; gap:5px; text-decoration:none; }
 .task-doc::before { content:'\2192'; font-weight:700; }
 a.task-doc { text-decoration:underline; text-underline-offset:2px; }
@@ -120,6 +120,12 @@ a.task-doc[href="#"]::after { display:none; }
 .s-desc { font-size:11px; color:var(--text2); line-height:1.4; margin-top:2px; }
 .footer { background:var(--bg); border-top:1px solid var(--border); padding:10px 20px; }
 .footer-note { font-size:11px; color:var(--text3); }
+
+.task-notes-wrap { margin-top:8px; border-top:1px solid var(--bg3); padding-top:8px; }
+.task-notes-label { font-size:12px; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+.task-notes-input { width:100%; border:1px solid var(--border); border-radius:var(--r2); padding:7px 10px; font-family:var(--font); font-size:14px; color:var(--text); background:var(--bg); resize:vertical; min-height:56px; line-height:1.5; }
+.task-notes-input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 2px rgba(143,175,46,0.15); }
+.task-notes-input::placeholder { font-style:italic; color:var(--text3); }
 @media (max-width:520px) {
   .role-choices { grid-template-columns:1fr; }
   .phase-tab { min-width:90px; padding:10px 12px; }
@@ -155,10 +161,15 @@ a.task-doc[href="#"]::after { display:none; }
         <div class="rc-title" data-i18n="lsfp_title">Local Security Focal Point</div>
         <div class="rc-desc" data-i18n="lsfp_desc">Responsible for implementing security measures at field office level. First operational point of contact within the office.</div>
       </div>
+      <div class="role-choice role-choice-wide" onclick="setRole('cr')">
+        <div class="rc-tag" style="background:var(--bg3);color:var(--text2);">CR</div>
+        <div class="rc-title" data-i18n="cr_title">Country Representative</div>
+        <div class="rc-desc" data-i18n="cr_desc">Management responsibility for the country programme. Provides oversight to C-SFP and L-SFPs. Decision-maker on security priorities and resources.</div>
+      </div>
       <div class="role-choice role-choice-wide" onclick="setRole('all')">
         <div class="rc-tag rc-tag-all" data-i18n="all_tag">All roles</div>
         <div class="rc-title" data-i18n="all_title">View all tasks</div>
-        <div class="rc-desc" data-i18n="all_desc">Display C-SFP and L-SFP tasks together. Useful for review, training, or document preparation.</div>
+        <div class="rc-desc" data-i18n="all_desc">Display all tasks together. Useful for review, training, or document preparation.</div>
       </div>
     </div>
     <p class="modal-note" data-i18n="modal_note">Your progress will be saved automatically.</p>
@@ -228,11 +239,18 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j7_s1_title">1. Read your Terms of Reference</h3><span class="section-time-badge" data-i18n="j7_s1_time">10 min</span></div>
       <span class="section-count" id="sc-j7-1"></span>
     </div>
-    <div class="task-row" data-id="j7_1" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j7_1" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j7_1"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j7_1_text">Read, understand, and note any questions about your ToR</div>
         <a class="task-doc" id="tor-doc-text" href="#" target="_blank"></a>
+      </div>
+    </div>
+    <div class="task-row" data-id="j7_cr_1" data-role="cr" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_cr_1"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_cr_1_text">Read the LWF Security Structure document: roles and responsibilities of Security Focal Points</div>
+        <a class="task-doc" id="j7-cr1-doc-link" data-i18n="j7_cr_1_doc" href="#" target="_blank">LWF Security Structure — C-SFP and L-SFP roles — see document list on the SharePoint page</a>
       </div>
     </div>
   </div>
@@ -259,6 +277,7 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="cb" id="cb-j7_3b"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j7_3b_text">Take time to explore the Toolkit section on SharePoint to get an overview of the available SOPs, tools, guidelines and key documents</div>
+        <a class="task-doc" id="j7-3b-doc-link" data-i18n="j7_3b_doc" href="#" target="_blank">Toolkit section — see document list on the SharePoint page</a>
       </div>
     </div>
   </div>
@@ -279,6 +298,13 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="task-body">
         <div class="task-text" data-i18n="j7_5_text">Contact the Security Advisor and all L-SFPs</div>
         <div class="task-note" data-i18n="j7_5_note">This call covers: S&amp;S architecture overview, country risk analysis, and agreement on check-in dates before key process milestones.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j7_cr_4" data-role="cr" onclick="toggle(this)">
+      <div class="cb" id="cb-j7_cr_4"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j7_cr_4_text">Contact the C-SFP to get acquainted with the security setup, then contact the Security Advisor</div>
+        <div class="task-note" data-i18n="j7_cr_4_note">This first call with the Security Advisor covers: overview of the LWF S&amp;S architecture, current country risk level, and identification of immediate management priorities.</div>
       </div>
     </div>
   </div>
@@ -351,19 +377,19 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j30_s2_title">2. Open and browse the office Local Security Pack</h3><span class="section-time-badge" data-i18n="j30_s2_time">1h</span></div>
       <span class="section-count" id="sc-j30-2"></span>
     </div>
-    <div class="task-row" data-id="j30_3" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_3" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_3"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_3_text">Read the Basic Security Rules document from your Local Security Pack</div></div>
     </div>
-    <div class="task-row" data-id="j30_4" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_4" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_4"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_4_text">Check available SOPs &mdash; minimum expected: one Travel SOP and one Fire SOP</div></div>
     </div>
-    <div class="task-row" data-id="j30_5" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_5" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_5"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_5_text">Verify the Security Risk Assessment</div></div>
     </div>
-    <div class="task-row" data-id="j30_6" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_6" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_6"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_6_text">Verify that emergency contacts are present and up to date</div>
@@ -382,7 +408,7 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j30_s3_title">3. Analyse the existing setup</h3><span class="section-time-badge" data-i18n="j30_s3_time">2h</span></div>
       <span class="section-count" id="sc-j30-3"></span>
     </div>
-    <div class="task-row" data-id="j30_7" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_7" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_7"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_7_text">Conduct the security self-assessment using the Interactive Security Self-Assessment Tool</div>
@@ -392,28 +418,28 @@ a.task-doc[href="#"]::after { display:none; }
         <a class="task-doc" id="j30-7-doc-link" data-i18n="j30_7_doc" href="#" target="_blank">Interactive Security Self-Assessment Tool &mdash; available on SharePoint</a>
       </div>
     </div>
-    <div class="task-row" data-id="j30_7b" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_7b" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_7b"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_7b_text">Based on the self-assessment results, draw up a simple security action plan</div>
         <div class="task-note" data-i18n="j30_7b_note">The tool generates the action plan from your self-assessment results. Review and adjust as needed, discuss it with your manager, then save in the Local Security Pack and share with the Security Advisor. This document becomes the working reference at Day 90.</div>
       </div>
     </div>
-    <div class="task-row" data-id="j30_8" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_8" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_8"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_8_text">Open the Security Plan document and locate the Risk Profile and the Induction Briefing protocol</div>
         <div class="task-note" data-i18n="j30_8_note">These are your two main tools for briefing new staff and visitors.</div>
       </div>
     </div>
-    <div class="task-row" data-id="j30_9" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_9" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_9"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j30_9_text">Check that the Risk Profile reflects the current context</div>
         <div class="task-note" data-i18n="j30_9_note">If the Security Plan does not yet exist: note the gap and inform the Security Advisor.</div>
       </div>
     </div>
-    <div class="task-row" data-id="j30_10" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_10" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_10"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_10_text">Check that the Induction Briefing protocol is usable as-is or flag it for update</div></div>
     </div>
@@ -423,11 +449,11 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j30_s4_title">4. Understand the context</h3><span class="section-time-badge" data-i18n="j30_s4_time">2h</span></div>
       <span class="section-count" id="sc-j30-4"></span>
     </div>
-    <div class="task-row" data-id="j30_11" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_11" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_11"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_11_text">Have a dedicated conversation with your manager on current security issues related to the office's activities</div></div>
     </div>
-    <div class="task-row" data-id="j30_12" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j30_12" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_12"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_12_text">Agree with your manager on realistic priorities given the overall workload</div></div>
     </div>
@@ -442,6 +468,34 @@ a.task-doc[href="#"]::after { display:none; }
     <div class="task-row" data-id="j30_14b" data-role="lsfp" onclick="toggle(this)">
       <div class="cb" id="cb-j30_14b"></div>
       <div class="task-body"><div class="task-text" data-i18n="j30_14b_text">Identify whether specific training or support is needed and alert the C-SFP or the Security Advisor</div></div>
+    </div>
+  </div>
+  <!-- Section J+30 specifique CR : conversation avec le C-SFP -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-left"><h3 data-i18n="j30_s3cr_title">3. Meet with the C-SFP</h3><span class="section-time-badge" data-i18n="j30_s3cr_time">1h30</span></div>
+      <span class="section-count" id="sc-j30-3cr"></span>
+    </div>
+    <div class="task-row" data-id="j30_cr_1" data-role="cr" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_cr_1"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_cr_1_text">Have a dedicated conversation with the C-SFP on the security situation in the country and in each sub-office</div>
+        <div class="task-note" data-i18n="j30_cr_1_note">Cover: current context, key threats, recent incidents, and any significant gaps in the existing security setup.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_cr_3" data-role="cr" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_cr_3"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_cr_3_text">Identify whether there are ongoing security action plans, review and discuss them</div>
+        <div class="task-note" data-i18n="j30_cr_3_note">If action plans exist: review progress, unblock any pending items, and confirm next steps. If none exist: note the gap and discuss with the Security Advisor.</div>
+      </div>
+    </div>
+    <div class="task-row" data-id="j30_cr_2" data-role="cr" onclick="toggle(this)">
+      <div class="cb" id="cb-j30_cr_2"></div>
+      <div class="task-body">
+        <div class="task-text" data-i18n="j30_cr_2_text">Discuss priorities for the implementation and monitoring of Local Security Packs across all offices</div>
+        <div class="task-note" data-i18n="j30_cr_2_note">Agree on realistic timelines. Confirm that SFPs have the time and support they need. Note any gaps to flag to the Security Advisor.</div>
+      </div>
     </div>
   </div>
   <div class="done-banner" id="done-j30">
@@ -469,7 +523,7 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j90_s1_title">1. Review of the first 90 days</h3><span class="section-time-badge" data-i18n="j90_s1_time">2h</span></div>
       <span class="section-count" id="sc-j90-1"></span>
     </div>
-    <div class="task-row" data-id="j90_1" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j90_1" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j90_1"></div>
       <div class="task-body"><div class="task-text" data-i18n="j90_1_text">Review with your manager: what is working, what is missing?</div></div>
     </div>
@@ -487,21 +541,21 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j90_s2_title">2. Concrete actions to initiate</h3><span class="section-time-badge" data-i18n="j90_s2_time">2h</span></div>
       <span class="section-count" id="sc-j90-2"></span>
     </div>
-    <div class="task-row" data-id="j90_4" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j90_4" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j90_4"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j90_4_text">Review and update the action plan established at Day 30</div>
         <div class="task-note" data-i18n="j90_4_note">What has been completed? What is still pending? What needs updating based on changes in context? This is the same document &mdash; update it in place rather than creating a new one.</div>
       </div>
     </div>
-    <div class="task-row" data-id="j90_5" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j90_5" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j90_5"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j90_5_text">Verify that key SOPs are known to all staff</div>
         <div class="task-note" data-i18n="j90_5_note">Identify the most critical SOPs in your context (start with Fire SOP, Travel SOP, and evacuation procedures including the assembly point). Use team meetings to introduce them &mdash; one SOP per meeting.</div>
       </div>
     </div>
-    <div class="task-row" data-id="j90_6" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j90_6" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j90_6"></div>
       <div class="task-body">
         <div class="task-text" data-i18n="j90_6_text">Ensure the most recently arrived staff member has received their security induction</div>
@@ -514,7 +568,7 @@ a.task-doc[href="#"]::after { display:none; }
       <div class="section-head-left"><h3 data-i18n="j90_s3_title">3. Integration into routine</h3></div>
       <span class="section-count" id="sc-j90-3"></span>
     </div>
-    <div class="task-row" data-id="j90_7" data-role="both" onclick="toggle(this)">
+    <div class="task-row" data-id="j90_7" data-role="sfp" onclick="toggle(this)">
       <div class="cb" id="cb-j90_7"></div>
       <div class="task-body"><div class="task-text" data-i18n="j90_7_text">Establish a regular rhythm for sharing security information with your manager or C-SFP</div></div>
     </div>
@@ -540,20 +594,21 @@ const KEY = 'lwf_sfp_v2';
 const ROLE_KEY = 'lwf_sfp_role_v2';
 const LANG_KEY = 'lwf_sfp_lang_v2';
 const sections = {
-  'j7-1':  ['j7_1'],
+  'j7-1':  ['j7_1','j7_cr_1'],
   'j7-2':  ['j7_2','j7_3','j7_3b'],
-  'j7-3':  ['j7_4','j7_5'],
+  'j7-3':  ['j7_4','j7_5','j7_cr_4'],
   'j30-1': ['j30_1','j30_2'],
   'j30-2': ['j30_3','j30_4','j30_5','j30_6','j30_6b'],
   'j30-3': ['j30_7','j30_7b','j30_8','j30_9','j30_10'],
   'j30-4': ['j30_11','j30_12','j30_13','j30_14a','j30_14b'],
+  'j30-3cr': ['j30_cr_1','j30_cr_2','j30_cr_3'],
   'j90-1': ['j90_1','j90_2','j90_3'],
   'j90-2': ['j90_4','j90_5','j90_6'],
   'j90-3': ['j90_7','j90_8']
 };
 const phases = {
-  j7:  ['j7_1','j7_2','j7_3','j7_3b','j7_4','j7_5'],
-  j30: ['j30_1','j30_2','j30_3','j30_4','j30_5','j30_6','j30_6b','j30_7','j30_7b','j30_8','j30_9','j30_10','j30_11','j30_12','j30_13','j30_14a','j30_14b'],
+  j7:  ['j7_1','j7_cr_1','j7_2','j7_3','j7_3b','j7_4','j7_5','j7_cr_4'],
+  j30: ['j30_1','j30_2','j30_3','j30_4','j30_5','j30_6','j30_6b','j30_7','j30_7b','j30_8','j30_9','j30_10','j30_11','j30_12','j30_13','j30_14a','j30_14b','j30_cr_1','j30_cr_2','j30_cr_3'],
   j90: ['j90_1','j90_2','j90_3','j90_4','j90_5','j90_6','j90_7','j90_8']
 };
 const i18n = {
@@ -565,9 +620,11 @@ const i18n = {
 "csfp_desc": "Coordination and oversight at country programme level. Interface between L-SFPs, management, and the Security Advisor.",
 "lsfp_title": "Local Security Focal Point",
 "lsfp_desc": "Responsible for implementing security measures at field office level. First operational point of contact within the office.",
+"cr_title": "Country Representative",
+"cr_desc": "Management responsibility for the country programme. Provides oversight to C-SFP and L-SFPs. Decision-maker on security priorities and resources.",
 "all_tag": "All roles",
 "all_title": "View all tasks",
-"all_desc": "Display C-SFP and L-SFP tasks together. Useful for review, training, or document preparation.",
+"all_desc": "Display all tasks together. Useful for review, training, or document preparation.",
 "modal_note": "Your progress will be saved automatically.",
 "modal_reset": "Reset all progress",
 "topbar_title": "SFP Onboarding",
@@ -598,6 +655,8 @@ const i18n = {
 "j7_3_text": "Watch the incident reporting video",
 "j7_3_doc": "Incident reporting video — see document list on the SharePoint page",
 "j7_3b_text": "Take time to explore the Toolkit section on SharePoint to get an overview of the available SOPs, tools, guidelines and key documents",
+"j7_3b_doc": "Toolkit section — see document list on the SharePoint page",
+"j7_3b_url": "#",
 "j7_s3_title": "3. First contacts",
 "j7_s3_time": "1h",
 "j7_4_text": "Contact the C-SFP to introduce yourself, then contact the Security Advisor",
@@ -689,8 +748,24 @@ const i18n = {
 "footer_note": "LWF World Service — Safety & Security · Progress saved automatically",
 "role_badge_csfp": "C-SFP",
 "role_badge_lsfp": "L-SFP",
+"role_badge_cr": "CR",
 "role_badge_all": "All",
-"confirm_reset": "Reset all progress? This cannot be undone."
+"confirm_reset": "Reset all progress? This cannot be undone.",
+"notes_label": "Notes",
+"notes_placeholder": "Questions, observations, follow-up points...",
+"j7_cr_1_text": "Read the LWF Security Structure document: roles and responsibilities of Security Focal Points",
+"j7_cr_1_doc": "LWF Security Structure — C-SFP and L-SFP roles — see document list on the SharePoint page",
+"j7_cr_1_url": "#",
+"j7_cr_4_text": "Contact the C-SFP to get acquainted with the security setup, then contact the Security Advisor",
+"j7_cr_4_note": "This first call with the Security Advisor covers: overview of the LWF S&S architecture, current country risk level, and identification of immediate management priorities.",
+"j30_s3cr_title": "3. Meet with the C-SFP",
+"j30_s3cr_time": "1h30",
+"j30_cr_1_text": "Have a dedicated conversation with the C-SFP on the security situation in the country and in each sub-office",
+"j30_cr_1_note": "Cover: current context, key threats, recent incidents, and any significant gaps in the existing security setup.",
+"j30_cr_2_text": "Discuss priorities for the implementation and monitoring of Local Security Packs across all offices",
+"j30_cr_2_note": "Agree on realistic timelines. Confirm that SFPs have the time and support they need. Note any gaps to flag to the Security Advisor.",
+"j30_cr_3_text": "Identify whether there are ongoing security action plans, review and discuss them",
+"j30_cr_3_note": "If action plans exist: review progress, unblock any pending items, and confirm next steps. If none exist: note the gap and discuss with the Security Advisor."
 },
 "fr": {
 "page_title": "Parcours d’intégration SFP — LWF",
@@ -700,9 +775,11 @@ const i18n = {
 "csfp_desc": "Coordination et supervision au niveau du programme pays. Interface entre les L-SFP, la direction et le Conseiller Sécurité.",
 "lsfp_title": "Point Focal Sécurité Local",
 "lsfp_desc": "Responsable de la mise en œuvre des mesures de sécurité au niveau du bureau terrain. Premier point de contact opérationnel au sein du bureau.",
+"cr_title": "Représentant Pays",
+"cr_desc": "Responsabilité managériale sur le programme pays. Supervision des C-SFP et L-SFP. Décideur sur les priorités sécurité et les ressources.",
 "all_tag": "Tous les rôles",
 "all_title": "Voir toutes les tâches",
-"all_desc": "Afficher les tâches C-SFP et L-SFP ensemble. Utile pour la révision, la formation ou la préparation de documents.",
+"all_desc": "Afficher toutes les tâches ensemble. Utile pour la révision, la formation ou la préparation de documents.",
 "modal_note": "Votre progression est sauvegardée automatiquement.",
 "modal_reset": "Réinitialiser la progression",
 "topbar_title": "Intégration SFP",
@@ -733,6 +810,8 @@ const i18n = {
 "j7_3_text": "Regardez la vidéo sur le signalement d’incidents",
 "j7_3_doc": "Vidéo sur le signalement d’incidents — voir la liste des documents sur la page SharePoint",
 "j7_3b_text": "Prenez le temps de naviguer dans la section Boîte à outils sur SharePoint pour vous faire une idée des SOP, outils, guides et documents clés disponibles",
+"j7_3b_doc": "Section Boîte à outils — voir la liste des documents sur la page SharePoint",
+"j7_3b_url": "#",
 "j7_s3_title": "3. Premiers contacts",
 "j7_s3_time": "1h",
 "j7_4_text": "Prenez contact avec le C-SFP pour vous présenter, puis contactez le Conseiller Sécurité",
@@ -824,8 +903,24 @@ const i18n = {
 "footer_note": "LWF World Service — Safety & Security · Progression sauvegardée automatiquement",
 "role_badge_csfp": "C-SFP",
 "role_badge_lsfp": "L-SFP",
+"role_badge_cr": "CR",
 "role_badge_all": "Tous",
-"confirm_reset": "Réinitialiser toute la progression ? Cette action est irréversible."
+"confirm_reset": "Réinitialiser toute la progression ? Cette action est irréversible.",
+"notes_label": "Notes",
+"notes_placeholder": "Questions, observations, points à suivre...",
+"j7_cr_1_text": "Lire le document Structure Sécurité LWF : rôles et responsabilités des Points Focaux Sécurité",
+"j7_cr_1_doc": "Structure Sécurité LWF — Rôles C-SFP et L-SFP — voir la liste des documents sur la page SharePoint",
+"j7_cr_1_url": "#",
+"j7_cr_4_text": "Prendre contact avec le C-SFP pour vous familiariser avec le dispositif sécurité, puis contacter le Conseiller Sécurité",
+"j7_cr_4_note": "Ce premier appel avec le Conseiller Sécurité couvre : vue d'ensemble de l'architecture S&S LWF, niveau de risque pays actuel, et identification des priorités managériales immédiates.",
+"j30_s3cr_title": "3. Rencontrer le C-SFP",
+"j30_s3cr_time": "1h30",
+"j30_cr_1_text": "Avoir une conversation dédiée avec le C-SFP sur la situation sécuritaire dans le pays et dans chaque sous-bureau",
+"j30_cr_1_note": "Aborder : contexte actuel, principales menaces, incidents récents, et lacunes significatives dans le dispositif sécurité existant.",
+"j30_cr_2_text": "Discuter des priorités pour la mise en place et le suivi des Packs Sécurité Locaux dans l'ensemble des bureaux",
+"j30_cr_2_note": "Convenir de délais réalistes. Confirmer que les SFP disposent du temps et du soutien nécessaires. Noter les lacunes à signaler au Conseiller Sécurité.",
+"j30_cr_3_text": "Identifier s'il existe des plans d'action sécurité en cours, les consulter et les discuter",
+"j30_cr_3_note": "Si des plans d'action existent : faire le point sur l'avancement, débloquer les points en attente, confirmer les prochaines étapes. Si aucun n'existe : noter la lacune et en discuter avec le Conseiller Sécurité."
 },
 "es": {
 "page_title": "Recorrido de incorporación SFP — LWF",
@@ -868,6 +963,8 @@ const i18n = {
 "j7_3_text": "Ver el video sobre el reporte de incidentes",
 "j7_3_doc": "Video sobre reporte de incidentes — ver lista de documentos en la página SharePoint",
 "j7_3b_text": "Tómese el tiempo de explorar la sección Caja de herramientas en SharePoint para hacerse una idea de los SOP, herramientas, guías y documentos clave disponibles",
+"j7_3b_doc": "Sección Caja de herramientas — ver lista de documentos en la página SharePoint",
+"j7_3b_url": "#",
 "j7_s3_title": "3. Primeros contactos",
 "j7_s3_time": "1h",
 "j7_4_text": "Contacte al C-SFP para presentarse, luego contacte al Asesor de Seguridad",
@@ -959,11 +1056,60 @@ const i18n = {
 "footer_note": "LWF World Service — Safety & Security · Progreso guardado automáticamente",
 "role_badge_csfp": "C-SFP",
 "role_badge_lsfp": "L-SFP",
+"role_badge_cr": "CR",
 "role_badge_all": "Todos",
-"confirm_reset": "¿Restablecer todo el progreso? Esta acción no se puede deshacer."
+"confirm_reset": "¿Restablecer todo el progreso? Esta acción no se puede deshacer.",
+"notes_label": "Notes",
+"notes_placeholder": "Preguntas, observaciones, puntos de seguimiento...",
+"j7_cr_1_text": "Leer el documento Estructura de Seguridad LWF: roles y responsabilidades de los Puntos Focales de Seguridad",
+"j7_cr_1_doc": "Estructura de Seguridad LWF — Roles C-SFP y L-SFP — ver lista de documentos en la página SharePoint",
+"j7_cr_1_url": "#",
+"j7_cr_4_text": "Contactar al C-SFP para familiarizarse con el dispositivo de seguridad, luego contactar al Asesor de Seguridad",
+"j7_cr_4_note": "Esta primera llamada con el Asesor de Seguridad cubre: visión general de la arquitectura S&S de LWF, nivel de riesgo actual del país, e identificación de prioridades de gestión inmediatas.",
+"j30_s3cr_title": "3. Reunirse con el C-SFP",
+"j30_s3cr_time": "1h30",
+"j30_cr_1_text": "Mantener una conversación dedicada con el C-SFP sobre la situación de seguridad en el país y en cada sub-oficina",
+"j30_cr_1_note": "Cubrir: contexto actual, principales amenazas, incidentes recientes y brechas significativas en el dispositivo de seguridad existente.",
+"j30_cr_2_text": "Discutir las prioridades para la implementación y el seguimiento de los Paquetes de Seguridad Local en todas las oficinas",
+"j30_cr_2_note": "Acordar plazos realistas. Confirmar que los SFP disponen del tiempo y apoyo necesarios. Registrar las brechas para informar al Asesor de Seguridad.",
+"j30_cr_3_text": "Identificar si hay planes de acción de seguridad en curso, revisarlos y discutirlos",
+"j30_cr_3_note": "Si existen planes de acción: revisar el avance, desbloquear puntos pendientes y confirmar próximos pasos. Si no existen: registrar la brecha y discutirla con el Asesor de Seguridad."
 }
 };
 let role = '', currentLang = 'en';
+
+// ---- NOTES LIBRES ----
+const NOTE_PREFIX = 'lwf_sfp_note_';
+function loadNote(id) { try { return localStorage.getItem(NOTE_PREFIX + id) || ''; } catch(e) { return ''; } }
+function saveNote(id, val) { try { localStorage.setItem(NOTE_PREFIX + id, val); } catch(e) {} }
+function initNotes() {
+  const t = i18n[currentLang];
+  document.querySelectorAll('.task-row').forEach(el => {
+    const id = el.dataset.id;
+    if (!id) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'task-notes-wrap';
+    const lbl = document.createElement('div');
+    lbl.className = 'task-notes-label';
+    lbl.textContent = t.notes_label;
+    lbl.dataset.i18n = 'notes_label';
+    const ta = document.createElement('textarea');
+    ta.className = 'task-notes-input';
+    ta.id = 'note-' + id;
+    ta.dataset.noteid = id;
+    ta.rows = 2;
+    ta.placeholder = t.notes_placeholder;
+    ta.dataset.i18nPlaceholder = 'notes_placeholder';
+    const saved = loadNote(id);
+    if (saved) ta.value = saved;
+    ta.addEventListener('input', function() { saveNote(id, this.value); });
+    ta.addEventListener('click', function(e) { e.stopPropagation(); });
+    ta.addEventListener('keydown', function(e) { e.stopPropagation(); });
+    wrap.appendChild(lbl);
+    wrap.appendChild(ta);
+    el.appendChild(wrap);
+  });
+}
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; } }
 function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e) {} }
 function setLang(lang) {
@@ -979,6 +1125,8 @@ function setLang(lang) {
   const docLinks = {
     'j7-2-doc-link': t.j7_2_url,
     'j7-3-doc-link': t.j7_3_url,
+    'j7-3b-doc-link': t.j7_3b_url,
+    'j7-cr1-doc-link': t.j7_cr_1_url,
     'j30-1-doc-link': t.j30_1_url,
     'j30-2-doc-link': t.j30_2_url,
     'j30-7-doc-link': t.j30_7_url
@@ -996,15 +1144,23 @@ function setLang(lang) {
   if (role) {
     updateRoleTexts(role);
     document.getElementById('role-badge').textContent =
-      role === 'csfp' ? t.role_badge_csfp : role === 'lsfp' ? t.role_badge_lsfp : t.role_badge_all;
+      role === 'csfp' ? t.role_badge_csfp : role === 'lsfp' ? t.role_badge_lsfp : role === 'cr' ? t.role_badge_cr : t.role_badge_all;
   }
   updateAll();
+  // Mise à jour des placeholders et labels notes
+  const tNotes = i18n[lang];
+  document.querySelectorAll('.task-notes-input').forEach(el => {
+    el.placeholder = tNotes.notes_placeholder;
+  });
+  document.querySelectorAll('[data-i18n="notes_label"]').forEach(el => {
+    el.textContent = tNotes.notes_label;
+  });
 }
 function showModal() {
   document.getElementById('modal').classList.remove('hidden');
   document.querySelectorAll('.role-choice').forEach(el => el.classList.remove('selected'));
   if (role) {
-    const idx = role === 'csfp' ? 0 : role === 'lsfp' ? 1 : 2;
+    const idx = role === 'csfp' ? 0 : role === 'lsfp' ? 1 : role === 'cr' ? 2 : 3;
     const choices = document.querySelectorAll('.role-choice');
     if (choices[idx]) choices[idx].classList.add('selected');
   }
@@ -1027,7 +1183,7 @@ function setRole(r) {
   try { localStorage.setItem(ROLE_KEY, r); } catch(e) {}
   const t = i18n[currentLang];
   document.getElementById('role-badge').textContent =
-    r === 'csfp' ? t.role_badge_csfp : r === 'lsfp' ? t.role_badge_lsfp : t.role_badge_all;
+    r === 'csfp' ? t.role_badge_csfp : r === 'lsfp' ? t.role_badge_lsfp : r === 'cr' ? t.role_badge_cr : t.role_badge_all;
   updateRoleTexts(r);
   applyRoleFilter();
   hideModal();
@@ -1036,8 +1192,27 @@ function setRole(r) {
 function applyRoleFilter() {
   document.querySelectorAll('.task-row').forEach(el => {
     const tr = el.dataset.role;
-    el.classList.toggle('role-hidden', role !== 'all' && tr !== 'both' && tr !== role);
+    let visible;
+    if (role === 'all') {
+      visible = true;
+    } else if (role === 'cr') {
+      visible = tr === 'cr' || tr === 'both';
+    } else {
+      // csfp ou lsfp : voient 'both', 'sfp', et leur propre role
+      visible = tr === 'both' || tr === 'sfp' || tr === role;
+    }
+    el.classList.toggle('role-hidden', !visible);
   });
+  // Masquer les section-cards dont toutes les lignes sont cachees
+  document.querySelectorAll('.section-card').forEach(card => {
+    const rows = card.querySelectorAll('.task-row');
+    if (!rows.length) return;
+    const anyVisible = Array.from(rows).some(r => !r.classList.contains('role-hidden'));
+    card.style.display = anyVisible ? '' : 'none';
+  });
+  // Masquer l'onglet J+90 pour le CR
+  const tabJ90 = document.getElementById('tab-j90');
+  if (tabJ90) tabJ90.style.display = role === 'cr' ? 'none' : '';
 }
 function toggle(el) {
   if (el.classList.contains('role-hidden')) return;
@@ -1098,6 +1273,10 @@ function confirmReset() {
     document.querySelectorAll('.cb').forEach(cb => cb.classList.remove('checked'));
     document.querySelectorAll('.task-row').forEach(r => r.classList.remove('done'));
     document.querySelectorAll('.done-banner').forEach(b => b.classList.remove('visible'));
+    document.querySelectorAll('.task-notes-input').forEach(el => {
+      localStorage.removeItem(NOTE_PREFIX + el.dataset.noteid);
+      el.value = '';
+    });
     document.getElementById('role-badge').textContent = '—';
     updateAll();
     showModal();
@@ -1112,11 +1291,12 @@ function init() {
     currentLang = ['fr', 'es'].includes(navLang) ? navLang : 'en';
   }
   const savedRole = localStorage.getItem(ROLE_KEY);
-  if (savedRole === 'csfp' || savedRole === 'lsfp' || savedRole === 'all') {
+  if (savedRole === 'csfp' || savedRole === 'lsfp' || savedRole === 'cr' || savedRole === 'all') {
     role = savedRole;
     applyRoleFilter();
   }
   setLang(currentLang);
+  initNotes();
   const s = load();
   Object.keys(s).forEach(id => { if (s[id]) renderCb(id, true); });
   updateAll();
