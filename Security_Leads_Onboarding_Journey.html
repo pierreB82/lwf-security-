@@ -523,7 +523,8 @@ a.task-doc[href="#"]::after { display:none; }
   <div class="done-banner" id="done-j30">
     <div class="done-check">&#10003;</div>
     <h3 data-i18n="j30_done_title">Day 30 complete</h3>
-    <p data-i18n="j30_done_text">You have a clear picture of the current situation and priorities. Continue with Day 90 to move into independent operation.</p>
+    <p class="role-block" data-role="sfp" data-i18n="j30_done_text">You have a clear picture of the current situation and priorities. Continue with Day 90 to move into independent operation.</p>
+    <p class="role-block" data-role="cr" data-i18n="j30_done_cr_text">Your onboarding is complete. Reach out to the Security Advisor when you are ready for a debrief.</p>
   </div>
 </div>
 
@@ -751,6 +752,7 @@ const i18n = {
 "j30_14b_text": "Identify whether specific training or support is needed and alert the C-SFP or the Security Advisor",
 "j30_done_title": "Day 30 complete",
 "j30_done_text": "You have a clear picture of the current situation and priorities. Continue with Day 90 to move into independent operation.",
+"j30_done_cr_text": "Your onboarding is complete. Reach out to the Security Advisor when you are ready for a debrief.",
 "j90_title": "Day 90 — Months 2 and 3",
 "j90_time": "4h+",
 "j90_period": "Months 2–3",
@@ -914,6 +916,7 @@ const i18n = {
 "j30_14b_text": "Identifier si des formations ou un soutien spécifique sont nécessaires et alerter le C-SFP ou le Conseiller Sécurité",
 "j30_done_title": "Jour 30 terminé",
 "j30_done_text": "Vous avez une vision claire de la situation et des priorités actuelles. Poursuivez avec le Jour 90 pour passer en mode opérationnel autonome.",
+"j30_done_cr_text": "Votre parcours d'intégration est terminé. Contactez le Conseiller Sécurité quand vous êtes prêt pour un point de situation.",
 "j90_title": "Jour 90 — Mois 2 et 3",
 "j90_time": "4h+",
 "j90_period": "Mois 2–3",
@@ -1075,6 +1078,7 @@ const i18n = {
 "j30_14b_text": "Identificar si se necesita formación o apoyo específico y alertar al C-SFP o al Asesor de Seguridad",
 "j30_done_title": "Día 30 completado",
 "j30_done_text": "Tiene una imagen clara de la situación y prioridades actuales. Continúe con el Día 90 para pasar a la operación autónoma.",
+"j30_done_cr_text": "Su proceso de incorporación ha concluido. Contacte al Asesor de Seguridad cuando esté listo para un debriefing.",
 "j90_title": "Día 90 — Meses 2 y 3",
 "j90_time": "4h+",
 "j90_period": "Meses 2–3",
@@ -1256,6 +1260,19 @@ function applyRoleFilter() {
       visible = tr === 'both' || tr === 'sfp' || tr === role;
     }
     el.classList.toggle('role-hidden', !visible);
+  });
+  // Blocs role-block (ex: textes conditionnels dans les done-banners)
+  document.querySelectorAll('.role-block').forEach(el => {
+    const tr = el.dataset.role;
+    let visible;
+    if (role === 'all') {
+      visible = true;
+    } else if (role === 'cr') {
+      visible = tr === 'cr' || tr === 'both';
+    } else {
+      visible = tr === 'both' || tr === 'sfp' || tr === role;
+    }
+    el.style.display = visible ? '' : 'none';
   });
   // Masquer les section-cards dont toutes les lignes sont cachees
   document.querySelectorAll('.section-card').forEach(card => {
