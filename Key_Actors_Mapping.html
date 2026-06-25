@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<!--
+  Key Actors Mapping - LWF World Service
+  Auteur : Pierre Beaurenaut, Security Advisor, Fédération Luthérienne Mondiale (FLM / LWF)
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="author" content="Pierre Beaurenaut - Fédération Luthérienne Mondiale (FLM/LWF)">
+<title>Key Actors Mapping - LWF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff;--bg2:#f4f6f0;--bg3:#eaede4;
+  --border:#d4dcc4;--border2:#bfcbaa;
+  --text:#1a1f26;--text2:#4a5568;--text3:#8a95a3;
+  --accent:#8FAF2E;--accent2:#6a8420;--accent-lt:#edf3e0;
+  --danger:#c0392b;--danger-bg:#fdf0ee;--danger-bd:#e8a99f;
+  --ok:#1a6b3a;--ok-bg:#e8f5ed;--ok-bd:#a8d5b5;
+  --moderate:#92660a;--moderate-bg:#fefce8;--moderate-bd:#d4b84a;
+  --r:6px;--r2:4px;--font:'Source Sans 3',sans-serif;
+  --shadow2:0 2px 8px rgba(80,110,30,.12);
+  --sidebar-w:230px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:16px;line-height:1.5;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:100;background:var(--accent);border-bottom:1px solid var(--accent2);padding:0 16px;display:flex;align-items:center;gap:10px;min-height:50px;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.15);flex-wrap:wrap;}
+.topbar img{height:40px;width:auto;flex-shrink:0;}
+.topbar-logo{font-weight:700;font-size:14px;color:#fff;white-space:nowrap;}
+.topbar-ver{font-size:11px;font-weight:400;opacity:.7;margin-left:6px;}
+.topbar-sep{flex:1;}
+.topbar-office{font-size:12px;color:rgba(255,255,255,.85);font-style:italic;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.conf-badge{background:rgba(192,57,43,.85);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;white-space:nowrap;letter-spacing:.5px;flex-shrink:0;}
+.lang-switcher{display:flex;gap:4px;}
+.lang-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;font-size:15px;padding:4px 7px;border-radius:3px;min-height:40px;transition:background .15s;}
+.lang-btn:hover,.lang-btn.active{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.6);}
+.btn-topbar{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;font-family:var(--font);font-size:12px;font-weight:500;padding:8px 12px;border-radius:var(--r2);cursor:pointer;min-height:40px;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:background .15s;position:relative;}
+.btn-topbar:hover{background:rgba(255,255,255,.28);}
+.btn-topbar.reset:hover{background:rgba(255,80,60,.35);}
+#saveIndicator{font-size:11px;color:rgba(255,255,255,.7);white-space:nowrap;display:none;}
+.export-badge{display:none;position:absolute;top:-5px;right:-5px;background:var(--danger);color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;align-items:center;justify-content:center;}
+.page-layout{display:flex;align-items:flex-start;flex:1;}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;padding:18px 16px;position:sticky;top:50px;max-height:calc(100vh - 50px);overflow-y:auto;border-right:1px solid var(--border);background:var(--bg2);}
+.sidebar-eyebrow{font-size:10px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.sidebar-eyebrow::after{content:"";flex:1;height:1px;background:var(--border2);}
+.main-area{flex:1;min-width:0;padding:20px 22px;}
+.panel-eyebrow{font-size:10px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.panel-title{font-size:20px;font-weight:700;color:var(--text);}
+.panel-subtitle{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5;max-width:700px;}
+.conf-banner{background:var(--danger-bg);border:1px solid var(--danger-bd);border-radius:var(--r2);padding:8px 14px;font-size:12px;color:var(--danger);font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.form-group{display:flex;flex-direction:column;gap:3px;margin-bottom:10px;}
+.form-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;}
+.form-label .req{color:var(--danger);}
+.form-input,.form-textarea,.form-select{background:#f7faf3;border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:14px;padding:8px 10px;border-radius:8px;outline:none;width:100%;min-height:40px;transition:border-color .15s;}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--accent);}
+.form-textarea{min-height:70px;resize:vertical;}
+.form-input::placeholder,.form-textarea::placeholder{font-style:italic;color:var(--text3);opacity:1;}
+.sidebar .form-input,.sidebar .form-select{background:var(--bg);font-size:12px;padding:7px 9px;min-height:36px;}
+.section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-top:16px;}
+.section:first-child{margin-top:0;}
+.section-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.section-head h2{font-size:14px;font-weight:700;color:var(--text);}
+.section-tabs{display:flex;gap:6px;margin-left:auto;}
+.tabs{display:flex;gap:8px;margin-top:18px;}
+.tab-btn{font-family:var(--font);font-size:15px;font-weight:700;padding:11px 22px;cursor:pointer;border-radius:var(--r) var(--r) 0 0;border:1.5px solid var(--border2);border-bottom:none;background:var(--bg3);color:var(--text3);transition:all .15s;min-height:48px;display:flex;align-items:center;gap:8px;}
+.tab-btn .tab-icon{font-size:18px;}
+.tab-btn:hover{background:var(--bg2);color:var(--text2);}
+.tab-btn.active{background:var(--bg);color:var(--accent2);border-color:var(--accent);border-bottom:1.5px solid var(--bg);margin-bottom:-1.5px;z-index:1;}
+.tab-content{border:1.5px solid var(--border2);border-radius:0 var(--r) var(--r) var(--r);background:var(--bg);padding:16px;}
+.btn-primary{background:var(--accent);color:#fff;border:1px solid var(--accent2);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 16px;border-radius:var(--r2);cursor:pointer;min-height:40px;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-secondary{background:var(--bg);color:var(--text2);border:1px solid var(--border2);font-family:var(--font);font-size:13px;font-weight:500;padding:8px 16px;border-radius:var(--r2);cursor:pointer;min-height:40px;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+.btn-secondary:hover{background:var(--bg3);}
+.btn-icon{background:none;border:1px solid var(--border2);color:var(--text2);font-size:13px;padding:5px 9px;border-radius:var(--r2);cursor:pointer;min-height:40px;min-width:40px;transition:background .15s;}
+.btn-icon:hover{background:var(--bg3);}
+.btn-icon.delete-pending{background:var(--danger-bg);border-color:var(--danger);color:var(--danger);font-weight:700;}
+.help-q{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--danger);color:#fff;font-size:11px;font-weight:700;cursor:pointer;border:none;flex-shrink:0;}
+.aide-box{background:var(--accent-lt);border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;}
+.aide-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.aide-text{font-size:12px;color:var(--text2);line-height:1.5;}
+.eng-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.eng-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid;}
+.eng-pill.develop{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-bd);}
+.eng-pill.maintain{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd;}
+.eng-pill.monitor{background:var(--moderate-bg);color:var(--moderate);border-color:var(--moderate-bd);}
+.eng-pill.avoid{background:#fff4ed;color:#c05c0a;border-color:#fdba74;}
+.eng-pill.nocontact{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bd);}
+.actors-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+.actors-count{font-size:12px;color:var(--text3);}
+.actor-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);margin-bottom:7px;overflow:hidden;}
+.actor-card-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;user-select:none;}
+.actor-card-header:hover{background:var(--bg2);}
+.actor-cat-icon{font-size:16px;flex-shrink:0;}
+.actor-num{font-size:11px;font-weight:600;color:var(--text3);min-width:20px;flex-shrink:0;}
+.actor-name{font-size:14px;font-weight:700;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.actor-actions{display:flex;gap:5px;flex-shrink:0;}
+.actor-card-body{border-top:1px solid var(--border);padding:14px;display:none;}
+.actor-card-body.open{display:block;}
+.actor-card-header .chevron{margin-left:auto;font-size:13px;color:var(--text3);transition:transform .2s;flex-shrink:0;padding-right:4px;}
+.actor-card.expanded .chevron{transform:rotate(180deg);color:var(--accent2);}
+.stale-flag{display:inline-flex;align-items:center;gap:2px;font-size:10px;font-weight:600;color:#b45309;background:#fef3c7;border:1px solid #f59e0b;border-radius:3px;padding:1px 5px;white-space:nowrap;cursor:help;flex-shrink:0;}
+.critical-flag{font-size:13px;cursor:help;flex-shrink:0;}
+.incoherence-flag{font-size:12px;cursor:help;color:#b45309;flex-shrink:0;}
+.actor-inactive .actor-name{text-decoration:line-through;opacity:.5;}
+.actor-inactive .actor-card-header{background:var(--bg3) !important;}
+.trend-up{color:#16a34a;font-weight:700;font-size:14px;}
+.trend-down{color:var(--danger);font-weight:700;font-size:14px;}
+.trend-stable{color:var(--text3);font-weight:700;font-size:14px;}
+.status-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;color:var(--text3);background:var(--bg3);border:1px solid var(--border2);border-radius:3px;padding:1px 6px;white-space:nowrap;margin-left:2px;}
+.actors-limit-warn{background:#fef3c7;border:1px solid #f59e0b;border-radius:var(--r2);padding:8px 12px;font-size:12px;color:#92400e;font-weight:600;margin-bottom:10px;display:none;}
+.actor-details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;}
+.actor-details-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.detail-box{background:var(--bg2);border-radius:var(--r2);padding:9px 11px;}
+.detail-label{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;}
+.detail-text{font-size:14px;color:var(--text);white-space:pre-wrap;line-height:1.5;}
+.detail-text.is-example{font-style:italic;color:var(--text2);}
+.rating-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;margin-left:4px;}
+.rating-high{background:var(--ok-bg);color:var(--ok);}
+.rating-medium{background:var(--moderate-bg);color:var(--moderate);}
+.rating-low{background:var(--danger-bg);color:var(--danger);}
+.rating-fluctuant,.rating-unknown{background:#f0f0f0;color:#555;}
+.example-tag{font-size:10px;font-weight:700;font-style:italic;color:var(--text3);background:var(--bg3);padding:1px 6px;border-radius:10px;margin-left:6px;border:1px solid var(--border2);}
+.edit-panel{background:var(--bg);border:2px solid var(--accent);border-radius:var(--r);padding:16px;margin-bottom:14px;display:none;}
+.edit-panel.open{display:block;}
+.edit-panel-title{font-size:14px;font-weight:700;color:var(--accent2);margin-bottom:14px;}
+.form-row{display:grid;gap:10px;margin-bottom:12px;}
+.form-row.cols-2{grid-template-columns:1fr 1fr;}
+.form-row.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.matrix-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:16px;}
+.matrix-legend-box{background:var(--accent-lt);border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5;}
+.matrix-legend-box strong{color:var(--text);}
+.matrix-svg{width:100%;max-width:700px;display:block;margin:0 auto;}
+.matrix-note{font-size:11px;color:var(--text3);text-align:center;margin-top:6px;font-style:italic;}
+.empty-state{text-align:center;padding:30px 20px;color:var(--text3);}
+.review-alert{background:var(--danger-bg);border:1px solid var(--danger-bd);border-radius:var(--r2);padding:7px 10px;font-size:12px;color:var(--danger);margin-top:6px;display:none;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.overlay.hidden{display:none;}
+.modal-box{background:var(--bg);border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.22);width:100%;overflow:hidden;max-height:90vh;display:flex;flex-direction:column;}
+.modal-header{background:var(--accent);color:#fff;padding:14px 20px;font-size:15px;font-weight:700;flex-shrink:0;}
+.modal-body{padding:20px;overflow-y:auto;flex:1;}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;}
+.export-option{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;margin-bottom:8px;transition:background .15s;}
+.export-option:hover{background:var(--bg2);}
+.export-opt-icon{font-size:22px;flex-shrink:0;}
+.export-opt-label{font-size:13px;font-weight:600;}
+.export-opt-desc{font-size:11px;color:var(--text3);}
+.export-warn{background:#fffbee;border:1px solid #d4b84a;border-radius:var(--r2);padding:10px 14px;font-size:12px;color:#7a5c00;margin-bottom:14px;}
+#fieldHelpPopover{position:fixed;z-index:300;background:var(--bg);border:1.5px solid var(--accent);border-radius:var(--r);padding:12px 14px;max-width:340px;font-size:13px;box-shadow:var(--shadow2);display:none;}
+#fieldPopoverTitle{font-weight:700;font-size:13px;color:var(--accent2);margin-bottom:6px;}
+#fieldPopoverText{color:var(--text2);line-height:1.5;}
+.emergency-bar{position:fixed;bottom:0;left:0;right:0;background:var(--danger);color:#fff;padding:10px 20px;display:none;align-items:center;justify-content:space-between;gap:14px;z-index:500;}
+.emergency-bar.show{display:flex;}
+#otherCatWrap{display:none;margin-top:6px;}
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:12px;}
+.filter-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;white-space:nowrap;}
+.filter-select{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:13px;padding:5px 8px;border-radius:var(--r2);min-height:32px;cursor:pointer;transition:border-color .15s;}
+.filter-select:focus{outline:none;border-color:var(--accent);}
+.filter-select.active{border-color:var(--accent);background:var(--accent-lt);color:var(--accent2);font-weight:600;}
+.filter-clear-btn{background:var(--danger-bg);border:1px solid var(--danger-bd);color:var(--danger);font-size:12px;padding:4px 10px;border-radius:var(--r2);cursor:pointer;min-height:32px;transition:background .15s;}
+.filter-clear-btn:hover{background:var(--danger);color:#fff;}
+.matrix-actor-legend-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;margin-top:14px;}
+.matrix-actor-legend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:5px;}
+.matrix-actor-item{display:flex;align-items:center;gap:7px;padding:5px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);font-size:13px;}
+.matrix-actor-num{width:22px;height:22px;border-radius:50%;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.matrix-actor-name{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+@media(max-width:768px){
+  .page-layout{flex-direction:column;}
+  .sidebar{width:100%;position:static;max-height:none;border-right:none;border-bottom:1px solid var(--border);}
+  .form-row.cols-2,.form-row.cols-3{grid-template-columns:1fr;}
+  .actor-details-grid{grid-template-columns:1fr;}
+  .actor-details-grid-2{grid-template-columns:1fr;}
+  .topbar-office{display:none;}
+}
+@media print{
+  .topbar,.overlay,.emergency-bar,.edit-panel,.actor-actions,#fieldHelpPopover{display:none !important;}
+  .actor-card-body{display:block !important;}
+  body,.page-layout{display:block;}
+  .sidebar{display:none;}
+  .main-area{padding:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUgAAAdDCAYAAACL2tFIAABVOElEQVR4nOzdWZLjOBZFQaks979l9kdGdMaggSOGd91/27qCgigKOAlS92VZlhsAAAAAQCKBFAAAAABItCzL8l/vgwAAAAAA6EUgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAAALEEUgAAAAAglkAKAAAAAMQSSAEAAACAWAIpAAAAABBLIAUAAAAAYgmkAAAAAEAsgRQAAAAAiCWQAgAAAACxBFIAAAAAIJZACgAAAADEEkgBAAAAgFgCKQAAAAAQSyAFAAAAAGIJpAAAAABALIEUAAAAAIglkAIAAAAAsQRSAAAAACCWQAoAAAAAxBJIAQAAAIBYAikAAAAAEEsgBQAAAABiCaQAAAAAQCyBFAAAAACIJZACAAAA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ALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAgSyAFAAAAALIEUgAAAAAg61hrrauPAAAAAAAAAAAAAOBEb18+mIA61T9IAAAAAElFTkSuQmCC" alt="LWF">
+  <div class="topbar-logo"><span data-i18n="topbar_title">Key Actors Mapping</span><span class="topbar-ver" id="topbarVersion"></span></div>
+  <span class="conf-badge" data-i18n="conf_badge">CONFIDENTIAL</span>
+  <button class="btn-topbar" onclick="openNotice()"><span data-i18n="btn_help">Help</span></button>
+  <div class="topbar-sep"></div>
+  <div class="topbar-office" id="topOfficeLabel"></div>
+  <div id="saveIndicator" data-i18n="saved_indicator">&#10003; saved</div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">&#127468;&#127463;</span><span class="lang-abbr" style="display:none">EN</span></button>
+    <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">&#127467;&#127479;</span><span class="lang-abbr" style="display:none">FR</span></button>
+    <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">&#127466;&#127480;</span><span class="lang-abbr" style="display:none">ES</span></button>
+  </div>
+  <button class="btn-topbar reset" onclick="confirmReset()"><span data-i18n="btn_reset">Reset</span></button>
+  <button class="btn-topbar" id="exportBtn" onclick="openExport()"><span data-i18n="btn_export">&#8595; Export / Import</span><span class="export-badge" id="exportBadge"></span></button>
+</div>
+
+<div class="page-layout">
+  <div class="sidebar">
+    <div class="sidebar-eyebrow" data-i18n="step0_title">Identification</div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="lbl_country">Country</label>
+      <input class="form-input" id="f_country" oninput="saveState(true)">
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="lbl_office">Office</label>
+      <input class="form-input" id="f_office" oninput="onOfficeChange()">
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="lbl_sfp">SFP</label>
+      <input class="form-input" id="f_sfp" oninput="saveState(true)">
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="lbl_date">Last update</label>
+      <input class="form-input" id="f_date" type="date" oninput="saveState(true)">
+    </div>
+    <div class="form-group">
+      <label class="form-label">
+        <span data-i18n="lbl_next_review">Next review</span>
+        <button class="help-q" onclick="showFieldHelp(event,'help_review_title','help_review_text')">?</button>
+      </label>
+      <input class="form-input" id="f_next_review" type="date" oninput="checkNextReview();saveState(true)">
+      <div class="review-alert" id="reviewAlert" data-i18n="review_due"></div>
+    </div>
+    <div class="aide-box" style="margin-top:8px">
+      <span class="aide-icon">&#128204;</span>
+      <span class="aide-text" data-i18n="aide_sidebar"></span>
+    </div>
+  </div>
+
+  <div class="main-area">
+    <div class="panel-eyebrow" data-i18n="panel_eyebrow"></div>
+    <h1 class="panel-title" data-i18n="panel_title">Key Actors Mapping</h1>
+    <p class="panel-subtitle" data-i18n="panel_subtitle"></p>
+    <div class="conf-banner" style="margin-top:12px">
+      <span>&#128274;</span>
+      <span data-i18n="conf_banner_text"></span>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2 data-i18n="actors_title">Actors</h2>
+        <button class="help-q" onclick="showFieldHelp(event,'help_actors_title','help_actors_text')">?</button>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" id="tabListBtn" onclick="switchTab('list')"><span class="tab-icon">&#128203;</span><span data-i18n="tab_list">List</span></button>
+        <button class="tab-btn" id="tabMatrixBtn" onclick="switchTab('matrix')"><span class="tab-icon">&#128202;</span><span data-i18n="tab_matrix">Matrix</span></button>
+      </div>
+      <div class="tab-content">
+
+      <div class="aide-box">
+        <span class="aide-icon">&#9432;</span>
+        <span class="aide-text" data-i18n="aide_engagement_legend"></span>
+      </div>
+      <div class="eng-legend">
+        <span class="eng-pill develop" data-i18n="eng_develop">Develop</span>
+        <span class="eng-pill maintain" data-i18n="eng_maintain">Maintain</span>
+        <span class="eng-pill monitor" data-i18n="eng_monitor">Monitor</span>
+        <span class="eng-pill avoid" data-i18n="eng_avoid">Avoid</span>
+        <span class="eng-pill nocontact" data-i18n="eng_nocontact">No contact</span>
+      </div>
+
+      <div class="edit-panel" id="editPanel">
+        <div class="edit-panel-title" id="editPanelTitle"></div>
+        <div class="form-row cols-2">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label"><span data-i18n="lbl_actor_name">Actor name</span><span class="req">*</span> <button class="help-q" onclick="showFieldHelp(event,'help_name_title','help_name_text')">?</button></label>
+            <input class="form-input" id="e_name" data-i18n-placeholder="ph_name">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label"><span data-i18n="lbl_category">Category</span><span class="req">*</span></label>
+            <select class="form-select" id="e_category" onchange="onCatChange()">
+              <option value="" data-i18n="cat_placeholder">-- Select --</option>
+              <option value="gov" data-i18n="cat_gov">Government</option>
+              <option value="mil" data-i18n="cat_mil">Security forces</option>
+              <option value="nsag" data-i18n="cat_nsag">Non-state armed</option>
+              <option value="intl" data-i18n="cat_intl" data-help-key="help_intl_title" data-help-text="help_intl_text">UN / International</option>
+              <option value="ngo" data-i18n="cat_ngo">NGOs</option>
+              <option value="com" data-i18n="cat_com">Community leaders</option>
+              <option value="media" data-i18n="cat_media">Media</option>
+              <option value="priv" data-i18n="cat_priv">Private sector</option>
+              <option value="other" data-i18n="cat_other">Other</option>
+            </select>
+            <div id="otherCatWrap">
+              <input class="form-input" id="e_category_other" style="margin-top:4px" data-i18n-placeholder="ph_category_other">
+            </div>
+            <div id="intlHelpNote" style="display:none;margin-top:4px;font-size:11px;font-style:italic;color:var(--moderate)"></div>
+          </div>
+        </div>
+        <div class="form-row cols-3" style="margin-top:10px">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label"><span data-i18n="lbl_influence">Influence</span><span class="req">*</span> <button class="help-q" onclick="showFieldHelp(event,'help_influence_title','help_influence_text')">?</button></label>
+            <select class="form-select" id="e_influence">
+              <option value="" data-i18n="rating_placeholder">--</option>
+              <option value="high" data-i18n="rating_high">High</option>
+              <option value="medium" data-i18n="rating_medium">Medium</option>
+              <option value="low" data-i18n="rating_low">Low</option>
+              <option value="fluctuant" data-i18n="rating_fluctuant">Fluctuant</option>
+              <option value="unknown" data-i18n="rating_unknown">Unknown</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label"><span data-i18n="lbl_acceptance">Acceptance</span><span class="req">*</span> <button class="help-q" onclick="showFieldHelp(event,'help_acceptance_title','help_acceptance_text')">?</button></label>
+            <select class="form-select" id="e_acceptance">
+              <option value="" data-i18n="rating_placeholder">--</option>
+              <option value="high" data-i18n="rating_high">High</option>
+              <option value="medium" data-i18n="rating_medium">Medium</option>
+              <option value="low" data-i18n="rating_low">Low</option>
+              <option value="fluctuant" data-i18n="rating_fluctuant">Fluctuant</option>
+              <option value="unknown" data-i18n="rating_unknown">Unknown</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label"><span data-i18n="lbl_engagement">Engagement</span><span class="req">*</span> <button class="help-q" onclick="showFieldHelp(event,'help_engagement_title','help_engagement_text')">?</button></label>
+            <select class="form-select" id="e_engagement">
+              <option value="" data-i18n="eng_placeholder">--</option>
+              <option value="develop" data-i18n="eng_develop">Develop</option>
+              <option value="maintain" data-i18n="eng_maintain">Maintain</option>
+              <option value="monitor" data-i18n="eng_monitor">Monitor</option>
+              <option value="avoid" data-i18n="eng_avoid">Avoid</option>
+              <option value="nocontact" data-i18n="eng_nocontact">No contact</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row cols-2" style="margin-top:10px">
+          <div>
+            <label class="form-label"><span data-i18n="lbl_status">Status</span></label>
+            <select class="form-select" id="e_status">
+              <option value="active" data-i18n="status_active">Active</option>
+              <option value="inactive" data-i18n="status_inactive">Inactive</option>
+              <option value="gone" data-i18n="status_gone">Left / Departed</option>
+              <option value="deceased" data-i18n="status_deceased">Deceased</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label"><span data-i18n="lbl_trend">Trend</span></label>
+            <select class="form-select" id="e_trend">
+              <option value="unknown" data-i18n="trend_unknown">? Unknown</option>
+              <option value="up" data-i18n="trend_up">&#8593; Improving</option>
+              <option value="stable" data-i18n="trend_stable">&#8594; Stable</option>
+              <option value="down" data-i18n="trend_down">&#8595; Deteriorating</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:10px;margin-bottom:10px">
+          <label class="form-label"><span data-i18n="lbl_interests">Interests</span> <button class="help-q" onclick="showFieldHelp(event,'help_interests_title','help_interests_text')">?</button></label>
+          <textarea class="form-textarea" id="e_interests" rows="2" data-i18n-placeholder="ph_interests"></textarea>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label"><span data-i18n="lbl_acceptance_why">Why this level?</span> <button class="help-q" onclick="showFieldHelp(event,'help_why_title','help_why_text')">?</button></label>
+            <textarea class="form-textarea" id="e_acceptance_why" rows="2" data-i18n-placeholder="ph_why"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" data-i18n="lbl_area">Area</label>
+            <textarea class="form-textarea" id="e_area" rows="2" data-i18n-placeholder="ph_area"></textarea>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:10px;margin-bottom:10px">
+          <label class="form-label"><span data-i18n="lbl_relationships">Key relationships</span> <button class="help-q" onclick="showFieldHelp(event,'help_rel_title','help_rel_text')">?</button></label>
+          <textarea class="form-textarea" id="e_relationships" rows="2" data-i18n-placeholder="ph_relationships"></textarea>
+        </div>
+        <div style="border-top:1px dashed var(--border);padding-top:12px;margin-bottom:10px">
+          <div class="form-label" style="margin-bottom:8px;display:flex;align-items:center;gap:6px;font-size:11px">&#128222; <span data-i18n="lbl_contact_section">Contact</span></div>
+          <div class="form-row cols-3">
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" data-i18n="lbl_contact_name">Name</label><input class="form-input" id="e_contact_name"></div>
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" data-i18n="lbl_phone">Phone</label><input class="form-input" id="e_phone" type="tel"></div>
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" data-i18n="lbl_email">Email</label><input class="form-input" id="e_email" type="email"></div>
+          </div>
+          <div class="form-row cols-2" style="margin-top:8px">
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" data-i18n="lbl_last_meeting">Last meeting</label><input class="form-input" id="e_last_meeting" type="date"></div>
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" data-i18n="lbl_frequency">Frequency</label><input class="form-input" id="e_frequency" data-i18n-placeholder="ph_frequency"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button class="btn-secondary" onclick="cancelEdit()" data-i18n="btn_cancel">Cancel</button>
+          <button class="btn-primary" onclick="saveActor()" data-i18n="btn_save_actor">Save</button>
+        </div>
+      </div>
+
+      <div id="listView">
+        <div class="filter-bar" id="filterBar">
+          <span class="filter-lbl" data-i18n="filter_influence">Influence</span>
+          <select class="filter-select" id="filterInfluence" onchange="applyFilters()">
+            <option value="" data-i18n="filter_all">All</option>
+            <option value="high" data-i18n="rating_high">High</option>
+            <option value="medium" data-i18n="rating_medium">Medium</option>
+            <option value="low" data-i18n="rating_low">Low</option>
+            <option value="fluctuant" data-i18n="rating_fluctuant">Fluctuant</option>
+            <option value="unknown" data-i18n="rating_unknown">Unknown</option>
+          </select>
+          <span class="filter-lbl" data-i18n="filter_acceptance">Acceptance</span>
+          <select class="filter-select" id="filterAcceptance" onchange="applyFilters()">
+            <option value="" data-i18n="filter_all">All</option>
+            <option value="high" data-i18n="rating_high">High</option>
+            <option value="medium" data-i18n="rating_medium">Medium</option>
+            <option value="low" data-i18n="rating_low">Low</option>
+            <option value="fluctuant" data-i18n="rating_fluctuant">Fluctuant</option>
+            <option value="unknown" data-i18n="rating_unknown">Unknown</option>
+          </select>
+          <span class="filter-lbl" data-i18n="filter_engagement">Strategy</span>
+          <select class="filter-select" id="filterEngagement" onchange="applyFilters()">
+            <option value="" data-i18n="filter_all">All</option>
+            <option value="develop" data-i18n="eng_develop">Develop</option>
+            <option value="maintain" data-i18n="eng_maintain">Maintain</option>
+            <option value="monitor" data-i18n="eng_monitor">Monitor</option>
+            <option value="avoid" data-i18n="eng_avoid">Avoid</option>
+            <option value="nocontact" data-i18n="eng_nocontact">No contact</option>
+          </select>
+          <span class="filter-lbl" data-i18n="sort_by">Sort</span>
+          <select class="filter-select" id="sortBy" onchange="applyFilters()">
+            <option value="acceptance" data-i18n="sort_acceptance">Acceptance</option>
+            <option value="influence" data-i18n="sort_influence">Influence</option>
+            <option value="engagement" data-i18n="sort_engagement">Strategy</option>
+            <option value="date" data-i18n="sort_date">Last updated</option>
+            <option value="name" data-i18n="sort_name">Name</option>
+          </select>
+          <button class="filter-clear-btn" id="filterClearBtn" onclick="clearFilters()" style="display:none" data-i18n="filter_clear">Clear</button>
+        </div>
+        <div class="actors-toolbar">
+          <span class="actors-count" id="actorsCount"></span>
+          <button class="btn-primary" onclick="openAddActor()" data-i18n="btn_add_actor">+ Add actor</button>
+        </div>
+        <div id="actorsLimitWarn" class="actors-limit-warn"></div>
+        <div id="actorsList"></div>
+      </div>
+
+      <div id="matrixView" style="display:none">
+        <div class="matrix-wrap">
+          <div class="matrix-legend-box">
+            <strong data-i18n="matrix_legend_title">How to read</strong>  -  <span data-i18n="matrix_legend_text"></span>
+          </div>
+          <svg class="matrix-svg" id="matrixSvg" viewBox="0 0 680 500" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="matrix-note" id="matrixNote"></div>
+          <div id="matrixActorLegend"></div>
+        </div>
+      </div>
+      </div><!-- /tab-content -->
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE -->
+<div class="overlay hidden" id="noticeOverlay">
+  <div class="modal-box" style="max-width:620px">
+    <div style="background:var(--accent);color:#fff;padding:16px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;border-radius:var(--r) var(--r) 0 0">
+      <div>
+        <h2 style="font-size:16px;font-weight:700">Key Actors Mapping</h2>
+        <p data-i18n="notice_subtitle" style="font-size:11px;opacity:.85;margin-top:2px"></p>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLang('en')" title="English"><span class="lang-flag">&#127468;&#127463;</span><span class="lang-abbr" style="display:none">EN</span></button>
+          <button class="lang-btn" onclick="setLang('fr')" title="Français"><span class="lang-flag">&#127467;&#127479;</span><span class="lang-abbr" style="display:none">FR</span></button>
+          <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">&#127466;&#127480;</span><span class="lang-abbr" style="display:none">ES</span></button>
+        </div>
+        <button class="btn-topbar" onclick="closeNotice()" data-i18n="btn_start">Start &#8594;</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div style="background:var(--danger-bg);border:1px solid var(--danger-bd);border-radius:var(--r2);padding:8px 12px;font-size:12px;color:var(--danger);font-weight:600;margin-bottom:14px;display:flex;gap:8px"><span>&#128274;</span><span data-i18n="conf_banner_text"></span></div>
+      <p data-i18n="notice_intro" style="margin-bottom:12px;font-size:13px"></p>
+      <ul style="font-size:13px;color:var(--text2);line-height:1.9;padding-left:18px">
+        <li data-i18n="notice_li1"></li>
+        <li data-i18n="notice_li2"></li>
+        <li data-i18n="notice_li3"></li>
+        <li data-i18n="notice_li4"></li>
+        <li data-i18n="notice_li5"></li>
+      </ul>
+      <div style="background:#fff3cd;border:1px solid #d4b84a;border-radius:var(--r2);padding:10px 14px;margin-top:14px;font-size:12px;color:#7a5c00">
+        <strong data-i18n="notice_tip_title"></strong><br><span data-i18n="notice_tip_text"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);margin-top:12px">
+        <span class="help-q" style="cursor:default">?</span>
+        <span data-i18n="notice_help"></span>
+      </div>
+    </div>
+    <div style="background:#fffbee;border-top:1.5px solid #d4b84a;padding:12px 20px;display:flex;align-items:center;gap:16px">
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:#7a5c00;margin-bottom:4px">&#128190; <span data-i18n="notice_save_title"></span></div>
+        <div data-i18n="notice_save_text" style="font-size:12px;color:var(--text2)"></div>
+      </div>
+      <button class="btn-primary" onclick="closeNotice()" data-i18n="btn_start" style="flex-shrink:0">Start &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT -->
+<div class="overlay hidden" id="exportOverlay">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-header" data-i18n="export_header">Export</div>
+    <div class="modal-body">
+      <div class="export-warn" data-i18n="export_warn"></div>
+      <div class="export-option" onclick="exportExcel()"><div class="export-opt-icon">&#128215;</div><div><div class="export-opt-label" data-i18n="export_xls_label">Excel</div><div class="export-opt-desc" data-i18n="export_xls_desc"></div></div></div>
+      <div class="export-option" onclick="exportJSON()"><div class="export-opt-icon">&#128190;</div><div><div class="export-opt-label" data-i18n="export_json_label">JSON</div><div class="export-opt-desc" data-i18n="export_json_desc"></div></div></div>
+      </div>
+      <div class="export-option" onclick="importJSON()"><div class="export-opt-icon">&#128193;</div><div><div class="export-opt-label" data-i18n="import_json_label">Import</div><div class="export-opt-desc" data-i18n="import_json_desc"></div></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeExport()" data-i18n="close">Close</button></div>
+  </div>
+  <input type="file" id="importInput" accept="application/json" style="display:none" onchange="handleImport(event)">
+</div>
+
+<!-- RESET -->
+<div class="overlay hidden" id="resetOverlay">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-header" data-i18n="reset_header">Reset?</div>
+    <div class="modal-body">
+      <p data-i18n="reset_text"></p>
+      <div class="export-warn" style="margin-top:14px" data-i18n="reset_warn"></div>
+      <button class="btn-secondary" style="width:100%;margin-top:6px" onclick="exportJSON()" data-i18n="reset_export">Export first</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeReset()" data-i18n="reset_cancel">Cancel</button>
+      <button class="btn-primary" style="background:var(--danger);border-color:var(--danger)" onclick="doReset()" data-i18n="reset_confirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="fieldHelpPopover"><div id="fieldPopoverTitle"></div><div id="fieldPopoverText"></div></div>
+<div id="emergencyBar" class="emergency-bar">
+  <span data-i18n="emergency_msg"></span>
+  <button class="btn-secondary" onclick="hardReset()" data-i18n="emergency_btn">Reset</button>
+</div>
+
+<script>
+const TOOL_NAME = 'Key Actors Mapping';
+const TOOL_PREFIX = 'KAM';
+const TOOL_VERSION_BASE = '1.0';
+const LS_KEY = 'lwf_kam_v2';
+const LS_LANG = 'lwf_kam_lang';
+const TOOL_VERSION = 'V' + TOOL_VERSION_BASE + '.' + new Date().toISOString().slice(0,10).replace(/-/g,'');
+
+const I18N = {"en":{"topbar_title":"Key Actors Mapping","conf_badge":"CONFIDENTIAL","btn_help":"&#10067; Help","btn_reset":"&#128260; Reset","btn_export":"&#8595; Export / Import","saved_indicator":"&#10003; saved","step0_title":"Identification","lbl_country":"Country","lbl_office":"Office / sub-office","lbl_sfp":"Responsible SFP","lbl_date":"Last update","lbl_next_review":"Next review","review_due":"&#9888; Review date overdue or near.","aide_sidebar":"Update every 6 months minimum, or after any significant contextual change.","panel_eyebrow":"LWF World Service  -  Security Tool","panel_title":"Key Actors Mapping","panel_subtitle":"Map the key actors in your operational environment, assess their influence and acceptance of LWF, and define your engagement strategy.","conf_banner_text":"RESTRICTED DIFFUSION  -  This document contains sensitive information. Share only with authorised staff on a need-to-know basis.","actors_title":"Actors","tab_list":"List","tab_matrix":"Matrix","aide_engagement_legend":"Colour code by engagement strategy:","eng_develop":"Develop relationship","eng_maintain":"Maintain contact","eng_monitor":"Monitor","eng_avoid":"Avoid","eng_nocontact":"No contact","eng_placeholder":"-- Select strategy --","edit_new_title":"+ Add a new actor","edit_title":"Edit actor","lbl_actor_name":"Actor name","lbl_category":"Category","lbl_category_other":"Specify (Other)","lbl_influence":"Influence on access","lbl_acceptance":"Acceptance of LWF","lbl_engagement":"Engagement strategy","lbl_interests":"Interests and motivations","lbl_acceptance_why":"Why this acceptance level?","lbl_area":"Area of influence","lbl_relationships":"Key relationships","lbl_contact_section":"Contact details","lbl_contact_name":"Contact name","lbl_phone":"Phone","lbl_email":"Email","lbl_last_meeting":"Last meeting","lbl_frequency":"Contact frequency","cat_placeholder":"-- Select category --","cat_gov":"Government / State authorities","cat_mil":"Security forces / Military","cat_nsag":"Non-state armed actors","cat_intl":"UN / International organizations","cat_ngo":"NGOs / Civil society","cat_com":"Community / Traditional / Religious leaders","cat_media":"Media","cat_priv":"Private sector / Donors","cat_other":"Other","rating_placeholder":"-- Select --","rating_high":"High","rating_medium":"Medium","rating_low":"Low","rating_fluctuant":"Fluctuant","rating_unknown":"Unknown","btn_save_actor":"&#10003; Save actor","btn_cancel":"Cancel","btn_add_actor":"+ Add actor","btn_edit":"Edit","btn_delete":"Delete","example_badge":"example","actors_count_zero":"No actor registered yet.","actors_count_one":"1 actor registered","actors_count_n":"{n} actors registered","detail_interests":"Interests","detail_why":"Why this acceptance?","detail_area":"Area of influence","detail_rel":"Key relationships","detail_contact":"Contact","matrix_quadrant_tl":"Priority risks","matrix_quadrant_tr":"Key partners","matrix_quadrant_bl":"Low priority","matrix_quadrant_br":"Allies","matrix_x_label":"Acceptance of LWF →","matrix_y_label":"Influence on Access →","matrix_legend_title":"How to read this matrix","matrix_legend_text":"Each dot = one actor. Colour = engagement strategy. Click a dot to open the actor record. Actors rated “Fluctuant” or “Unknown” are excluded from the matrix.","matrix_fluctuant_note":"Some actors are not shown (rated Fluctuant or Unknown on one or both axes).","matrix_empty":"No actors to display. Add actors in the List view first.","matrix_all_excluded":"All actors have Fluctuant or Unknown ratings  -  none can be placed on the matrix.","empty_title":"No actor registered yet","empty_sub":"Click “Add actor” to get started. Start with the 5 most critical actors  -  do not try to map everyone at once.","ph_frequency":"e.g. Monthly, Quarterly…","ph_name":"e.g. [Name] Military Commander  -  [District], Armed group [Name]…","ph_interests":"Their core motivations: control territory, access funding, protect community…","ph_why":"Evidence or past interactions: has allowed convoys, hostile at checkpoints…","ph_area":"Geographic or thematic scope: district, region, specific road…","ph_relationships":"Who are they allied with? In tension with?","ph_category_other":"Specify the category…","notice_subtitle":"LWF World Service","notice_intro":"This tool helps systematically map the key actors in your operational environment to maintain humanitarian access, protect staff and sustain programmes.","notice_li1":"For each actor: assess their <strong>influence on your access</strong> and their <strong>acceptance of LWF</strong>.","notice_li2":"Define a clear <strong>engagement strategy</strong>: develop, maintain, monitor, avoid, or no contact.","notice_li3":"Use the <strong>Matrix</strong> view to visualise your actor landscape at a glance.","notice_li4":"This is a <strong>TEAM exercise</strong>  -  do not fill this in alone. Involve programme staff, drivers, and local partners who have field contacts.","notice_li5":"Export a <strong>JSON backup</strong> and save it to the Security Pack folder on SharePoint.","notice_tip_title":"Take your time. Build it progressively.","notice_tip_text":"This tool gets more powerful as you feed it over time. Do not try to map every actor at once  -  start with the 5 most critical ones. <strong>Be specific</strong>: write the actual name of the group or individual, not a generic category. “Armed groups” tells you nothing. “Armed group X  -  Commander [Name]” is operationally useful. Update regularly  -  at least every 6 months, or after any significant event. Do not get discouraged if the first version feels incomplete.","notice_help":"Click the red <strong>?</strong> buttons at any time for field-level guidance.","notice_save_title":"SAVE YOUR DATA  -  IMPORTANT","notice_save_text":"Export a JSON backup after each session and save it to the Security Pack folder on SharePoint. This file lets you restore all data at any time.","export_header":"Export / Import","export_warn":"<strong>Important:</strong> always save the JSON to the Security Pack folder on SharePoint  -  not locally only.","export_xls_label":"Export to Excel","export_xls_desc":"Formatted .xls file","export_json_label":"Save as JSON","export_json_desc":"Full reloadable backup","import_json_label":"Load a JSON backup","import_json_desc":"Resume saved work","close":"Close","reset_header":"&#128260; Reset everything?","reset_text":"You are about to erase all data. This action is irreversible.","reset_warn":"<strong>Important:</strong> export a JSON backup before resetting.","reset_export":"&#8595; Export JSON first","reset_cancel":"Cancel","reset_confirm":"Yes, erase everything","emergency_msg":"&#9888; Problem detected. Click to reset.","emergency_btn":"Reset","alert_saved":"Backup loaded successfully!","alert_error":"Error: ","alert_download":"Download not available.","alert_name_required":"Actor name is required.","alert_category_required":"Please select a category.","alert_influence_required":"Please select an influence level.","alert_acceptance_required":"Please select an acceptance level.","alert_engagement_required":"Please select an engagement strategy.","alert_category_other_required":"Please specify the category.","btn_start":"Start &#8594;","help_review_title":"Next review date","help_review_text":"Recommended: every 6 months minimum, or after any significant change in context (security incident, change of commander, election…).","help_actors_title":"Key Actors","help_actors_text":"List all actors who can significantly affect your access, safety or programmes. Be specific: write the actual name, not just a category. Start with the 5 most critical.","help_name_title":"Actor name","help_name_text":"Be as specific as possible. “Armed group” is not useful. “Armed group X  -  Commander [Name]” is operationally useful. Include the individual name when known.","help_intl_title":"UN / International organizations","help_intl_text":"Only list UN or international actors who have <strong>direct influence on your access or security</strong>  -  not all coordination partners. Examples: OCHA (humanitarian access corridors), UNDSS (security information), UNHCR (protection corridors). A coordination cluster partner who attends the same meeting is NOT a key actor for this mapping.","help_influence_title":"Influence on access","help_influence_text":"How much can this actor block or facilitate your access to the population? <strong>High</strong> = they can stop or enable your operations. <strong>Fluctuant</strong> = varies significantly (seasonal, political…). <strong>Unknown</strong> = insufficient information.","help_acceptance_title":"Acceptance of LWF","help_acceptance_text":"How does this actor perceive LWF? <strong>Low</strong> = hostile, unknown, or obstructing. <strong>High</strong> = clearly supportive. <strong>Unknown</strong> = no direct contact established. Base on direct evidence, not assumptions.","help_engagement_title":"Engagement strategy","help_engagement_text":"<strong>Develop</strong> = priority actor, invest time and resources. <strong>Maintain</strong> = regular touchpoints. <strong>Monitor</strong> = watch without contact. <strong>Avoid</strong> = no proactive contact if possible. <strong>No contact</strong> = safety or mandate reasons.","help_interests_title":"Interests and motivations","help_interests_text":"What drives their behaviour? Understanding motivations is key to predicting behaviour and finding common ground.","help_why_title":"Why this acceptance level?","help_why_text":"Provide evidence: past incidents, direct conversations, observed behaviour. If unknown, write “Unknown  -  no direct contact established.”","help_rel_title":"Key relationships","help_rel_text":"Who are they allied with? Who are they in tension with? Key to understanding power dynamics and potential spoilers.","abbr_influence":"Infl.","abbr_acceptance":"Acc.","filter_influence":"Influence","filter_acceptance":"Acceptance","filter_engagement":"Strategy","filter_all":"All","filter_clear":"Clear","filter_results":"{shown} of {total} shown","filter_no_results":"No actor matches the active filters.","matrix_actor_legend":"Actors in this matrix","lbl_status":"Status","status_active":"Active","status_inactive":"Inactive","status_gone":"Left / Departed","status_deceased":"Deceased","status_badge_inactive":"Inactive","status_badge_gone":"Departed","status_badge_deceased":"Deceased","lbl_trend":"Acceptance trend","trend_up":"↑ Improving","trend_stable":"→ Stable","trend_down":"↓ Deteriorating","trend_unknown":"? Unknown","stale_flag_text":"Not updated","stale_flag_tooltip":"This record has not been updated in over 90 days.","critical_flag_tooltip":"HIGH influence + LOW acceptance  -  priority risk. Review engagement strategy.","inconsistency_tip":"Inconsistency: low acceptance + develop relationship strategy.","sort_by":"Sort","sort_acceptance":"Acceptance","sort_influence":"Influence","sort_engagement":"Strategy","sort_date":"Last updated","sort_name":"Name","actors_limit_warning":"⚠ {n} active actors. Beyond 20, the mapping loses operational focus."},"fr":{"topbar_title":"Key Actors Mapping","conf_badge":"CONFIDENTIEL","btn_help":"&#10067; Aide","btn_reset":"&#128260; Remise à zéro","btn_export":"&#8595; Exporter / Importer","saved_indicator":"&#10003; sauvegardé","step0_title":"Identification","lbl_country":"Pays","lbl_office":"Bureau / sous-bureau","lbl_sfp":"SFP responsable","lbl_date":"Dernière mise à jour","lbl_next_review":"Prochaine revue","review_due":"&#9888; Date de revue dépassée ou proche.","aide_sidebar":"Mettre à jour tous les 6 mois minimum, ou après tout changement contextuel significatif.","panel_eyebrow":"LWF World Service  -  Outil sécurité","panel_title":"Cartographie des acteurs clés","panel_subtitle":"Cartographiez les acteurs clés de votre environnement opérationnel, évaluez leur influence et leur acceptation du LWF, et définissez votre stratégie d’engagement.","conf_banner_text":"DIFFUSION RESTREINTE  -  Ce document contient des informations sensibles. Ne partager qu’avec le personnel autorisé sur la base du besoin d’en connaître.","actors_title":"Acteurs","tab_list":"Liste","tab_matrix":"Matrice","aide_engagement_legend":"Code couleur par stratégie d’engagement :","eng_develop":"Développer la relation","eng_maintain":"Maintenir le contact","eng_monitor":"Surveiller","eng_avoid":"Éviter","eng_nocontact":"Aucun contact","eng_placeholder":"-- Sélectionner la stratégie --","edit_new_title":"+ Ajouter un acteur","edit_title":"Modifier l’acteur","lbl_actor_name":"Nom de l’acteur","lbl_category":"Catégorie","lbl_category_other":"Préciser (Autre)","lbl_influence":"Influence sur l’accès","lbl_acceptance":"Acceptation du LWF","lbl_engagement":"Stratégie d’engagement","lbl_interests":"Intérêts et motivations","lbl_acceptance_why":"Pourquoi ce niveau d’acceptation ?","lbl_area":"Zone d’influence","lbl_relationships":"Relations clés","lbl_contact_section":"Coordonnées","lbl_contact_name":"Nom du contact","lbl_phone":"Téléphone","lbl_email":"Email","lbl_last_meeting":"Dernière rencontre","lbl_frequency":"Fréquence de contact","cat_placeholder":"-- Sélectionner la catégorie --","cat_gov":"Gouvernement / Autorités étatiques","cat_mil":"Forces de sécurité / Militaires","cat_nsag":"Acteurs armés non étatiques","cat_intl":"ONU / Organisations internationales","cat_ngo":"ONG / Société civile","cat_com":"Leaders communautaires / Traditionnels / Religieux","cat_media":"Médias","cat_priv":"Secteur privé / Bailleurs","cat_other":"Autre","rating_placeholder":"-- Sélectionner --","rating_high":"Élevé","rating_medium":"Moyen","rating_low":"Faible","rating_fluctuant":"Fluctuant","rating_unknown":"Inconnu","btn_save_actor":"&#10003; Enregistrer l’acteur","btn_cancel":"Annuler","btn_add_actor":"+ Ajouter un acteur","btn_edit":"Modifier","btn_delete":"Supprimer","example_badge":"exemple","actors_count_zero":"Aucun acteur enregistré.","actors_count_one":"1 acteur enregistré","actors_count_n":"{n} acteurs enregistrés","detail_interests":"Intérêts","detail_why":"Pourquoi ce niveau d’acceptation ?","detail_area":"Zone d’influence","detail_rel":"Relations clés","detail_contact":"Contact","matrix_quadrant_tl":"Risques prioritaires","matrix_quadrant_tr":"Partenaires clés","matrix_quadrant_bl":"Faible priorité","matrix_quadrant_br":"Alliés","matrix_x_label":"Acceptation du LWF →","matrix_y_label":"Influence sur l’accès →","matrix_legend_title":"Comment lire cette matrice","matrix_legend_text":"Chaque point = un acteur. Couleur = stratégie d’engagement. Cliquer un point ouvre la fiche acteur. Les acteurs évalués « Fluctuant » ou « Inconnu » sur un axe ne sont pas affichés.","matrix_fluctuant_note":"Certains acteurs ne sont pas affichés (évalués Fluctuant ou Inconnu sur un ou deux axes).","matrix_empty":"Aucun acteur à afficher. Ajoutez des acteurs dans la vue Liste.","matrix_all_excluded":"Tous les acteurs ont des évaluations Fluctuant ou Inconnu  -  aucun ne peut être placé sur la matrice.","empty_title":"Aucun acteur enregistré","empty_sub":"Cliquez sur « Ajouter un acteur » pour commencer. Débutez par les 5 acteurs les plus critiques.","ph_frequency":"ex. Mensuel, Trimestriel…","ph_name":"ex. Commandant militaire [Nom]  -  [District], Groupe armé [Nom]…","ph_interests":"Motivations principales : contrôler un territoire, accéder à des financements…","ph_why":"Éléments de preuve ou interactions passées : a autorisé des convois, hostile aux checkpoints…","ph_area":"Périmètre géographique ou thématique : district, région, route spécifique…","ph_relationships":"Avec qui est-il allié ? En tension avec qui ?","ph_category_other":"Précisez la catégorie…","notice_subtitle":"LWF World Service","notice_intro":"Cet outil aide à cartographier systématiquement les acteurs clés de votre environnement opérationnel, pour maintenir l’accès humanitaire, protéger le personnel et pérenniser les programmes.","notice_li1":"Pour chaque acteur : évaluez leur <strong>influence sur votre accès</strong> et leur <strong>acceptation du LWF</strong>.","notice_li2":"Définissez une <strong>stratégie d’engagement</strong> claire : développer, maintenir, surveiller, éviter, ou aucun contact.","notice_li3":"Utilisez la vue <strong>Matrice</strong> pour visualiser votre paysage d’acteurs en un coup d’œil.","notice_li4":"C’est un <strong>EXERCICE D’ÉQUIPE</strong>  -  ne le remplissez pas seul. Impliquez les équipes programme, les chauffeurs et les partenaires locaux qui ont des contacts terrain.","notice_li5":"Exportez une <strong>sauvegarde JSON</strong> et enregistrez-la dans le dossier Pack Sécurité sur SharePoint.","notice_tip_title":"Prenez le temps. Construisez progressivement.","notice_tip_text":"Cet outil devient plus puissant à mesure qu’on l’alimente dans le temps. N’essayez pas de cartographier tous les acteurs d’un coup  -  commencez par les 5 plus critiques. <strong>Soyez précis</strong> : écrivez le vrai nom du groupe ou de la personne, pas une catégorie générique. « Groupes armés » ne vous apprend rien. « Groupe armé X  -  Commandant [Nom] » est opérationnellement utile. Mettez à jour régulièrement  -  au moins tous les 6 mois ou après tout événement significatif. Ne vous découragez pas si la première version semble incomplète.","notice_help":"Cliquez sur les boutons rouges <strong>?</strong> à tout moment pour des explications terrain.","notice_save_title":"SAUVEGARDEZ VOS DONNÉES  -  IMPORTANT","notice_save_text":"Exportez une sauvegarde JSON après chaque session et enregistrez-la dans le dossier Pack Sécurité sur SharePoint.","export_header":"Exporter / Importer","export_warn":"<strong>Important :</strong> sauvegardez toujours le JSON dans le dossier Pack Sécurité sur SharePoint.","export_xls_label":"Exporter en Excel","export_xls_desc":"Fichier .xls avec mise en forme","export_json_label":"Sauvegarder en JSON","export_json_desc":"Sauvegarde complète rechargeable","import_json_label":"Charger une sauvegarde JSON","import_json_desc":"Reprendre un travail sauvegardé","close":"Fermer","reset_header":"&#128260; Remettre à zéro ?","reset_text":"Vous êtes sur le point d’effacer toutes les données. Cette action est irréversible.","reset_warn":"<strong>Important :</strong> exportez une sauvegarde JSON avant de remettre à zéro.","reset_export":"&#8595; Exporter le JSON d’abord","reset_cancel":"Annuler","reset_confirm":"Oui, tout effacer","emergency_msg":"&#9888; Problème détecté. Cliquez pour réinitialiser.","emergency_btn":"Réinitialiser","alert_saved":"Sauvegarde chargée avec succès !","alert_error":"Erreur : ","alert_download":"Téléchargement impossible.","alert_name_required":"Le nom de l’acteur est obligatoire.","alert_category_required":"Veuillez sélectionner une catégorie.","alert_influence_required":"Veuillez sélectionner un niveau d’influence.","alert_acceptance_required":"Veuillez sélectionner un niveau d’acceptation.","alert_engagement_required":"Veuillez sélectionner une stratégie d’engagement.","alert_category_other_required":"Veuillez préciser la catégorie.","btn_start":"Commencer &#8594;","help_review_title":"Date de prochaine revue","help_review_text":"Recommandé : tous les 6 mois minimum, ou après tout changement contextuel significatif (incident sécurité, changement de commandant, élections…).","help_actors_title":"Acteurs clés","help_actors_text":"Listez tous les acteurs pouvant affecter significativement votre accès, la sécurité ou les programmes. Soyez précis : écrivez le nom réel, pas seulement une catégorie. Débutez par les 5 plus critiques.","help_name_title":"Nom de l’acteur","help_name_text":"Soyez aussi précis que possible. « Groupe armé » n’est pas utile. « Groupe armé X  -  Commandant [Nom] » est opérationnellement utile. Incluez le nom de l’individu si connu.","help_intl_title":"ONU / Organisations internationales","help_intl_text":"Ne listez que les acteurs ONU ou internationaux ayant une <strong>influence directe sur votre accès ou votre sécurité</strong>  -  pas tous les partenaires de coordination. Exemples : OCHA (corridors d’accès humanitaire), UNDSS (information sécurité), UNHCR (couloirs de protection). Un partenaire de cluster qui assiste aux mêmes réunions n’est PAS un acteur clé pour cette cartographie.","help_influence_title":"Influence sur l’accès","help_influence_text":"Dans quelle mesure cet acteur peut-il bloquer ou faciliter votre accès ? <strong>Élevé</strong> = il peut arrêter ou permettre vos opérations. <strong>Fluctuant</strong> = varie significativement. <strong>Inconnu</strong> = information insuffisante.","help_acceptance_title":"Acceptation du LWF","help_acceptance_text":"Comment cet acteur perçoit-il le LWF ? <strong>Faible</strong> = hostile, inconnu ou obstruction active. <strong>Élevé</strong> = soutien clair. <strong>Inconnu</strong> = aucun contact direct établi. Basez-vous sur des preuves directes, pas des suppositions.","help_engagement_title":"Stratégie d’engagement","help_engagement_text":"<strong>Développer</strong> = acteur prioritaire, investissez du temps. <strong>Maintenir</strong> = contacts réguliers. <strong>Surveiller</strong> = observation sans contact. <strong>Éviter</strong> = pas de contact proactif. <strong>Aucun contact</strong> = raisons de sécurité ou de mandat.","help_interests_title":"Intérêts et motivations","help_interests_text":"Qu’est-ce qui guide leur comportement ? Comprendre les motivations est clé pour prédire les comportements et trouver des points de convergence.","help_why_title":"Pourquoi ce niveau d’acceptation ?","help_why_text":"Apportez des preuves : incidents passés, conversations directes, comportements observés. Si inconnu, écrivez « Inconnu  -  aucun contact direct établi. »","help_rel_title":"Relations clés","help_rel_text":"Avec qui sont-ils alliés ? En tension avec qui ? Clé pour comprendre les dynamiques de pouvoir et les spoilers potentiels.","abbr_influence":"Infl.","abbr_acceptance":"Acc.","filter_influence":"Influence","filter_acceptance":"Acceptation","filter_engagement":"Stratégie","filter_all":"Tous","filter_clear":"Effacer","filter_results":"{shown} sur {total} affiché(s)","filter_no_results":"Aucun acteur ne correspond aux filtres actifs.","matrix_actor_legend":"Acteurs dans cette matrice","lbl_status":"Statut","status_active":"Actif","status_inactive":"Inactif","status_gone":"Parti / Déplacé","status_deceased":"Décédé","status_badge_inactive":"Inactif","status_badge_gone":"Parti","status_badge_deceased":"Décédé","lbl_trend":"Tendance de l’acceptation","trend_up":"↑ En amélioration","trend_stable":"→ Stable","trend_down":"↓ En dégradation","trend_unknown":"? Inconnu","stale_flag_text":"Non mis à jour","stale_flag_tooltip":"Cette fiche n’a pas été mise à jour depuis plus de 90 jours.","critical_flag_tooltip":"Influence ÉLEVÉE + Acceptation FAIBLE  -  risque prioritaire. Revoir la stratégie d’engagement.","inconsistency_tip":"Incohérence : acceptation faible + stratégie développer la relation.","sort_by":"Trier","sort_acceptance":"Acceptation","sort_influence":"Influence","sort_engagement":"Stratégie","sort_date":"Mise à jour","sort_name":"Nom","actors_limit_warning":"⚠ {n} acteurs actifs. Au-delà de 20, la cartographie perd en utilité opérationnelle."},"es":{"topbar_title":"Key Actors Mapping","conf_badge":"CONFIDENCIAL","btn_help":"&#10067; Ayuda","btn_reset":"&#128260; Reiniciar","btn_export":"&#8595; Exportar / Importar","saved_indicator":"&#10003; guardado","step0_title":"Identificación","lbl_country":"País","lbl_office":"Oficina / suboficina","lbl_sfp":"SFP responsable","lbl_date":"Última actualización","lbl_next_review":"Próxima revisión","review_due":"&#9888; Fecha de revisión vencida o próxima.","aide_sidebar":"Actualizar cada 6 meses como mínimo, o tras cualquier cambio contextual significativo.","panel_eyebrow":"LWF World Service  -  Herramienta de seguridad","panel_title":"Cartografía de actores clave","panel_subtitle":"Mapee los actores clave de su entorno operacional, evalúe su influencia y aceptación del LWF, y defina su estrategia de compromiso.","conf_banner_text":"DIFUSIÓN RESTRINGIDA  -  Este documento contiene información sensible. Compartir solo con personal autorizado según necesidad.","actors_title":"Actores","tab_list":"Lista","tab_matrix":"Matriz","aide_engagement_legend":"Código de color por estrategia de compromiso:","eng_develop":"Desarrollar relación","eng_maintain":"Mantener contacto","eng_monitor":"Monitorear","eng_avoid":"Evitar","eng_nocontact":"Sin contacto","eng_placeholder":"-- Seleccionar estrategia --","edit_new_title":"+ Agregar un actor","edit_title":"Editar actor","lbl_actor_name":"Nombre del actor","lbl_category":"Categoría","lbl_category_other":"Especificar (Otro)","lbl_influence":"Influencia en el acceso","lbl_acceptance":"Aceptación del LWF","lbl_engagement":"Estrategia de compromiso","lbl_interests":"Intereses y motivaciones","lbl_acceptance_why":"¿Por qué este nivel de aceptación?","lbl_area":"Área de influencia","lbl_relationships":"Relaciones clave","lbl_contact_section":"Datos de contacto","lbl_contact_name":"Nombre del contacto","lbl_phone":"Teléfono","lbl_email":"Correo","lbl_last_meeting":"Última reunión","lbl_frequency":"Frecuencia de contacto","cat_placeholder":"-- Seleccionar categoría --","cat_gov":"Gobierno / Autoridades estatales","cat_mil":"Fuerzas de seguridad / Militares","cat_nsag":"Actores armados no estatales","cat_intl":"ONU / Organizaciones internacionales","cat_ngo":"ONG / Sociedad civil","cat_com":"Líderes comunitarios / Tradicionales / Religiosos","cat_media":"Medios de comunicación","cat_priv":"Sector privado / Donantes","cat_other":"Otro","rating_placeholder":"-- Seleccionar --","rating_high":"Alto","rating_medium":"Medio","rating_low":"Bajo","rating_fluctuant":"Fluctuante","rating_unknown":"Desconocido","btn_save_actor":"&#10003; Guardar actor","btn_cancel":"Cancelar","btn_add_actor":"+ Agregar actor","btn_edit":"Editar","btn_delete":"Eliminar","example_badge":"ejemplo","actors_count_zero":"Ningún actor registrado.","actors_count_one":"1 actor registrado","actors_count_n":"{n} actores registrados","detail_interests":"Intereses","detail_why":"¿Por qué este nivel de aceptación?","detail_area":"Área de influencia","detail_rel":"Relaciones clave","detail_contact":"Contacto","matrix_quadrant_tl":"Riesgos prioritarios","matrix_quadrant_tr":"Socios clave","matrix_quadrant_bl":"Baja prioridad","matrix_quadrant_br":"Aliados","matrix_x_label":"Aceptación del LWF →","matrix_y_label":"Influencia en el acceso →","matrix_legend_title":"Cómo leer esta matriz","matrix_legend_text":"Cada punto = un actor. Color = estrategia de compromiso. Haga clic en un punto para abrir la ficha del actor. Los actores con evaluación “Fluctuante” o “Desconocido” no se muestran.","matrix_fluctuant_note":"Algunos actores no se muestran (evaluación Fluctuante o Desconocido en uno o ambos ejes).","matrix_empty":"No hay actores para mostrar. Agregue actores en la vista de Lista.","matrix_all_excluded":"Todos los actores tienen evaluaciones Fluctuante o Desconocido  -  ninguno puede ubicarse en la matriz.","empty_title":"Ningún actor registrado","empty_sub":"Haga clic en “Agregar actor” para comenzar. Empiece con los 5 más críticos.","ph_frequency":"ej. Mensual, Trimestral…","ph_name":"ej. Comandante militar [Nombre]  -  [Distrito], Grupo armado [Nombre]…","ph_interests":"Motivaciones principales: controlar territorio, acceder a fondos…","ph_why":"Evidencia o interacciones pasadas: autorizó convoyes, hostil en puestos de control…","ph_area":"Alcance geográfico o temático: distrito, región, ruta específica…","ph_relationships":"¿Con quién está aliado? ¿En tensión con quién?","ph_category_other":"Especifique la categoría…","notice_subtitle":"LWF World Service","notice_intro":"Esta herramienta ayuda a mapear sistemáticamente los actores clave del entorno operacional para mantener el acceso humanitario, proteger al personal y sostener los programas.","notice_li1":"Para cada actor: evalúe su <strong>influencia en el acceso</strong> y su <strong>aceptación del LWF</strong>.","notice_li2":"Defina una <strong>estrategia de compromiso</strong> clara: desarrollar, mantener, monitorear, evitar, o sin contacto.","notice_li3":"Use la vista <strong>Matriz</strong> para visualizar el panorama de actores de un vistazo.","notice_li4":"Es un <strong>EJERCICIO DE EQUIPO</strong>  -  no lo complete solo. Involucre al personal de programa, conductores y socios locales.","notice_li5":"Exporte una <strong>copia de seguridad JSON</strong> y guárdela en la carpeta del Paquete de Seguridad en SharePoint.","notice_tip_title":"Tómese su tiempo. Constrúyanlo progresivamente.","notice_tip_text":"Esta herramienta se vuelve más poderosa a medida que se alimenta con el tiempo. No intente mapear todos los actores de una vez  -  empiece con los 5 más críticos. <strong>Sea específico</strong>: escriba el nombre real del grupo o individuo, no una categoría genérica. Actualice regularmente. No se desanime si la primera versión parece incompleta.","notice_help":"Haga clic en los botones rojos <strong>?</strong> en cualquier momento para orientación.","notice_save_title":"GUARDE SUS DATOS  -  IMPORTANTE","notice_save_text":"Exporte una copia JSON después de cada sesión y guárdela en la carpeta del Paquete de Seguridad en SharePoint.","export_header":"Exportar / Importar","export_warn":"<strong>Importante:</strong> guarde siempre el JSON en la carpeta del Paquete de Seguridad en SharePoint.","export_xls_label":"Exportar a Excel","export_xls_desc":"Archivo .xls con formato","export_json_label":"Guardar como JSON","export_json_desc":"Copia completa recargable","import_json_label":"Cargar copia JSON","import_json_desc":"Retomar trabajo guardado","close":"Cerrar","reset_header":"&#128260; ¿Reiniciar todo?","reset_text":"Está a punto de borrar todos los datos. Esta acción es irreversible.","reset_warn":"<strong>Importante:</strong> exporte una copia JSON antes de reiniciar.","reset_export":"&#8595; Exportar JSON primero","reset_cancel":"Cancelar","reset_confirm":"Sí, borrar todo","emergency_msg":"&#9888; Problema detectado. Haga clic para reiniciar.","emergency_btn":"Reiniciar","alert_saved":"¡Copia cargada con éxito!","alert_error":"Error: ","alert_download":"Descarga no disponible.","alert_name_required":"El nombre del actor es obligatorio.","alert_category_required":"Por favor seleccione una categoría.","alert_influence_required":"Por favor seleccione un nivel de influencia.","alert_acceptance_required":"Por favor seleccione un nivel de aceptación.","alert_engagement_required":"Por favor seleccione una estrategia de compromiso.","alert_category_other_required":"Por favor especifique la categoría.","btn_start":"Comenzar &#8594;","help_review_title":"Próxima revisión","help_review_text":"Recomendado: cada 6 meses como mínimo, o tras cualquier cambio contextual significativo.","help_actors_title":"Actores clave","help_actors_text":"Liste todos los actores que pueden afectar significativamente su acceso, seguridad o programas. Sea específico y empiece por los 5 más críticos.","help_name_title":"Nombre del actor","help_name_text":"Sea lo más específico posible. “Grupo armado X  -  Comandante [Nombre]” es operacionalmente útil.","help_intl_title":"ONU / Organizaciones internacionales","help_intl_text":"Solo liste actores ONU o internacionales con <strong>influencia directa en su acceso o seguridad</strong>, no todos los socios de coordinación. Ejemplos: OCHA, UNDSS, UNHCR.","help_influence_title":"Influencia en el acceso","help_influence_text":"¿Cuánto puede este actor bloquear o facilitar su acceso? <strong>Desconocido</strong> = información insuficiente.","help_acceptance_title":"Aceptación del LWF","help_acceptance_text":"¿Cómo percibe este actor al LWF? <strong>Desconocido</strong> = sin contacto directo establecido. Basarse en evidencia directa.","help_engagement_title":"Estrategia de compromiso","help_engagement_text":"<strong>Desarrollar</strong> = actor prioritario. <strong>Mantener</strong> = contactos regulares. <strong>Monitorear</strong> = observar. <strong>Evitar</strong> = sin contacto proactivo. <strong>Sin contacto</strong> = razones de seguridad.","help_interests_title":"Intereses y motivaciones","help_interests_text":"Entender las motivaciones es clave para predecir comportamientos.","help_why_title":"¿Por qué este nivel de aceptación?","help_why_text":"Aporte evidencia. Si desconocido, escriba “Desconocido  -  sin contacto directo establecido.”","help_rel_title":"Relaciones clave","help_rel_text":"¿Con quién están aliados? ¿En tensión con quién? Clave para entender dinámicas de poder.","abbr_influence":"Infl.","abbr_acceptance":"Acept.","filter_influence":"Influencia","filter_acceptance":"Aceptación","filter_engagement":"Estrategia","filter_all":"Todos","filter_clear":"Limpiar","filter_results":"{shown} de {total} mostrado(s)","filter_no_results":"Ningún actor coincide con los filtros activos.","matrix_actor_legend":"Actores en esta matriz","lbl_status":"Estado","status_active":"Activo","status_inactive":"Inactivo","status_gone":"Partido / Desplazado","status_deceased":"Fallecido","status_badge_inactive":"Inactivo","status_badge_gone":"Partido","status_badge_deceased":"Fallecido","lbl_trend":"Tendencia de aceptación","trend_up":"↑ Mejorando","trend_stable":"→ Estable","trend_down":"↓ Deteriorando","trend_unknown":"? Desconocido","stale_flag_text":"No actualizado","stale_flag_tooltip":"Este registro no se ha actualizado en más de 90 días.","critical_flag_tooltip":"Influencia ALTA + Aceptación BAJA  -  riesgo prioritario. Revisar estrategia.","inconsistency_tip":"Incoherencia: aceptación baja + estrategia desarrollar relación.","sort_by":"Ordenar","sort_acceptance":"Aceptación","sort_influence":"Influencia","sort_engagement":"Estrategia","sort_date":"Actualización","sort_name":"Nombre","actors_limit_warning":"⚠ {n} actores activos. Más de 20 hace que el mapeo pierda utilidad operacional."}};
+const EXAMPLE_ACTORS = {"en": [{"name": "[District] Military Commander", "category": "mil", "influence": "high", "acceptance": "medium", "engagement": "maintain", "is_example": true, "interests": "Maintain security in the area. Control population movement.", "acceptance_why": "Has allowed LWF convoys in the past but requires prior notification.", "area": "Northern district", "relationships": "Reports to regional military command. Tensions with armed group X.", "contact_name": "Col. [Name]", "phone": "", "email": "", "last_meeting": "", "frequency": "Monthly", "category_other": ""}, {"name": "[Name] Community Chief  -  [Village]", "category": "com", "influence": "high", "acceptance": "high", "engagement": "develop", "is_example": true, "interests": "Community protection and development. Access to services for his population.", "acceptance_why": "Active supporter. Has publicly spoken in favour of LWF.", "area": "[Village] and surrounding area", "relationships": "Allied with district government. Key interlocutor for local NGOs.", "contact_name": "", "phone": "", "email": "", "last_meeting": "", "frequency": "Monthly", "category_other": ""}, {"name": "[Name] armed group", "category": "nsag", "influence": "high", "acceptance": "low", "engagement": "monitor", "is_example": true, "interests": "Control of border area. Taxation of road traffic.", "acceptance_why": "Unknown relationship with LWF. No direct contact established.", "area": "Border zone", "relationships": "Reported tensions with national army.", "contact_name": "", "phone": "", "email": "", "last_meeting": "", "frequency": "As needed", "category_other": ""}], "fr": [{"name": "Commandant militaire  -  [District]", "category": "mil", "influence": "high", "acceptance": "medium", "engagement": "maintain", "is_example": true, "interests": "Maintenir la sécurité dans la zone. Contrôler les mouvements de population.", "acceptance_why": "A autorisé les convois LWF par le passé mais exige une notification préalable.", "area": "District nord", "relationships": "Rend compte au commandement militaire régional. Tensions avec le groupe armé X.", "contact_name": "Col. [Nom]", "phone": "", "email": "", "last_meeting": "", "frequency": "Mensuel", "category_other": ""}, {"name": "Chef de communauté [Nom]  -  [Village]", "category": "com", "influence": "high", "acceptance": "high", "engagement": "develop", "is_example": true, "interests": "Protection et développement de la communauté. Accès aux services pour sa population.", "acceptance_why": "Soutien actif. A publiquement pris position en faveur du LWF.", "area": "[Village] et environs", "relationships": "Allié avec le gouvernement de district. Interlocuteur clé pour les ONG locales.", "contact_name": "", "phone": "", "email": "", "last_meeting": "", "frequency": "Mensuel", "category_other": ""}, {"name": "Groupe armé [Nom]", "category": "nsag", "influence": "high", "acceptance": "low", "engagement": "monitor", "is_example": true, "interests": "Contrôle de la zone frontaliere. Taxation du trafic routier.", "acceptance_why": "Relation inconnue avec le LWF. Aucun contact direct établi.", "area": "Zone frontaliere", "relationships": "Tensions signalées avec les forces armées nationales.", "contact_name": "", "phone": "", "email": "", "last_meeting": "", "frequency": "Selon besoin", "category_other": ""}], "es": [{"name": "Comandante militar  -  [Distrito]", "category": "mil", "influence": "high", "acceptance": "medium", "engagement": "maintain", "is_example": true, "interests": "Mantener la seguridad en la zona. Controlar los movimientos de población.", "acceptance_why": "Ha autorizado convoyes LWF en el pasado pero exige notificación previa.", "area": "Distrito norte", "relationships": "Reporta al mando militar regional. Tensiones con el grupo armado X.", "contact_name": "Cnel. [Nombre]", "phone": "", "email": "", "last_meeting": "", "frequency": "Mensual", "category_other": ""}, {"name": "Jefe comunitario [Nombre]  -  [Pueblo]", "category": "com", "influence": "high", "acceptance": "high", "engagement": "develop", "is_example": true, "interests": "Protección y desarrollo de la comunidad. Acceso a servicios para su población.", "acceptance_why": "Apoyo activo. Ha declarado públicamente a favor de LWF.", "area": "[Pueblo] y alrededores", "relationships": "Aliado con el gobierno del distrito.", "contact_name": "", "phone": "", "email": "", "last_meeting": "", "frequency": "Mensual", "category_other": ""}, {"name": "Grupo armado [Nombre]", "category": "nsag", "influence": "high", "acceptance": "low", "engagement": "monitor", "is_example": true, "interests": "Control de zona fronteriza. Cobro en rutas de tráfico.", "acceptance_why": "Relación desconocida con LWF. Sin contacto directo establecido.", "area": "Zona fronteriza", "relationships": "Tensiones reportadas con fuerzas armadas nacionales.", "contact_name": "", "phone": "", "email": "", "last_meeting": "", "frequency": "Según necesidad", "category_other": ""}]};
+
+let lang = 'en';
+let actors = [];
+let editingIndex = -1;
+let modCount = 0;
+let currentTab = 'list';
+let isInit = true;
+let _deletePending = -1, _deleteTimer = null;
+
+const CAT_ICONS = {gov:'&#127963;',mil:'&#129686;',nsag:'&#9876;',intl:'&#127758;',ngo:'&#129309;',com:'&#128101;',media:'&#128226;',priv:'&#128188;',other:'&#10067;','':'&#10067;'};
+const ENG_COLORS = {develop:'#1a6b3a',maintain:'#1d4ed8',monitor:'#92660a',avoid:'#c05c0a',nocontact:'#c0392b'};
+const RATING_POS = {high:0.78,medium:0.5,low:0.22};
+const ACPT_ORDER = {low:1,medium:2,high:3,fluctuant:4,unknown:5};
+
+function t(k){return(I18N[lang]&&I18N[lang][k])||I18N.en[k]||k;}
+
+function setActiveFlag(l){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick').includes("'"+l+"'")));
+}
+
+function setLang(l){
+  if(!I18N[l])return;
+  const wasExamples = isDefaultExamples(actors);
+  lang=l;
+  try{localStorage.setItem(LS_LANG,l);}catch(e){}
+  setActiveFlag(l);
+  document.documentElement.lang=l;
+  applyI18n();
+  if(wasExamples){
+    actors=JSON.parse(JSON.stringify(EXAMPLE_ACTORS[l]||EXAMPLE_ACTORS.en));
+  }
+  renderActors();
+  if(currentTab==='matrix')renderMatrix();
+}
+
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    const v=I18N[lang]&&I18N[lang][k]!=null?I18N[lang][k]:I18N.en[k];
+    if(v!=null)el.innerHTML=v;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-placeholder');
+    const v=t(k);if(v)el.placeholder=v;
+  });
+  document.querySelectorAll('select option[data-i18n]').forEach(opt=>{
+    const k=opt.getAttribute('data-i18n');
+    const v=t(k);if(v)opt.textContent=v;
+  });
+  // version
+  const vEl=document.getElementById('topbarVersion');if(vEl)vEl.textContent=TOOL_VERSION;
+  // intl help note
+  const note=document.getElementById('intlHelpNote');
+  if(note)note.innerHTML=t('help_intl_text');
+}
+
+function showFieldHelp(ev,tk,txtk){
+  ev.stopPropagation();
+  const pop=document.getElementById('fieldHelpPopover');
+  document.getElementById('fieldPopoverTitle').textContent=t(tk);
+  document.getElementById('fieldPopoverText').innerHTML=t(txtk);
+  pop.style.display='block';
+  const r=ev.target.getBoundingClientRect();
+  let top=r.bottom+8,left=r.left;
+  if(left+340>window.innerWidth)left=window.innerWidth-350;
+  pop.style.top=top+'px';pop.style.left=Math.max(10,left)+'px';
+}
+document.addEventListener('click',e=>{
+  const pop=document.getElementById('fieldHelpPopover');
+  if(pop&&!pop.contains(e.target)&&!e.target.classList.contains('help-q'))pop.style.display='none';
+});
+
+function openNotice(){document.getElementById('noticeOverlay').classList.remove('hidden');}
+function closeNotice(){document.getElementById('noticeOverlay').classList.add('hidden');}
+function openExport(){document.getElementById('exportOverlay').classList.remove('hidden');}
+function closeExport(){document.getElementById('exportOverlay').classList.add('hidden');}
+function confirmReset(){document.getElementById('resetOverlay').classList.remove('hidden');}
+function closeReset(){document.getElementById('resetOverlay').classList.add('hidden');}
+function doReset(){try{localStorage.removeItem(LS_KEY);}catch(e){}location.reload();}
+function hardReset(){try{localStorage.removeItem(LS_KEY);}catch(e){}location.reload();}
+
+function onOfficeChange(){
+  const v=document.getElementById('f_office').value||'';
+  const l=document.getElementById('topOfficeLabel');if(l)l.textContent=v;
+  saveState(true);
+}
+function checkNextReview(){
+  const el=document.getElementById('f_next_review');
+  const alertEl=document.getElementById('reviewAlert');
+  if(!el||!el.value)return;
+  const days=(new Date(el.value)-new Date())/86400000;
+  const ov=days<30;
+  el.style.borderColor=ov?'var(--danger)':'var(--border2)';
+  if(alertEl)alertEl.style.display=ov?'block':'none';
+}
+
+function onCatChange(){
+  const v=document.getElementById('e_category').value;
+  document.getElementById('otherCatWrap').style.display=v==='other'?'block':'none';
+  const note=document.getElementById('intlHelpNote');
+  if(note)note.style.display=v==='intl'?'block':'none';
+}
+
+function switchTab(tab){
+  currentTab=tab;
+  document.getElementById('listView').style.display=tab==='list'?'block':'none';
+  document.getElementById('matrixView').style.display=tab==='matrix'?'block':'none';
+  document.getElementById('tabListBtn').classList.toggle('active',tab==='list');
+  document.getElementById('tabMatrixBtn').classList.toggle('active',tab==='matrix');
+  if(tab==='matrix')renderMatrix();
+}
+
+function catIcon(c){return CAT_ICONS[c]||'&#10067;';}
+function engClass(e){return e||'monitor';}
+function ratingClass(r){return r==='high'?'rating-high':r==='medium'?'rating-medium':r==='low'?'rating-low':r==='unknown'?'rating-unknown':'rating-fluctuant';}
+function ratingLabel(r){return t('rating_'+r)||r;}
+function engLabel(e){return t('eng_'+e)||e;}
+function catLabel(a){return a.category==='other'?(a.category_other||t('cat_other')):t('cat_'+a.category)||a.category;}
+
+function isDefaultExamples(arr){
+  if(!arr||arr.length===0)return false;
+  const allNames=['en','fr','es'].flatMap(l=>EXAMPLE_ACTORS[l].map(a=>a.name));
+  return arr.every(a=>allNames.includes(a.name));
+}
+
+function getFilteredActors(){
+  const fi=document.getElementById('filterInfluence')?.value||'';
+  const fa=document.getElementById('filterAcceptance')?.value||'';
+  const fe=document.getElementById('filterEngagement')?.value||'';
+  const hasFilter=fi||fa||fe;
+  const clearBtn=document.getElementById('filterClearBtn');
+  if(clearBtn)clearBtn.style.display=hasFilter?'inline-flex':'none';
+  ['filterInfluence','filterAcceptance','filterEngagement'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.classList.toggle('active',!!el.value);
+  });
+  if(!hasFilter)return actors;
+  return actors.filter(a=>(!fi||a.influence===fi)&&(!fa||a.acceptance===fa)&&(!fe||a.engagement===fe));
+}
+function applyFilters(){renderActors();}
+function clearFilters(){
+  ['filterInfluence','filterAcceptance','filterEngagement'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  renderActors();
+}
+
+function renderActors(){
+  resetDeletePending();
+  const list=document.getElementById('actorsList');
+  const countEl=document.getElementById('actorsCount');
+  if(!list)return;
+  const sortBy=document.getElementById('sortBy')?.value||'acceptance';
+  const INF_ORDER={high:1,medium:2,low:3,fluctuant:4,unknown:5};
+  const ENG_ORDER={develop:1,maintain:2,monitor:3,avoid:4,nocontact:5};
+  const filtered=getFilteredActors().slice().sort((a,b)=>{
+    if(sortBy==='influence')return (INF_ORDER[a.influence]||9)-(INF_ORDER[b.influence]||9);
+    if(sortBy==='engagement')return (ENG_ORDER[a.engagement]||9)-(ENG_ORDER[b.engagement]||9);
+    if(sortBy==='date'){const da=a.last_updated||'';const db=b.last_updated||'';return da<db?1:da>db?-1:0;}
+    if(sortBy==='name')return (a.name||'').localeCompare(b.name||'');
+    return (ACPT_ORDER[a.acceptance]||9)-(ACPT_ORDER[b.acceptance]||9);
+  });
+  const total=actors.length;
+  const shown=filtered.length;
+  const activeCount=actors.filter(a=>!a.status||a.status==='active').length;
+  const limitWarn=document.getElementById('actorsLimitWarn');
+  if(limitWarn){if(activeCount>20){limitWarn.style.display='block';limitWarn.textContent=t('actors_limit_warning').replace('{n}',activeCount);}else{limitWarn.style.display='none';}}
+  if(countEl){
+    if(total===0)countEl.textContent=t('actors_count_zero');
+    else if(shown<total)countEl.textContent=t('filter_results').replace('{shown}',shown).replace('{total}',total);
+    else if(total===1)countEl.textContent=t('actors_count_one');
+    else countEl.textContent=t('actors_count_n').replace('{n}',total);
+  }
+  if(total===0){
+    list.innerHTML='<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">&#128205;</div><p><strong>'+t('empty_title')+'</strong></p><p style="margin-top:6px;font-size:12px">'+t('empty_sub')+'</p></div>';
+    return;
+  }
+  if(shown===0){
+    list.innerHTML='<div class="empty-state"><div style="font-size:24px;margin-bottom:8px">&#128269;</div><p>'+t('filter_no_results')+'</p></div>';
+    return;
+  }
+  list.innerHTML=filtered.map(a=>{const i=actors.indexOf(a);
+    const exTag=a.is_example?'<span class="example-tag">'+t('example_badge')+'</span>':'';
+    const isInactive=a.status&&a.status!=='active';
+    const statusBadge=isInactive?`<span class="status-badge">${t('status_badge_'+a.status)||a.status}</span>`:'';
+    const trendMap={up:'<span class="trend-up">&#8593;</span>',stable:'<span class="trend-stable">&#8594;</span>',down:'<span class="trend-down">&#8595;</span>'};
+    const trendIcon=trendMap[a.trend||'']||'';
+    const daysSince=a.last_updated?Math.floor((Date.now()-new Date(a.last_updated).getTime())/86400000):null;
+    const staleFlag=daysSince!==null&&daysSince>90?`<span class="stale-flag" title="${t('stale_flag_tooltip')}">&#9679; ${t('stale_flag_text')}</span>`:'';
+    const critFlag=(a.influence==='high'&&a.acceptance==='low')?`<span class="critical-flag" title="${t('critical_flag_tooltip')}">&#128308;</span>`:'';
+    const incoherFlag=(a.engagement==='develop'&&a.acceptance==='low')?`<span class="incoherence-flag" title="${t('inconsistency_tip')}">&#9888;</span>`:'';
+    return `<div class="actor-card${isInactive?' actor-inactive':''}" id="actor-card-${i}">
+      <div class="actor-card-header" onclick="toggleCard(${i})">
+        <span class="actor-num">${i+1}</span>
+        <span class="actor-cat-icon">${catIcon(a.category)}</span>
+        <span class="actor-name">${esc(a.name)}</span>${exTag}${statusBadge}
+        <span style="font-size:11px;color:var(--text3);white-space:nowrap;margin-left:4px">${esc(catLabel(a))}</span>
+        <span class="eng-pill ${engClass(a.engagement)}" style="font-size:10px;padding:2px 7px;margin-left:4px">${engLabel(a.engagement)}</span>
+        <span class="rating-badge ${ratingClass(a.influence)}" style="font-size:11px" title="${t('lbl_influence')}"><small style="opacity:.5;font-size:9px;letter-spacing:.3px;text-transform:uppercase">${t('abbr_influence')} </small>${ratingLabel(a.influence)}</span>
+        <span class="rating-badge ${ratingClass(a.acceptance)}" style="font-size:11px" title="${t('lbl_acceptance')}"><small style="opacity:.5;font-size:9px;letter-spacing:.3px;text-transform:uppercase">${t('abbr_acceptance')} </small>${ratingLabel(a.acceptance)}</span>
+        ${trendIcon}${critFlag}${incoherFlag}${staleFlag}
+        <span class="chevron">&#9660;</span>
+        <div class="actor-actions" onclick="event.stopPropagation()">
+          <button class="btn-icon" onclick="editActor(${i})" title="${t('btn_edit')}">&#9998;</button>
+          <button class="btn-icon del-btn" style="color:var(--danger)" onclick="deleteActor(${i})" title="${t('btn_delete')}">&#128465;</button>
+        </div>
+      </div>
+      <div class="actor-card-body" id="actor-body-${i}">
+        <div class="actor-details-grid">
+          <div class="detail-box"><div class="detail-label">${t('detail_interests')}</div><div class="detail-text${a.is_example?' is-example':''}">${esc(a.interests||'-')}</div></div>
+          <div class="detail-box"><div class="detail-label">${t('detail_why')}</div><div class="detail-text${a.is_example?' is-example':''}">${esc(a.acceptance_why||'-')}</div></div>
+          <div class="detail-box"><div class="detail-label">${t('detail_area')}</div><div class="detail-text${a.is_example?' is-example':''}">${esc(a.area||'-')}</div></div>
+        </div>
+        <div class="actor-details-grid-2" style="margin-top:8px">
+          <div class="detail-box"><div class="detail-label">${t('detail_rel')}</div><div class="detail-text${a.is_example?' is-example':''}">${esc(a.relationships||'-')}</div></div>
+          <div class="detail-box"><div class="detail-label">${t('detail_contact')}</div><div class="detail-text">${[a.contact_name,a.phone,a.email,a.last_meeting?t('lbl_last_meeting')+': '+a.last_meeting:'',a.frequency].filter(Boolean).map(v=>esc(v)).join('\n')||' - '}</div></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toggleCard(i){const b=document.getElementById('actor-body-'+i);const c=document.getElementById('actor-card-'+i);if(b){b.classList.toggle('open');if(c)c.classList.toggle('expanded',b.classList.contains('open'));}}
+
+function openAddActor(){
+  editingIndex=-1;
+  ['e_name','e_interests','e_acceptance_why','e_area','e_relationships','e_contact_name','e_phone','e_email','e_frequency','e_category_other'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['e_category','e_influence','e_acceptance','e_engagement'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const lm=document.getElementById('e_last_meeting');if(lm)lm.value='';
+  setSel('e_status','active');setSel('e_trend','unknown');
+  document.getElementById('otherCatWrap').style.display='none';
+  document.getElementById('intlHelpNote').style.display='none';
+  const p=document.getElementById('editPanel'),title=document.getElementById('editPanelTitle');
+  if(title)title.innerHTML=t('edit_new_title');
+  p.classList.add('open');p.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function editActor(i){
+  editingIndex=i;const a=actors[i];
+  setVal('e_name',a.name);setSel('e_category',a.category);setSel('e_influence',a.influence);
+  setSel('e_acceptance',a.acceptance);setSel('e_engagement',a.engagement);
+  setSel('e_status',a.status||'active');setSel('e_trend',a.trend||'unknown');
+  setVal('e_interests',a.interests);setVal('e_acceptance_why',a.acceptance_why);
+  setVal('e_area',a.area);setVal('e_relationships',a.relationships);
+  setVal('e_contact_name',a.contact_name);setVal('e_phone',a.phone);setVal('e_email',a.email);
+  setVal('e_last_meeting',a.last_meeting);setVal('e_frequency',a.frequency);
+  setVal('e_category_other',a.category_other||'');
+  document.getElementById('otherCatWrap').style.display=a.category==='other'?'block':'none';
+  document.getElementById('intlHelpNote').style.display=a.category==='intl'?'block':'none';
+  const p=document.getElementById('editPanel'),title=document.getElementById('editPanelTitle');
+  if(title)title.innerHTML=t('edit_title')+': '+esc(a.name);
+  p.classList.add('open');p.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function cancelEdit(){document.getElementById('editPanel').classList.remove('open');editingIndex=-1;}
+
+function saveActor(){
+  const name=(getVal('e_name')||'').trim();
+  const category=getVal('e_category'),influence=getVal('e_influence'),acceptance=getVal('e_acceptance'),engagement=getVal('e_engagement');
+  if(!name){alert(t('alert_name_required'));return;}
+  if(!category){alert(t('alert_category_required'));return;}
+  if(category==='other'&&!getVal('e_category_other').trim()){alert(t('alert_category_other_required'));return;}
+  if(!influence){alert(t('alert_influence_required'));return;}
+  if(!acceptance){alert(t('alert_acceptance_required'));return;}
+  if(!engagement){alert(t('alert_engagement_required'));return;}
+  const actor={name,category,category_other:getVal('e_category_other'),influence,acceptance,engagement,
+    status:getVal('e_status')||'active',trend:getVal('e_trend')||'unknown',
+    last_updated:new Date().toISOString().split('T')[0],
+    interests:getVal('e_interests'),acceptance_why:getVal('e_acceptance_why'),
+    area:getVal('e_area'),relationships:getVal('e_relationships'),
+    contact_name:getVal('e_contact_name'),phone:getVal('e_phone'),email:getVal('e_email'),
+    last_meeting:getVal('e_last_meeting'),frequency:getVal('e_frequency')};
+  if(editingIndex>=0)actors[editingIndex]=actor;else actors.push(actor);
+  cancelEdit();renderActors();saveState(true);
+  if(currentTab==='matrix')renderMatrix();
+}
+
+function deleteActor(i){
+  if(_deletePending===i){
+    clearTimeout(_deleteTimer);_deletePending=-1;
+    actors.splice(i,1);renderActors();saveState(true);
+    if(currentTab==='matrix')renderMatrix();
+  }else{
+    if(_deletePending>=0)resetDeletePending();
+    _deletePending=i;
+    const btn=document.querySelector('#actor-card-'+i+' .del-btn');
+    if(btn){btn.classList.add('delete-pending');btn.title=lang==='fr'?'Cliquer encore pour confirmer':lang==='es'?'Clic de nuevo para confirmar':'Click again to confirm';}
+    _deleteTimer=setTimeout(()=>resetDeletePending(),3000);
+  }
+}
+
+function resetDeletePending(){
+  if(_deletePending>=0){
+    const btn=document.querySelector('#actor-card-'+_deletePending+' .del-btn');
+    if(btn){btn.classList.remove('delete-pending');btn.title=t('btn_delete');}
+  }
+  _deletePending=-1;_deleteTimer=null;
+}
+
+function getVal(id){const e=document.getElementById(id);return e?e.value.trim():'';}
+function setVal(id,v){const e=document.getElementById(id);if(e&&v!=null)e.value=v;}
+function setSel(id,v){const e=document.getElementById(id);if(e&&v!=null)e.value=v;}
+
+function renderMatrix(){
+  const svg=document.getElementById('matrixSvg');
+  const note=document.getElementById('matrixNote');
+  if(!svg)return;
+  const W=680,H=500,ML=80,MB=60,MT=25,MR=25;
+  const CW=W-ML-MR,CH=H-MB-MT;
+  const midX=ML+CW/2,midY=MT+CH/2;
+  const activeActors=actors.filter(a=>!a.status||a.status==='active');
+  const plotActors=activeActors.filter(a=>RATING_POS[a.influence]!=null&&RATING_POS[a.acceptance]!=null);
+  const excl=activeActors.filter(a=>!RATING_POS[a.influence]||!RATING_POS[a.acceptance]);
+  if(note){if(excl.length>0){const exclNames=excl.map(a=>'<strong>'+esc(a.name)+'</strong>').join(', ');note.innerHTML='<span style="color:var(--moderate)">&#9888; '+t('matrix_fluctuant_note').replace(/\.$/,'')+' : '+exclNames+'</span>';}else{note.innerHTML='';}}
+  let s='';
+  s+=`<rect x="${ML}" y="${MT}" width="${CW/2}" height="${CH/2}" fill="#fef2f2" opacity="0.6"/>`;
+  s+=`<rect x="${midX}" y="${MT}" width="${CW/2}" height="${CH/2}" fill="#f0fdf4" opacity="0.6"/>`;
+  s+=`<rect x="${ML}" y="${midY}" width="${CW/2}" height="${CH/2}" fill="#f8f8f8" opacity="0.6"/>`;
+  s+=`<rect x="${midX}" y="${midY}" width="${CW/2}" height="${CH/2}" fill="#eff6ff" opacity="0.6"/>`;
+  s+=`<rect x="${ML}" y="${MT}" width="${CW}" height="${CH}" fill="none" stroke="#d4dcc4" stroke-width="1.5"/>`;
+  s+=`<line x1="${midX}" y1="${MT}" x2="${midX}" y2="${MT+CH}" stroke="#bfcbaa" stroke-width="1" stroke-dasharray="4,3"/>`;
+  s+=`<line x1="${ML}" y1="${midY}" x2="${ML+CW}" y2="${midY}" stroke="#bfcbaa" stroke-width="1" stroke-dasharray="4,3"/>`;
+  const qlSt='font-family:Source Sans 3,sans-serif;font-size:12px;font-weight:700;opacity:0.72;';
+  s+=`<text x="${ML+8}" y="${MT+17}" style="${qlSt}" fill="#c0392b">${t('matrix_quadrant_tl')}</text>`;
+  s+=`<text x="${midX+8}" y="${MT+17}" style="${qlSt}" fill="#1a6b3a">${t('matrix_quadrant_tr')}</text>`;
+  s+=`<text x="${ML+8}" y="${midY+17}" style="${qlSt}" fill="#8a95a3">${t('matrix_quadrant_bl')}</text>`;
+  s+=`<text x="${midX+8}" y="${midY+17}" style="${qlSt}" fill="#1d4ed8">${t('matrix_quadrant_br')}</text>`;
+  const axSt='font-family:Source Sans 3,sans-serif;font-size:13px;font-weight:700;fill:#2d3748;';
+  s+=`<text x="${ML+CW/2}" y="${H-6}" text-anchor="middle" style="${axSt}">${t('matrix_x_label')}</text>`;
+  s+=`<text x="14" y="${MT+CH/2}" text-anchor="middle" style="${axSt}" transform="rotate(-90,14,${MT+CH/2})">${t('matrix_y_label')}</text>`;
+  const tkSt='font-family:Source Sans 3,sans-serif;font-size:11px;fill:#5a6678;font-weight:500;';
+  ['low','medium','high'].forEach((r,ri)=>{
+    const xp=ML+[0.22,0.5,0.78][ri]*CW;
+    const yp=MT+[0.78,0.5,0.22][ri]*CH;
+    s+=`<text x="${xp}" y="${MT+CH+16}" text-anchor="middle" style="${tkSt}">${t('rating_'+r)}</text>`;
+    s+=`<text x="${ML-6}" y="${yp+4}" text-anchor="end" style="${tkSt}">${t('rating_'+r)}</text>`;
+  });
+  if(plotActors.length===0){
+    const msg=actors.length===0?t('matrix_empty'):t('matrix_all_excluded');
+    s+=`<text x="${ML+CW/2}" y="${MT+CH/2}" text-anchor="middle" style="font-family:Source Sans 3,sans-serif;font-size:13px;fill:#8a95a3;">${msg}</text>`;
+    svg.innerHTML=s;return;
+  }
+  const occupied={};
+  plotActors.forEach(a=>{
+    const xR=RATING_POS[a.acceptance];
+    const yR=1-RATING_POS[a.influence];
+    const baseX=ML+xR*CW, baseY=MT+yR*CH;
+    const key=Math.round(xR*10)+'_'+Math.round(yR*10);
+    occupied[key]=(occupied[key]||0)+1;
+    const jit=occupied[key]-1;
+    const cx=baseX+(jit%2===0?jit/2*20:-jit/2*20);
+    const cy=baseY-Math.floor(jit/2)*22;
+    const color=ENG_COLORS[a.engagement]||'#6a8420';
+    const idx=actors.indexOf(a);
+    const num=idx+1;
+    s+=`<g onclick="switchTabAndHighlight(${idx})" style="cursor:pointer">
+      <circle cx="${cx}" cy="${cy}" r="19" fill="${color}" opacity="0.9" stroke="#fff" stroke-width="2"/>
+      <text x="${cx}" y="${cy+5}" text-anchor="middle" style="font-family:Source Sans 3,sans-serif;font-size:12px;font-weight:700;fill:#fff;pointer-events:none">${num}</text>
+      <title>${a.name} | ${t('lbl_influence')}: ${ratingLabel(a.influence)} | ${t('lbl_acceptance')}: ${ratingLabel(a.acceptance)}</title>
+    </g>`;
+  });
+  svg.innerHTML=s;
+  const legEl=document.getElementById('matrixActorLegend');
+  if(legEl){
+    if(plotActors.length>0){
+      let lg='<div class="matrix-actor-legend-title">'+t('matrix_actor_legend')+'</div>';
+      lg+='<div class="matrix-actor-legend-grid">';
+      plotActors.forEach(a=>{
+        const idx=actors.indexOf(a);const num=idx+1;
+        const color=ENG_COLORS[a.engagement]||'#6a8420';
+        lg+=`<div class="matrix-actor-item">`
+          +`<span class="matrix-actor-num" style="background:${color}">${num}</span>`
+          +`<span class="matrix-actor-name">${esc(a.name)}</span>`
+          +`<span class="rating-badge ${ratingClass(a.influence)}" style="font-size:10px">${ratingLabel(a.influence)}</span>`
+          +`<span class="rating-badge ${ratingClass(a.acceptance)}" style="font-size:10px">${ratingLabel(a.acceptance)}</span>`
+          +'</div>';
+      });
+      lg+='</div>';
+      legEl.innerHTML=lg;
+    }else{legEl.innerHTML='';}
+  }
+}
+
+function switchTabAndHighlight(i){
+  switchTab('list');
+  setTimeout(()=>{
+    const card=document.getElementById('actor-card-'+i);
+    if(card){card.scrollIntoView({behavior:'smooth',block:'center'});const body=document.getElementById('actor-body-'+i);if(body)body.classList.add('open');}
+  },100);
+}
+
+function collectData(){
+  return{country:getVal('f_country'),office:getVal('f_office'),sfp:getVal('f_sfp'),
+    date:getVal('f_date'),nextReview:getVal('f_next_review'),actors:JSON.parse(JSON.stringify(actors))};
+}
+function restoreData(d){
+  if(!d)return;
+  setVal('f_country',d.country);setVal('f_office',d.office||'');setVal('f_sfp',d.sfp||'');
+  setVal('f_date',d.date||'');setVal('f_next_review',d.nextReview||'');
+  if(Array.isArray(d.actors))actors=d.actors;
+  const off=document.getElementById('f_office');
+  if(off){const l=document.getElementById('topOfficeLabel');if(l)l.textContent=off.value;}
+  checkNextReview();
+}
+
+function saveState(isUserAction){
+  try{
+    const data=Object.assign({savedAt:new Date().toISOString()},collectData());
+    localStorage.setItem(LS_KEY,JSON.stringify(data));
+    if(isUserAction&&!isInit){
+      modCount++;
+      const badge=document.getElementById('exportBadge');
+      if(badge){badge.style.display='flex';badge.textContent=modCount>9?'9+':modCount;}
+      const ind=document.getElementById('saveIndicator');
+      if(ind){ind.style.display='block';clearTimeout(ind._t);ind._t=setTimeout(()=>ind.style.display='none',1500);}
+    }
+  }catch(e){}
+}
+
+function resetModCount(){
+  modCount=0;
+  const badge=document.getElementById('exportBadge');
+  if(badge)badge.style.display='none';
+}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(!raw)return false;
+    const d=JSON.parse(raw);
+    if(typeof d!=='object'||d===null){localStorage.removeItem(LS_KEY);return false;}
+    restoreData(d);return true;
+  }catch(e){try{localStorage.removeItem(LS_KEY);}catch(e2){}return false;}
+}
+
+function safe(s){return(s||'').replace(/[^a-zA-Z0-9]+/g,'').slice(0,24)||'NA';}
+function getExportFilename(ext){
+  return [TOOL_PREFIX,safe(getVal('f_country')),safe(getVal('f_office')),safe(getVal('f_sfp')),new Date().toISOString().slice(0,10)].join('_')+'.'+ext;
+}
+function dlFile(name,content,type){
+  try{
+    const blob=new Blob([content],{type});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);document.body.removeChild(a);},200);
+  }catch(e){alert(t('alert_download'));}
+}
+
+function exportJSON(){
+  const data={metadata:{toolName:TOOL_NAME,toolVersion:TOOL_VERSION_BASE,exportedAt:new Date().toISOString(),jsonVersion:2},_lang:lang,data:collectData()};
+  dlFile(getExportFilename('json'),JSON.stringify(data,null,2),'application/json');
+  resetModCount();closeExport();
+}
+function importJSON(){document.getElementById('importInput').click();closeExport();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      const payload=d.data||d;
+      restoreData(payload);renderActors();saveState(false);alert(t('alert_saved'));
+    }catch(err){alert(t('alert_error')+err.message);}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+function exportExcel(){
+  const lx=I18N[lang]||I18N.en;
+  const ec={develop:'background:#e8f5ed;color:#1a6b3a;',maintain:'background:#eff6ff;color:#1d4ed8;',monitor:'background:#fefce8;color:#92660a;',avoid:'background:#fff4ed;color:#c05c0a;',nocontact:'background:#fdf0ee;color:#c0392b;'};
+  let h='<html xmlns:o="urn:schemas-microsoft-com:office:office"><head><meta charset="UTF-8"></head><body>';
+  h+=`<table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px">`;
+  h+=`<tr><td colspan="10" style="background:#8FAF2E;color:#fff;font-weight:bold;padding:8px">${lx.panel_title||'Key Actors Mapping'} - ${lx.conf_badge||'CONFIDENTIAL'}</td></tr>`;
+  h+=`<tr><td colspan="5" style="padding:4px"><b>${lx.lbl_country}:</b> ${getVal('f_country')}</td><td colspan="5"><b>${lx.lbl_office}:</b> ${getVal('f_office')}</td></tr>`;
+  h+=`<tr><td colspan="5" style="padding:4px"><b>${lx.lbl_sfp}:</b> ${getVal('f_sfp')}</td><td colspan="5"><b>${lx.lbl_date}:</b> ${getVal('f_date')}</td></tr>`;
+  h+='<tr><td colspan="10"></td></tr>';
+  const cols=[lx.lbl_actor_name,lx.lbl_category,lx.lbl_influence,lx.lbl_acceptance,lx.lbl_engagement,lx.lbl_status,lx.lbl_trend,lx.lbl_last_updated_actor,lx.lbl_interests,lx.lbl_acceptance_why,lx.lbl_area,lx.lbl_relationships,lx.lbl_contact_section];
+  h+='<tr style="background:#eaede4;font-weight:bold">'+cols.map(c=>`<td style="padding:6px 8px">${c||''}</td>`).join('')+'</tr>';
+  actors.forEach(a=>{
+    const es=ec[a.engagement]||'';
+    const catDisplay=a.category==='other'?(a.category_other||lx.cat_other):lx['cat_'+a.category]||a.category;
+    h+=`<tr>
+      <td style="padding:6px;font-weight:600">${(a.name||'').replace(/</g,'&lt;')}</td>
+      <td style="padding:6px">${catDisplay}</td>
+      <td style="padding:6px;font-weight:700">${lx['rating_'+a.influence]||a.influence}</td>
+      <td style="padding:6px;font-weight:700">${lx['rating_'+a.acceptance]||a.acceptance}</td>
+      <td style="padding:6px;font-weight:700;${es}">${lx['eng_'+a.engagement]||a.engagement}</td>
+      <td style="padding:6px">${lx['status_'+a.status]||a.status||'-'}</td>
+      <td style="padding:6px">${lx['trend_'+a.trend]||a.trend||'-'}</td>
+      <td style="padding:6px">${a.last_updated||'-'}</td>
+      <td style="padding:6px;white-space:pre-wrap">${(a.interests||'').replace(/</g,'&lt;')}</td>
+      <td style="padding:6px;white-space:pre-wrap">${(a.acceptance_why||'').replace(/</g,'&lt;')}</td>
+      <td style="padding:6px">${(a.area||'').replace(/</g,'&lt;')}</td>
+      <td style="padding:6px">${(a.relationships||'').replace(/</g,'&lt;')}</td>
+      <td style="padding:6px">${[a.contact_name,a.phone,a.email,a.last_meeting,a.frequency].filter(Boolean).join(' | ')}</td>
+    </tr>`;
+  });
+  h+='</table></body></html>';
+  dlFile(getExportFilename('xls'),h,'application/vnd.ms-excel');
+  closeExport();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  try{
+    isInit=true;
+    let saved=null;try{saved=localStorage.getItem(LS_LANG);}catch(e){}
+    if(saved&&I18N[saved])lang=saved;
+    else{const bl=(navigator.language||'en').slice(0,2).toLowerCase();lang=I18N[bl]?bl:'en';}
+    setActiveFlag(lang);document.documentElement.lang=lang;
+    const restored=loadState();
+    if(!restored||isDefaultExamples(actors)){
+      const fd=document.getElementById('f_date');if(fd&&!restored)fd.value=new Date().toISOString().slice(0,10);
+      actors=JSON.parse(JSON.stringify(EXAMPLE_ACTORS[lang]||EXAMPLE_ACTORS.en));
+    }
+    renderActors();applyI18n();
+    isInit=false;
+    openNotice();
+  }catch(e){
+    console.error('Init error:',e);
+    isInit=false;
+    const bar=document.getElementById('emergencyBar');if(bar)bar.classList.add('show');
+  }
+});
+
+(function(){
+  try{
+    var c=document.createElement('canvas');c.width=c.height=20;
+    var ctx=c.getContext('2d');ctx.fillText('\uD83C\uDDEC\uD83C\uDDE7',0,16);
+    var ok=Array.from(ctx.getImageData(0,0,20,20).data).some((v,i)=>i%4!==3&&v>0);
+    if(!ok){
+      document.querySelectorAll('.lang-flag').forEach(el=>el.style.display='none');
+      document.querySelectorAll('.lang-abbr').forEach(el=>el.style.display='inline');
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
+<!--
+  Outil : Key Actors Mapping / Cartographie des acteurs clés
+  Auteur : Pierre Beaurenaut, Security Advisor, Fédération Luthérienne Mondiale (FLM / LWF)
+  Version : 1.0
+-->
